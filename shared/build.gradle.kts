@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    // Serlization
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -40,6 +43,9 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
+
+            // Decompose
+            implementation(libs.decompose)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -50,6 +56,13 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            // Decompose
+            implementation(libs.decompose)
+            implementation(libs.decompose.jetbrains)
+
+            // Serialization
+            implementation(libs.kotlinx.serialization.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
