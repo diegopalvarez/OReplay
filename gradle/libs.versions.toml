@@ -21,6 +21,10 @@ decompose = "3.5.0"
 # Serialization
 kotlinxSerializationJson = "1.11.0"
 
+# Dependency Injection
+koin = "4.2.2"
+koinComposeMultiplatform = "4.2.2"
+
 # Testing
 assertk = "0.28.1"
 composeTest = "1.11.3"
@@ -50,6 +54,13 @@ decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decom
 
 # Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+# Dependency Injection
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
 
 # Testing
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
