@@ -15,7 +15,7 @@ kotlin = "2.4.0"
 material3 = "1.11.0-alpha07"
 
 # Decompose
-extensionsComposeJetbrains = "2.2.3"
+extensionsCompose = "3.5.0"
 decompose = "3.5.0"
 
 # Serialization
@@ -31,6 +31,12 @@ ktor = "3.5.1"
 # Testing
 assertk = "0.28.1"
 composeTest = "1.11.3"
+
+# SQLDelight
+sqldelight = "2.3.2"
+
+# DateTime
+dateTime = "0.8.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -52,7 +58,7 @@ compose-components-resources = { module = "org.jetbrains.compose.components:comp
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
 
 # Decompose
-decompose-jetbrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "extensionsComposeJetbrains" }
+decompose-jetbrains = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "extensionsCompose" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 
 # Serialization
@@ -80,6 +86,12 @@ compose-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeTest" }
 compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "composeMultiplatform" }
 
+# SQLDelight
+sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+
+# DateTime
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -90,6 +102,9 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 
 # Serialization
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# SQLDelight
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 [bundles]
 ktor = [
