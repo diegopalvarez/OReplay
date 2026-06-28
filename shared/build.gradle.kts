@@ -50,6 +50,9 @@ kotlin {
             // Dependency Injection
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // HTTP Requests
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -72,6 +75,9 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            // HTTP Requests
+            implementation(libs.bundles.ktor)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -79,6 +85,10 @@ kotlin {
             implementation(libs.assertk)
 
             implementation(libs.compose.ui.test)
+        }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
