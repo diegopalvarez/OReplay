@@ -96,7 +96,7 @@ kotlin {
             implementation(libs.compose.ui.test)
         }
 
-        nativeMain.dependencies {
+        iosMain.dependencies {
             // HTTP Requests
             implementation(libs.ktor.client.darwin)
 
