@@ -7,8 +7,11 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 
-    // Serlization
+    // Serialization
     alias(libs.plugins.kotlinSerialization)
+
+    // SQLDelight
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -53,6 +56,9 @@ kotlin {
 
             // HTTP Requests
             implementation(libs.ktor.client.okhttp)
+
+            // SQLDelight
+            implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -78,6 +84,9 @@ kotlin {
 
             // HTTP Requests
             implementation(libs.bundles.ktor)
+
+            // DateTime
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -87,12 +96,25 @@ kotlin {
             implementation(libs.compose.ui.test)
         }
 
-        nativeMain.dependencies {
+        iosMain.dependencies {
+            // HTTP Requests
             implementation(libs.ktor.client.darwin)
+
+            // SQLDelight
+            implementation(libs.sqldelight.ios)
         }
     }
 }
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+}
+
+// SQLDelight Database
+sqldelight {
+    databases {
+        create("LocalDatabase") {
+            packageName.set("com.diegopalvarez.oreplay.data.local")
+        }
+    }
 }
