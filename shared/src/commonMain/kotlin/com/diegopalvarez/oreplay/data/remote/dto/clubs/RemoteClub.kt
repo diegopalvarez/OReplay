@@ -9,9 +9,4 @@ data class RemoteClub(
 
     @SerialName("short_name")
     val shortName: String,
-
-    @SerialName("long_name")
-    val longName: String,
-
-    val radios: List<RemoteRadioControl>,       // TODO - Verify Radio Controls
 )
