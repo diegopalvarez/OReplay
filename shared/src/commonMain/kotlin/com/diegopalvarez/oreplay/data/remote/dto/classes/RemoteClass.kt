@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.data.remote.dto.classes
 
+import com.diegopalvarez.oreplay.data.remote.dto.radiocontrols.RemoteRadioControl
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
