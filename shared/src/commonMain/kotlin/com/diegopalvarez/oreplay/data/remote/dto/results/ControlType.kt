@@ -1,3 +1,9 @@
 package com.diegopalvarez.oreplay.data.remote.dto.results
 
-data class ControlType()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ControlType(
+    val id: String,
+    val description: String
+)

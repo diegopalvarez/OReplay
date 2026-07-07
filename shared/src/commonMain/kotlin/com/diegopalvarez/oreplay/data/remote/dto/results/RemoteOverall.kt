@@ -9,7 +9,7 @@ data class RemoteOverall(
     val id: String,
 
     @SerialName("stage_order")
-    val stageOrder: Long,
+    val stageOrder: Long,                   // Numbered from 1 to N for parts, and 0 in case of an overall result.
 
     @SerialName("upload_type")
     val uploadType: String,
@@ -23,7 +23,7 @@ data class RemoteOverall(
     @SerialName("is_nc")
     val isNc: Boolean? = null,
 
-    val contributory: Boolean? = null,
+    val contributory: Boolean? = null,      // True if it's taken into account, false if dropped. Null if it corresponds to an overall result.
 
     @SerialName("time_seconds")
     val timeSeconds: Long,
