@@ -17,7 +17,7 @@ class OReplayAPI: KoinComponent {
 
     /**
      *  Function to get the list of events uploaded to the server
-     */
+
     suspend fun getEvents(_when: String?): Result<String, NetworkError> {
         val response = try {
             client.get(
@@ -31,6 +31,7 @@ class OReplayAPI: KoinComponent {
 
 
     }
+    */
 
     /**
      * Private TRY-CATCH wrapper that handles the different calls to the API and solves the different possible errors

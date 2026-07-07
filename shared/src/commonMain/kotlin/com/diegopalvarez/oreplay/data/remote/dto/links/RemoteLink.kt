@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.data.remote.dto.events
+package com.diegopalvarez.oreplay.data.remote.dto.links
 
 import kotlinx.serialization.Serializable
 

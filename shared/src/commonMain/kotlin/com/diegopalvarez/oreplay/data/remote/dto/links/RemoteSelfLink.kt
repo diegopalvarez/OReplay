@@ -1,8 +1,8 @@
-package com.diegopalvarez.oreplay.data.remote.dto.events
+package com.diegopalvarez.oreplay.data.remote.dto.links
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RemoteEventLink(
+data class RemoteSelfLink(
     val self: RemoteLink
 )
