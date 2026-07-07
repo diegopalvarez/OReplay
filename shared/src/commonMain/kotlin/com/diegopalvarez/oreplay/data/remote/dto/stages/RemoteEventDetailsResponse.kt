@@ -1,3 +1,8 @@
 package com.diegopalvarez.oreplay.data.remote.dto.stages
 
-data class RemoteEventDetailsResponse()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class RemoteEventDetailsResponse(
+    val details: RemoteEventDetails,
+)

@@ -1,3 +1,9 @@
 package com.diegopalvarez.oreplay.data.remote.dto.stages
 
-data class RemoteStageType()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class RemoteStageType(
+    val id: String,
+    val description: String
+)

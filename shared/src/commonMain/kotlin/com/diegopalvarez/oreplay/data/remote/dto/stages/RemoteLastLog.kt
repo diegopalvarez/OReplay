@@ -1,3 +1,9 @@
 package com.diegopalvarez.oreplay.data.remote.dto.stages
 
-data class RemoteLastLog()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class RemoteLastLog(
+    val state: Long,
+    val created: Long,
+)
