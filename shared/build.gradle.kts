@@ -94,6 +94,12 @@ kotlin {
             implementation(libs.assertk)
 
             implementation(libs.compose.ui.test)
+
+            // Ktor Testing
+            implementation(libs.ktor.client.mock)
+            implementation(libs.assertk)
+            implementation(libs.turbine)
+            implementation(libs.coroutines.test)
         }
 
         iosMain.dependencies {
