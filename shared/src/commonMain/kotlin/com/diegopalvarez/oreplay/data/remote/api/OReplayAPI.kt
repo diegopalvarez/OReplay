@@ -22,10 +22,9 @@ import kotlinx.serialization.SerializationException
 // Base URL Definitions
 const val EVENTS_URL = "https://www.oreplay.es/api/v1/events"
 
-class OReplayAPI: KoinComponent {
-    // Inject HTTP Client
-    val client: HttpClient by inject()
-
+class OReplayAPI(
+    val client: HttpClient // Inject HTTP Client
+): KoinComponent {
     /**
      *  Function to get the list of events uploaded to the server
      *  @param moment one of the common filters provided by the API (today, past or future). Defaults to null
