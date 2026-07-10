@@ -20,7 +20,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerializationException
 
 // Base URL Definitions
-const val EVENTS_URL = "https://www.oreplay.es/api/v1/events"
+const val EVENTS_URL = "https://www.oreplay.es/api/v1"
 
 class OReplayAPI(
     val client: HttpClient // Inject HTTP Client
@@ -34,7 +34,7 @@ class OReplayAPI(
     suspend fun getEvents(moment: String? = null, page: Int? = null): Result<RemoteEventResponse, NetworkError> {
        return makeRequest<RemoteEventResponse> {
             client.get(
-                urlString = EVENTS_URL
+                urlString = "$EVENTS_URL/events"
             ) {
                 if(!moment.isNullOrBlank()) {
                     parameter("when", moment)
