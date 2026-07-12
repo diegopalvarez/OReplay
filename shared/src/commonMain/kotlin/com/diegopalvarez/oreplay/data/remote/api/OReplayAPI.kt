@@ -15,6 +15,7 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.data.remote.dto.stages.RemoteEventDetailsResponse
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.HttpResponse
+import io.ktor.serialization.JsonConvertException
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerializationException
@@ -75,12 +76,16 @@ class OReplayAPI(
 
     /**
      *  Function to get the Stages for a given Event
+     *
+     *  /eventID provides more information that /eventID/stages
+     *
      *  @param eventID ID of the Event
+     *
      */
     suspend fun getEventStages(eventID: String): Result<RemoteEventDetailsResponse, NetworkError> {
         return makeRequest<RemoteEventDetailsResponse> {
             client.get(
-                urlString = "$EVENTS_URL/events/$eventID/stages"
+                urlString = "$EVENTS_URL/events/$eventID"
             )
         }
     }
@@ -123,7 +128,7 @@ class OReplayAPI(
      * @param station Number of station. It will only show the corresponding split for all runners selected, and an empty string for runners that didn't visit that station.
      */
     suspend fun getStageResults(eventID: String, stageID: String, classID: String? = null, clubID: String? = null, text: String? = null, station: Int? = null): Result<RemoteResultsResponse, NetworkError> {
-        return makeRequest {
+        return makeRequest<RemoteResultsResponse> {
             client.get(
                 urlString = "$EVENTS_URL/events/$eventID/stages/$stageID/results"
             ) {
@@ -173,6 +178,9 @@ class OReplayAPI(
                     response.body<T>()
                 }
                 catch (e: SerializationException){
+                    return Result.Error(NetworkError.SERIALIZATION)
+                }
+                catch (e: JsonConvertException){
                     return Result.Error(NetworkError.SERIALIZATION)
                 }
                 Result.Success(eventList)

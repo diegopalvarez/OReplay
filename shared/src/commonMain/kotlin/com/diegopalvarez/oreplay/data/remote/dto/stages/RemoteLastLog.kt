@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RemoteLastLog(
     val state: Long,
-    val created: Long,
+    val created: String,
 )

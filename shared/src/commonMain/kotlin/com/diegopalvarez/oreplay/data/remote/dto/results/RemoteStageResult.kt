@@ -30,7 +30,7 @@ data class RemoteStageResult(
     @SerialName("is_nc")
     val isNc: Boolean,
 
-    val contributory: Boolean,
+    val contributory: Boolean ? = null,
 
     @SerialName("time_behind")
     val timeBehind: Long,
@@ -51,7 +51,7 @@ data class RemoteStageResult(
     val pointsFinal: String,
 
     @SerialName("points_behind")
-    val pointsBehind: String,
+    val pointsBehind: String ? = null,          // TODO - Why aren't these returned in the overall team result?
 
     @SerialName("points_adjusted")
     val pointsAdjusted: String,
