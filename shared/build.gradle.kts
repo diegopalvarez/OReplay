@@ -90,10 +90,16 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(kotlin("test-annotations-common"))
+            //implementation(kotlin("test-annotations-common"))
             implementation(libs.assertk)
 
             implementation(libs.compose.ui.test)
+
+            // Ktor Testing
+            implementation(libs.ktor.client.mock)
+            implementation(libs.assertk)
+            implementation(libs.turbine)
+            implementation(libs.coroutines.test)
         }
 
         iosMain.dependencies {

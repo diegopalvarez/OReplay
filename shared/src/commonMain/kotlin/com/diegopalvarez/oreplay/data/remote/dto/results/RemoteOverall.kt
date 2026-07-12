@@ -14,7 +14,7 @@ data class RemoteOverall(
     @SerialName("upload_type")
     val uploadType: String,
 
-    val stage: RemoteStage? = null,         // If it corresponds to a Stage it takes a non-null value. If it corresponds to an overall result, it might be bull
+    val stage: RemoteStageOveralls? = null,         // If it corresponds to a Stage it takes a non-null value. If it corresponds to an overall result, it might be bull
     val position: Long,
 
     @SerialName("status_code")

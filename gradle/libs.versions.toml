@@ -28,9 +28,13 @@ koinComposeMultiplatform = "4.2.2"
 # HTTP Requests
 ktor = "3.5.1"
 
+# Ktor Testing
+turbine = "1.2.1"
+coroutines-test = "1.11.0"
+
 # Testing
 assertk = "0.28.1"
-composeTest = "1.11.3"
+composeTest = "1.11.4"
 
 # SQLDelight
 sqldelight = "2.3.2"
@@ -79,6 +83,11 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+
+# Ktor Testing
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 
 # Testing
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }

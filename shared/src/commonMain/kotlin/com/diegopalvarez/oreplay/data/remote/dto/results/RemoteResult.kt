@@ -1,6 +1,5 @@
 package com.diegopalvarez.oreplay.data.remote.dto.results
 
-import com.diegopalvarez.oreplay.data.remote.dto.classes.RemoteClass
 import com.diegopalvarez.oreplay.data.remote.dto.clubs.RemoteClub
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -10,7 +9,7 @@ data class RemoteResult(
     val id: String,
 
     @SerialName("bib_number")
-    val bibNumber: String,
+    val bibNumber: String ? = null,
 
     @SerialName("is_nc")
     val isNc: Boolean,
@@ -18,26 +17,28 @@ data class RemoteResult(
     val eligibility: String? = null,        // TODO - Check its meaning and possible values
 
     // Only in case of single competitors
-    val sicard: String,
-    val sex: String,
+    val sicard: String? = null,
+    val sex: String? = null,
 
     @SerialName("leg_number")
-    val legNumber: Long,
+    val legNumber: Long? = null,
 
     // Only in case of team competitors
-    val legs:  Long? = null,                             // TODO - Check type String/Long
-    val runners: List<RemoteResult>,
+    val legs: Long? = null,                             // TODO - Check type String/Long
+    val runners: List<RemoteResult>? = null,
 
     val created: String,
 
     @SerialName("class")
-    val runnerClass: RemoteClass,
+    val runnerClass: RemoteClassResults? = null,
 
+    @SerialName("club")
     val runnerClub: RemoteClub,
 
     @SerialName("full_name")
     val fullName: String,
 
-    val stageResult: RemoteStageResult? =null,      // If only overall results are displayed, it might be null. If it contains a Team, it's the overall result for the team and stage
+    @SerialName("stage")
+    val stageResult: RemoteStageResult? = null,      // If only overall results are displayed, it might be null. If it contains a Team, it's the overall result for the team and stage
     val overalls: RemoteOverallResult? = null       // If only stage results are displayed, it might be null
 )
