@@ -90,7 +90,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(kotlin("test-annotations-common"))
+            //implementation(kotlin("test-annotations-common"))
             implementation(libs.assertk)
 
             implementation(libs.compose.ui.test)
