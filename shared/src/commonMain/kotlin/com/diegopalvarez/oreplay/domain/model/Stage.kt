@@ -9,7 +9,7 @@ data class Stage(
     val description: String,
     val start: Instant?,
     val stageType: String,
-    val state: Long,
+    val state: Long?,
     val classes: List<StageClass>? = null,
     val clubs: List<StageClub>? = null,
 
