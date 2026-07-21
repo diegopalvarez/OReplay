@@ -7,6 +7,7 @@ import kotlin.time.Instant
 data class Event(
     val id: String,
     val isHidden: Boolean,
+    val description: String,
     val picture: String?,
     val website: String?,
     val scope: String,

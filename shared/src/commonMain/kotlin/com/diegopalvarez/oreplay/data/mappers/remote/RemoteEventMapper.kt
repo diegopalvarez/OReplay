@@ -11,6 +11,7 @@ private fun getEvent(remoteEvent: RemoteEvent): Event{
     return Event(
         id = remoteEvent.id,
         isHidden = remoteEvent.isHidden,
+        description = remoteEvent.description,
         picture = remoteEvent.picture,
         website = remoteEvent.website,
         scope = remoteEvent.scope,
