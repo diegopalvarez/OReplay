@@ -1,20 +1,21 @@
 package com.diegopalvarez.oreplay.domain.model
 
 import kotlinx.datetime.LocalDateTime
+import kotlin.time.Instant
 
 data class ResultTeam(
     val id: String,
-    val bibNumber: String,
+    val bibNumber: String?,
     val isNc: Boolean,
     val eligibility: Boolean?,
-    val legs: Int?,
-    val created: LocalDateTime,
+    val legs: Long?,
+    val created: Instant,
     val runners: List<ResultIndividual>,
-    val teamClass: StageClass,
-    val teamClub: StageClub,
+    val teamClass: ResultClass?,
+    val teamClub: StageClub?,
     val fullName: String,
 
     // Final team result information
-    val stageResult: StageResult,
-    val overallResult: Overall
+    val stageResult: StageResult?,
+    val overallResult: Overall?
 ): Result

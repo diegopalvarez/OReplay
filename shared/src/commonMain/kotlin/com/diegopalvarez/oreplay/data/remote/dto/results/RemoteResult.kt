@@ -14,7 +14,7 @@ data class RemoteResult(
     @SerialName("is_nc")
     val isNc: Boolean,
 
-    val eligibility: String? = null,        // TODO - Check its meaning and possible values
+    val eligibility: Boolean? = null,        // TODO - Check its meaning and possible values
 
     // Only in case of single competitors
     val sicard: String? = null,
@@ -33,7 +33,7 @@ data class RemoteResult(
     val runnerClass: RemoteClassResults? = null,
 
     @SerialName("club")
-    val runnerClub: RemoteClub,
+    val runnerClub: RemoteClub? = null,
 
     @SerialName("full_name")
     val fullName: String,
