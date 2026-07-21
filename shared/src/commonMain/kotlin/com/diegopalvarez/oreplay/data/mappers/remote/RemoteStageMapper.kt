@@ -15,7 +15,7 @@ private fun getStage(remoteStage: RemoteStage): Stage {
                 else{
                     null
                 },
-        stageType = remoteStage.stageType.description,      // Only the ID is needed, not the description since it's static
+        stageType = remoteStage.stageType.id,      // Only the ID is needed, not the description since it's static
         state = getStageState(remoteStage.lastLogs),
         // The classes and clubs are missing but must be added when parsed
         )
