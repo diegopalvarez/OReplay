@@ -4,5 +4,5 @@ data class Organizer(
     val id: String,
     val name: String,
     val country: String,
-    val region: String,
+    val region: String?,
 )
