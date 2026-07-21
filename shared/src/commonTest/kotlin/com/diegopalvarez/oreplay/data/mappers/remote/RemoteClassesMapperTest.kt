@@ -2,13 +2,9 @@ package com.diegopalvarez.oreplay.data.mappers.remote
 
 import com.diegopalvarez.oreplay.data.remote.dto.classes.RemoteClass
 import com.diegopalvarez.oreplay.data.remote.dto.classes.RemoteClassesResponse
-import com.diegopalvarez.oreplay.data.remote.dto.radiocontrols.RemoteRadioControl
-import com.diegopalvarez.oreplay.data.remote.dto.results.ControlType
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteClassResults
-import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteControl
 import com.diegopalvarez.oreplay.domain.model.ResultClass
 import com.diegopalvarez.oreplay.domain.model.StageClass
-import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
