@@ -8,12 +8,14 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteSplit
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteStageResult
+import com.diegopalvarez.oreplay.domain.model.Control
 import com.diegopalvarez.oreplay.domain.model.Overall
 import com.diegopalvarez.oreplay.domain.model.OverallResult
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
+import com.diegopalvarez.oreplay.domain.types.ControlID
 import kotlin.time.Duration
 import kotlin.Long
 import kotlin.time.Instant
@@ -47,11 +49,12 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
  * @return domain model object with all the stage result data, including the sorted splits
  */
 private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
+    val finishTime = getInstant(remoteStageResult.finishTime)
     return StageResult(
         id = remoteStageResult.id,
         resultType = remoteStageResult.resultTypeID,
         startTime = getInstant(remoteStageResult.startTime),
-        finishTime = getInstant(remoteStageResult.finishTime),
+        finishTime = finishTime,
         uploadType = remoteStageResult.uploadType,
         timeSeconds = getDuration(remoteStageResult.timeSeconds),
         position = remoteStageResult.position,
@@ -71,7 +74,7 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         note = remoteStageResult.note,
         legNumber = remoteStageResult.legNumber,
         created = getInstant(remoteStageResult.created),
-        splits = getSplits(remoteStageResult.splits)
+        splits = getSplits(remoteStageResult.splits, finishTime)
     )
 }
 
@@ -94,12 +97,33 @@ private fun getSplit(remoteSplit: RemoteSplit): SplitIndividual{
 }
 
 /**
- * Private function to map and sort all the splits from a list of RemoteSplits from the API
+ * Private function to map and sort all the splits from a list of RemoteSplits from the API.
+ *
+ * Adds a Finish Control to the end of the list
+ *
  * @param splits List of RemoteSplits
+ * @param finishTime Finish time for the runner, used to add an artificial finish control
  * @return list of domain model splits, sorted by order number
  */
-private fun getSplits(splits: List<RemoteSplit>): List<SplitIndividual> {
-    return splits.map(::getSplit).sortedBy { it.orderNumber }
+private fun getSplits(splits: List<RemoteSplit>, finishTime: Instant): List<SplitIndividual> {
+    val splitList = splits.map(::getSplit) as MutableList<SplitIndividual>
+
+    // Artificially add a Finish Control to the list
+    splitList.add(SplitIndividual(
+        id = "Finish",
+        isIntermediate = false,
+        readingTime = finishTime,       // The reading time corresponds to the actual finishTime
+        points = 0,
+        orderNumber = splitList.size + 1L,  // It's added as a last control to the list
+        created = Instant.DISTANT_PAST,
+        control = Control(
+            id = "Finish",
+            station = "Finish",
+            controlType = ControlID.FINISH.id      // The Finish Control UUID allows to identify it
+        )
+    ))
+
+    return splitList.sortedBy { it.orderNumber }
 }
 
 /**
@@ -128,7 +152,7 @@ fun getClassicResults(remoteResultsResponse: RemoteResultsResponse, calculateRan
 
     // Overalls don't need additional data to be calculated
 
-    return resultsList
+    return resultsList      // TODO - Check if it's better to return the list sorted, and decide a sorting approach
 }
 
 /**
@@ -228,8 +252,17 @@ private fun calculateRanks(listResults: Map<Long, List<SplitIndividual>>) {
             bestPartialControl.partialPosition = 1
 
             for(i in 1 until filteredPartial.size){
-                filteredPartial[i].partialDifference = filteredPartial[i].partial!!.minus(bestPartialTime)       // The partial can't be null since those values are filtered
-                filteredPartial[i].partialPosition = i + 1L
+                // There can be TIES in best time, so those must be accounted
+                if(filteredPartial[i].partial == filteredPartial[i - 1].partial){
+                    // It has the same difference and position than the previous one
+                    filteredPartial[i].partialDifference = filteredPartial[i - 1].partialDifference
+                    filteredPartial[i].partialPosition = filteredPartial[i - 1].partialPosition
+                }
+                else {
+                    // The difference and positions must be recalculated
+                    filteredPartial[i].partialDifference = filteredPartial[i].partial!!.minus(bestPartialTime)       // The partial can't be null since those values are filtered
+                    filteredPartial[i].partialPosition = i + 1L     // When handling a tie, having N with the same position skips N - 1 positions for the next one
+                }
             }
         }
 
@@ -246,8 +279,17 @@ private fun calculateRanks(listResults: Map<Long, List<SplitIndividual>>) {
             bestAccumulatedControl.accumulatedPosition = 1
 
             for(i in 1 until filteredAccumulated.size){
-                filteredAccumulated[i].accumulatedDifference = filteredAccumulated[i].accumulated!!.minus(bestAccumulatedTime)       // The partial can't be null since those values are filtered
-                filteredAccumulated[i].accumulatedPosition = i + 1L
+                // There can be TIES in best time, so those must be accounted
+                if(filteredAccumulated[i].accumulated == filteredAccumulated[i - 1].accumulated){
+                    // It has the same difference and position than the previous one
+                    filteredAccumulated[i].accumulatedDifference = filteredAccumulated[i - 1].accumulatedDifference
+                    filteredAccumulated[i].accumulatedPosition = filteredAccumulated[i - 1].accumulatedPosition
+                }
+                else {
+                    // The difference and positions must be recalculated
+                    filteredAccumulated[i].accumulatedDifference = filteredAccumulated[i].accumulated!!.minus(bestAccumulatedTime)       // The partial can't be null since those values are filtered
+                    filteredAccumulated[i].accumulatedPosition = i + 1L // When handling a tie, having N with the same position skips N - 1 positions for the next one
+                }
             }
         }
     }
