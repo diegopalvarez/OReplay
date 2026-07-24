@@ -176,8 +176,11 @@ private fun calculateTime(runner: ResultIndividual){
     var previousTime: Instant? = startTime
     var isError = false
     for (control in runner.stageResult.splits) {
-        // If the control is not part of the course, we can skip it
+        // If the control is not part of the course, we can only calculate the accumulated time
         if(control.orderNumber < 1){
+            if(control.readingTime != null) {
+                control.accumulated = control.readingTime.minus(startTime)
+            }
             continue
         }
 
