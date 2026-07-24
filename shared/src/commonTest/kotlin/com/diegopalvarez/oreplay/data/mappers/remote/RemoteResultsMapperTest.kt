@@ -5,6 +5,7 @@ import com.diegopalvarez.oreplay.data.mappers.util.getInstant
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -313,7 +314,7 @@ class RemoteResultsMapperTest {
     }
 
     @Test
-    fun `GetClassicResults - Valid Result without Class, Club, StageResult or Overalls`(){
+    fun `GetClassicResults - Valid Result without Class Club StageResult or Overalls`(){
         val result = getClassicResults(RemoteResponse.allNulls, calculateRanks = false)
 
         assertNotNull(result)
@@ -450,6 +451,146 @@ class RemoteResultsMapperTest {
         assertNull(overalls.overallTotal.timeBehind)
         assertEquals(300L, overalls.overallTotal.pointsFinal)
         assertNull(overalls.overallTotal.pointsBehind)
+    }
+
+    /**
+     * Tests for getTeamResults
+     * They also test indirectly the functionality provided by the private functions calculateRelayTimes, getTeamResult and getTeamRunners
+     */
+
+    @Test
+    fun `GetTeamResults - Valid Team Result with Splits`(){
+        val result: List<ResultTeam> = getTeamResults(RemoteResponse.teamValid)
+        assertNotNull(result)
+
+        val response = result.first()
+        // Test GetTeamResult and whether the team information is mapped correctly
+        assertEquals("05f2f7a6-c2ee-4d9f-bda2-a674c44d7c89", response.id)
+        assertEquals("103", response.bibNumber)
+        assertFalse(response.isNc)
+        assertNull(response.eligibility)
+        assertEquals(getInstant("2026-06-22T09:12:40.788+00:00"), response.created)
+        // The teamClass and teamClub are tested on their own tests
+        assertNotNull(response.teamClass)
+        assertNotNull(response.teamClub)
+        assertNotNull(response.runners)
+        assertEquals("CATALUNYA A", response.fullName)
+
+        // Test the TeamResult
+        assertNotNull(response.stageResult)
+        assertNull(response.overallResult)
+
+        val stageResult = response.stageResult
+        assertEquals("5159b41f-378a-4e30-8e67-af2c1553ea5d", stageResult.id)
+        assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
+        assertEquals(getInstant("2026-06-22T07:27:00.000+00:00"), stageResult.startTime)
+        assertEquals(getInstant("2026-06-22T08:22:58.000+00:00"), stageResult.finishTime)
+        assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
+        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(0.seconds, stageResult.timeSeconds)
+        assertEquals(0, stageResult.position)
+        assertEquals("3", stageResult.statusCode)
+        assertFalse(stageResult.isNC)
+        assertNull(stageResult.contributory)
+        assertEquals(0.seconds, stageResult.timeBehind)
+        assertEquals(0.seconds, stageResult.timeNeutralization)
+        assertEquals(0.seconds, stageResult.timeAdjusted)
+        assertEquals(0.seconds, stageResult.timePenalty)
+        assertEquals(0.seconds, stageResult.timeBonus)
+        assertEquals("0.0000", stageResult.pointsTotal)
+        assertEquals("0.0000", stageResult.pointsBehind)
+        assertEquals("0.0000", stageResult.pointsAdjusted)
+        assertEquals("0.0000", stageResult.pointsPenalty)
+        assertEquals("0.0000", stageResult.pointsBonus)
+        assertNull(stageResult.note)
+        assertEquals(4, stageResult.legNumber)
+
+        // Test the Runners
+        val winner = response.runners[1]
+        val correctPartials = listOf("1m", "40s", "35s", "46s", "1m 3s", "9s", "27s", "58s", "1m 9s", "1m 10s", "33s", "27s")
+        val correctAccumulated = listOf("1m", "1m 40s", "2m 15s", "3m 1s", "4m 4s", "4m 13s", "4m 40s", "5m 38s", "6m 47s", "7m 57s", "8m 30s", "8m 57s")
+
+        assertNotNull(winner.stageResult)
+        val splits = winner.stageResult.splits
+        for(i in splits.indices) {
+            assertEquals(i + 1L, splits[i].orderNumber)
+            assertEquals(Duration.parse(correctPartials[i]), splits[i].partial)
+            assertNull(splits[i].partialDifference)
+            assertNull(splits[i].partialPosition)
+            assertEquals(Duration.parse(correctAccumulated[i]), splits[i].accumulated)
+            assertNull(splits[i].accumulatedDifference)
+            assertNull(splits[i].accumulatedPosition)
+        }
+
+        val mp = response.runners[0]
+        val mpPartials = listOf("5m 56s", "7m 53s", "2m 56s", "30s", "1m 30s", "12s", "32s", "1m 45s", null, null, "2m 23s", "36s")
+        val mpAccumulated = listOf("5m 56s", "13m 49s", "16m 45s", "17m 15s", "18m 45s", "18m 57s", "19m 29s", "21m 14s", null, "23m 31s", "25m 54s", "26m 30s")
+
+        assertNotNull(mp.stageResult)
+        val mpSplits = mp.stageResult.splits
+        for(i in splits.indices) {
+            assertEquals(i + 1L, mpSplits[i].orderNumber)
+            assertEquals(if(mpPartials[i] != null) Duration.parse(mpPartials[i]!!) else null, mpSplits[i].partial)
+            assertNull(mpSplits[i].partialDifference)
+            assertNull(mpSplits[i].partialPosition)
+            assertEquals(if(mpAccumulated[i] != null) Duration.parse(mpAccumulated[i]!!) else null, mpSplits[i].accumulated)
+            assertNull(mpSplits[i].accumulatedDifference)
+            assertNull(mpSplits[i].accumulatedPosition)
+        }
+
+    }
+
+    @Test
+    fun `GetTeamResults - Valid Team Result without Splits`(){
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamNoSplits)
+
+        assertNotNull(response)
+        assertEquals(1, response.size)
+
+        // Test the TeamResult
+        val result = response.first()
+        assertNotNull(result.stageResult)
+        assertNull(result.overallResult)
+
+        for(runner in result.runners){
+            assertNotNull(runner.stageResult)
+            assertEquals(1, runner.stageResult.splits.size)
+        }
+
+        // Test the final result
+        assertEquals(Duration.parse("42m 58s"), result.stageResult.timeSeconds)
+        assertEquals(Duration.parse("47s"), result.stageResult.timeBehind)
+        assertEquals(2, result.stageResult.position)
+        assertEquals("0", result.stageResult.statusCode)
+    }
+
+    @Test
+    fun `GetTeamResults - Valid Team Result with Missing Data`(){
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamMissingData)
+
+        assertNotNull(response)
+        assertEquals(1, response.size)
+
+        // Test the TeamResult
+        val result = response.first()
+
+        for(runner in result.runners){
+            assertNotNull(runner.stageResult)
+            assertEquals(1, runner.stageResult.splits.size)
+        }
+
+        // Test the missing data
+        assertNull(result.teamClass)
+        assertNull(result.teamClub)
+        assertNull(result.stageResult)
+        assertNull(result.overallResult)
+    }
+
+    @Test
+    fun `GetTeamResults - Invalid Team Result with Missing Runners`(){
+        assertFailsWith<IllegalArgumentException> {
+            getTeamResults(RemoteResponse.teamNoRunners)
+        }
     }
 
 }

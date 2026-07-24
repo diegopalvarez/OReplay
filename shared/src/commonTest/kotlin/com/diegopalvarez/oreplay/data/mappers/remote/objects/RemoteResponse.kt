@@ -3251,4 +3251,1375 @@ object RemoteResponse {
         )
     )
 
+    val teamValid = RemoteResultsResponse(
+        results = listOf(
+            RemoteResult(
+                id = "05f2f7a6-c2ee-4d9f-bda2-a674c44d7c89",
+                bibNumber = "103",
+                isNc = false,
+                eligibility = null,
+                legs = null,
+                created = "2026-06-22T09:12:40.788+00:00",
+                runners = listOf(
+                    RemoteResult(
+                        id = "60e2e363-43ab-4a99-b4b1-dfa165401bfb",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.815+00:00",
+                        runners = null,
+                        sicard = "8513969",
+                        sex = "F",
+                        legNumber = 1,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "22563d8e-336e-4714-bd9f-cd16820f2852",
+                            shortName = "CATALUNYA"
+                        ),
+                        fullName = "Glòria Teixidor Gala",
+                        stageResult = RemoteStageResult(
+                            id = "2b66abdd-eaed-48a2-870a-c36a625d784a",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:27:00.000+00:00",
+                            finishTime = "2026-06-22T07:53:30.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 1590,
+                            position = 0,
+                            statusCode = "3",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 1,
+                            created = "2026-06-22T09:12:40.826+00:00",
+                            splits = listOf(
+                                RemoteSplit(
+                                    id = "0fd8bac2-b861-4640-8047-390039dab1e6",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:52:54.000+00:00",
+                                    points = 0,
+                                    orderNumber = 11,
+                                    created = "2026-06-22T09:12:40.921+00:00",
+                                    control = RemoteControl(
+                                        id = "3e94fe42-4a6f-406d-8d70-472595ac3fc2",
+                                        station = "200",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "246ddfd3-b2f4-4813-9ad9-0b334198af75",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:50:31.000+00:00",
+                                    points = 0,
+                                    orderNumber = 10,
+                                    created = "2026-06-22T09:12:40.906+00:00",
+                                    control = RemoteControl(
+                                        id = "28bf2d20-989d-40b0-bbcf-01b45595edb2",
+                                        station = "41",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "9b9e1601-56e3-4f52-8cbb-2ad74a4926a3",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:48:14.000+00:00",
+                                    points = 0,
+                                    orderNumber = 8,
+                                    created = "2026-06-22T09:12:40.889+00:00",
+                                    control = RemoteControl(
+                                        id = "ee4e007c-7077-4b56-a615-ae44d89b05f0",
+                                        station = "53",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "3a97a6d4-ffe3-43ed-9add-5faed5c681e4",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:46:29.000+00:00",
+                                    points = 0,
+                                    orderNumber = 7,
+                                    created = "2026-06-22T09:12:40.885+00:00",
+                                    control = RemoteControl(
+                                        id = "b38bb112-adc9-40bb-a769-416cf821d37f",
+                                        station = "62",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "7bf13ef9-c0a6-4161-9902-2de533491184",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:45:57.000+00:00",
+                                    points = 0,
+                                    orderNumber = 6,
+                                    created = "2026-06-22T09:12:40.872+00:00",
+                                    control = RemoteControl(
+                                        id = "6b68c19f-3e70-465c-919a-7780b4b2fd79",
+                                        station = "100",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "3ec5ff00-4c5d-478e-bea3-756e7fbd08df",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:45:45.000+00:00",
+                                    points = 0,
+                                    orderNumber = 5,
+                                    created = "2026-06-22T09:12:40.862+00:00",
+                                    control = RemoteControl(
+                                        id = "2519730a-620f-4e5d-9a12-360e7ff6f131",
+                                        station = "52",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "f2f96bf0-8a80-4da1-9559-c42098659b3c",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:44:15.000+00:00",
+                                    points = 0,
+                                    orderNumber = 4,
+                                    created = "2026-06-22T09:12:40.854+00:00",
+                                    control = RemoteControl(
+                                        id = "92249eb5-d50c-49c7-8fb7-6adb0cdb970f",
+                                        station = "48",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "8cb178c6-b469-4f48-bc02-a2828cd43883",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:43:45.000+00:00",
+                                    points = 0,
+                                    orderNumber = 3,
+                                    created = "2026-06-22T09:12:40.846+00:00",
+                                    control = RemoteControl(
+                                        id = "28449696-8690-4d5d-bd90-44e8c1882a03",
+                                        station = "42",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "d6992263-f0a4-4367-8a78-8e08aef4d1e1",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:40:49.000+00:00",
+                                    points = 0,
+                                    orderNumber = 2,
+                                    created = "2026-06-22T09:12:40.839+00:00",
+                                    control = RemoteControl(
+                                        id = "898ace0b-02ac-48a2-84f0-98215ad418a9",
+                                        station = "47",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "88ab42ab-b58d-4765-989b-8fc0e8fa577c",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:32:56.000+00:00",
+                                    points = 0,
+                                    orderNumber = 1,
+                                    created = "2026-06-22T09:12:40.833+00:00",
+                                    control = RemoteControl(
+                                        id = "deb121e6-5c61-4648-b041-3facd001e586",
+                                        station = "46",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "015da0f5-e729-40d7-9618-933fa267bcc5",
+                                    isIntermediate = false,
+                                    readingTime = null,
+                                    points = 0,
+                                    orderNumber = 9,
+                                    created = "2026-06-22T09:12:40.896+00:00",
+                                    control = RemoteControl(
+                                        id = "8eecbd7a-4d45-4af1-bbfb-3755e60315b7",
+                                        station = "44",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "0c4c046b-83ea-4617-8b54-c3b091764d78",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.931+00:00",
+                        runners = null,
+                        sicard = "8047320",
+                        sex = "M",
+                        legNumber = 2,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "22563d8e-336e-4714-bd9f-cd16820f2852",
+                            shortName = "CATALUNYA"
+                        ),
+                        fullName = "Roger Puig Finazzi",
+                        stageResult = RemoteStageResult(
+                            id = "bcc28b85-3916-4bf6-879c-ab2840f8f39c",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:53:30.000+00:00",
+                            finishTime = "2026-06-22T08:02:27.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 537,
+                            position = 2,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 2,
+                            created = "2026-06-22T09:12:40.942+00:00",
+                            splits = listOf(
+                                RemoteSplit(
+                                    id = "a41bc7fb-5d65-4d5c-bc94-83db92b46632",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:02:00.000+00:00",
+                                    points = 0,
+                                    orderNumber = 11,
+                                    created = "2026-06-22T09:12:41.072+00:00",
+                                    control = RemoteControl(
+                                        id = "3e94fe42-4a6f-406d-8d70-472595ac3fc2",
+                                        station = "200",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "987bc940-5d1d-4ad5-a145-24a6d590c8c9",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:01:27.000+00:00",
+                                    points = 0,
+                                    orderNumber = 10,
+                                    created = "2026-06-22T09:12:41.064+00:00",
+                                    control = RemoteControl(
+                                        id = "28bf2d20-989d-40b0-bbcf-01b45595edb2",
+                                        station = "41",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "93e88fa5-a7e4-43b2-bcb5-797947db3cdb",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:00:17.000+00:00",
+                                    points = 0,
+                                    orderNumber = 9,
+                                    created = "2026-06-22T09:12:41.056+00:00",
+                                    control = RemoteControl(
+                                        id = "43020912-dcb9-4d4a-a5e6-6e5c8167c8ee",
+                                        station = "43",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "15ac8e8d-f0e9-4c1b-8c45-6185f946134b",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:59:08.000+00:00",
+                                    points = 0,
+                                    orderNumber = 8,
+                                    created = "2026-06-22T09:12:41.048+00:00",
+                                    control = RemoteControl(
+                                        id = "ee4e007c-7077-4b56-a615-ae44d89b05f0",
+                                        station = "53",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "1c31cdc3-47a9-4cfa-a2c6-7069a06f6d4d",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:58:10.000+00:00",
+                                    points = 0,
+                                    orderNumber = 7,
+                                    created = "2026-06-22T09:12:41.038+00:00",
+                                    control = RemoteControl(
+                                        id = "b38bb112-adc9-40bb-a769-416cf821d37f",
+                                        station = "62",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "5a0db199-2975-46c3-ba90-de70a68556e5",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:57:43.000+00:00",
+                                    points = 0,
+                                    orderNumber = 6,
+                                    created = "2026-06-22T09:12:41.024+00:00",
+                                    control = RemoteControl(
+                                        id = "6b68c19f-3e70-465c-919a-7780b4b2fd79",
+                                        station = "100",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "e1415c10-56dd-478c-9abd-9584479532cb",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:57:34.000+00:00",
+                                    points = 0,
+                                    orderNumber = 5,
+                                    created = "2026-06-22T09:12:41.013+00:00",
+                                    control = RemoteControl(
+                                        id = "2519730a-620f-4e5d-9a12-360e7ff6f131",
+                                        station = "52",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "5da02fbf-3fef-4df6-9b73-d65e170ae4c7",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:56:31.000+00:00",
+                                    points = 0,
+                                    orderNumber = 4,
+                                    created = "2026-06-22T09:12:40.994+00:00",
+                                    control = RemoteControl(
+                                        id = "2f1c8a5d-0083-4e51-b913-812b3d96f760",
+                                        station = "51",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "1b4d22b7-01c5-4c72-8a56-dee7095d9fbf",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:55:45.000+00:00",
+                                    points = 0,
+                                    orderNumber = 3,
+                                    created = "2026-06-22T09:12:40.971+00:00",
+                                    control = RemoteControl(
+                                        id = "28449696-8690-4d5d-bd90-44e8c1882a03",
+                                        station = "42",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "cfaeffe9-2293-4754-b651-ff2fac1c4e17",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:55:10.000+00:00",
+                                    points = 0,
+                                    orderNumber = 2,
+                                    created = "2026-06-22T09:12:40.961+00:00",
+                                    control = RemoteControl(
+                                        id = "898ace0b-02ac-48a2-84f0-98215ad418a9",
+                                        station = "47",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "da53f8d4-5b7d-4273-918c-965cfcadc260",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T07:54:30.000+00:00",
+                                    points = 0,
+                                    orderNumber = 1,
+                                    created = "2026-06-22T09:12:40.951+00:00",
+                                    control = RemoteControl(
+                                        id = "0a2ff946-7195-437a-ac42-6f04e31ef22c",
+                                        station = "45",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "94174e0d-ac02-4a6b-926a-34735274b48e",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:41.077+00:00",
+                        runners = null,
+                        sicard = "8501211",
+                        sex = "M",
+                        legNumber = 3,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "22563d8e-336e-4714-bd9f-cd16820f2852",
+                            shortName = "CATALUNYA"
+                        ),
+                        fullName = "Roc Bausà Ginesti",
+                        stageResult = RemoteStageResult(
+                            id = "a7ae4eba-b79b-4d66-ba21-38e86810b5eb",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T08:02:27.000+00:00",
+                            finishTime = "2026-06-22T08:10:13.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 465,
+                            position = 1,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 3,
+                            created = "2026-06-22T09:12:41.088+00:00",
+                            splits = listOf(
+                                RemoteSplit(
+                                    id = "251f3533-01f9-47cd-abc5-e6f087793581",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:09:46.000+00:00",
+                                    points = 0,
+                                    orderNumber = 11,
+                                    created = "2026-06-22T09:12:41.243+00:00",
+                                    control = RemoteControl(
+                                        id = "3e94fe42-4a6f-406d-8d70-472595ac3fc2",
+                                        station = "200",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "d7f1942c-50e7-474b-92c6-22e30cc0177c",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:09:21.000+00:00",
+                                    points = 0,
+                                    orderNumber = 10,
+                                    created = "2026-06-22T09:12:41.230+00:00",
+                                    control = RemoteControl(
+                                        id = "28bf2d20-989d-40b0-bbcf-01b45595edb2",
+                                        station = "41",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "c3be9a3d-08e4-428d-9200-3fead7ab4a80",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:08:27.000+00:00",
+                                    points = 0,
+                                    orderNumber = 9,
+                                    created = "2026-06-22T09:12:41.220+00:00",
+                                    control = RemoteControl(
+                                        id = "8eecbd7a-4d45-4af1-bbfb-3755e60315b7",
+                                        station = "44",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "ed9d510b-8d29-4233-8788-68665bc44ca0",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:07:50.000+00:00",
+                                    points = 0,
+                                    orderNumber = 8,
+                                    created = "2026-06-22T09:12:41.212+00:00",
+                                    control = RemoteControl(
+                                        id = "ee4e007c-7077-4b56-a615-ae44d89b05f0",
+                                        station = "53",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "50bb6506-6651-4bfa-af90-b5b74076750f",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:07:00.000+00:00",
+                                    points = 0,
+                                    orderNumber = 7,
+                                    created = "2026-06-22T09:12:41.201+00:00",
+                                    control = RemoteControl(
+                                        id = "b38bb112-adc9-40bb-a769-416cf821d37f",
+                                        station = "62",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "5fd67c6e-f7fe-4141-b3ba-94b6e4cac7c8",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:06:32.000+00:00",
+                                    points = 0,
+                                    orderNumber = 6,
+                                    created = "2026-06-22T09:12:41.189+00:00",
+                                    control = RemoteControl(
+                                        id = "6b68c19f-3e70-465c-919a-7780b4b2fd79",
+                                        station = "100",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "a2db6462-799c-447a-93fa-bfcceadc061c",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:06:22.000+00:00",
+                                    points = 0,
+                                    orderNumber = 5,
+                                    created = "2026-06-22T09:12:41.180+00:00",
+                                    control = RemoteControl(
+                                        id = "2519730a-620f-4e5d-9a12-360e7ff6f131",
+                                        station = "52",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "d7ee6ce3-5360-4538-a9dd-a0830d03d206",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:05:09.000+00:00",
+                                    points = 0,
+                                    orderNumber = 4,
+                                    created = "2026-06-22T09:12:41.171+00:00",
+                                    control = RemoteControl(
+                                        id = "b14af3dd-d883-44b5-9189-8e073379fa5e",
+                                        station = "50",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "99ca557e-81fc-400b-86c7-c082a8bac1da",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:04:27.000+00:00",
+                                    points = 0,
+                                    orderNumber = 3,
+                                    created = "2026-06-22T09:12:41.149+00:00",
+                                    control = RemoteControl(
+                                        id = "28449696-8690-4d5d-bd90-44e8c1882a03",
+                                        station = "42",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "4f28f338-7ae1-41c1-b030-f1293322f970",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:03:53.000+00:00",
+                                    points = 0,
+                                    orderNumber = 2,
+                                    created = "2026-06-22T09:12:41.113+00:00",
+                                    control = RemoteControl(
+                                        id = "898ace0b-02ac-48a2-84f0-98215ad418a9",
+                                        station = "47",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "268ef42d-16b2-4468-90e6-d48209d837a9",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:03:10.000+00:00",
+                                    points = 0,
+                                    orderNumber = 1,
+                                    created = "2026-06-22T09:12:41.104+00:00",
+                                    control = RemoteControl(
+                                        id = "deb121e6-5c61-4648-b041-3facd001e586",
+                                        station = "46",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "e139c02d-15f0-4c51-9e46-b5f8ba338632",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:41.259+00:00",
+                        runners = null,
+                        sicard = "8530910",
+                        sex = "F",
+                        legNumber = 4,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "22563d8e-336e-4714-bd9f-cd16820f2852",
+                            shortName = "CATALUNYA"
+                        ),
+                        fullName = "Magalí Casafont Viñals",
+                        stageResult = RemoteStageResult(
+                            id = "d2f2ebc2-87b8-4340-bfbf-764f87808810",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T08:10:13.000+00:00",
+                            finishTime = "2026-06-22T08:22:58.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 764,
+                            position = 8,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 4,
+                            created = "2026-06-22T09:12:41.269+00:00",
+                            splits = listOf(
+                                RemoteSplit(
+                                    id = "685a0c55-3858-43a3-afd2-2e5e83a80e00",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:22:24.000+00:00",
+                                    points = 0,
+                                    orderNumber = 11,
+                                    created = "2026-06-22T09:12:41.366+00:00",
+                                    control = RemoteControl(
+                                        id = "3e94fe42-4a6f-406d-8d70-472595ac3fc2",
+                                        station = "200",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "d83c0074-616c-42ee-8256-bba5c2b559ab",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:21:41.000+00:00",
+                                    points = 0,
+                                    orderNumber = 10,
+                                    created = "2026-06-22T09:12:41.358+00:00",
+                                    control = RemoteControl(
+                                        id = "28bf2d20-989d-40b0-bbcf-01b45595edb2",
+                                        station = "41",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "91804819-24fd-454e-a1c8-74f7054b8b73",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:20:20.000+00:00",
+                                    points = 0,
+                                    orderNumber = 9,
+                                    created = "2026-06-22T09:12:41.350+00:00",
+                                    control = RemoteControl(
+                                        id = "43020912-dcb9-4d4a-a5e6-6e5c8167c8ee",
+                                        station = "43",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "702c3fbc-4234-4fef-bd83-f68bf1667ca3",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:18:25.000+00:00",
+                                    points = 0,
+                                    orderNumber = 8,
+                                    created = "2026-06-22T09:12:41.342+00:00",
+                                    control = RemoteControl(
+                                        id = "ee4e007c-7077-4b56-a615-ae44d89b05f0",
+                                        station = "53",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "ef4a5b55-3d60-4aef-bb4b-4ea91ac09bd8",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:16:58.000+00:00",
+                                    points = 0,
+                                    orderNumber = 7,
+                                    created = "2026-06-22T09:12:41.335+00:00",
+                                    control = RemoteControl(
+                                        id = "b38bb112-adc9-40bb-a769-416cf821d37f",
+                                        station = "62",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "ab04fcef-3418-417f-b611-14f42924c464",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:16:14.000+00:00",
+                                    points = 0,
+                                    orderNumber = 6,
+                                    created = "2026-06-22T09:12:41.322+00:00",
+                                    control = RemoteControl(
+                                        id = "6b68c19f-3e70-465c-919a-7780b4b2fd79",
+                                        station = "100",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                ),
+                                RemoteSplit(
+                                    id = "7f5ab2d2-2bf6-4205-a804-342e67ad6267",
+                                    isIntermediate = false,
+                                    readingTime = "2026-06-22T08:16:02.000+00:00",
+                                    points = 0,
+                                    orderNumber = 5,
+                                    created = "2026-06-22T09:12:41.312+00:00",
+                                    control = RemoteControl(
+                                        id = "2519730a-620f-4e5d-9a12-360e7ff6f131",
+                                        station = "52",
+                                        controlType = ControlType(
+                                            id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                            description = "Normal Control"
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        overalls = null
+                    )
+                ),
+                sicard = null,
+                sex = null,
+                legNumber = null,
+                runnerClass = RemoteClassResults(
+                    id = "929f889e-ef99-4e54-ae2f-05c8e4a39f01",
+                    shortName = "INFANTIL",
+                    longName = "INFANTIL"
+                ),
+                runnerClub = RemoteClub(
+                    id = "22563d8e-336e-4714-bd9f-cd16820f2852",
+                    shortName = "CATALUNYA"
+                ),
+                fullName = "CATALUNYA A",
+                stageResult = RemoteStageResult(
+                    id = "5159b41f-378a-4e30-8e67-af2c1553ea5d",
+                    resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                    startTime = "2026-06-22T07:27:00.000+00:00",
+                    finishTime = "2026-06-22T08:22:58.000+00:00",
+                    uploadType = "res_splits",
+                    timeSeconds = 0,
+                    position = 0,
+                    statusCode = "3",
+                    isNc = false,
+                    contributory = null,
+                    timeBehind = 0,
+                    timeNeutralization = 0,
+                    timeAdjusted = 0,
+                    timePenalty = 0,
+                    timeBonus = 0,
+                    pointsFinal = "0.0000",
+                    pointsBehind = "0.0000",
+                    pointsAdjusted = "0.0000",
+                    pointsPenalty = "0.0000",
+                    pointsBonus = "0.0000",
+                    note = null,
+                    legNumber = 4,
+                    created = "2026-06-22T09:12:40.808+00:00",
+                    splits = emptyList()
+                ),
+                overalls = null
+            )
+        )
+    )
+
+    val teamNoSplits = RemoteResultsResponse(
+        results = listOf(
+            RemoteResult(
+                id = "888da5ab-c5d4-47e5-800b-ecfd6f9ca904",
+                bibNumber = "125",
+                isNc = false,
+                eligibility = null,
+                legs = null,
+                created = "2026-06-22T09:12:40.173+00:00",
+                runners = listOf(
+                    RemoteResult(
+                        id = "f69f20ad-a680-4b3c-90b9-3935b679d871",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.210+00:00",
+                        runners = null,
+                        sicard = "8525829",
+                        sex = "F",
+                        legNumber = 1,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Sofia Estebanez Calvo",
+                        stageResult = RemoteStageResult(
+                            id = "ba4de47f-c3f9-41f3-ab22-238a9c005899",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:27:00.000+00:00",
+                            finishTime = "2026-06-22T07:40:40.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 820,
+                            position = 7,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 1,
+                            created = "2026-06-22T09:12:40.220+00:00",
+                            splits = emptyList()
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "bd082b4c-d14c-4791-9ecf-f7b8487bbe1b",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.349+00:00",
+                        runners = null,
+                        sicard = "8310312",
+                        sex = "M",
+                        legNumber = 2,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Jaime García Alonso",
+                        stageResult = RemoteStageResult(
+                            id = "be4dfc68-28d9-4100-82ab-c607bab493f0",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:40:40.000+00:00",
+                            finishTime = "2026-06-22T07:49:43.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 542,
+                            position = 3,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 2,
+                            created = "2026-06-22T09:12:40.359+00:00",
+                            splits = listOf()
+                        ),
+                        overalls = null,
+                    ),
+                    RemoteResult(
+                        id = "d844bb05-5362-480f-a8bf-0ddaeebfafb0",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.498+00:00",
+                        runners = null,
+                        sicard = "8121529",
+                        sex = "M",
+                        legNumber = 3,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Adrian Sanz Guerra",
+                        stageResult = RemoteStageResult(
+                            id = "3c3bda6a-35b4-47a6-9dec-e6a2765c2242",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:49:43.000+00:00",
+                            finishTime = "2026-06-22T08:00:12.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 629,
+                            position = 11,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 3,
+                            created = "2026-06-22T09:12:40.506+00:00",
+                            splits = emptyList()
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "9f19c1a6-e1a7-4861-840a-c891376db8f7",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.660+00:00",
+                        runners = null,
+                        sicard = "8522508",
+                        sex = "F",
+                        legNumber = 4,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Alba Bayón Población",
+                        stageResult = RemoteStageResult(
+                            id = "f0474df3-6198-48da-a39a-0c7ef9f230ae",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T08:00:12.000+00:00",
+                            finishTime = "2026-06-22T08:09:58.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 585,
+                            position = 2,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 4,
+                            created = "2026-06-22T09:12:40.671+00:00",
+                            splits = emptyList()
+                        ),
+                        overalls = null
+                    )
+                ),
+                sicard = null,
+                sex = null,
+                legNumber = null,
+                runnerClass = RemoteClassResults(
+                    id = "929f889e-ef99-4e54-ae2f-05c8e4a39f01",
+                    shortName = "INFANTIL",
+                    longName = "INFANTIL"
+                ),
+                runnerClub = RemoteClub(
+                    id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                    shortName = "CASTILLA Y LEÓN"
+                ),
+                fullName = "CASTILLA Y LEÓN A",
+                stageResult = RemoteStageResult(
+                    id = "032441e0-3db4-4570-b0db-872b4c7dcaa0",
+                    resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                    startTime = "2026-06-22T07:27:00.000+00:00",
+                    finishTime = "2026-06-22T08:09:58.000+00:00",
+                    uploadType = "res_splits",
+                    timeSeconds = 2578,
+                    position = 2,
+                    statusCode = "0",
+                    isNc = false,
+                    contributory = null,
+                    timeBehind = 47,
+                    timeNeutralization = 0,
+                    timeAdjusted = 0,
+                    timePenalty = 0,
+                    timeBonus = 0,
+                    pointsFinal = "0.0000",
+                    pointsBehind = "0.0000",
+                    pointsAdjusted = "0.0000",
+                    pointsPenalty = "0.0000",
+                    pointsBonus = "0.0000",
+                    note = null,
+                    legNumber = 4,
+                    created = "2026-06-22T09:12:40.200+00:00",
+                    splits = emptyList()
+                ),
+                overalls = null
+            )
+        )
+    )
+
+    val teamMissingData = RemoteResultsResponse(
+        results = listOf(
+            RemoteResult(
+                id = "888da5ab-c5d4-47e5-800b-ecfd6f9ca904",
+                bibNumber = "125",
+                isNc = false,
+                eligibility = null,
+                legs = null,
+                created = "2026-06-22T09:12:40.173+00:00",
+                runners = listOf(
+                    RemoteResult(
+                        id = "f69f20ad-a680-4b3c-90b9-3935b679d871",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.210+00:00",
+                        runners = null,
+                        sicard = "8525829",
+                        sex = "F",
+                        legNumber = 1,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Sofia Estebanez Calvo",
+                        stageResult = RemoteStageResult(
+                            id = "ba4de47f-c3f9-41f3-ab22-238a9c005899",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:27:00.000+00:00",
+                            finishTime = "2026-06-22T07:40:40.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 820,
+                            position = 7,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 1,
+                            created = "2026-06-22T09:12:40.220+00:00",
+                            splits = emptyList()
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "bd082b4c-d14c-4791-9ecf-f7b8487bbe1b",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.349+00:00",
+                        runners = null,
+                        sicard = "8310312",
+                        sex = "M",
+                        legNumber = 2,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Jaime García Alonso",
+                        stageResult = RemoteStageResult(
+                            id = "be4dfc68-28d9-4100-82ab-c607bab493f0",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:40:40.000+00:00",
+                            finishTime = "2026-06-22T07:49:43.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 542,
+                            position = 3,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 2,
+                            created = "2026-06-22T09:12:40.359+00:00",
+                            splits = listOf()
+                        ),
+                        overalls = null,
+                    ),
+                    RemoteResult(
+                        id = "d844bb05-5362-480f-a8bf-0ddaeebfafb0",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.498+00:00",
+                        runners = null,
+                        sicard = "8121529",
+                        sex = "M",
+                        legNumber = 3,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Adrian Sanz Guerra",
+                        stageResult = RemoteStageResult(
+                            id = "3c3bda6a-35b4-47a6-9dec-e6a2765c2242",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T07:49:43.000+00:00",
+                            finishTime = "2026-06-22T08:00:12.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 629,
+                            position = 11,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 3,
+                            created = "2026-06-22T09:12:40.506+00:00",
+                            splits = emptyList()
+                        ),
+                        overalls = null
+                    ),
+                    RemoteResult(
+                        id = "9f19c1a6-e1a7-4861-840a-c891376db8f7",
+                        bibNumber = null,
+                        isNc = false,
+                        eligibility = null,
+                        legs = null,
+                        created = "2026-06-22T09:12:40.660+00:00",
+                        runners = null,
+                        sicard = "8522508",
+                        sex = "F",
+                        legNumber = 4,
+                        runnerClass = null,
+                        runnerClub = RemoteClub(
+                            id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                            shortName = "CASTILLA Y LEÓN"
+                        ),
+                        fullName = "Alba Bayón Población",
+                        stageResult = RemoteStageResult(
+                            id = "f0474df3-6198-48da-a39a-0c7ef9f230ae",
+                            resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                            startTime = "2026-06-22T08:00:12.000+00:00",
+                            finishTime = "2026-06-22T08:09:58.000+00:00",
+                            uploadType = "res_splits",
+                            timeSeconds = 585,
+                            position = 2,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeBehind = 0,
+                            timeNeutralization = 0,
+                            timeAdjusted = 0,
+                            timePenalty = 0,
+                            timeBonus = 0,
+                            pointsFinal = "0.0000",
+                            pointsBehind = "0.0000",
+                            pointsAdjusted = "0.0000",
+                            pointsPenalty = "0.0000",
+                            pointsBonus = "0.0000",
+                            note = null,
+                            legNumber = 4,
+                            created = "2026-06-22T09:12:40.671+00:00",
+                            splits = emptyList()
+                        ),
+                        overalls = null
+                    )
+                ),
+                sicard = null,
+                sex = null,
+                legNumber = null,
+                runnerClass = null,
+                runnerClub = null,
+                fullName = "CASTILLA Y LEÓN A",
+                stageResult = null,
+                overalls = null
+            )
+        )
+    )
+
+    val teamNoRunners = RemoteResultsResponse(
+        results = listOf(
+            RemoteResult(
+                id = "888da5ab-c5d4-47e5-800b-ecfd6f9ca904",
+                bibNumber = "125",
+                isNc = false,
+                eligibility = null,
+                legs = null,
+                created = "2026-06-22T09:12:40.173+00:00",
+                runners = null,
+                sicard = null,
+                sex = null,
+                legNumber = null,
+                runnerClass = RemoteClassResults(
+                    id = "929f889e-ef99-4e54-ae2f-05c8e4a39f01",
+                    shortName = "INFANTIL",
+                    longName = "INFANTIL"
+                ),
+                runnerClub = RemoteClub(
+                    id = "588cc1c9-40a6-4e9d-a7be-51e22b288c67",
+                    shortName = "CASTILLA Y LEÓN"
+                ),
+                fullName = "CASTILLA Y LEÓN A",
+                stageResult = RemoteStageResult(
+                    id = "032441e0-3db4-4570-b0db-872b4c7dcaa0",
+                    resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                    startTime = "2026-06-22T07:27:00.000+00:00",
+                    finishTime = "2026-06-22T08:09:58.000+00:00",
+                    uploadType = "res_splits",
+                    timeSeconds = 2578,
+                    position = 2,
+                    statusCode = "0",
+                    isNc = false,
+                    contributory = null,
+                    timeBehind = 47,
+                    timeNeutralization = 0,
+                    timeAdjusted = 0,
+                    timePenalty = 0,
+                    timeBonus = 0,
+                    pointsFinal = "0.0000",
+                    pointsBehind = "0.0000",
+                    pointsAdjusted = "0.0000",
+                    pointsPenalty = "0.0000",
+                    pointsBonus = "0.0000",
+                    note = null,
+                    legNumber = 4,
+                    created = "2026-06-22T09:12:40.200+00:00",
+                    splits = emptyList()
+                ),
+                overalls = null
+            )
+        )
+    )
+
 }

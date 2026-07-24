@@ -394,7 +394,7 @@ private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
         bibNumber = remoteResult.bibNumber,
         isNc = remoteResult.isNc,
         eligibility = remoteResult.eligibility,
-        legs = requireNotNull(remoteResult.legs) {"Team results must all specify the number of legs"},
+        legs = remoteResult.legs,       // TODO - Check why legs can be null. What are them used for?
         runners =  getTeamRunners(requireNotNull(remoteResult.runners) {"Team results must all have a list of runners that make up the team"}),
         created = getInstant(remoteResult.created),
         fullName = remoteResult.fullName,
