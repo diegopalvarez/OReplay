@@ -1,16 +1,17 @@
 package com.diegopalvarez.oreplay.domain.model
 
 import kotlinx.datetime.LocalDateTime
+import kotlin.time.Instant
 
 
 data class Stage(
     val id: String,
     val description: String,
-    val start: LocalDateTime,
+    val start: Instant?,
     val stageType: String,
-    val state: String,
-    val classes: List<StageClass>,
-    val clubs: List<StageClub>
+    val state: Long?,
+    val classes: List<StageClass>? = null,
+    val clubs: List<StageClub>? = null,
 
 ) {
 }

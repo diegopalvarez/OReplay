@@ -16,7 +16,7 @@ data class RemoteSplit(
     val points: Long,
 
     @SerialName("order_number")
-    val orderNumber: Long,
+    val orderNumber: Long? = null,
 
     val created: String,
     val control: RemoteControl

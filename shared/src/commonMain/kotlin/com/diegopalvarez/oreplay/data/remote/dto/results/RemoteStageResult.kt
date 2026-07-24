@@ -14,7 +14,7 @@ data class RemoteStageResult(
     val startTime: String,
 
     @SerialName("finish_time")
-    val finishTime: String,
+    val finishTime: String,             // TODO - Check if it can be null
 
     @SerialName("upload_type")
     val uploadType: String,
