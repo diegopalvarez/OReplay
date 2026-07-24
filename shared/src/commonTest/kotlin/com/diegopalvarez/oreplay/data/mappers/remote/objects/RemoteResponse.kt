@@ -4,9 +4,12 @@ import com.diegopalvarez.oreplay.data.remote.dto.clubs.RemoteClub
 import com.diegopalvarez.oreplay.data.remote.dto.results.ControlType
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteClassResults
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteControl
+import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverall
+import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteSplit
+import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteStageOveralls
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteStageResult
 
 object RemoteResponse {
@@ -2993,6 +2996,257 @@ object RemoteResponse {
                     )
                 ),
                 overalls = null
+            )
+        )
+    )
+
+    val overallResponse = RemoteResultsResponse(
+        results = listOf(
+            RemoteResult(
+                id = "d55125db-c179-4392-a553-a579b116a333",
+                bibNumber = "4785",
+                isNc = false,
+                eligibility = null,
+                sicard = "8664271",
+                sex = "F",
+                legNumber = 1L,
+                legs = null,
+                runners = null,
+                created = "2026-04-01T07:22:10.018+00:00",
+                runnerClass = RemoteClassResults(
+                    id = "db730c5a-51af-4225-8315-ee13ae9c9c71",
+                    shortName = "F-65",
+                    longName = "Femenino 65"
+                ),
+                runnerClub = RemoteClub(
+                    id = "1caffb4f-63b1-43b7-b2af-2200de634f1f",
+                    shortName = "A Coruña LICEO"
+                ),
+                fullName = "Mª José Naya López",
+                stageResult = null,
+                overalls = RemoteOverallResult(
+                    parts = listOf(
+                        RemoteOverall(
+                            id = "a5332eef-29e9-4484-ad7b-c4d132793223",
+                            stageOrder = 1L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "bbdc0398-3ced-4054-bc80-7e77b957805c",
+                                description = "01 Paderne"
+                            ),
+                            position = 1L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = true,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 100L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "f278711a-c089-45cc-b504-28ff19f5b324",
+                            stageOrder = 2L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "e655e86a-2cd1-458b-b5a8-5a8023bca910",
+                                description = "02 Abadin"
+                            ),
+                            position = 2L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 83L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "d5cd0837-b3a7-48a4-828a-437594785be7",
+                            stageOrder = 3L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "963de8e8-dfc3-4c2e-8bdb-7544a371fd92",
+                                description = "03 Segade"
+                            ),
+                            position = 1L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = true,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 100L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "be80d22b-ff32-47cb-a79b-83ba04df2e09",
+                            stageOrder = 4L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "7065d804-3adb-4f97-8231-6557e0a7d96d",
+                                description = "04 Oleiros"
+                            ),
+                            position = 1L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = true,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 100L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "e43acf5b-1619-4a40-8101-ab19835fb9e0",
+                            stageOrder = 5L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "f7cb5ea4-1ae0-4579-af3f-c3dc9bf9ea0f",
+                                description = "05 O Grove"
+                            ),
+                            position = 1L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 100L,
+                            pointsBehind = null,
+                            note = null
+                        )
+                    ),
+                    overall = RemoteOverall(
+                        id = "",
+                        stageOrder = 1L,
+                        uploadType = "ranking_computed",
+                        stage = null,
+                        position = 1L,
+                        statusCode = "0",
+                        isNc = null,
+                        contributory = null,
+                        timeSeconds = 0L,
+                        timeBehind = null,
+                        pointsFinal = 300L,
+                        pointsBehind = null,
+                        note = null
+                    )
+                )
+            ),
+            RemoteResult(
+                id = "74b0df07-9949-4c9d-b00d-4d11b49f17d4",
+                bibNumber = "4405",
+                isNc = false,
+                eligibility = null,
+                sicard = "8027202",
+                sex = "F",
+                legNumber = 1L,
+                legs = null,
+                runners = null,
+                created = "2026-04-01T07:23:03.166+00:00",
+                runnerClass = RemoteClassResults(
+                    id = "db730c5a-51af-4225-8315-ee13ae9c9c71",
+                    shortName = "F-65",
+                    longName = "Femenino 65"
+                ),
+                runnerClub = RemoteClub(
+                    id = "9e11d2d2-c1c4-428f-a871-7c78b842c438",
+                    shortName = "Culleredo GALLAECIA_RAID"
+                ),
+                fullName = "Adriana Luisa González Sención",
+                stageResult = null,
+                overalls = RemoteOverallResult(
+                    parts = listOf(
+                        RemoteOverall(
+                            id = "ac13de8a-e475-49d1-8923-60e6d0d7cee4",
+                            stageOrder = 2L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "e655e86a-2cd1-458b-b5a8-5a8023bca910",
+                                description = "02 Abadin"
+                            ),
+                            position = 1L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = true,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 100L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "eece5e77-c94f-4bcb-a7b9-13aa7ce38102",
+                            stageOrder = 3L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "963de8e8-dfc3-4c2e-8bdb-7544a371fd92",
+                                description = "03 Segade"
+                            ),
+                            position = 0L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = true,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 0L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "348d51df-5bff-4dbe-98e5-3f2768ecc942",
+                            stageOrder = 4L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "7065d804-3adb-4f97-8231-6557e0a7d96d",
+                                description = "04 Oleiros"
+                            ),
+                            position = 0L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = false,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 0L,
+                            pointsBehind = null,
+                            note = null
+                        ),
+                        RemoteOverall(
+                            id = "42648fee-a847-4798-9111-82e9ce1d6945",
+                            stageOrder = 5L,
+                            uploadType = "total_points",
+                            stage = RemoteStageOveralls(
+                                id = "f7cb5ea4-1ae0-4579-af3f-c3dc9bf9ea0f",
+                                description = "05 O Grove"
+                            ),
+                            position = 2L,
+                            statusCode = "0",
+                            isNc = false,
+                            contributory = true,
+                            timeSeconds = 0L,
+                            timeBehind = 0L,
+                            pointsFinal = 89L,
+                            pointsBehind = null,
+                            note = null
+                        )
+                    ),
+                    overall = RemoteOverall(
+                        id = "",
+                        stageOrder = 1L,
+                        uploadType = "ranking_computed",
+                        stage = null,
+                        position = 2L,
+                        statusCode = "0",
+                        isNc = null,
+                        contributory = null,
+                        timeSeconds = 0L,
+                        timeBehind = null,
+                        pointsFinal = 189L,
+                        pointsBehind = null,
+                        note = null
+                    )
+                )
             )
         )
     )

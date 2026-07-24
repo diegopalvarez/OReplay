@@ -35,6 +35,7 @@ class RemoteResultsMapperTest {
         // Sort the list by position (0-6), the first one is the MP
         response.forEach {
             assertNotNull(it.stageResult)
+            assertNull(it.overallResult)
         }
         val sortedList = response.sortedBy { it.stageResult!!.position }    // The stageResults have been asserted not null
 
@@ -374,6 +375,81 @@ class RemoteResultsMapperTest {
             assertNull(splits[0].partial)
             assertEquals(3.minutes, splits[0].accumulated)
         }
+    }
+
+    @Test
+    fun `GetClassicResults - Valid Result with Overalls`(){
+        val response = getClassicResults(RemoteResponse.overallResponse)
+
+        // Check the integrity of the list
+        assertTrue(response.isNotEmpty())
+        assertEquals(2, response.size)
+
+        // Sort the list by position
+        response.forEach {
+            assertNull(it.stageResult)
+            assertNotNull(it.overallResult)
+        }
+        val sortedList = response.sortedBy { it.overallResult!!.overallTotal.position }    // We have to sort by overall position
+
+        // First position (winner)
+        val winner = sortedList[0]
+
+        // Test GetIndividualResults and whether the runner information is mapped correctly
+        assertEquals("d55125db-c179-4392-a553-a579b116a333", winner.id)
+        assertEquals("4785", winner.bibNumber)
+        assertFalse(winner.isNc)
+        assertNull(winner.eligibility)
+        assertEquals("8664271", winner.siCard)
+        assertEquals("F", winner.sex)
+        assertEquals(1L, winner.legNumber)
+        assertEquals(getInstant("2026-04-01T07:22:10.018+00:00"), winner.created)
+        // The runnerClass and runnerClub are tested on their own tests
+        assertNotNull(winner.runnerClass)
+        assertNotNull(winner.runnerClub)
+        assertEquals("Mª José Naya López", winner.fullName)
+
+        // Test that there are no stageResults, but there are overalls
+        assertNull(winner.stageResult)
+        assertNotNull(winner.overallResult)
+
+        // Test GetOverallResult
+        val overalls = winner.overallResult
+        assertTrue(overalls.overallParts.isNotEmpty())
+        assertNotNull(overalls.overallTotal)
+
+        // Test OverallParts
+        assertEquals(5, overalls.overallParts.size)
+        val parts = overalls.overallParts.sortedBy { it.stageOrder }
+
+        val idList = listOf("a5332eef-29e9-4484-ad7b-c4d132793223", "f278711a-c089-45cc-b504-28ff19f5b324", "d5cd0837-b3a7-48a4-828a-437594785be7", "be80d22b-ff32-47cb-a79b-83ba04df2e09", "e43acf5b-1619-4a40-8101-ab19835fb9e0")
+        val positionList = listOf<Long>(1, 2, 1, 1, 1)
+        val contributoryList = listOf(true, false, true, true, false)
+        val pointsFinal = listOf<Long>(100, 83, 100, 100, 100)
+
+        for(i in parts.indices) {
+            assertEquals(idList[i], parts[i].id)
+            assertEquals(positionList[i], parts[i].position)
+            assertEquals(contributoryList[i], parts[i].contributory)
+            assertEquals(0.seconds, parts[i].timeSeconds)
+            assertEquals(0.seconds, parts[i].timeBehind)
+            assertEquals(pointsFinal[i], parts[i].pointsFinal)
+            assertNull(parts[i].pointsBehind)
+        }
+
+        // Test OverallTotal
+        assertTrue(overalls.overallTotal.id.isBlank())
+        assertEquals(1, overalls.overallTotal.stageOrder)
+        assertEquals("ranking_computed", overalls.overallTotal.uploadType)
+        assertNull(overalls.overallTotal.stage)
+        assertEquals(1L, overalls.overallTotal.position)
+        assertEquals("0", overalls.overallTotal.statusCode)
+        assertNull(overalls.overallTotal.isNc)
+        assertNull(overalls.overallTotal.contributory)
+        assertEquals(0.seconds, overalls.overallTotal.timeSeconds)
+        assertNull(overalls.overallTotal.timeBehind)
+        assertEquals(300L, overalls.overallTotal.pointsFinal)
+        assertNull(overalls.overallTotal.pointsBehind)
     }
 
 }
