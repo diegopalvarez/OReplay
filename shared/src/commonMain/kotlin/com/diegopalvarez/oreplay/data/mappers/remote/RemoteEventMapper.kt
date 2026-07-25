@@ -6,6 +6,7 @@ import com.diegopalvarez.oreplay.data.mappers.util.getTimezone
 import com.diegopalvarez.oreplay.data.remote.dto.events.RemoteEvent
 import com.diegopalvarez.oreplay.data.remote.dto.events.RemoteEventResponse
 import com.diegopalvarez.oreplay.domain.model.Event
+import kotlin.Long
 
 private fun getEvent(remoteEvent: RemoteEvent): Event{
     return Event(
@@ -35,7 +36,11 @@ private fun getEvent(remoteEvent: RemoteEvent): Event{
  * @return Triple formed with the list of events, number of results and link to the next page of results (or null if it doesn't exist).
  * The list of events doesn't include stages, since they must be parsed separately
  */
-fun getEventList(remoteEventResponse: RemoteEventResponse): Triple<List<Event>, Long, String?>{
+fun getEventList(remoteEventResponse: RemoteEventResponse): Triple<List<Event>, Long, Long?>{
     val eventList = remoteEventResponse.data.map(::getEvent)
-    return Triple(eventList, remoteEventResponse.total, remoteEventResponse.links.next?.href)
+    val next: Long? = remoteEventResponse.links.next?.href
+        ?.substringAfterLast("=")
+        ?.removeSuffix("\"")
+        ?.toLong()
+    return Triple(eventList, remoteEventResponse.total, next)
 }

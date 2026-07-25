@@ -68,7 +68,7 @@ class RemoteEventMapperTest {
         // Test the Triple of returned values
         assertEquals(1, events.size)
         assertEquals(1L, total)
-        assertEquals("https://www.oreplay.es/api/v1/events?page=2", next)
+        assertEquals(2, next)
 
         // Test one of the events returned
         val mapped = events.first()
