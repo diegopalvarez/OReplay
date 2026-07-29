@@ -32,7 +32,7 @@ class OReplayAPI(
      *  @param page page if the results fill the first page. Defaults to null
      *
     */
-    suspend fun getEvents(moment: String? = null, page: Int? = null): Result<RemoteEventResponse, NetworkError> {
+    suspend fun getEvents(moment: String? = null, page: Long? = null): Result<RemoteEventResponse, NetworkError> {
        return makeRequest<RemoteEventResponse> {
             client.get(
                 urlString = "$EVENTS_URL/events"
@@ -127,7 +127,7 @@ class OReplayAPI(
      * @param text Text used to filter. Can be a runner name or SICard number. Not required, defaults to null
      * @param station Number of station. It will only show the corresponding split for all runners selected, and an empty string for runners that didn't visit that station.
      */
-    suspend fun getStageResults(eventID: String, stageID: String, classID: String? = null, clubID: String? = null, text: String? = null, station: Int? = null): Result<RemoteResultsResponse, NetworkError> {
+    suspend fun getStageResults(eventID: String, stageID: String, classID: String? = null, clubID: String? = null, text: String? = null, station: Long? = null): Result<RemoteResultsResponse, NetworkError> {
         return makeRequest<RemoteResultsResponse> {
             client.get(
                 urlString = "$EVENTS_URL/events/$eventID/stages/$stageID/results"
