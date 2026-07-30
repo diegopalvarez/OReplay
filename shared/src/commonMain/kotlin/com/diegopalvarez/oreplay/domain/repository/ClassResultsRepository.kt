@@ -7,6 +7,7 @@ import org.koin.core.component.KoinComponent
 import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.data.mappers.remote.getClassicResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getTeamResults
+import com.diegopalvarez.oreplay.data.mappers.remote.getUnprocessedResults
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
 
@@ -75,9 +76,8 @@ class ClassResultsRepository(
             StageType.OVERALL -> {
                 // An Overall stage doesn't have splits, only overalls
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = true
+                    getUnprocessedResults(
+                        remoteResultsResponse = results
                     )
                 )
             }
@@ -95,9 +95,8 @@ class ClassResultsRepository(
                 // A Score stage only has points and its splits have no order. There must not be rankings
                 // TODO - Develop a better way to calculate and return the list of all possible controls that can be visited during an SCORE race
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = false
+                    getUnprocessedResults(
+                        remoteResultsResponse = results
                     )
                 )
             }
