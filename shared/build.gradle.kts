@@ -87,6 +87,10 @@ kotlin {
 
             // DateTime
             implementation(libs.kotlinx.datetime)
+
+            // DataStore
+            implementation(libs.androidx.datastore)
+            implementation(libs.androidx.datastore.preferences)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
