@@ -79,54 +79,6 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
 }
 
 /**
- * Private function to map an individual split
- * @param remoteSplit single split from the API
- * @return domain model object for a single Split, without the attributes that need to be compared to the class (partial and accumulated)
- */
-private fun getSplit(remoteSplit: RemoteSplit): SplitIndividual{
-    return SplitIndividual(
-        id = remoteSplit.id,
-        isIntermediate = remoteSplit.isIntermediate,
-        readingTime =   remoteSplit.readingTime?.let(::getInstant),
-        points = remoteSplit.points,
-        orderNumber = remoteSplit.orderNumber ?: -1,
-        created = getInstant(remoteSplit.created),
-        control = getControl(remoteSplit.control)
-        // Class-related attributes must be calculated in a later stage, since the comparison data isn't available at this time
-    )
-}
-
-/**
- * Private function to map and sort all the splits from a list of RemoteSplits from the API.
- *
- * Adds a Finish Control to the end of the list
- *
- * @param splits List of RemoteSplits
- * @param finishTime Finish time for the runner, used to add an artificial finish control
- * @return list of domain model splits, sorted by order number
- */
-private fun getSplits(splits: List<RemoteSplit>, finishTime: Instant): List<SplitIndividual> {
-    val splitList = splits.map(::getSplit) as MutableList<SplitIndividual>
-
-    // Artificially add a Finish Control to the list
-    splitList.add(SplitIndividual(
-        id = "Finish",
-        isIntermediate = false,
-        readingTime = finishTime,       // The reading time corresponds to the actual finishTime
-        points = 0,
-        orderNumber = splitList.size + 1L,  // It's added as a last control to the list
-        created = Instant.DISTANT_PAST,
-        control = Control(
-            id = "Finish",
-            station = "Finish",
-            controlType = ControlID.FINISH.id      // The Finish Control UUID allows to identify it
-        )
-    ))
-
-    return splitList.sortedBy { it.orderNumber }
-}
-
-/**
  * Function to parse the results for a same class, when the results are CLASSIC/INVIDIDUAL
  * @param remoteResultsResponse response from the API containing the results for the class
  * @param calculateRanks boolean indicating if it's needed to calculate the ranks for these results. By default, true, but in case of a One-Man Relay might be false
@@ -412,4 +364,13 @@ private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
  */
 private fun getTeamRunners(runnerList: List<RemoteResult>): List<ResultIndividual> {
     return runnerList.map(::getIndividualResult)
+}
+
+/**
+ * Function to get all the INDIVIDUAL results from a list (class or club) unprocessed, without any additional calculations
+ * @param remoteResultsResponse response from the API containing the results
+ * @return List of domain model objects containing all individual results without splits or rankings
+ */
+fun getUnprocessedResults(remoteResultsResponse: RemoteResultsResponse): List<ResultIndividual> {
+    return remoteResultsResponse.results.map(::getIndividualResult)
 }

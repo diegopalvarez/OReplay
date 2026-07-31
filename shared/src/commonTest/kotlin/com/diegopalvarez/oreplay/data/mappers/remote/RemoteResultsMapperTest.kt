@@ -593,4 +593,28 @@ class RemoteResultsMapperTest {
         }
     }
 
+    @Test
+    fun `GetUnprocessedResults - Valid Result List`(){
+        val result = getUnprocessedResults(RemoteResponse.complete)
+
+        assertNotNull(result)
+        assertEquals(6, result.size)
+
+        // We only test that the result is the list of objects we expect
+        // The actual validation of the results is delegated to the tests for GetIndividualResult
+    }
+
+    @Test
+    fun `GetUnprocessedResults - Empty Result List`(){
+        val result = getUnprocessedResults(RemoteResultsResponse(
+            results = emptyList(),
+        ))
+
+        assertNotNull(result)
+        assertTrue(result.isEmpty())
+
+        // We only test that the result is the list of objects we expect
+        // The actual validation of the results is delegated to the tests for GetIndividualResult
+    }
+
 }
