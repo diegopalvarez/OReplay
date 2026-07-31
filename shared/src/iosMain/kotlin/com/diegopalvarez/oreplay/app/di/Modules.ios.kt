@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.app.di
 
+import com.diegopalvarez.oreplay.core.datastore.createDataStore
 import com.diegopalvarez.oreplay.data.local.DatabaseDriverFactory
 import com.diegopalvarez.oreplay.data.local.IOSDatabaseDriverFactory
 import io.ktor.client.engine.darwin.Darwin
@@ -12,5 +13,8 @@ actual val platformModule = module {
     }
     single<DatabaseDriverFactory> {
         IOSDatabaseDriverFactory()
+    }
+    single{
+        createDataStore()
     }
 }

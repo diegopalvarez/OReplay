@@ -1,5 +1,7 @@
 package com.diegopalvarez.oreplay.app.di
 
+import androidx.compose.ui.platform.LocalContext
+import com.diegopalvarez.oreplay.core.datastore.createDataStore
 import com.diegopalvarez.oreplay.data.local.AndroidDatabaseDriverFactory
 import com.diegopalvarez.oreplay.data.local.DatabaseDriverFactory
 import io.ktor.client.engine.okhttp.OkHttp
@@ -12,5 +14,8 @@ actual val platformModule = module {
     }
     single<DatabaseDriverFactory> {
         AndroidDatabaseDriverFactory(androidContext())
+    }
+    single {
+        createDataStore(androidContext().applicationContext)
     }
 }
