@@ -1,9 +1,10 @@
 package com.diegopalvarez.oreplay.domain.model
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 import kotlin.time.Instant
 
-
+@Serializable
 data class Stage(
     val id: String,
     val description: String,
