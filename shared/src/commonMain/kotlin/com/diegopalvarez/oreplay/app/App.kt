@@ -28,38 +28,34 @@ import oreplay.shared.generated.resources.hello_world
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import androidx.compose.runtime.collectAsState
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.slide
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.diegopalvarez.oreplay.app.navigation.RootComponent
 
 @Composable
-@Preview
-fun App() {
+fun App(root: RootComponent) {
     AppTheme {
-        var showContent by remember { mutableStateOf(false) }
+        // Create the ChildStack for the Navigation
+        val childStack by root.childStack.subscribeAsState()
 
         // TODO - Add actual languageCode logic when I add an actual viewmodel/decompose screen
         val languageCode = "es"
 
         // Create a CompositionLocalProvider to handle the language preferences for the whole app
         CompositionLocalProvider(LocalAppLocale provides languageCode) {
-            Column(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-                    .safeContentPadding()
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Button(onClick = { showContent = !showContent }) {
-                    Text("Click me!")
-                }
-                AnimatedVisibility(showContent) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Image(painterResource(Res.drawable.compose_multiplatform), null)
-                        Text(
-                            text = stringResource(Res.string.hello_world)
-                        )
-                    }
+            Children(
+                stack = childStack,
+                animation = stackAnimation(slide())
+            ) { child ->
+                when (val instance = child.instance) {
+                    is RootComponent.Child.ClassResultsScreen -> TODO() //ClassResultUI(instance.component)
+                    is RootComponent.Child.ClubResultsScreen -> TODO()  //ClubResultUI(instance.component)
+                    is RootComponent.Child.EventStagesScreen -> TODO()  //EventStagesUI(instance.component)
+                    is RootComponent.Child.EventsScreen -> TODO()       //EventsUI(instance.component)
+                    is RootComponent.Child.StageDetailsScreen -> TODO() //StageDetailsUI(instance.component)
                 }
             }
         }
