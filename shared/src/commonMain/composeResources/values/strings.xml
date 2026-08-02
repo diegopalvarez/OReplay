@@ -5,4 +5,6 @@
     <string name="refresh">Refresh</string>
     <string name="search_bar">Search</string>
     <string name="search_description">Search</string>
+    <string name="language">Language</string>
+    <string name="language_description">Language</string>
 </resources>
