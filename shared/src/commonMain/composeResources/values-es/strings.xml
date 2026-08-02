@@ -1,5 +1,8 @@
 <resources>
-    <string name="hello_world">
-        Hola Mundo!
-    </string>
+    <string name="hello_world">Hola Mundo!</string>
+    <string name="app_name">OReplay</string>
+    <string name="back">Atrás</string>
+    <string name="refresh">Recargar</string>
+    <string name="search_bar">Buscar</string>
+    <string name="search_description">Buscar</string>
 </resources>
