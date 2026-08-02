@@ -13,10 +13,13 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenContent
+import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.ui.components.EventSearchBar
 import com.diegopalvarez.oreplay.ui.components.EventsTabRow
@@ -49,15 +52,21 @@ fun EventsScreen(
             textFieldState = textFieldState,
             searchBarState = searchAppBarState,
             text = stringResource(Res.string.search_bar),
-            onSearch = {}
+            onSearch = { search ->
+                component.onEvent(EventScreenEvent.SearchEvent(search))
+            }
         )
     }
 
     // State for the Modal Drawer
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
+    // Get the Search Results from the Component
+    val searchResults by component.searchResults.subscribeAsState()
+
     MainModalDrawer(
-        drawerState = drawerState
+        drawerState = drawerState,
+        component = component,
     ) {
         Scaffold(
             topBar = {
@@ -85,8 +94,10 @@ fun EventsScreen(
             // Expanded Search Results
             MainAppSearchResults(
                 searchBarState = searchAppBarState,
-                searchResults = emptyList(),
-                onResultClick = { },
+                searchResults = searchResults,
+                onResultClick = { event ->
+                    component.onEvent(EventScreenEvent.ClickEvent(event))
+                },
                 inputField = inputField
             )
         }

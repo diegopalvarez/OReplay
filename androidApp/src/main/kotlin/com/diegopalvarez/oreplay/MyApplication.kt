@@ -2,11 +2,13 @@ package com.diegopalvarez.oreplay
 
 import android.app.Application
 import com.diegopalvarez.oreplay.app.di.initKoin
+import org.koin.android.ext.koin.androidContext
 
 class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin()
-        // Additional AndroidContext can be added if needed
+        initKoin {
+            androidContext(this@MyApplication)
+        }
     }
 }

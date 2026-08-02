@@ -16,11 +16,16 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.domain.model.Event
+import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent
+import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import kotlinx.coroutines.Dispatchers
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.app_name
@@ -33,8 +38,12 @@ import org.jetbrains.compose.resources.stringResource
 fun MainModalDrawer(
     drawerState: DrawerState,
     gesturesEnabled: Boolean = true,
+    component: EventsScreenComponent,
     screenContent: @Composable () -> Unit,
 ) {
+    // Language dialog state
+    val openLanguageDialog = remember { mutableStateOf(false) }
+
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
@@ -60,7 +69,9 @@ fun MainModalDrawer(
                             painter = painterResource(Res.drawable.language),
                             contentDescription = stringResource(Res.string.language_description)
                         ) },
-                        onClick = { }
+                        onClick = {
+                            openLanguageDialog.value = !openLanguageDialog.value
+                        }
                     )
                 }
             }
@@ -68,6 +79,17 @@ fun MainModalDrawer(
         drawerState = drawerState,
         gesturesEnabled = gesturesEnabled,
     ) {
+        // Language Picker Dialog, in case it's open
+        if (openLanguageDialog.value) {
+            LanguagePickerDialog(
+                onDismissRequest = { openLanguageDialog.value = false },
+                onConfirmation = { language ->
+                    component.onEvent(EventScreenEvent.ChangeLanguage(language))
+                },
+                currentSelected = component.getCurrentLanguage()
+            )
+        }
+
         // Content of the actual Screen
         screenContent()
     }

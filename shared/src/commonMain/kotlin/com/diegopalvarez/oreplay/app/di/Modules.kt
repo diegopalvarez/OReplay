@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.app.di
 
+import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.core.network.createHttpClient
 import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
 import io.ktor.client.HttpClient
@@ -16,5 +17,9 @@ val sharedModule = module {
 
     single {
         OReplayAPI(get())
+    }
+
+    single<LanguageManager> {
+        LanguageManager(get())
     }
 }

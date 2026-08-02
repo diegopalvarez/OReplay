@@ -1,10 +1,14 @@
 package com.diegopalvarez.oreplay.feature.events.navigation
 
+import androidx.compose.material3.rememberSearchBarState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.pages.Pages
 import com.arkivanov.decompose.router.pages.PagesNavigation
 import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.events.screens.futureEvents.FutureEventsComponent
 import com.diegopalvarez.oreplay.feature.events.screens.liveEvents.LiveEventsComponent
@@ -12,13 +16,32 @@ import com.diegopalvarez.oreplay.feature.events.screens.pastEvents.PastEventsCom
 
 class EventsScreenComponent(
     componentContext: ComponentContext,
-    private val onNavigateToEventStagesScreen: (Event) -> Unit
+    private val onNavigateToEventStagesScreen: (Event) -> Unit,
+    private val languageManager: LanguageManager
 ): ComponentContext by componentContext {
 
+    /**
+     * Common Component Functionality for the Events Screen (as a whole, not per event type)
+     */
+    private val _searchResults = MutableValue(mutableListOf<Event>())
+    val searchResults: Value<List<Event>> = _searchResults
+
+    fun getCurrentLanguage(): String? {
+        println("Current Language: ${languageManager.languageCode.value}")
+        return languageManager.languageCode.value
+    }
+
+    /**
+     * Auxiliary functions for Event Handling and Navigation
+     */
     // Event Handler Function
     fun onEvent(event: EventScreenEvent) {
         when (event) {
             is EventScreenEvent.ClickEvent -> onNavigateToEventStagesScreen(event.selectedEvent)
+            is EventScreenEvent.SearchEvent -> {
+                // TODO - Search function
+            }
+            is EventScreenEvent.ChangeLanguage -> languageManager.switchLanguage(event.languageCode)
         }
     }
 

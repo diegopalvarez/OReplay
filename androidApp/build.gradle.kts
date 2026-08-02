@@ -21,6 +21,9 @@ dependencies {
 
     // Decompose
     implementation(libs.decompose)
+
+    // Dependency Injection (Koin)
+    implementation(libs.koin.android)
 }
 
 android {
@@ -47,5 +50,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    // Disable language splits
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 }

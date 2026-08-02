@@ -10,4 +10,9 @@
     <string name="past_events_title">Past Events</string>
     <string name="live_events_title">Live Events</string>
     <string name="future_events_title">Future Events</string>
+    <string name="change_language">Choose a language</string>
+    <string name="dismiss_dialog">Dismiss</string>
+    <string name="confirm_dialog">Confirm</string>
+    <string name="english_language">English</string>
+    <string name="spanish_language">Spanish</string>
 </resources>
