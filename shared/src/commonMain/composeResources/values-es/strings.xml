@@ -7,4 +7,7 @@
     <string name="search_description">Buscar</string>
     <string name="language">Idioma</string>
     <string name="language_description">Idioma</string>
+    <string name="past_events_title">Eventos Pasados</string>
+    <string name="live_events_title">Eventos en Directo</string>
+    <string name="future_events_title">Eventos Futuros</string>
 </resources>

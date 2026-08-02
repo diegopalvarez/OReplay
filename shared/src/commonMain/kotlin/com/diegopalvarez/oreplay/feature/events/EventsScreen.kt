@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenContent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.ui.components.EventSearchBar
+import com.diegopalvarez.oreplay.ui.components.EventsTabRow
 import com.diegopalvarez.oreplay.ui.components.MainAppBar
 import com.diegopalvarez.oreplay.ui.components.MainAppSearchResults
 import com.diegopalvarez.oreplay.ui.components.MainModalDrawer
@@ -70,17 +72,15 @@ fun EventsScreen(
                 )
             }
         ) { innerPadding ->
-            // Actual Screen Content
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                Text(
-                    text = stringResource(Res.string.hello_world),
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
+
+            // Tab Row
+            EventsTabRow(
+                contentPadding = innerPadding,
+                component = component
+            )
+
+            // Actual Screen Content - Depends on the active screen
+            EventScreenContent(component)
 
             // Expanded Search Results
             MainAppSearchResults(

@@ -7,4 +7,7 @@
     <string name="search_description">Search</string>
     <string name="language">Language</string>
     <string name="language_description">Language</string>
+    <string name="past_events_title">Past Events</string>
+    <string name="live_events_title">Live Events</string>
+    <string name="future_events_title">Future Events</string>
 </resources>
