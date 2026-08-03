@@ -6,7 +6,5 @@ import com.diegopalvarez.oreplay.domain.model.Event
 sealed interface EventScreenEvent {
     data class ClickEvent(val selectedEvent: Event): EventScreenEvent
 
-    data class SearchEvent(val query: String): EventScreenEvent
-
     data class ChangeLanguage(val languageCode: String): EventScreenEvent
 }
