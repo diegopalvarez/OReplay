@@ -18,4 +18,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
     <string name="datepicker">Selecciona un rango de fechas</string>
+    <string name="action_search">Busca un evento por nombre o fechas</string>
+    <string name="no_results_search">No hay ningún evento que coincida con tu búsqueda</string>
 </resources>

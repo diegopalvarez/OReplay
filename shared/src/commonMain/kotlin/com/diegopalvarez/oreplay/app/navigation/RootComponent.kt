@@ -10,6 +10,7 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
+import com.diegopalvarez.oreplay.domain.repository.EventRepository
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesComponent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
@@ -43,13 +44,15 @@ class RootComponent(
             Configuration.EventsScreen -> {
                 // Get the LanguageManager by Dependency Injection
                 val languageManager: LanguageManager by inject()
+                val eventRepository: EventRepository by inject()
                 Child.EventsScreen(
                     EventsScreenComponent(
                         componentContext = context,
                         onNavigateToEventStagesScreen = { event ->
                             navigation.pushNew(Configuration.EventStagesScreen(event))
                         },
-                        languageManager = languageManager
+                        languageManager = languageManager,
+                        eventRepository = eventRepository
                     )
                 )
             }
