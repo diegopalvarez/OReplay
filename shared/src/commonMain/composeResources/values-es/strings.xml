@@ -15,4 +15,7 @@
     <string name="confirm_dialog">Confirmar</string>
     <string name="english_language">Inglés</string>
     <string name="spanish_language">Español</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+    <string name="datepicker">Selecciona un rango de fechas</string>
 </resources>

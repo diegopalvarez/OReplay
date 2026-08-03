@@ -35,5 +35,9 @@ class LanguageManager(
                 mutablePrefs[languageCodeKey] = languageCode
             }
         }
+
+        // TODO - Check if this is actually needed since it doesn't solve the Date Picker language problem
+        // Also set the actual application locale to the new language
+        //setApplicationLocale(languageCode)
     }
 }

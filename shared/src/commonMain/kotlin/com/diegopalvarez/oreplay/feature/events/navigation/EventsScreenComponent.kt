@@ -13,6 +13,8 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.events.screens.futureEvents.FutureEventsComponent
 import com.diegopalvarez.oreplay.feature.events.screens.liveEvents.LiveEventsComponent
 import com.diegopalvarez.oreplay.feature.events.screens.pastEvents.PastEventsComponent
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 
 class EventsScreenComponent(
     componentContext: ComponentContext,
@@ -29,6 +31,21 @@ class EventsScreenComponent(
     fun getCurrentLanguage(): String? {
         println("Current Language: ${languageManager.languageCode.value}")
         return languageManager.languageCode.value
+    }
+
+    // Date Picker Modal State and Results
+    private val _showDatePicker = MutableValue(false)
+    val showDatePicker: Value<Boolean> = _showDatePicker
+
+    private val _selectedDateRange = MutableValue(Pair<Long?, Long?>(null, null))
+    val selectedDateRange: Value<Pair<Long?, Long?>> = _selectedDateRange
+
+    fun showDatePicker(boolean: Boolean){
+        _showDatePicker.value = boolean
+    }
+
+    fun setSelectedDate(date: Pair<Long?, Long?>){
+        _selectedDateRange.value = date
     }
 
     /**

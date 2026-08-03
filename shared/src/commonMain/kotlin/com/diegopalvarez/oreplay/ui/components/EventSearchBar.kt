@@ -47,6 +47,8 @@ fun EventSearchBar(
     textFieldState: TextFieldState,
     searchBarState: SearchBarState,
     text: String,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onSearch: (String) -> Unit,
 ) {
     // Create Coroutine Scope for the search bar animation
@@ -72,12 +74,8 @@ fun EventSearchBar(
                 }
             } },
         placeholder = { Text(text = text) },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(Res.drawable.search),
-                contentDescription = stringResource(Res.string.search_description),
-            )
-        }
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
     )
 
 }
