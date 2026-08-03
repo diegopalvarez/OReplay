@@ -14,7 +14,7 @@ data class Event(
     val website: String?,
     val scope: String,
     val location: String?,
-    val countryCode: String,
+    val countryCode: String?,
     val initialDate: LocalDate,
     val finalDate: LocalDate,
     @Serializable(with = com.diegopalvarez.oreplay.domain.serializer.TimeZoneSerializer::class)

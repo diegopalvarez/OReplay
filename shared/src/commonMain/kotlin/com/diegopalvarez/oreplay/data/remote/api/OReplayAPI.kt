@@ -21,7 +21,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerializationException
 
 // Base URL Definitions
-const val EVENTS_URL = "https://www.oreplay.es/api/v1"
+const val EVENTS_URL = "https://www.oreplay.es/api/v1/events"
 
 class OReplayAPI(
     val client: HttpClient // Inject HTTP Client
@@ -35,7 +35,7 @@ class OReplayAPI(
     suspend fun getEvents(moment: String? = null, page: Long? = null): Result<RemoteEventResponse, NetworkError> {
        return makeRequest<RemoteEventResponse> {
             client.get(
-                urlString = "$EVENTS_URL/events"
+                urlString = EVENTS_URL
             ) {
                 if(!moment.isNullOrBlank()) {
                     parameter("when", moment)
@@ -51,8 +51,8 @@ class OReplayAPI(
     /**
      *  Function to get the list of events uploaded to the server, filtered by all specified characteristics
      *  @param description name of the Event. Defaults to null
-     *  @param initialDate first date (included) for the range used to search. Without a _finalDate, returns any future Event. Defaults to null
-     *  @param finalDate last date (included) for the range used to search. Without a _initialDate, returns any previous Event. Defaults to null
+     *  @param initialDate Maximum searched initial date for the events, upper limit of the range. Without a _finalDate, returns any future Event. Defaults to null
+     *  @param finalDate Minimum searched final date for the events, lower limit of the range. Without a _initialDate, returns any previous Event. Defaults to null
      */
     suspend fun getEventsFiltered(description: String? = null, initialDate: LocalDate? = null, finalDate: LocalDate? = null): Result<RemoteEventResponse, NetworkError> {
         return makeRequest<RemoteEventResponse> {
@@ -85,7 +85,7 @@ class OReplayAPI(
     suspend fun getEventStages(eventID: String): Result<RemoteEventDetailsResponse, NetworkError> {
         return makeRequest<RemoteEventDetailsResponse> {
             client.get(
-                urlString = "$EVENTS_URL/events/$eventID"
+                urlString = "$EVENTS_URL/$eventID"
             )
         }
     }
@@ -98,7 +98,7 @@ class OReplayAPI(
     suspend fun getStageClasses(eventID: String, stageID: String): Result<RemoteClassesResponse, NetworkError> {
         return makeRequest<RemoteClassesResponse> {
             client.get(
-                urlString = "$EVENTS_URL/events/$eventID/stages/$stageID/classes"
+                urlString = "$EVENTS_URL/$eventID/stages/$stageID/classes"
             )
         }
     }
@@ -111,7 +111,7 @@ class OReplayAPI(
     suspend fun getStageClubs(eventID: String, stageID: String): Result<RemoteClubsResponse, NetworkError> {
         return makeRequest<RemoteClubsResponse> {
             client.get(
-                urlString = "$EVENTS_URL/events/$eventID/stages/$stageID/clubs"
+                urlString = "$EVENTS_URL/$eventID/stages/$stageID/clubs"
             )
         }
     }
@@ -130,7 +130,7 @@ class OReplayAPI(
     suspend fun getStageResults(eventID: String, stageID: String, classID: String? = null, clubID: String? = null, text: String? = null, station: Long? = null): Result<RemoteResultsResponse, NetworkError> {
         return makeRequest<RemoteResultsResponse> {
             client.get(
-                urlString = "$EVENTS_URL/events/$eventID/stages/$stageID/results"
+                urlString = "$EVENTS_URL/$eventID/stages/$stageID/results"
             ) {
                 if(!classID.isNullOrBlank()) {
                     parameter("class_id", classID)
