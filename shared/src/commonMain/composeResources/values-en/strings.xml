@@ -38,4 +38,6 @@
     <string name="no_live_events">There are no Live Events</string>
     <string name="no_future_events">There are no Future Events</string>
     <string name="see_future_events">Check Future Events</string>
+    <string name="event_organizer">Event Organizer</string>
+    <string name="event_date">Event Date</string>
 </resources>
