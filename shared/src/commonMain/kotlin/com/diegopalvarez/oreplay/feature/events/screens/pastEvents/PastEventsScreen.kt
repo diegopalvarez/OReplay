@@ -19,6 +19,7 @@ fun PastEventsScreen(
 ) {
     EventScreen(
         component = component,
-        notFoundMessage = Res.string.no_past_events
+        notFoundMessage = Res.string.no_past_events,
+        nextPageFunction = component::onNextPage
     )
 }

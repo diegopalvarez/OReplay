@@ -40,4 +40,6 @@
     <string name="see_future_events">Check Future Events</string>
     <string name="event_organizer">Event Organizer</string>
     <string name="event_date">Event Date</string>
+    <string name="load_next_page">Load More Events</string>
+    <string name="next_page_icon">Next page</string>
 </resources>

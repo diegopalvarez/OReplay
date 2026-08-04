@@ -35,6 +35,7 @@ fun EventScreen(
     component: AbstractEventComponent,
     notFoundButton: @Composable () -> Unit = {},
     notFoundMessage: StringResource,
+    nextPageFunction: () -> Unit,
 ) {
     // Subscribe to the list of Live Events
     val liveEventList = component.eventList.subscribeAsState()
@@ -50,6 +51,12 @@ fun EventScreen(
 
     // Subscribe to isInit
     val isInit = component.isInit.subscribeAsState()
+
+    // Subscribe to nextPage
+    val nextPage = component.nextPage.subscribeAsState()
+
+    // Subscribe to the loading state of the nextPage
+    val isNextPageLoading = component.nextPageLoading.subscribeAsState()
 
     // Create PullToRefresh state
     val refreshState = rememberPullToRefreshState()
@@ -80,30 +87,6 @@ fun EventScreen(
             )
         }
     ) {
-        // SnackBar for Error Messages
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp),
-            snackbar = { data ->
-                Snackbar(
-                    dismissAction = {
-                        IconButton(
-                            onClick = { data.dismiss() }
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.close),
-                                contentDescription = stringResource(Res.string.dismiss)
-                            )
-                        }
-                    }
-                ) {
-                    Text(data.visuals.message)
-                }
-            }
-        )
-
         // Content of the actual screen
 
         // If the data hasn't been initialized, show a big error message
@@ -128,8 +111,35 @@ fun EventScreen(
             EventGrid(
                 eventList = liveEventList,
                 notFoundMessage = stringResource(notFoundMessage),
-                button = notFoundButton
+                button = notFoundButton,
+                nextPage = nextPage.value,
+                nextPageFunction = nextPageFunction,
+                isNextPageLoading = isNextPageLoading,
             )
         }
+
+        // SnackBar for Error Messages
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp),
+            snackbar = { data ->
+                Snackbar(
+                    dismissAction = {
+                        IconButton(
+                            onClick = { data.dismiss() }
+                        ) {
+                            Icon(
+                                painter = painterResource(Res.drawable.close),
+                                contentDescription = stringResource(Res.string.dismiss)
+                            )
+                        }
+                    }
+                ) {
+                    Text(data.visuals.message)
+                }
+            }
+        )
     }
 }

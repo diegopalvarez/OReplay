@@ -23,6 +23,7 @@ fun FutureEventsScreen(
 ) {
     EventScreen(
         component = component,
-        notFoundMessage = Res.string.no_future_events
+        notFoundMessage = Res.string.no_future_events,
+        nextPageFunction = component::onNextPage
     )
 }

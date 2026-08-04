@@ -46,10 +46,11 @@ fun LiveEventsScreen(
             ){
                 Text(
                     text = stringResource(Res.string.see_future_events),
-                    fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+                    style = MaterialTheme.typography.labelSmall,
                 )
             }
         },
-        notFoundMessage = Res.string.no_live_events
+        notFoundMessage = Res.string.no_live_events,
+        nextPageFunction = component::onNextPage
     )
 }

@@ -148,7 +148,7 @@ fun MainAppSearchResults(
                                     Text(
                                         text = event.organizer.name,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                        style = MaterialTheme.typography.bodySmall,
                                     )
                                 }
                                 Text(event.description)
