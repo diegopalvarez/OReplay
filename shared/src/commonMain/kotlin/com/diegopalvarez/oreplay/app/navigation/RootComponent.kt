@@ -4,22 +4,25 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
+import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
+import com.diegopalvarez.oreplay.domain.repository.EventRepository
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesComponent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
 import com.diegopalvarez.oreplay.feature.results.stageClub.navigation.ClubResultsComponent
 import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsComponent
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class RootComponent(
     componentContext: ComponentContext
-): ComponentContext by componentContext {
+): ComponentContext by componentContext, KoinComponent {
     // Stack for keeping the active screen layers
     private val navigation = StackNavigation<Configuration>()
 
@@ -38,14 +41,21 @@ class RootComponent(
         context: ComponentContext
     ): Child {
         return when (config) {
-            Configuration.EventsScreen -> Child.EventsScreen(
-                EventsScreenComponent(
-                    componentContext = context,
-                    onNavigateToEventStagesScreen = { event ->
-                        navigation.pushNew(Configuration.EventStagesScreen(event))
-                    }
+            Configuration.EventsScreen -> {
+                // Get the LanguageManager by Dependency Injection
+                val languageManager: LanguageManager by inject()
+                val eventRepository: EventRepository by inject()
+                Child.EventsScreen(
+                    EventsScreenComponent(
+                        componentContext = context,
+                        onNavigateToEventStagesScreen = { event ->
+                            navigation.pushNew(Configuration.EventStagesScreen(event))
+                        },
+                        languageManager = languageManager,
+                        eventRepository = eventRepository
+                    )
                 )
-            )
+            }
             is Configuration.EventStagesScreen -> Child.EventStagesScreen(
                 EventStagesComponent(
                     componentContext = context,

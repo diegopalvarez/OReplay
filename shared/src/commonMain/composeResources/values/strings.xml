@@ -1,5 +1,45 @@
 <resources>
-    <string name="hello_world">
-        Hello world!
-    </string>
+    <string name="hello_world">Hello world!</string>
+    <string name="app_name">OReplay</string>
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
+    <string name="search_bar">Search</string>
+    <string name="search_description">Search</string>
+    <string name="language">Language</string>
+    <string name="language_description">Language</string>
+    <string name="past_events_title">Past Events</string>
+    <string name="live_events_title">Live Events</string>
+    <string name="future_events_title">Future Events</string>
+    <string name="change_language">Choose a language</string>
+    <string name="dismiss_dialog">Dismiss</string>
+    <string name="confirm_dialog">Confirm</string>
+    <string name="english_language">English</string>
+    <string name="spanish_language">Spanish</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="datepicker">Select a date range</string>
+    <string name="action_search">Search an event by name or dates</string>
+    <string name="no_results_search">There are no events that match your search</string>
+    <string name="snackbar_network_error">The events weren't loaded due to a network error. You might be seeing unupdated data</string>
+    <string name="snackbar_internal_error">The events weren't loaded due to an internal error. You might be seeing unupdated data</string>
+    <string name="snackbar_server_error">The events weren't loaded due to an error in the OReplay Server. You might be seeing unupdated data</string>
+    <string name="snackbar_app_error">The events weren't loaded due to an error in the app. You might be seeing unupdated data</string>
+    <string name="snackbar_unknown_error">The events weren't loaded due to an error. You might be seeing unupdated data</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="icon_network_error">Network Error</string>
+    <string name="message_network_error">Network Error</string>
+    <string name="icon_app_error">Internal Error</string>
+    <string name="message_internal_error">Internal Error</string>
+    <string name="icon_server_error">Server Error</string>
+    <string name="message_server_error">Server Error</string>
+    <string name="icon_error">Error</string>
+    <string name="message_error">Error</string>
+    <string name="no_past_events">There are no Past Events</string>
+    <string name="no_live_events">There are no Live Events</string>
+    <string name="no_future_events">There are no Future Events</string>
+    <string name="see_future_events">Check Future Events</string>
+    <string name="event_organizer">Event Organizer</string>
+    <string name="event_date">Event Date</string>
+    <string name="load_next_page">Load More Events</string>
+    <string name="next_page_icon">Next page</string>
 </resources>
