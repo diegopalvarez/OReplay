@@ -38,7 +38,7 @@ class EventRepository(
      * @return RepositoryError if the search fails. In case of success, a Triple containing the list of live events, the number of results and the number of the next page of results (if it exists)
      */
     suspend fun getLiveEvents(page: Long? = null): Result<Triple<List<Event>, Long, Long?>, RepositoryError> {
-        val remoteEvents = api.getEvents("live", page)
+        val remoteEvents = api.getEvents("today", page)
 
         return when(remoteEvents) {
             is Result.Success -> {

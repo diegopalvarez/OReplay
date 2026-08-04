@@ -13,11 +13,13 @@ import com.diegopalvarez.oreplay.data.remote.dto.classes.RemoteClassesResponse
 import com.diegopalvarez.oreplay.data.remote.dto.clubs.RemoteClubsResponse
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.data.remote.dto.stages.RemoteEventDetailsResponse
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.JsonConvertException
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.datetime.LocalDate
+import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 
 // Base URL Definitions
@@ -166,8 +168,15 @@ class OReplayAPI(
         catch (e: ServerResponseException) {
             return Result.Error(NetworkError.SERIALIZATION)
         }
+        catch(e: SocketTimeoutException) {
+            return Result.Error(NetworkError.REQUEST_TIMEOUT)
+        }
+        catch(e: IOException){
+            return Result.Error(NetworkError.NO_INTERNET)       // Technically, all network errors in iOS/Android end here. If targetting JavaScript, they will continue until Throwable
+        }
         catch (e: Exception) {
             // Default case, fallback to an unknown error
+            println(e)
             return Result.Error(NetworkError.UNKNOWN)
         }
 

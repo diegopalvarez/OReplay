@@ -169,7 +169,10 @@ fun EventsScreen(
             )
 
             // Actual Screen Content - Depends on the active screen
-            EventScreenContent(component)
+            EventScreenContent(
+                component = component,
+                contentPadding = innerPadding
+                )
 
             // Expanded Search Results
             MainAppSearchResults(

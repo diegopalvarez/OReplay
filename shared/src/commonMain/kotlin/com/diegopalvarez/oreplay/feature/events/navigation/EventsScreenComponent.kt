@@ -36,7 +36,7 @@ import kotlin.time.Instant
 
 class EventsScreenComponent(
     componentContext: ComponentContext,
-    eventRepository: EventRepository,
+    private val eventRepository: EventRepository,
     private val onNavigateToEventStagesScreen: (Event) -> Unit,
     private val languageManager: LanguageManager
 ): ComponentContext by componentContext {
@@ -176,7 +176,8 @@ class EventsScreenComponent(
             )
             EventTabConfiguration.LiveEvents -> EventTabChild.LiveEvents(
                 LiveEventsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    repository = eventRepository
                 )
             )
             EventTabConfiguration.FutureEvents -> EventTabChild.FutureEvents(

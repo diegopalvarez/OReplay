@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.feature.events.screens.pastEvents
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +12,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PastEventsScreen(
-    component: PastEventsComponent
+    component: PastEventsComponent,
+    contentPadding: PaddingValues
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
