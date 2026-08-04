@@ -44,9 +44,11 @@ fun EventGrid(
     else{
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(8.dp),
+            contentPadding = PaddingValues(16.dp),
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             items(eventList.value){ event ->
                 EventGridItem(event)

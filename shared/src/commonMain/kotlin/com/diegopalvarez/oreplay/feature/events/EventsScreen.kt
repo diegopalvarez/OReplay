@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenContent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
@@ -162,17 +163,21 @@ fun EventsScreen(
             }
         ) { innerPadding ->
 
-            // Tab Row
-            EventsTabRow(
-                contentPadding = innerPadding,
-                component = component
-            )
-
-            // Actual Screen Content - Depends on the active screen
-            EventScreenContent(
-                component = component,
-                contentPadding = innerPadding
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+            ) {
+                // Tab Row
+                EventsTabRow(
+                    component = component
                 )
+
+                // Actual Screen Content - Depends on the active screen
+                EventScreenContent(
+                    component = component,
+                )
+
+            }
 
             // Expanded Search Results
             MainAppSearchResults(

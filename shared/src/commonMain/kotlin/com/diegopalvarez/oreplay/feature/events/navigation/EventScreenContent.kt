@@ -10,7 +10,6 @@ import com.diegopalvarez.oreplay.feature.events.screens.pastEvents.PastEventsScr
 @Composable
 fun EventScreenContent(
     component: EventsScreenComponent,
-    contentPadding: PaddingValues
 ) {
     // Subscribe to the Selected Tab
     val pages = component.pages.subscribeAsState()
@@ -18,9 +17,9 @@ fun EventScreenContent(
     // TODO - Handle the back button behavior
 
     when(val child = pages.value.items[pages.value.selectedIndex].instance) {
-        is EventsScreenComponent.EventTabChild.FutureEvents -> FutureEventsScreen(child.component, contentPadding)
-        is EventsScreenComponent.EventTabChild.LiveEvents -> LiveEventsScreen(child.component, contentPadding)
-        is EventsScreenComponent.EventTabChild.PastEvents -> PastEventsScreen(child.component, contentPadding)
+        is EventsScreenComponent.EventTabChild.FutureEvents -> FutureEventsScreen(child.component)
+        is EventsScreenComponent.EventTabChild.LiveEvents -> LiveEventsScreen(child.component) { component.selectTab(2) }
+        is EventsScreenComponent.EventTabChild.PastEvents -> PastEventsScreen(child.component)
         null -> TODO()
     }
 }

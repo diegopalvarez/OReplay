@@ -17,7 +17,6 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EventsTabRow(
-    contentPadding: PaddingValues,
     component: EventsScreenComponent
 ) {
     // Subscribe to the Active Tab
@@ -25,7 +24,6 @@ fun EventsTabRow(
 
     PrimaryTabRow(
         selectedTabIndex = pages.selectedIndex,
-        modifier = Modifier.padding(contentPadding)
     ){
         // Create MANUALLY a tab for each page
 

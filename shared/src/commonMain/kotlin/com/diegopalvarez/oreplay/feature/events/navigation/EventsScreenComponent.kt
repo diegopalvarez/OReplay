@@ -1,6 +1,8 @@
 package com.diegopalvarez.oreplay.feature.events.navigation
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.children.ChildNavState
+import com.arkivanov.decompose.router.children.ChildNavState.Status
 import com.arkivanov.decompose.router.pages.Pages
 import com.arkivanov.decompose.router.pages.PagesNavigation
 import com.arkivanov.decompose.router.pages.childPages
@@ -159,6 +161,7 @@ class EventsScreenComponent(
                 selectedIndex = 1       // The main page is the Live Events Tab
             )
         },
+        pageStatus = ::handlePageStatus,
         childFactory = ::createChild,
         handleBackButton = true
     )
@@ -171,7 +174,8 @@ class EventsScreenComponent(
         return when(config){
             EventTabConfiguration.PastEvents -> EventTabChild.PastEvents(
                 PastEventsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    repository = eventRepository
                 )
             )
             EventTabConfiguration.LiveEvents -> EventTabChild.LiveEvents(
@@ -182,7 +186,8 @@ class EventsScreenComponent(
             )
             EventTabConfiguration.FutureEvents -> EventTabChild.FutureEvents(
                 FutureEventsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    repository = eventRepository
                 )
             )
 
@@ -199,6 +204,15 @@ class EventsScreenComponent(
     // Tab Picker Function
     fun selectTab(index: Int) {
         navigation.select(index)
+    }
+
+    // Custom function to handle Page Status
+    private fun handlePageStatus(index: Int, pages: Pages<EventTabConfiguration>): Status{
+        // Keeps all pages CREATED, doesn't destroy and recompose the tabs
+        return when(index){
+            pages.selectedIndex -> Status.RESUMED
+            else -> Status.CREATED
+        }
     }
 
 }
