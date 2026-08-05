@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
@@ -22,6 +23,7 @@ import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.arrow_back
 import oreplay.shared.generated.resources.back
 import oreplay.shared.generated.resources.clock
+import oreplay.shared.generated.resources.generic_stage
 import oreplay.shared.generated.resources.refresh
 import oreplay.shared.generated.resources.search
 import oreplay.shared.generated.resources.search_description
@@ -32,11 +34,11 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TitlePageBarWithSearch(
-    text: String,
+    title: String,
+    subtitle: String? = null,
     navigationAction: () -> Unit,
     searchAction: () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior,
-    displayTimezoneWarning: Boolean = false,
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -44,32 +46,44 @@ fun TitlePageBarWithSearch(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = text,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                if(displayTimezoneWarning) {
-                    // Add a warning tooltip to Top Bar
-                    TooltipBox(
-                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-                            positioning = TooltipAnchorPosition.Below
-                        ),
-                        tooltip = {
-                            PlainTooltip { Text(stringResource(Res.string.timezone_warning)) }
-                        },
-                        state = rememberTooltipState()
-                    ){
-                        Icon(
-                            painter = painterResource(Res.drawable.clock),
-                            contentDescription = stringResource(Res.string.timezone_warning_icon),
+                if(title.isNotBlank()){
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                    if(subtitle != null && title != subtitle) {
+                        Text(
+                            text = subtitle,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.titleSmall,
                         )
                     }
                 }
+                else if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+                else{
+                    Text(
+                        text = stringResource(Res.string.generic_stage),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+
+
             }
 
         },

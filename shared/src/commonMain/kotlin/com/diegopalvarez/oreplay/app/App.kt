@@ -40,7 +40,7 @@ fun App(root: RootComponent) {
                     is RootComponent.Child.ClubResultsScreen -> TODO()  //ClubResultUI(instance.component)
                     is RootComponent.Child.EventStagesScreen -> EventStagesScreen(instance.component.pageEvent, instance.component)
                     is RootComponent.Child.EventsScreen -> EventsScreen(instance.component)
-                    is RootComponent.Child.StageDetailsScreen -> StageDetailsScreen(instance.component.stage, instance.component)
+                    is RootComponent.Child.StageDetailsScreen -> StageDetailsScreen(instance.component.event, instance.component.stage, instance.component)
                 }
             }
         }

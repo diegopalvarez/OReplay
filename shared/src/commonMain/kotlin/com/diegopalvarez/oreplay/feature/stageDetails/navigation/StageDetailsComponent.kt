@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.feature.stageDetails.navigation
 
 import com.arkivanov.decompose.ComponentContext
+import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
@@ -8,6 +9,7 @@ import com.diegopalvarez.oreplay.domain.model.StageClub
 class StageDetailsComponent(
     componentContext: ComponentContext,
     val stage: Stage,
+    val event: Event,
     private val onNavigateToClassResultsScreen: (StageClass) -> Unit,
     private val onNavigateToClubResultsScreen: (StageClub) -> Unit,
     private val onGoBack: () -> Unit

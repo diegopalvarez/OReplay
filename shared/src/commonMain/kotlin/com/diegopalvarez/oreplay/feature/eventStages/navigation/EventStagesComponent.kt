@@ -18,8 +18,8 @@ class EventStagesComponent(
     componentContext: ComponentContext,
     private val repository: StageRepository,
     val pageEvent: Event,
-    private val onNavigateToStageDetailsScreen: (Stage) -> Unit,
-    private val onSkipToStageDetailsScreen: (Stage) -> Unit,
+    private val onNavigateToStageDetailsScreen: (Event, Stage) -> Unit,
+    private val onSkipToStageDetailsScreen: (Event, Stage) -> Unit,
     private val onGoBack: () -> Unit
 ): ComponentContext by componentContext {
     // Create and store coroutine scope
@@ -81,8 +81,8 @@ class EventStagesComponent(
     // Event Handler Function
     fun onEvent(event: EventStagesEvent) {
         when (event) {
-            is EventStagesEvent.ClickStage -> onNavigateToStageDetailsScreen(event.selectedStage)
-            is EventStagesEvent.SkipToStage -> onSkipToStageDetailsScreen(event.selectedStage)
+            is EventStagesEvent.ClickStage -> onNavigateToStageDetailsScreen(pageEvent, event.selectedStage)
+            is EventStagesEvent.SkipToStage -> onSkipToStageDetailsScreen(pageEvent, event.selectedStage)
             EventStagesEvent.GoBack -> onGoBack()
         }
     }
