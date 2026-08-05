@@ -61,4 +61,6 @@
     <string name="timezone_warning_icon">Aviso por Diferente Zona Horaria</string>
     <string name="no_info">No hay datos disponibles</string>
     <string name="no_info_icon">Sin información</string>
+    <string name="classes_title">Categorías</string>
+    <string name="clubs_title">Clubes</string>
 </resources>

@@ -61,4 +61,6 @@
     <string name="timezone_warning_icon">Different Timezone Warning</string>
     <string name="no_info">No data is available</string>
     <string name="no_info_icon">No Information</string>
+    <string name="classes_title">Classes</string>
+    <string name="clubs_title">Clubs</string>
 </resources>

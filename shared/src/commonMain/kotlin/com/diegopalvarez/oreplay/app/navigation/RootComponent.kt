@@ -77,22 +77,26 @@ class RootComponent(
                     )
                 )
             }
-            is Configuration.StageDetailsScreen -> Child.StageDetailsScreen(
-                StageDetailsComponent(
-                    componentContext = context,
-                    onNavigateToClassResultsScreen = { stageClass ->
-                        navigation.pushNew(Configuration.ClassResultsScreen(stageClass))
-                    },
-                    onNavigateToClubResultsScreen = { stageClub ->
-                        navigation.pushNew(Configuration.ClubResultsScreen(stageClub))
-                    },
-                    onGoBack = {
-                        navigation.pop()
-                    },
-                    stage = config.stage,
-                    event = config.event
+            is Configuration.StageDetailsScreen -> {
+                val stageRepository: StageRepository by inject()
+                Child.StageDetailsScreen(
+                    StageDetailsComponent(
+                        componentContext = context,
+                        onNavigateToClassResultsScreen = { stageClass ->
+                            navigation.pushNew(Configuration.ClassResultsScreen(stageClass))
+                        },
+                        onNavigateToClubResultsScreen = { stageClub ->
+                            navigation.pushNew(Configuration.ClubResultsScreen(stageClub))
+                        },
+                        onGoBack = {
+                            navigation.pop()
+                        },
+                        stage = config.stage,
+                        event = config.event,
+                        repository = stageRepository
+                    )
                 )
-            )
+            }
             is Configuration.ClassResultsScreen -> Child.ClassResultsScreen(
                 ClassResultsComponent(
                     componentContext = context,
