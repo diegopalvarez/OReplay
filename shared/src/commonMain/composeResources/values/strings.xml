@@ -42,4 +42,18 @@
     <string name="event_date">Event Date</string>
     <string name="load_next_page">Load More Events</string>
     <string name="next_page_icon">Next page</string>
+    <string name="open_website">Event Website</string>
+    <string name="snackbar_timezone_error">This event takes place in a different timezone, so the times shown are converted to your local timezone</string>
+    <string name="classic_stage_type">Classic</string>
+    <string name="mass_start_stage_type">Mass Start</string>
+    <string name="chase_start_stage_type">Chase Start</string>
+    <string name="overall_stage_type">Overall</string>
+    <string name="relay_stage_type">Relay</string>
+    <string name="score_stage_type">Score</string>
+    <string name="raid_stage_type">Raid</string>
+    <string name="trail_stage_type">Trail</string>
+    <string name="one_man_relay_stage_type">One-Man Relay</string>
+    <string name="ranking_stage_type">Ranking</string>
+    <string name="deactivate">Deactivate</string>
+    <string name="generic_stage">Stage</string>
 </resources>
