@@ -7,6 +7,7 @@ import com.diegopalvarez.oreplay.domain.model.StageClub
 
 class StageDetailsComponent(
     componentContext: ComponentContext,
+    val stage: Stage,
     private val onNavigateToClassResultsScreen: (StageClass) -> Unit,
     private val onNavigateToClubResultsScreen: (StageClub) -> Unit,
     private val onGoBack: () -> Unit

@@ -88,7 +88,8 @@ class RootComponent(
                     },
                     onGoBack = {
                         navigation.pop()
-                    }
+                    },
+                    stage = config.stage
                 )
             )
             is Configuration.ClassResultsScreen -> Child.ClassResultsScreen(

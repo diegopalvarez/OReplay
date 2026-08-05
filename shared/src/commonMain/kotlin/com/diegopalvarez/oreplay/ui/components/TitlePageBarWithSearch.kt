@@ -23,17 +23,18 @@ import oreplay.shared.generated.resources.arrow_back
 import oreplay.shared.generated.resources.back
 import oreplay.shared.generated.resources.clock
 import oreplay.shared.generated.resources.refresh
+import oreplay.shared.generated.resources.search
+import oreplay.shared.generated.resources.search_description
 import oreplay.shared.generated.resources.timezone_warning
 import oreplay.shared.generated.resources.timezone_warning_icon
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun TitlePageBar(
+fun TitlePageBarWithSearch(
     text: String,
     navigationAction: () -> Unit,
-    hasRefresh: Boolean = false,
-    refreshAction: () -> Unit = {},
+    searchAction: () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior,
     displayTimezoneWarning: Boolean = false,
 ) {
@@ -83,15 +84,13 @@ fun TitlePageBar(
             }
         },
         actions = {
-            if(hasRefresh) {
-                IconButton(
-                    onClick = refreshAction
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.refresh),
-                        contentDescription = stringResource(Res.string.refresh),
-                    )
-                }
+            IconButton(
+                onClick = searchAction
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.search),
+                    contentDescription = stringResource(Res.string.search_description),
+                )
             }
         },
         scrollBehavior = scrollBehavior
