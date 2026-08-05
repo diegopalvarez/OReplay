@@ -14,7 +14,7 @@ data class RemoteEventDetails(
 
     val description: String,
     val picture: String? = null,
-    val website: String,
+    val website: String? = null,
     val scope: String,
     val location: String? = null,
 
