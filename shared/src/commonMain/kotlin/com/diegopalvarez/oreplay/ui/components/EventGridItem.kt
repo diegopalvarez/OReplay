@@ -30,12 +30,15 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun EventGridItem(
     event: Event,
+    onEventClick: (Event) -> Unit,
 ){
     Card(
         modifier = Modifier
             .fillMaxHeight()
             .aspectRatio(1.2f),
-        onClick = {}
+        onClick = {
+            onEventClick(event)
+        }
     ) {
         Column(
             modifier = Modifier

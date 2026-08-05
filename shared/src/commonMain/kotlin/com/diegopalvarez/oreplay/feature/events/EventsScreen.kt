@@ -175,6 +175,9 @@ fun EventsScreen(
                 // Actual Screen Content - Depends on the active screen
                 EventScreenContent(
                     component = component,
+                    onEventClick = { event ->
+                        component.onEvent(EventScreenEvent.ClickEvent(event))
+                    },
                 )
 
             }
