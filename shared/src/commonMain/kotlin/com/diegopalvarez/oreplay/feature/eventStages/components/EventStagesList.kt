@@ -9,36 +9,49 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import kotlinx.datetime.TimeZone
 
 @Composable
 fun EventStagesList(
     eventTimezone: TimeZone,
-    stagesList: List<Stage>
+    stagesList: List<Stage>,
+    convertTimezones: Boolean,
+    onStageClick: (Stage) -> Unit,
 ){
-    // Variable to show the modal or not
-    val showWarning = remember { mutableStateOf(false) }
 
-    // If the TimeZones are different, show message
-    if(eventTimezone != TimeZone.currentSystemDefault()){
-        showWarning.value = true
+    if(stagesList.isEmpty()) {
+        // Show the screen for no data
+        NoDataScreen()
     }
+    else{
+        var timezone = TimeZone.currentSystemDefault()
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-    ){
-        items(stagesList) { stage ->
-            StageListItem(
-                stage = stage,
-                onStageClick = {}
-            )
+        // If the preference it's to not choose the timezone, and they're different, keep the event one
+        // In every other case, just use the local
+        if(!convertTimezones && eventTimezone != timezone) {
+            timezone = eventTimezone
+        }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        ){
+            items(stagesList) { stage ->
+                StageListItem(
+                    stage = stage,
+                    onStageClick = { onStageClick(stage) },
+                    timezone = timezone
+                )
+            }
         }
     }
+
 }

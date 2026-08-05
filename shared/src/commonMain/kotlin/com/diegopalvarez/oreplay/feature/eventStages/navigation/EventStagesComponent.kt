@@ -12,6 +12,7 @@ import com.diegopalvarez.oreplay.domain.repository.StageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EventStagesComponent(
     componentContext: ComponentContext,
@@ -44,7 +45,6 @@ class EventStagesComponent(
     init {
         scope.launch {
             fetchEventStages()
-            _isLoaded.value = true
         }
     }
 
@@ -58,7 +58,9 @@ class EventStagesComponent(
                 // Check if there's more than one stage
                 if(it.size == 1){
                     // Navigate directly to the only stage
-                    onEvent(EventStagesEvent.ClickStage(it.first()))
+                    withContext(Dispatchers.Main){
+                        onEvent(EventStagesEvent.SkipToStage(it.first()))
+                    }
                 }
                 else{
                     // Signal that it's loaded
@@ -68,6 +70,7 @@ class EventStagesComponent(
             .onError {
                 _isError.value = true
                 _errorType.value = it
+                _isLoaded.value = true
             }
     }
 

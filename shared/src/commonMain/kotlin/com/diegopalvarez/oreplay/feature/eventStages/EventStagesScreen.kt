@@ -16,11 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.eventStages.components.EventDetailsSummary
 import com.diegopalvarez.oreplay.feature.eventStages.components.EventStagesList
@@ -29,12 +31,14 @@ import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesCompo
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
+import kotlinx.datetime.TimeZone
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.close
 import oreplay.shared.generated.resources.deactivate
 import oreplay.shared.generated.resources.dismiss
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun EventStagesScreen(
@@ -59,14 +63,27 @@ fun EventStagesScreen(
     // Create SnackBar State
     val snackbarHostState = remember { SnackbarHostState() }
 
+    // Inject the Preferences Manager
+    val preferencesManager: PreferencesManager = koinInject()
+
+    // Subscribe to the value of the timezone preference
+    val convertTimezones = preferencesManager.convertTimezone.collectAsState()
+
     // Bind Timezone Error Snackbar Helper
     TimezoneErrorSnackbarHelper(
         state = snackbarHostState,
         isTimezoneError = isError,
         isLoaded = isLoaded,
         isError = isError,
-        convertTimezones = true
+        convertTimezones = convertTimezones
     )
+
+    // Check if the timezone warning icon should be displayed
+    var shouldBeDisplayed = false
+
+    if(convertTimezones.value == false && event.timezone != TimeZone.currentSystemDefault()) {
+        shouldBeDisplayed = true
+    }
 
     Scaffold(
         topBar = {
@@ -75,7 +92,8 @@ fun EventStagesScreen(
                 navigationAction = {
                     component.onEvent(EventStagesEvent.GoBack)
                 },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                displayTimezoneWarning = shouldBeDisplayed,
             )
         },
         snackbarHost = {
@@ -98,7 +116,11 @@ fun EventStagesScreen(
                         },
                         action = {
                             Button(
-                                onClick = {  }
+                                onClick = {
+                                    // Change the preference and dismiss the Snackbar
+                                    preferencesManager.toggleTimezonePreference()
+                                    data.dismiss()
+                                }
                             ){
                                 Text(stringResource(Res.string.deactivate))
                             }
@@ -148,7 +170,11 @@ fun EventStagesScreen(
                         // List of stages
                         EventStagesList(
                             stagesList = eventStages.value,
-                            eventTimezone = event.timezone
+                            eventTimezone = event.timezone,
+                            convertTimezones = convertTimezones.value ?: true,
+                            onStageClick = { stage ->
+                                component.onEvent(EventStagesEvent.ClickStage(stage))
+                            }
                         )
                     }
                 }

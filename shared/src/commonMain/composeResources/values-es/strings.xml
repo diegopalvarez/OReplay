@@ -56,4 +56,9 @@
     <string name="ranking_stage_type">Ranking</string>
     <string name="deactivate">Desactivar</string>
     <string name="generic_stage">Etapa</string>
+    <string name="timezone_switch">Convertir a la zona horaria local</string>
+    <string name="timezone_warning">Las horas de este evento se muestran en una zona horaria diferente. Si quieres que se muestren en tu hora local, puedes cambiarlo en Preferencias</string>
+    <string name="timezone_warning_icon">Aviso por Diferente Zona Horaria</string>
+    <string name="no_info">No hay datos disponibles</string>
+    <string name="no_info_icon">Sin información</string>
 </resources>

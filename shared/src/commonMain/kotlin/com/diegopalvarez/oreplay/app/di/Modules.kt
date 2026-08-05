@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.app.di
 
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.core.network.createHttpClient
 import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
@@ -23,6 +24,10 @@ val sharedModule = module {
 
     single<LanguageManager> {
         LanguageManager(get())
+    }
+
+    single<PreferencesManager> {
+        PreferencesManager(get())
     }
 
     single<EventRepository>{

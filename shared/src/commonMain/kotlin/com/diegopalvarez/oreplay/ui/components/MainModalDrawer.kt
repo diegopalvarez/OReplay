@@ -14,8 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
@@ -31,8 +34,11 @@ import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.app_name
 import oreplay.shared.generated.resources.language
 import oreplay.shared.generated.resources.language_description
+import oreplay.shared.generated.resources.timezone_switch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import org.koin.core.component.KoinComponent
 
 @Composable
 fun MainModalDrawer(
@@ -43,6 +49,11 @@ fun MainModalDrawer(
 ) {
     // Language dialog state
     val openLanguageDialog = remember { mutableStateOf(false) }
+
+    // Get the timezone status
+    val preferenceManager: PreferencesManager = koinInject()
+
+    val timezoneSelected = preferenceManager.convertTimezone.collectAsState()
 
     ModalNavigationDrawer(
         drawerContent = {
@@ -71,6 +82,25 @@ fun MainModalDrawer(
                         ) },
                         onClick = {
                             openLanguageDialog.value = !openLanguageDialog.value
+                        }
+                    )
+
+                    // Third Item - Timezone Translator
+                    NavigationDrawerItem(
+                        label = { Text(stringResource(Res.string.timezone_switch)) },
+                        selected = false,
+                        badge = {
+                            // Switch to change the state
+                            Switch(
+                                checked = timezoneSelected.value ?: true,
+                                onCheckedChange = {
+                                    preferenceManager.toggleTimezonePreference()
+                                }
+                            )
+                        },
+                        onClick = {
+                            // Also change the switch if the whole item is clicked
+                            preferenceManager.toggleTimezonePreference()
                         }
                     )
                 }

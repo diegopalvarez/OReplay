@@ -25,11 +25,12 @@ fun TimezoneErrorSnackbarHelper(
     isTimezoneError: State<Boolean>,
     isLoaded: State<Boolean>,
     isError: State<Boolean>,
-    convertTimezones: Boolean
+    convertTimezones: State<Boolean?>
 ) {
     // Use a LaunchedEffect for suspended UI functions
-    LaunchedEffect(isTimezoneError.value, isLoaded.value, isError.value.not()) {
-        if(!isError.value && isLoaded.value && convertTimezones){
+    LaunchedEffect(isTimezoneError.value, isLoaded.value, isError.value.not(), convertTimezones.value) {
+        val convertPreference = convertTimezones.value ?: true
+        if(!isError.value && isLoaded.value && convertPreference) {
             state.showSnackbar(
                 message = getString(Res.string.snackbar_timezone_error),
                 duration = SnackbarDuration.Long,
