@@ -176,7 +176,6 @@ class OReplayAPI(
         }
         catch (e: Exception) {
             // Default case, fallback to an unknown error
-            println(e)
             return Result.Error(NetworkError.UNKNOWN)
         }
 

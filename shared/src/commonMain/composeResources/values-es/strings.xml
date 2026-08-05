@@ -42,4 +42,23 @@
     <string name="event_date">Fecha del Evento</string>
     <string name="load_next_page">Cargar Más Eventos</string>
     <string name="next_page_icon">Siguiente Página</string>
+    <string name="open_website">Página web del evento</string>
+    <string name="snackbar_timezone_error">Este evento tiene lugar en una zona horaria diferente a la suya, por lo que las horas se muestran convertidas a su zona horaria local</string>
+    <string name="classic_stage_type">Clásico</string>
+    <string name="mass_start_stage_type">Salida en Masa</string>
+    <string name="chase_start_stage_type">Salida a la Caza</string>
+    <string name="overall_stage_type">Total</string>
+    <string name="relay_stage_type">Relevos</string>
+    <string name="score_stage_type">Score</string>
+    <string name="raid_stage_type">Raid</string>
+    <string name="trail_stage_type">Trail</string>
+    <string name="one_man_relay_stage_type">Relevos de una posta</string>
+    <string name="ranking_stage_type">Ranking</string>
+    <string name="deactivate">Desactivar</string>
+    <string name="generic_stage">Etapa</string>
+    <string name="timezone_switch">Convertir a la zona horaria local</string>
+    <string name="timezone_warning">Las horas de este evento se muestran en una zona horaria diferente. Si quieres que se muestren en tu hora local, puedes cambiarlo en Preferencias</string>
+    <string name="timezone_warning_icon">Aviso por Diferente Zona Horaria</string>
+    <string name="no_info">No hay datos disponibles</string>
+    <string name="no_info_icon">Sin información</string>
 </resources>

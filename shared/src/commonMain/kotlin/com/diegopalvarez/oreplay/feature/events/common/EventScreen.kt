@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.diegopalvarez.oreplay.domain.model.Event
+import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.EventGrid
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.close
@@ -36,6 +37,7 @@ fun EventScreen(
     notFoundButton: @Composable () -> Unit = {},
     notFoundMessage: StringResource,
     nextPageFunction: () -> Unit,
+    onEventClick: (Event) -> Unit,
 ) {
     // Subscribe to the list of Live Events
     val liveEventList = component.eventList.subscribeAsState()
@@ -110,6 +112,7 @@ fun EventScreen(
         else {
             EventGrid(
                 eventList = liveEventList,
+                onEventClick = onEventClick,
                 notFoundMessage = stringResource(notFoundMessage),
                 button = notFoundButton,
                 nextPage = nextPage.value,
@@ -137,7 +140,11 @@ fun EventScreen(
                         }
                     }
                 ) {
-                    Text(data.visuals.message)
+                    Text(
+                        text = data.visuals.message,
+                        modifier = Modifier
+                            .padding(vertical = 4.dp)
+                    )
                 }
             }
         )

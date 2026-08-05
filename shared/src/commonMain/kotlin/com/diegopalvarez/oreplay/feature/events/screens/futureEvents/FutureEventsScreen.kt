@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.events.common.EventScreen
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.future_events_title
@@ -20,10 +21,12 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun FutureEventsScreen(
     component: FutureEventsComponent,
+    onEventClick: (Event) -> Unit
 ) {
     EventScreen(
         component = component,
         notFoundMessage = Res.string.no_future_events,
-        nextPageFunction = component::onNextPage
+        nextPageFunction = component::onNextPage,
+        onEventClick = onEventClick
     )
 }

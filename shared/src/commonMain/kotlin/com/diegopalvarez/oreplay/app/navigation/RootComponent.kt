@@ -5,12 +5,14 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
+import com.diegopalvarez.oreplay.domain.repository.StageRepository
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesComponent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
@@ -56,17 +58,25 @@ class RootComponent(
                     )
                 )
             }
-            is Configuration.EventStagesScreen -> Child.EventStagesScreen(
-                EventStagesComponent(
-                    componentContext = context,
-                    onNavigateToStageDetailsScreen = { stage ->
-                        navigation.pushNew(Configuration.StageDetailsScreen(stage))
-                    },
-                    onGoBack = {
-                        navigation.pop()
-                    }
+            is Configuration.EventStagesScreen -> {
+                val stageRepository: StageRepository by inject()
+                Child.EventStagesScreen(
+                    EventStagesComponent(
+                        componentContext = context,
+                        onNavigateToStageDetailsScreen = { stage ->
+                            navigation.pushNew(Configuration.StageDetailsScreen(stage))
+                        },
+                        onSkipToStageDetailsScreen = { stage ->
+                            navigation.replaceCurrent(Configuration.StageDetailsScreen(stage))
+                        },
+                        pageEvent = config.event,
+                        onGoBack = {
+                            navigation.pop()
+                        },
+                        repository = stageRepository
+                    )
                 )
-            )
+            }
             is Configuration.StageDetailsScreen -> Child.StageDetailsScreen(
                 StageDetailsComponent(
                     componentContext = context,

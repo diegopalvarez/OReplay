@@ -23,6 +23,7 @@ import com.diegopalvarez.oreplay.domain.model.Event
 @Composable
 fun EventGrid(
     eventList: State<List<Event>>,
+    onEventClick: (Event) -> Unit,
     notFoundMessage: String,
     button: @Composable () -> Unit,
     nextPage: Long,
@@ -57,7 +58,10 @@ fun EventGrid(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             items(eventList.value){ event ->
-                EventGridItem(event)
+                EventGridItem(
+                    event,
+                    onEventClick
+                )
             }
 
             // Add as a las element a Load More button
