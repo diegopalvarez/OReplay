@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.events.common
+package com.diegopalvarez.oreplay.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

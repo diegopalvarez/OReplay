@@ -6,5 +6,7 @@ import com.diegopalvarez.oreplay.domain.model.Stage
 sealed interface EventStagesEvent {
     data class ClickStage(val selectedStage: Stage): EventStagesEvent
 
+    data class SkipToStage(val selectedStage: Stage): EventStagesEvent
+
     data object GoBack: EventStagesEvent
 }

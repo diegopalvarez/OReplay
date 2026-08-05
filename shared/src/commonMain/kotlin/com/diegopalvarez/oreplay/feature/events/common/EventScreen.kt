@@ -126,7 +126,7 @@ fun EventScreen(
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 16.dp),
             snackbar = { data ->
                 Snackbar(
                     dismissAction = {
@@ -140,7 +140,11 @@ fun EventScreen(
                         }
                     }
                 ) {
-                    Text(data.visuals.message)
+                    Text(
+                        text = data.visuals.message,
+                        modifier = Modifier
+                            .padding(vertical = 4.dp)
+                    )
                 }
             }
         )

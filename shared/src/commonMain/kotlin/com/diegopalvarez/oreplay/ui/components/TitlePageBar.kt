@@ -21,8 +21,9 @@ import org.jetbrains.compose.resources.stringResource
 fun TitlePageBar(
     text: String,
     navigationAction: () -> Unit,
-    refreshAction: () -> Unit,
-    scrollBehaviour: TopAppBarScrollBehavior
+    hasRefresh: Boolean = false,
+    refreshAction: () -> Unit = {},
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -47,15 +48,17 @@ fun TitlePageBar(
             }
         },
         actions = {
-            IconButton(
-                onClick = refreshAction
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.refresh),
-                    contentDescription = stringResource(Res.string.refresh),
-                )
+            if(hasRefresh) {
+                IconButton(
+                    onClick = refreshAction
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.refresh),
+                        contentDescription = stringResource(Res.string.refresh),
+                    )
+                }
             }
         },
-        scrollBehavior = scrollBehaviour
+        scrollBehavior = scrollBehavior
     )
 }

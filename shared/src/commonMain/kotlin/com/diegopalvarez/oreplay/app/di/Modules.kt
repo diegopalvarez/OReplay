@@ -4,6 +4,7 @@ import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.core.network.createHttpClient
 import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
+import com.diegopalvarez.oreplay.domain.repository.StageRepository
 import io.ktor.client.HttpClient
 import org.koin.core.module.Module
 import org.koin.dsl.bind
@@ -26,5 +27,9 @@ val sharedModule = module {
 
     single<EventRepository>{
         EventRepository(get())
+    }
+
+    single<StageRepository>{
+        StageRepository(get())
     }
 }
