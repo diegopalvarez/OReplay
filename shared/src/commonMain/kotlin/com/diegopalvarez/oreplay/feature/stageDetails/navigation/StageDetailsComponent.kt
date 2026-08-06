@@ -10,6 +10,7 @@ import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.core.util.RepositoryError
+import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
@@ -17,8 +18,22 @@ import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
+import com.diegopalvarez.oreplay.feature.stageDetails.common.SearchResultWrapper
 import com.diegopalvarez.oreplay.feature.stageDetails.screens.classes.StageClassesComponent
 import com.diegopalvarez.oreplay.feature.stageDetails.screens.clubs.StageClubsComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
+import kotlin.time.Duration.Companion.milliseconds
 
 class StageDetailsComponent(
     componentContext: ComponentContext,
@@ -33,6 +48,9 @@ class StageDetailsComponent(
     /**
      * Component Functionality
      */
+
+    // Create Coroutine Scope
+    val scope = CoroutineScope(Dispatchers.Default)
 
     // Variable to store the list of classes
     private val _classList = MutableValue<List<StageClass>>(emptyList())
@@ -59,6 +77,72 @@ class StageDetailsComponent(
             is StageDetailsEvent.ClickClub -> onNavigateToClubResultsScreen(event.selectedClub)
             StageDetailsEvent.GoBack -> onGoBack()
         }
+    }
+
+    /**
+     * Class and Club Search Functionality
+     */
+    // Event Search functionality
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
+
+    // Combine the query and the Date Range and then execute the query
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    val searchResults = searchQuery
+        .debounce(300.milliseconds)      // Waits 300ms after the last key type to search
+        .flatMapLatest { query ->
+            if(query.isBlank()) {
+                flowOf(null)
+            }
+            else {
+                val classResults = searchClasses(query)
+                val clubResults = searchClubs(query)
+
+                // End search
+                flowOf<List<SearchResultWrapper>>(classResults + clubResults)
+            }
+        }
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(500L),
+            initialValue = null
+        )
+
+    fun onQueryChange(newQuery: String){
+        println("QUERY: $newQuery")
+        _searchQuery.value = newQuery
+    }
+
+    fun clearQuery(){
+        _searchQuery.value = ""
+    }
+
+    // Callback Function to add Classes
+     fun addClasses(classList: List<StageClass>){
+        _classList.value = classList
+    }
+
+    // Callback Function to add Clubs
+     fun addClubs(clubList: List<StageClub>){
+        _clubList.value = clubList
+    }
+
+    // Private functions for each of the searches
+    // TODO - Better search logic
+
+    private fun searchClasses(query: String): List<SearchResultWrapper> {
+        val lowercaseQuery = query.lowercase()
+        return classList.value
+            // TODO - Handle that long Name coincidences don't seem explicable
+            .filter { it.longName.lowercase().contains(lowercaseQuery) || it.shortName.lowercase().contains(lowercaseQuery) }
+            .map { result -> SearchResultWrapper(true, result, null) }
+    }
+
+    private fun searchClubs(query: String): List<SearchResultWrapper> {
+        val lowercaseQuery = query.lowercase()
+        return clubList.value
+            .filter { it.shortName.lowercase().contains(lowercaseQuery) }
+            .map { result -> SearchResultWrapper(false, null, result) }
     }
 
     /**
@@ -98,7 +182,8 @@ class StageDetailsComponent(
                     componentContext = component,
                     eventID = event.id,
                     stageID = stage.id,
-                    repository = repository
+                    repository = repository,
+                    addClasses = ::addClasses
                 )
             )
             StageDetailsTabConfiguration.Clubs -> StageDetailsTabChild.StageClubs(
@@ -106,7 +191,8 @@ class StageDetailsComponent(
                     componentContext = component,
                     eventID = event.id,
                     stageID = stage.id,
-                    repository = repository
+                    repository = repository,
+                    addClubs = ::addClubs
                 )
             )
 

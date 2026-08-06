@@ -15,7 +15,8 @@ class StageClassesComponent(
     componentContext: ComponentContext,
     private val eventID: String,
     private val stageID: String,
-    private val repository: StageRepository
+    private val repository: StageRepository,
+    private val addClasses: (List<StageClass>) -> Unit,
 ): AbstractStageComponent(componentContext) {
 
     // Variable to store the list of classes.
@@ -29,19 +30,14 @@ class StageClassesComponent(
             .onSuccess {
                 _isError.value = false
                 _list.value = it
-
+                addClasses(it)      // Send a copy of the classes to the component by callback
             }
             .onError {
                 _isError.value = true
                 _errorType.value = it
+                addClasses(emptyList())     // In case of error send an empty list
             }
         _isLoaded.value = true
-    }
-
-    // Function to search by name the classes loaded
-    fun searchClasses(name: String): List<StageClass>{
-        // TODO - Better search logic
-        return list.value.filter { it.longName.contains(name) ||it.shortName.contains(name) }
     }
 
     // Init function

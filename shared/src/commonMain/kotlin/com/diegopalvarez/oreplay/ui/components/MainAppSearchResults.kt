@@ -25,6 +25,9 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
+import com.diegopalvarez.oreplay.ui.components.search.ActionSearchMessage
+import com.diegopalvarez.oreplay.ui.components.search.EmptySearchMessage
+import com.diegopalvarez.oreplay.ui.components.search.LoadingSearchMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import oreplay.shared.generated.resources.Res
@@ -79,45 +82,15 @@ fun MainAppSearchResults(
 
         // Search Results
         if(isSearching.value){
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingSearchMessage()
         }
         else {
             if(searchResults == null){
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = stringResource(Res.string.action_search),
-                        textAlign = TextAlign.Center,
-                    )
-                }
+                ActionSearchMessage()
             }
             else{
                 if(searchResults.isEmpty()){
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.no_results_search),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
+                    EmptySearchMessage()
                 }
                 else{
                     LazyColumn {

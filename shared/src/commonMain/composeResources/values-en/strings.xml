@@ -20,6 +20,8 @@
     <string name="datepicker">Select a date range</string>
     <string name="action_search">Search an event by name or dates</string>
     <string name="no_results_search">There are no events that match your search</string>
+    <string name="action_search_stage">Search a class or club by name</string>
+    <string name="no_results_search_stage">There are no classes or clubs that match your search</string>
     <string name="snackbar_network_error">The events weren't loaded due to a network error. You might be seeing unupdated data</string>
     <string name="snackbar_internal_error">The events weren't loaded due to an internal error. You might be seeing unupdated data</string>
     <string name="snackbar_server_error">The events weren't loaded due to an error in the OReplay Server. You might be seeing unupdated data</string>
@@ -63,4 +65,8 @@
     <string name="no_info_icon">No Information</string>
     <string name="classes_title">Classes</string>
     <string name="clubs_title">Clubs</string>
+    <string name="search_classes_clubs">Search classes or clubs</string>
+    <string name="close_search">Close search</string>
+    <string name="class_icon">Class</string>
+    <string name="club_icon">Club</string>
 </resources>
