@@ -20,6 +20,8 @@
     <string name="datepicker">Selecciona un rango de fechas</string>
     <string name="action_search">Busca un evento por nombre o fechas</string>
     <string name="no_results_search">No hay ningún evento que coincida con tu búsqueda</string>
+    <string name="action_search_stage">Busca una categoría o club por nombre</string>
+    <string name="no_results_search_stage">No hay ningún club o categoría que coincida con la búsqueda</string>
     <string name="snackbar_network_error">Los eventos no se han cargado debido a un error de conexión. Puede que veas datos desactualizados</string>
     <string name="snackbar_internal_error">Los eventos no se han cargado debido a un error interno. Puede que veas datos desactualizados</string>
     <string name="snackbar_server_error">Los eventos no se han cargado debido a un error en el servidor de OReplay. Puede que veas datos desactualizados</string>
@@ -61,4 +63,10 @@
     <string name="timezone_warning_icon">Aviso por Diferente Zona Horaria</string>
     <string name="no_info">No hay datos disponibles</string>
     <string name="no_info_icon">Sin información</string>
+    <string name="classes_title">Categorías</string>
+    <string name="clubs_title">Clubes</string>
+    <string name="search_classes_clubs">Busca clases o clubes</string>
+    <string name="close_search">Eliminar búsqueda</string>
+    <string name="class_icon">Class</string>
+    <string name="club_icon">Club</string>
 </resources>

@@ -35,7 +35,7 @@ fun TitlePageBar(
     hasRefresh: Boolean = false,
     refreshAction: () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior,
-    displayTimezoneWarning: Boolean,
+    displayTimezoneWarning: Boolean = false,
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
