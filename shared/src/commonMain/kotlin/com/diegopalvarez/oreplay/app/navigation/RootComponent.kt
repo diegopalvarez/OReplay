@@ -11,6 +11,8 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
+import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
+import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesComponent
@@ -97,28 +99,36 @@ class RootComponent(
                     )
                 )
             }
-            is Configuration.ClassResultsScreen -> Child.ClassResultsScreen(
-                ClassResultsComponent(
-                    componentContext = context,
-                    pageEvent = config.event,
-                    stage = config.stage,
-                    stageClass = config.stageClass,
-                    onGoBack = {
-                        navigation.pop()
-                    }
+            is Configuration.ClassResultsScreen -> {
+                val repository: ClassResultsRepository by inject()
+                Child.ClassResultsScreen(
+                    ClassResultsComponent(
+                        componentContext = context,
+                        pageEvent = config.event,
+                        stage = config.stage,
+                        stageClass = config.stageClass,
+                        repository = repository,
+                        onGoBack = {
+                            navigation.pop()
+                        }
+                    )
                 )
-            )
-            is Configuration.ClubResultsScreen -> Child.ClubResultsScreen(
-                ClubResultsComponent(
-                    componentContext = context,
-                    pageEvent = config.event,
-                    stage = config.stage,
-                    stageClub = config.stageClub,
-                    onGoBack = {
-                        navigation.pop()
-                    }
+            }
+            is Configuration.ClubResultsScreen -> {
+                val repository: ClubResultsRepository by inject()
+                Child.ClubResultsScreen(
+                    ClubResultsComponent(
+                        componentContext = context,
+                        pageEvent = config.event,
+                        stage = config.stage,
+                        stageClub = config.stageClub,
+                        repository = repository,
+                        onGoBack = {
+                            navigation.pop()
+                        }
+                    )
                 )
-            )
+            }
         }
     }
 

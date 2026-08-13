@@ -4,6 +4,8 @@ import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.core.network.createHttpClient
 import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
+import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
+import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
 import io.ktor.client.HttpClient
@@ -36,5 +38,13 @@ val sharedModule = module {
 
     single<StageRepository>{
         StageRepository(get())
+    }
+
+    single<ClassResultsRepository>{
+        ClassResultsRepository(get())
+    }
+
+    single<ClubResultsRepository>{
+        ClubResultsRepository(get())
     }
 }

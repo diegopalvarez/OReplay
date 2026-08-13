@@ -1,17 +1,26 @@
 package com.diegopalvarez.oreplay.feature.results.stageClass.navigation
 
 import com.arkivanov.decompose.ComponentContext
+import com.diegopalvarez.oreplay.core.util.onError
+import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
+import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
+import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class ClassResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
     val stageClass: StageClass,
+    private val repository: ClassResultsRepository,
     private val onGoBack: () -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
@@ -20,6 +29,52 @@ class ClassResultsComponent(
     stage = stage,
     isClubResults = false
 ) {
+    /**
+     * Result Functionality
+     */
+    private val scope = CoroutineScope(Dispatchers.Main)
+
+     override suspend fun fetchResults(){
+        _isLoading.value = true     // TODO - Check and standardize where the loading state is updated
+        repository.getClassResults(
+            eventID = pageEvent.id,
+            stageID = stage.id,
+            classID = stageClass.id,
+            stageType = stage.stageType.getStageType()
+        )
+            .onSuccess {
+                _isError.value = false
+                _results.value = it
+                _isInit.value = true
+            }
+            .onError {
+                _isError.value = true
+                _errorType.value = it
+            }
+        _isLoading.value = false
+    }
+
+    /**
+     * Init function
+     */
+    init {
+        scope.launch {
+            fetchResults()
+        }
+    }
+
+    /**
+     * Reload function
+     */
+    override fun reloadResults(){
+        scope.launch {
+            fetchResults()
+        }
+    }
+
+    /**
+     * Event Handling
+     */
     fun onEvent(event: ClassResultsEvent) {
         when(event) {
             ClassResultsEvent.GoBack -> {
