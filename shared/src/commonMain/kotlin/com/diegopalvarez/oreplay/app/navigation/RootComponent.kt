@@ -82,17 +82,17 @@ class RootComponent(
                 Child.StageDetailsScreen(
                     StageDetailsComponent(
                         componentContext = context,
-                        onNavigateToClassResultsScreen = { stageClass ->
-                            navigation.pushNew(Configuration.ClassResultsScreen(stageClass))
+                        onNavigateToClassResultsScreen = { event, stage, stageClass ->
+                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass))
                         },
-                        onNavigateToClubResultsScreen = { stageClub ->
-                            navigation.pushNew(Configuration.ClubResultsScreen(stageClub))
+                        onNavigateToClubResultsScreen = { event, stage, stageClub ->
+                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub))
                         },
                         onGoBack = {
                             navigation.pop()
                         },
                         stage = config.stage,
-                        event = config.event,
+                        pageEvent = config.event,
                         repository = stageRepository
                     )
                 )
@@ -100,6 +100,9 @@ class RootComponent(
             is Configuration.ClassResultsScreen -> Child.ClassResultsScreen(
                 ClassResultsComponent(
                     componentContext = context,
+                    pageEvent = config.event,
+                    stage = config.stage,
+                    stageClass = config.stageClass,
                     onGoBack = {
                         navigation.pop()
                     }
@@ -108,6 +111,9 @@ class RootComponent(
             is Configuration.ClubResultsScreen -> Child.ClubResultsScreen(
                 ClubResultsComponent(
                     componentContext = context,
+                    pageEvent = config.event,
+                    stage = config.stage,
+                    stageClub = config.stageClub,
                     onGoBack = {
                         navigation.pop()
                     }
@@ -150,9 +156,9 @@ class RootComponent(
         data class StageDetailsScreen(val event: Event, val stage: Stage): Configuration()
 
         @Serializable
-        data class ClassResultsScreen(val stageClass: StageClass): Configuration()
+        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClass: StageClass): Configuration()
 
         @Serializable
-        data class ClubResultsScreen(val stageClub: StageClub): Configuration()
+        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClub: StageClub): Configuration()
     }
 }

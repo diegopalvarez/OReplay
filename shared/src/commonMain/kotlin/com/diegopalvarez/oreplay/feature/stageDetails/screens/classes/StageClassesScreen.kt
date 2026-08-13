@@ -55,7 +55,9 @@ fun StageClassesScreen(
                 items(classList.value){
                     ClassListItem(
                         stageClass = it,
-                        onClick = {}
+                        onClick = { stageClass ->
+                            component.onClassClick(stageClass)
+                        }
                     )
                 }
             }

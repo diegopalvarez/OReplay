@@ -18,6 +18,7 @@ class StageClubsComponent(
     private val stageID: String,
     private val repository: StageRepository,
     private val addClubs: (List<StageClub>) -> Unit,
+    val onClubClick: (StageClub) -> Unit
 ): AbstractStageComponent(componentContext) {
 
     // Variable to store the list of clubs.

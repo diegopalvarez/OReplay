@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.feature.stageDetails.common.SearchResultWrapper
+import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsComponent
+import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsEvent
 import com.diegopalvarez.oreplay.ui.util.StageTypeToText
 import com.diegopalvarez.oreplay.ui.util.display
 import oreplay.shared.generated.resources.Res
@@ -29,6 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun SearchListItem(
     item: SearchResultWrapper,
+    component: StageDetailsComponent
 ) {
     SegmentedListItem(
         shapes = ListItemDefaults.shapes(),
@@ -59,7 +62,12 @@ fun SearchListItem(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp),
         onClick = {
-
+            if(item.isClass){
+                component.onEvent(StageDetailsEvent.ClickClass(item.classResult!!))
+            }
+            else{
+                component.onEvent(StageDetailsEvent.ClickClub(item.clubResult!!))
+            }
         },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,

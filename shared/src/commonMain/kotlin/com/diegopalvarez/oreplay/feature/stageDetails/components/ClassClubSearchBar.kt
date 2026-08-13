@@ -127,7 +127,7 @@ fun ClassClubSearchBar(
                         .fillMaxSize()
                 ) {
                     items(results) { item ->
-                        SearchListItem(item)
+                        SearchListItem(item, component)
                     }
                 }
             }

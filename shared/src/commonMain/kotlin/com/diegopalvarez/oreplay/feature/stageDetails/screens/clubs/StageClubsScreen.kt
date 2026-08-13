@@ -57,7 +57,9 @@ fun StageClubsScreen(
                 items(clubList.value){
                     ClubListItem(
                         club = it,
-                        onClick = {}
+                        onClick = { stageClub ->
+                            component.onClubClick(stageClub)
+                        }
                     )
                 }
             }
