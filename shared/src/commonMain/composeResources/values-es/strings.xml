@@ -74,4 +74,9 @@
     <string name="splits_title">Parciales</string>
     <string name="legs_title">Postas</string>
     <string name="stats_title">Estadísticas</string>
+    <string name="start_times_icon">Horas de Salida</string>
+    <string name="results_icon">Resultados</string>
+    <string name="splits_icon">Parciales</string>
+    <string name="legs_icon">Postas</string>
+    <string name="stats_icon">Estadísticas</string>
 </resources>

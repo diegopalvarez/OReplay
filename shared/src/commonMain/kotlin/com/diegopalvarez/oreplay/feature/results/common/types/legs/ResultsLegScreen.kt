@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.statistics
+package com.diegopalvarez.oreplay.feature.results.common.types.legs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,12 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun StatisticsScreen() {
+fun ResultsLegScreen(
+    component: LegsComponent
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Stats Screen")
+        Text(text = "Legs Screen")
     }
 }

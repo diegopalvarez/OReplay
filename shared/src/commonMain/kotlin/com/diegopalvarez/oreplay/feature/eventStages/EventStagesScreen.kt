@@ -30,6 +30,7 @@ import com.diegopalvarez.oreplay.feature.eventStages.components.TimezoneErrorSna
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesComponent
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
+import com.diegopalvarez.oreplay.ui.components.TimezoneErrorSnackbar
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
 import kotlinx.datetime.TimeZone
 import oreplay.shared.generated.resources.Res
@@ -88,7 +89,7 @@ fun EventStagesScreen(
     Scaffold(
         topBar = {
             TitlePageBar(
-                text = event.description,
+                title = event.description,
                 navigationAction = {
                     component.onEvent(EventStagesEvent.GoBack)
                 },
@@ -98,42 +99,7 @@ fun EventStagesScreen(
         },
         snackbarHost = {
             // SnackBar for Timezone Error
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp),
-                snackbar = { data ->
-                    Snackbar(
-                        dismissAction = {
-                            IconButton(
-                                onClick = { data.dismiss() }
-                            ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.close),
-                                    contentDescription = stringResource(Res.string.dismiss)
-                                )
-                            }
-                        },
-                        action = {
-                            Button(
-                                onClick = {
-                                    // Change the preference and dismiss the Snackbar
-                                    preferencesManager.toggleTimezonePreference()
-                                    data.dismiss()
-                                }
-                            ){
-                                Text(stringResource(Res.string.deactivate))
-                            }
-                        }
-                    ) {
-                        Text(
-                            text = data.visuals.message,
-                            modifier = Modifier
-                                .padding(vertical = 4.dp)
-                        )
-                    }
-                }
-            )
+            TimezoneErrorSnackbar(snackbarHostState)
         }
     ) { innerPadding ->
         Column(

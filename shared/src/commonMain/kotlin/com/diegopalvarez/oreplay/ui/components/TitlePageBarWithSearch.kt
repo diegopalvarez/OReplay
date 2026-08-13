@@ -57,6 +57,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.ui.util.AppBarTitle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,46 +96,7 @@ fun TitlePageBarWithSearch(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                if(title.isNotBlank()){
-                    Text(
-                        text = title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                    if(subtitle != null && title != subtitle) {
-                        Text(
-                            text = subtitle,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.titleSmall,
-                        )
-                    }
-                }
-                else if (subtitle != null) {
-                    Text(
-                        text = subtitle,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
-                else{
-                    Text(
-                        text = stringResource(Res.string.generic_stage),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
-
-
-            }
-
+            AppBarTitle(title, subtitle)
         },
         navigationIcon = {
             IconButton(

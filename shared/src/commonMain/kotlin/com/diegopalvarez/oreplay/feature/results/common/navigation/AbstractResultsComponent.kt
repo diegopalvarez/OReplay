@@ -39,8 +39,7 @@ abstract class AbstractResultsComponent(
 
     private val initialPages = initialPagesHelper(isClubResults, hasStarted, stage.stageType.getStageType())
 
-    // TODO - Check if the pages are stored or recreated in every visit
-    // TODO - Handle back button in Tabs and Menu
+    // TODO - Handle back button to exit, not go to the first screen
 
     // Exposed navigation
     val pages = childPages(

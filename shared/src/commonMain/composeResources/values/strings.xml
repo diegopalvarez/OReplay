@@ -74,4 +74,9 @@
     <string name="splits_title">Splits</string>
     <string name="legs_title">Legs</string>
     <string name="stats_title">Stats</string>
+    <string name="start_times_icon">Start Times</string>
+    <string name="results_icon">Results</string>
+    <string name="splits_icon">Splits</string>
+    <string name="legs_icon">Legs</string>
+    <string name="stats_icon">Stats</string>
 </resources>

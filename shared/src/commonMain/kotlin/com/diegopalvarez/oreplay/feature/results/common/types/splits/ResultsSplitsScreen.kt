@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.legs
+package com.diegopalvarez.oreplay.feature.results.common.types.splits
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,12 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LegsScreen() {
+fun ResultsSplitsScreen(
+    component: SplitsComponent
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Legs Screen")
+        Text(text = "Splits Screen")
     }
 }

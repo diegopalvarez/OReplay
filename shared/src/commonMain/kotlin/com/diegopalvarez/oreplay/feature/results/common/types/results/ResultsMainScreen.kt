@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.splits
+package com.diegopalvarez.oreplay.feature.results.common.types.results
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,12 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun SplitsScreen() {
+fun ResultsMainScreen(
+    component: ResultsComponent
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Splits Screen")
+        Text(text = "Results Screen")
     }
 }

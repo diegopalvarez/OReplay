@@ -20,5 +20,11 @@ class ClassResultsComponent(
     stage = stage,
     isClubResults = false
 ) {
-
+    fun onEvent(event: ClassResultsEvent) {
+        when(event) {
+            ClassResultsEvent.GoBack -> {
+                onGoBack()
+            }
+        }
+    }
 }
