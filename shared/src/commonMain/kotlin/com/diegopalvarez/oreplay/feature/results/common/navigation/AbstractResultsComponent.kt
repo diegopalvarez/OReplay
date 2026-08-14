@@ -19,6 +19,8 @@ import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTi
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
 import kotlin.time.Clock
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent.ResultsTabChild.*
+import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
 import kotlinx.coroutines.launch
 
 abstract class AbstractResultsComponent(
@@ -98,32 +100,37 @@ abstract class AbstractResultsComponent(
         component: ComponentContext
     ): ResultsTabChild {
         return when(config){
-            ResultsTabConfiguration.StartTimes -> ResultsTabChild.StartTimes(
+            ResultsTabConfiguration.StartTimes -> StartTimes(
                 StartTimesComponent(
                     componentContext = component
                 )
             )
-            ResultsTabConfiguration.Results -> ResultsTabChild.Results(
+            ResultsTabConfiguration.Results -> Results(
                 ResultsComponent(
                     componentContext = component
                 )
             )
-            ResultsTabConfiguration.Splits -> ResultsTabChild.Splits(
+            ResultsTabConfiguration.Splits -> Splits(
                 SplitsComponent(
                     componentContext = component
                 )
             )
-            ResultsTabConfiguration.Legs -> ResultsTabChild.Legs(
+            ResultsTabConfiguration.Legs -> Legs(
                 LegsComponent(
                     componentContext = component
                 )
             )
-            ResultsTabConfiguration.Statistics -> ResultsTabChild.Statistics(
+            ResultsTabConfiguration.Statistics -> Statistics(
                 StatisticsComponent(
                     componentContext = component
                 )
             )
 
+            ResultsTabConfiguration.Points -> Points(
+                PointsComponent(
+                    componentContext = component
+                )
+            )
         }
     }
 
@@ -133,6 +140,7 @@ abstract class AbstractResultsComponent(
         data class Results(val component: ResultsComponent) : ResultsTabChild()
         data class Splits(val component: SplitsComponent) : ResultsTabChild()
         data class Legs(val component: LegsComponent) : ResultsTabChild()
+        data class Points(val component: PointsComponent) : ResultsTabChild()
         data class Statistics(val component: StatisticsComponent) : ResultsTabChild()
     }
 

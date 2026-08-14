@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.ResultsLegScreen
+import com.diegopalvarez.oreplay.feature.results.common.types.points.ResultsPointsScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.results.ResultsMainScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.ResultsSplitsScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.ResultsStartTimesScreen
@@ -24,6 +25,7 @@ fun ResultsTabContent(
         is AbstractResultsComponent.ResultsTabChild.Splits -> ResultsSplitsScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.StartTimes -> ResultsStartTimesScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Statistics -> ResultsStatisticsScreen(child.component)
+        is AbstractResultsComponent.ResultsTabChild.Points -> ResultsPointsScreen(child.component)
         null -> TODO("This shouldn't be a possibility")
     }
 }

@@ -7,6 +7,9 @@ import oreplay.shared.generated.resources.clock
 import oreplay.shared.generated.resources.leg
 import oreplay.shared.generated.resources.legs_icon
 import oreplay.shared.generated.resources.legs_title
+import oreplay.shared.generated.resources.points
+import oreplay.shared.generated.resources.points_icon
+import oreplay.shared.generated.resources.points_title
 import oreplay.shared.generated.resources.result
 import oreplay.shared.generated.resources.results_icon
 import oreplay.shared.generated.resources.results_title
@@ -53,6 +56,13 @@ sealed class ResultsTabConfiguration {
         override val title = Res.string.legs_title
         override val icon = Res.drawable.leg
         override val iconDescription = Res.string.legs_icon
+    }
+
+    @Serializable
+    data object Points : ResultsTabConfiguration() {
+        override val title = Res.string.points_title
+        override val icon = Res.drawable.points
+        override val iconDescription = Res.string.points_icon
     }
 
     @Serializable

@@ -51,12 +51,12 @@ fun initialPagesHelper(
                 )
             }
             StageType.SCORE -> {
-                // Score races don't have start time, since it's a mass start. They also don't have stats (yet)
+                // Score races don't have start time, since it's a mass start. They also don't have stats (yet) and the splits are POINTS
                 // TODO - Check if they can have start time
                 Pages(
                     items = listOf(
                         ResultsTabConfiguration.Results,
-                        ResultsTabConfiguration.Splits,
+                        ResultsTabConfiguration.Points,
                     ),
                     selectedIndex = 0       // The main tab can only be the results tab
                 )
@@ -111,7 +111,7 @@ fun initialPagesHelper(
                 )
             }
             StageType.SCORE -> {
-                // Score Results without Splits
+                // Score Results without Splits (Points)
                 // TODO - Check if they can have start time
                 Pages(
                     items = listOf(
