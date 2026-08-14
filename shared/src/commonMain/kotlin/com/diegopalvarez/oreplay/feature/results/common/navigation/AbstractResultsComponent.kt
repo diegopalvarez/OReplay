@@ -103,7 +103,9 @@ abstract class AbstractResultsComponent(
             ResultsTabConfiguration.StartTimes -> StartTimes(
                 StartTimesComponent(
                     componentContext = component,
-                    results = results
+                    results = results,
+                    event = event,
+                    isClubView = isClubResults,
                 )
             )
             ResultsTabConfiguration.Results -> Results(

@@ -72,19 +72,23 @@ fun EventStagesScreen(
     // Subscribe to the value of the timezone preference
     val convertTimezones = preferencesManager.convertTimezone.collectAsState()
 
+    // Check if the timezones are different
+    val isTimezoneDifferent = rememberSaveable { event.timezone != TimeZone.currentSystemDefault() }
+
     // Bind Timezone Error Snackbar Helper
     TimezoneErrorSnackbarHelper(
         state = snackbarHostState,
         isTimezoneError = isError,
         isLoaded = isLoaded,
         isError = isError,
-        convertTimezones = convertTimezones
+        convertTimezones = convertTimezones,
+        isTimezoneDifferent = isTimezoneDifferent
     )
 
     // Check if the timezone warning icon should be displayed
     val shouldBeDisplayed = rememberSaveable { mutableStateOf(false) }
 
-    if(convertTimezones.value == false && event.timezone != TimeZone.currentSystemDefault()) {
+    if(convertTimezones.value == false && isTimezoneDifferent) {
         shouldBeDisplayed.value = true
     }
 

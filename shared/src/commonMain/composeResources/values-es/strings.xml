@@ -86,4 +86,7 @@
     <string name="legs_icon">Postas</string>
     <string name="points_icon">Puntos</string>
     <string name="stats_icon">Estadísticas</string>
+    <string name="no_start_time">-</string>
+    <string name="no_class">Sin categoría</string>
+    <string name="no_club">Sin club</string>
 </resources>

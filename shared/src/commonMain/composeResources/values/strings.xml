@@ -86,4 +86,7 @@
     <string name="legs_icon">Legs</string>
     <string name="points_icon">Points</string>
     <string name="stats_icon">Stats</string>
+    <string name="no_start_time">-</string>
+    <string name="no_class">No class</string>
+    <string name="no_club">No club</string>
 </resources>
