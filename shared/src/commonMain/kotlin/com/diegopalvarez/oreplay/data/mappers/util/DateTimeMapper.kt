@@ -19,6 +19,24 @@ fun getInstant(dateTime: String): Instant {
     return Instant.parse(dateTime)
 }
 
+fun getInstantOrNull(dateTime: String?): Instant? {
+    return if(dateTime==null){
+        null
+    }
+    else {
+        Instant.parse(dateTime)
+    }
+}
+
 fun getDuration(seconds: Long): Duration {
     return seconds.toDuration(DurationUnit.SECONDS)
+}
+
+fun getDurationOrNull(seconds: Long?): Duration? {
+    return if(seconds==null){
+        null
+    }
+    else{
+        seconds.toDuration(DurationUnit.SECONDS)
+    }
 }

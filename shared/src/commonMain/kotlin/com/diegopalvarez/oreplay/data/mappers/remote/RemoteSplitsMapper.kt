@@ -34,7 +34,7 @@ private fun getSplit(remoteSplit: RemoteSplit): SplitIndividual{
  * @param finishTime Finish time for the runner, used to add an artificial finish control
  * @return list of domain model splits, sorted by order number
  */
-fun getSplits(splits: List<RemoteSplit>, finishTime: Instant): List<SplitIndividual> {
+fun getSplits(splits: List<RemoteSplit>, finishTime: Instant?): List<SplitIndividual> {
     val splitList = splits.map(::getSplit) as MutableList<SplitIndividual>
 
     // Artificially add a Finish Control to the list

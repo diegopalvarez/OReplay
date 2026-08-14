@@ -1,7 +1,9 @@
 package com.diegopalvarez.oreplay.data.mappers.remote
 
 import com.diegopalvarez.oreplay.data.mappers.util.getDuration
+import com.diegopalvarez.oreplay.data.mappers.util.getDurationOrNull
 import com.diegopalvarez.oreplay.data.mappers.util.getInstant
+import com.diegopalvarez.oreplay.data.mappers.util.getInstantOrNull
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverall
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
@@ -49,11 +51,11 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
  * @return domain model object with all the stage result data, including the sorted splits
  */
 private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
-    val finishTime = getInstant(remoteStageResult.finishTime)
+    val finishTime = getInstantOrNull(remoteStageResult.finishTime)
     return StageResult(
         id = remoteStageResult.id,
         resultType = remoteStageResult.resultTypeID,
-        startTime = getInstant(remoteStageResult.startTime),
+        startTime = getInstantOrNull(remoteStageResult.startTime),
         finishTime = finishTime,
         uploadType = remoteStageResult.uploadType,
         timeSeconds = getDuration(remoteStageResult.timeSeconds),
@@ -62,10 +64,10 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         isNC = remoteStageResult.isNc,
         contributory = remoteStageResult.contributory,
         timeBehind = getDuration(remoteStageResult.timeBehind),
-        timeNeutralization = getDuration(remoteStageResult.timeNeutralization),
-        timeAdjusted = getDuration(remoteStageResult.timeAdjusted),
-        timePenalty = getDuration(remoteStageResult.timePenalty),
-        timeBonus = getDuration(remoteStageResult.timeBonus),
+        timeNeutralization = getDurationOrNull(remoteStageResult.timeNeutralization),
+        timeAdjusted = getDurationOrNull(remoteStageResult.timeAdjusted),
+        timePenalty = getDurationOrNull(remoteStageResult.timePenalty),
+        timeBonus = getDurationOrNull(remoteStageResult.timeBonus),
         pointsTotal = remoteStageResult.pointsFinal,
         pointsBehind = remoteStageResult.pointsBehind,
         pointsAdjusted = remoteStageResult.pointsAdjusted,
@@ -73,7 +75,7 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         pointsBonus = remoteStageResult.pointsBonus,
         note = remoteStageResult.note,
         legNumber = remoteStageResult.legNumber,
-        created = getInstant(remoteStageResult.created),
+        created = getInstantOrNull(remoteStageResult.created),
         splits = getSplits(remoteStageResult.splits, finishTime)
     )
 }
@@ -123,6 +125,11 @@ private fun calculateTime(runner: ResultIndividual){
 
     // Get the start time for the runner
     val startTime = runner.stageResult.startTime
+
+    // If the start time is null there are no Splits to calculate
+    if(startTime == null){
+        return
+    }
 
     // Iterate updating the last visited control
     var previousTime: Instant? = startTime
