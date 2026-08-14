@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.snackbar_app_error
@@ -32,7 +33,7 @@ fun CombinedSnackbarHelper(
     isTimezoneDifferent: Boolean,
     errorType: State<RepositoryError>
 ) {
-    val hasShownTimezoneSnackbar = remember{ mutableStateOf(false) }
+    val hasShownTimezoneSnackbar = rememberSaveable{ mutableStateOf(false) }
 
     // Use a LaunchedEffect for suspended UI functions
     LaunchedEffect(isError.value, errorType.value, isInit.value, isLoading.value, convertTimezones.value, isTimezoneDifferent) {

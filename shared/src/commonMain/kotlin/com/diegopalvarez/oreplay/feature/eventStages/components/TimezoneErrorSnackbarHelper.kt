@@ -5,7 +5,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,15 +30,19 @@ fun TimezoneErrorSnackbarHelper(
     isError: State<Boolean>,
     convertTimezones: State<Boolean?>
 ) {
+    val hasBeenShown = rememberSaveable { mutableStateOf(false) }
     // Use a LaunchedEffect for suspended UI functions
     LaunchedEffect(isTimezoneError.value, isLoaded.value, isError.value.not(), convertTimezones.value) {
         val convertPreference = convertTimezones.value ?: true
-        if(!isError.value && isLoaded.value && convertPreference) {
+        if(!hasBeenShown.value && !isError.value && isLoaded.value && convertPreference) {
             state.showSnackbar(
                 message = getString(Res.string.snackbar_timezone_error),
                 duration = SnackbarDuration.Long,
                 withDismissAction = true
             )
+
+            // Only show the snackbar the first time the screen is visited
+            hasBeenShown.value = true
         }
     }
 }

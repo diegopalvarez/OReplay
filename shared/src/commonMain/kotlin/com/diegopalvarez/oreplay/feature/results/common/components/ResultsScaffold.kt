@@ -21,7 +21,9 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -66,7 +68,7 @@ fun ResultsScaffold(
     val convertTimezones = preferencesManager.convertTimezone.collectAsState()
 
     // Check if the timezones are different
-    val isTimezoneDifferent = event.timezone != TimeZone.currentSystemDefault()
+    val isTimezoneDifferent = rememberSaveable { event.timezone != TimeZone.currentSystemDefault() }
 
     // Check if the Icon Warning should be displayed
     val timezoneIconDisplay = isTimezoneDifferent && !(convertTimezones.value ?: true)
