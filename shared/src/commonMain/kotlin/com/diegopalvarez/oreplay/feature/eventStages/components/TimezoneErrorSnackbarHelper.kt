@@ -28,13 +28,14 @@ fun TimezoneErrorSnackbarHelper(
     isTimezoneError: State<Boolean>,
     isLoaded: State<Boolean>,
     isError: State<Boolean>,
-    convertTimezones: State<Boolean?>
+    convertTimezones: State<Boolean?>,
+    isTimezoneDifferent: Boolean
 ) {
     val hasBeenShown = rememberSaveable { mutableStateOf(false) }
     // Use a LaunchedEffect for suspended UI functions
     LaunchedEffect(isTimezoneError.value, isLoaded.value, isError.value.not(), convertTimezones.value) {
         val convertPreference = convertTimezones.value ?: true
-        if(!hasBeenShown.value && !isError.value && isLoaded.value && convertPreference) {
+        if(!hasBeenShown.value && isTimezoneDifferent && convertPreference && !isError.value && isLoaded.value) {
             state.showSnackbar(
                 message = getString(Res.string.snackbar_timezone_error),
                 duration = SnackbarDuration.Long,
