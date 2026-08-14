@@ -42,11 +42,11 @@ abstract class AbstractResultsComponent(
 
     // Variable to store if the data has been initialized
     protected val _isInit = MutableValue(false)
-    val isINit: Value<Boolean> = _isInit
+    val isInit: Value<Boolean> = _isInit
 
     // Variable to store the loading state of the results
-    protected val _isLoading = MutableValue(false)
-    val isLoading: Value<Boolean> = _isLoading
+    protected val _isRefreshing = MutableValue(false)
+    val isRefreshing: Value<Boolean> = _isRefreshing
 
     // Variable to store if there has been an error connecting to the repository
     protected val _isError = MutableValue(false)

@@ -34,7 +34,6 @@ class ClubResultsComponent(
     private val scope = CoroutineScope(Dispatchers.Main)
 
     override suspend fun fetchResults(){
-        _isLoading.value = true     // TODO - Check and standardize where the loading state is updated
         repository.getClubResults(
             eventID = pageEvent.id,
             stageID = stage.id,
@@ -50,7 +49,6 @@ class ClubResultsComponent(
                 _isError.value = true
                 _errorType.value = it
             }
-        _isLoading.value = false
     }
 
     /**
@@ -67,7 +65,9 @@ class ClubResultsComponent(
      */
     override fun reloadResults(){
         scope.launch {
+            _isRefreshing.value = true // TODO - Check and standardize where the loading state is updated
             fetchResults()
+            _isRefreshing.value = false
         }
     }
 

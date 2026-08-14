@@ -27,6 +27,11 @@
     <string name="snackbar_server_error">The events weren't loaded due to an error in the OReplay Server. You might be seeing unupdated data</string>
     <string name="snackbar_app_error">The events weren't loaded due to an error in the app. You might be seeing unupdated data</string>
     <string name="snackbar_unknown_error">The events weren't loaded due to an error. You might be seeing unupdated data</string>
+    <string name="snackbar_results_network_error">The results weren't loaded due to a network error. You might be seeing unupdated data</string>
+    <string name="snackbar_results_internal_error">The results weren't loaded due to an internal error. You might be seeing unupdated data</string>
+    <string name="snackbar_results_server_error">The results weren't loaded due to an error in the OReplay Server. You might be seeing unupdated data</string>
+    <string name="snackbar_results_app_error">The results weren't loaded due to an error in the app. You might be seeing unupdated data</string>
+    <string name="snackbar_results_unknown_error">The results weren't loaded due to an error. You might be seeing unupdated data</string>
     <string name="dismiss">Dismiss</string>
     <string name="icon_network_error">Network Error</string>
     <string name="message_network_error">Network Error</string>

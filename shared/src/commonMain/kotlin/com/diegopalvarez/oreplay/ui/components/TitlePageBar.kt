@@ -47,7 +47,7 @@ fun TitlePageBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),   // TODO - Make the text be completely centered and the icon on the side
             ) {
                 AppBarTitle(title, subtitle)
                 if(displayTimezoneWarning) {

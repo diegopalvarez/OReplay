@@ -16,6 +16,8 @@ fun ResultsTabContent(
     // Subscribe to the Selected Tab
     val pages = component.pages.subscribeAsState()
 
+    // Every one of the pages inside the pull to refresh box must be a LazyColumn or have any type of vertical scroll
+
     when(val child = pages.value.items[pages.value.selectedIndex].instance){
         is AbstractResultsComponent.ResultsTabChild.Legs -> ResultsLegScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Results -> ResultsMainScreen(child.component)

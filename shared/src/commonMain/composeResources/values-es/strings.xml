@@ -27,6 +27,11 @@
     <string name="snackbar_server_error">Los eventos no se han cargado debido a un error en el servidor de OReplay. Puede que veas datos desactualizados</string>
     <string name="snackbar_app_error">Los eventos no se han cargado debido a un error en la aplicación. Puede que veas datos desactualizados</string>
     <string name="snackbar_unknown_error">Los eventos no se han cargado debido a un error. Puede que veas datos desactualizados</string>
+    <string name="snackbar_results_network_error">Los resultados no se han cargado debido a un error de conexión. Puede que veas datos desactualizados</string>
+    <string name="snackbar_results_internal_error">Los resultados no se han cargado debido a un error interno. Puede que veas datos desactualizados</string>
+    <string name="snackbar_results_server_error">Los resultados no se han cargado debido a un error en el servidor de OReplay. Puede que veas datos desactualizados</string>
+    <string name="snackbar_results_app_error">Los resultados no se han cargado debido a un error en la aplicación. Puede que veas datos desactualizados</string>
+    <string name="snackbar_results_unknown_error">Los resultados no se han cargado debido a un error. Puede que veas datos desactualizados</string>
     <string name="dismiss">Cerrar</string>
     <string name="icon_network_error">Error de Red</string>
     <string name="message_network_error">Error de Red</string>

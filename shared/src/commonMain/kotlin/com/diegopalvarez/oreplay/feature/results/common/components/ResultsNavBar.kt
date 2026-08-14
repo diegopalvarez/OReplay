@@ -51,4 +51,8 @@ fun ResultsNavBar(
             }
         }
     }
+    else{
+        // If there's just one Tab, there should not be a Navigation Bar
+        {}
+    }
 }
