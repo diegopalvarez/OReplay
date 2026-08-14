@@ -102,33 +102,39 @@ abstract class AbstractResultsComponent(
         return when(config){
             ResultsTabConfiguration.StartTimes -> StartTimes(
                 StartTimesComponent(
-                    componentContext = component
+                    componentContext = component,
+                    results = results
                 )
             )
             ResultsTabConfiguration.Results -> Results(
                 ResultsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    results = results
                 )
             )
             ResultsTabConfiguration.Splits -> Splits(
                 SplitsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    results = results
                 )
             )
             ResultsTabConfiguration.Legs -> Legs(
                 LegsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    results = results
                 )
             )
             ResultsTabConfiguration.Statistics -> Statistics(
                 StatisticsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    results = results
                 )
             )
 
             ResultsTabConfiguration.Points -> Points(
                 PointsComponent(
-                    componentContext = component
+                    componentContext = component,
+                    results = results
                 )
             )
         }
