@@ -111,7 +111,8 @@ abstract class AbstractResultsComponent(
             ResultsTabConfiguration.Results -> Results(
                 ResultsComponent(
                     componentContext = component,
-                    results = results
+                    results = results,
+                    stageType = stage.stageType.getStageType(),
                 )
             )
             ResultsTabConfiguration.Splits -> Splits(
