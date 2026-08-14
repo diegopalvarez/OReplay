@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.feature.results.common.types.startTimes
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,8 @@ import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.components.StartTimeItemIndividual
+import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.components.StartTimeItemTeam
+import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
 
@@ -51,8 +54,17 @@ fun ResultsStartTimesScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        if(runnerList.value.isEmpty()){
+        if(runnerList.value.isEmpty()) {
             // In case of an empty list, show a message
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillParentMaxSize(),
+                    contentAlignment = Alignment.Center
+                ){
+                    NoDataScreen()
+                }
+            }
         }
         else if(runnerList.value.all { it is ResultIndividual}){
             // Sort the list of runners
@@ -67,7 +79,16 @@ fun ResultsStartTimesScreen(
             }
         }
         else if(runnerList.value.all { it is ResultTeam }){
+            // Sort the list of runners
+            val sortedRunners = (runnerList.value as List<ResultTeam>)        // TODO - See if there's any other way to do this
+                .sortedWith (
+                    compareBy<ResultTeam> { it.stageResult?.startTime == null }
+                        .thenBy { it.stageResult?.startTime }
+                )
 
+            items(sortedRunners) { runner ->
+                StartTimeItemTeam(runner, timezone = timezone, isClubView)
+            }
         }
     }
 }
