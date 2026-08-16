@@ -112,7 +112,10 @@ abstract class AbstractResultsComponent(
                 ResultsComponent(
                     componentContext = component,
                     results = results,
+                    event = event,
+                    stage = stage,
                     stageType = stage.stageType.getStageType(),
+                    isClubView = isClubResults
                 )
             )
             ResultsTabConfiguration.Splits -> Splits(

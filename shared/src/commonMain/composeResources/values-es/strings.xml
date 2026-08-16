@@ -89,4 +89,11 @@
     <string name="no_start_time">-</string>
     <string name="no_class">Sin categoría</string>
     <string name="no_club">Sin club</string>
+    <string name="nc_position">NC</string>
+    <string name="OK">OK</string>
+    <string name="DNS">DNS</string>
+    <string name="DNF">DNF</string>
+    <string name="MP">MP</string>
+    <string name="DSQ">DSQ</string>
+    <string name="OT">FC</string>
 </resources>

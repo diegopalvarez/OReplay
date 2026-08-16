@@ -23,7 +23,7 @@ data class RemoteStageResult(
     @SerialName("time_seconds")
     val timeSeconds: Long,
 
-    val position: Long,
+    val position: Long,                 // Position is 0 if there's no position for the runner
 
     @SerialName("status_code")
     val statusCode: String,

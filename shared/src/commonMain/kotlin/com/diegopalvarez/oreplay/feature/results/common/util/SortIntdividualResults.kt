@@ -1,0 +1,51 @@
+package com.diegopalvarez.oreplay.feature.results.common.util
+
+import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.domain.types.getStatusCode
+
+// TODO - Check if it's possible to handle runners that are still running dynamically in their "LIVE" position
+// TODO - Will need a different function to handle radio controls
+private fun sortPriority(result: ResultIndividual): Int{
+    // The default is the lowest priority possible
+    if(result.stageResult == null){
+        return 10
+    }
+
+    // If the results is NC, it has its own priority behind OK results
+    if(result.isNc){
+        return 4
+    }
+
+    // The position is 0 when there's no position applicable
+    return when(result.stageResult.statusCode.getStatusCode()){
+        StatusCode.OK -> {
+            if(result.stageResult.position > 0){
+                // The first results are the correct ones
+                0
+            } else{
+                // Runners that are still running are displayed under correctly finished runners and OT
+                2
+            }
+        }
+        StatusCode.OVERTIME -> 1
+        StatusCode.MISSING_PUNCH -> 3
+        StatusCode.DISQUALIFIED -> 5
+        StatusCode.DID_NOT_FINISH -> 6
+        StatusCode.DID_NOT_START -> 7
+    }
+}
+
+fun sortIndividualResults(
+    results: List<ResultIndividual>
+): List<ResultIndividual> {
+    return results
+        .sortedWith(
+            compareBy<ResultIndividual>(
+                ::sortPriority
+            ).thenBy {
+                // Runners that have finished are ordered by their positions, and the others keep their relative order
+                it.stageResult?.position ?: Int.MIN_VALUE
+            }
+        )
+}
