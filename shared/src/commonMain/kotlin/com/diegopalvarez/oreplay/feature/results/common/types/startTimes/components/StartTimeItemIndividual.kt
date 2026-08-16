@@ -57,7 +57,7 @@ fun StartTimeItemIndividual(
                     }
                     else if(runner.stageResult.statusCode.getStatusCode() != StatusCode.OK){
                         Text(
-                            text = runner.stageResult.statusCode.getStatusCode().displayName,
+                            text = stringResource(runner.stageResult.statusCode.getStatusCode().displayName),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }

@@ -59,7 +59,7 @@ fun StartTimeItemTeam(
                     }
                     else if(team.stageResult.statusCode.getStatusCode() != StatusCode.OK){
                         Text(
-                            text = team.stageResult.statusCode.getStatusCode().displayName,
+                            text = stringResource(team.stageResult.statusCode.getStatusCode().displayName),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
