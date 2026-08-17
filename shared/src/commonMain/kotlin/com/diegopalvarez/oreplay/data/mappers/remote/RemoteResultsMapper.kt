@@ -34,7 +34,7 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
         isNc = remoteResult.isNc,
         eligibility = remoteResult.eligibility,
         siCard = requireNotNull(remoteResult.sicard) {"Individual results must contain a SI Card"},
-        sex = requireNotNull(remoteResult.sex) {"Individual results must contain the sex of the runner"},
+        sex = remoteResult.sex,
         legNumber = requireNotNull(remoteResult.legNumber) {"Individual results must all contains a leg number"},
         created = getInstant(remoteResult.created),
         fullName = remoteResult.fullName,
