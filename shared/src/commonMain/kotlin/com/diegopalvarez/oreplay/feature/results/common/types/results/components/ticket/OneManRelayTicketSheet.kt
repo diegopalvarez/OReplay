@@ -11,18 +11,17 @@ import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.domain.types.getStatusCode
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.SplitTime
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.NoPartialSplitTime
 import kotlinx.datetime.TimeZone
-import kotlin.time.Duration
 
 @Composable
-fun ClassicTicketSheet(
+fun OneManRelayTicketSheet(
     runnerResult: ResultIndividual,
     eventTimezone: TimeZone
 ) {
     TicketSheet(
         runnerResult,
         eventTimezone,
-        ::ClassicTicketSplitTable
+        ::OneManRelayTicketSplitTable
     )
 }

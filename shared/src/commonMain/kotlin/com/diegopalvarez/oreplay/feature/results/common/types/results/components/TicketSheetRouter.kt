@@ -5,6 +5,7 @@ import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.ClassicTicketSheet
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.OneManRelayTicketSheet
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import kotlinx.datetime.TimeZone
@@ -38,7 +39,7 @@ fun TicketSheetRouter(
             StageType.SCORE -> TODO()
             StageType.RAID -> TODO("Implement in the whole app")
             StageType.TRAIL -> TODO("Implement in the whole app")
-            StageType.ONE_MAN_RELAY -> TODO()
+            StageType.ONE_MAN_RELAY -> OneManRelayTicketSheet(runnerResult, eventTimezone)
             StageType.RANKING -> TODO("Implement in the whole app")
         }
     }
