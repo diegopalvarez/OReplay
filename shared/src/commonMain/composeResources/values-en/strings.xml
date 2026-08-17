@@ -105,4 +105,5 @@
     <string name="accumulated">Accumulated</string>
     <string name="finish">Finish</string>
     <string name="no_split">--</string>
+    <string name="no_chip_download">No chip reading</string>
 </resources>

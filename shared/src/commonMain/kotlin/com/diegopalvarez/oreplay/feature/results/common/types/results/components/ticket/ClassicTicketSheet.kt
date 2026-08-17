@@ -9,6 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import kotlinx.datetime.TimeZone
 
 @Composable
@@ -29,18 +31,28 @@ fun ClassicTicketSheet(
         }
 
         // Information about the runner results
-        if(runnerResult.stageResult != null){
+        if(runnerResult.stageResult != null) {
             item {
                 RunnerResultsHeader(runnerResult.stageResult, eventTimezone)
             }
 
-            item {
-                // Table of splits
-                ClassicTicketSplitTable(runnerResult.stageResult)
+            if(runnerResult.stageResult.statusCode.getStatusCode() != StatusCode.DID_NOT_START) {
+                item {
+                    // Table of splits
+                    ClassicTicketSplitTable(runnerResult.stageResult)
+                }
+            }
+            else{
+                item {
+                    NoChipDownload()
+                }
             }
         }
         else{
             // The runner hasn't downloaded their chip yet
+            item {
+                NoChipDownload()
+            }
         }
 
     }
