@@ -41,10 +41,19 @@ fun TicketSheet(
             }
 
             if (runnerResult.stageResult.statusCode.getStatusCode() != StatusCode.DID_NOT_START) {
-                item {
-                    // Table of splits
-                    splitTable(runnerResult.stageResult)
+                if(runnerResult.stageResult.position != 0L){
+                    item {
+                        // Table of splits
+                        splitTable(runnerResult.stageResult)
+                    }
                 }
+                else{
+                    // The runner hasn't finished yet
+                    item {
+                        NoChipDownload()
+                    }
+                }
+
             } else {
                 item {
                     NoChipDownload()

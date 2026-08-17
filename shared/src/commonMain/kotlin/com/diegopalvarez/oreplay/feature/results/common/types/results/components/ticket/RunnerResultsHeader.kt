@@ -67,10 +67,12 @@ fun RunnerResultsHeader(
             verticalAlignment = Alignment.CenterVertically
         ){
             // Position
-            TextFieldWithName(
-                name = Res.string.position,
-                value = result.position.toString()
-            )
+            if(result.position != 0L){
+                TextFieldWithName(
+                    name = Res.string.position,
+                    value = result.position.toString()
+                )
+            }
 
             // Points - These are not calculated by the API and have to be manually calculated
             // TODO - Check if NC runners also have points or not
@@ -78,10 +80,15 @@ fun RunnerResultsHeader(
                 // TODO - Check what points field does and if there's a better option to calculating the points here
                 val time = result.timeSeconds.inWholeSeconds.toDouble()
                 val timeWinner = (result.timeSeconds - result.timeBehind).inWholeSeconds.toDouble()
-                TextFieldWithName(
-                    name = Res.string.points,
-                    value = ((timeWinner / time) * 1000).roundToInt().toString()   // (Winner Time / Runner Time) * 1000
-                )
+
+                // If the time is 0, dividing would cause an Exception
+                if(time != 0.0){
+                    TextFieldWithName(
+                        name = Res.string.points,
+                        value = ((timeWinner / time) * 1000).roundToInt().toString()   // (Winner Time / Runner Time) * 1000
+                    )
+                }
+
             }
             else{
                 TextFieldWithName(
@@ -89,7 +96,6 @@ fun RunnerResultsHeader(
                     value = "0"
                 )
             }
-
         }
 
         // Start Time and Total Time
@@ -110,10 +116,14 @@ fun RunnerResultsHeader(
 
             // Time or Status if there's been an error
             if(statusCode == StatusCode.OK) {
-                TextFieldWithName(
-                    name = Res.string.time_ticket,
-                    value = result.timeSeconds.display()
-                )
+                if(result.position != 0L){
+                    // Only display the time if the runner has finished
+                    TextFieldWithName(
+                        name = Res.string.time_ticket,
+                        value = result.timeSeconds.display()
+                    )
+                }
+
             }
             else{
                 TextFieldWithName(
