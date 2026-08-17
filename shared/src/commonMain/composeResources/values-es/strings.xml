@@ -96,4 +96,13 @@
     <string name="MP">MP</string>
     <string name="DSQ">DSQ</string>
     <string name="OT">FC</string>
+    <string name="points">Puntos</string>
+    <string name="position">Posición</string>
+    <string name="start_time_ticket">Hora de salida</string>
+    <string name="time_ticket">Tiempo</string>
+    <string name="control">Control</string>
+    <string name="partial">Parcial</string>
+    <string name="accumulated">Acumulado</string>
+    <string name="finish">Meta</string>
+    <string name="no_split">--</string>
 </resources>

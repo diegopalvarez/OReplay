@@ -31,10 +31,10 @@ import kotlin.time.Instant
  @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ResultListItem(
-    runner: ResultIndividual,
-    now: State<Instant>?,
-    isClubView: Boolean,
-    showTicketDrawer: () -> Unit,
+     runner: ResultIndividual,
+     now: State<Instant>?,
+     isClubView: Boolean,
+     showTicketDrawer: (ResultIndividual) -> Unit,
 ) {
     val result = runner.stageResult
 
@@ -42,7 +42,7 @@ fun ResultListItem(
     if(result == null){
         SegmentedListItem(
             shapes = ListItemDefaults.shapes(),
-            onClick = { showTicketDrawer() },
+            onClick = { },
             enabled = true,
             leadingContent = null,
             trailingContent = null,
@@ -80,7 +80,7 @@ fun ResultListItem(
         val position = runner.stageResult.position
         SegmentedListItem(
             shapes = ListItemDefaults.shapes(),
-            onClick = { showTicketDrawer() },
+            onClick = { showTicketDrawer(runner) },
             enabled = true,
             leadingContent =    if(runner.isNc){
                                     {

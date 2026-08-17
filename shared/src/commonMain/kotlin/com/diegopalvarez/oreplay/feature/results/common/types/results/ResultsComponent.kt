@@ -1,11 +1,14 @@
 package com.diegopalvarez.oreplay.feature.results.common.types.results
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.types.StageType
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -18,6 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
@@ -37,6 +41,11 @@ class ResultsComponent(
     // Function to get the stage type
     fun getStageType(): StageType {
         return stageType
+    }
+
+    // Function to get the event timezone
+    fun getEventTimezone(): TimeZone {
+        return event.timezone
     }
 
     // Function to get if the event is live or not
@@ -64,4 +73,24 @@ class ResultsComponent(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = Clock.System.now()
     )
+
+    /**
+     * Modal Drawer Sheet Behavior
+     */
+
+    private val _ticketRunner: MutableValue<Optional<ResultIndividual>> = MutableValue(Optional.None)
+    val ticketRunner: Value<Optional<ResultIndividual>> = _ticketRunner
+
+    private val _ticketDrawerState: MutableValue<Boolean> = MutableValue(false)
+    val ticketDrawerState: Value<Boolean> = _ticketDrawerState
+
+    fun showTicketModal(runner: ResultIndividual) {
+        _ticketRunner.value = Optional.Some(runner)
+        _ticketDrawerState.value = true
+    }
+
+    fun hideTicketModal() {
+        _ticketDrawerState.value = false
+        _ticketRunner.value = Optional.None
+    }
 }
