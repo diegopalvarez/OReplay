@@ -19,7 +19,7 @@ data class RemoteEventDetails(
     val location: String? = null,
 
     @SerialName("country_code")
-    val countryCode: String,
+    val countryCode: String? = null,
 
     @SerialName("initial_date")
     val initialDate: String,
