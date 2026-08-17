@@ -30,28 +30,31 @@ import kotlin.time.Instant
 
  @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun ResultListItem(
+fun ScoreResultListItem(
      runner: ResultIndividual,
      now: State<Instant>?,
      isClubView: Boolean,
      showTicketDrawer: (ResultIndividual) -> Unit,
 ) {
-     val result = runner.stageResult
+    val result = runner.stageResult
 
-     // If the result is null, there's an error and only the basic information can be displayed
-     if (result == null) {
-         BasicResultListItem(runner, isClubView)
-     } else {
-         //If the result is complete, handle all the different information
-         // Get the status code of the runner and their position
-         val statusCode = runner.stageResult.statusCode.getStatusCode()
-         val position = runner.stageResult.position
-         BasicResultListItem(
-             runner = runner,
-             isClubView = isClubView,
-             leadingContent = resultListItemLeadingContent(runner, statusCode, position),
-             trailingContent = classicListItemTrailingContent(runner.isNc, result, statusCode, now, position),
-             showTicketDrawer = showTicketDrawer,
-         )
-     }
- }
+    // If the result is null, there's an error and only the basic information can be displayed
+    if(result == null){
+        BasicResultListItem(runner, isClubView)
+    }
+    else{
+        //If the result is complete, handle all the different information
+        // Get the status code of the runner and their position
+        val statusCode = runner.stageResult.statusCode.getStatusCode()
+        val position = runner.stageResult.position
+
+        BasicResultListItem(
+            runner = runner,
+            isClubView = isClubView,
+            leadingContent = resultListItemLeadingContent(runner, statusCode, position),
+            trailingContent = scoreListItemTrailingContent(runner.isNc, result, statusCode, now, position),
+            showTicketDrawer = showTicketDrawer
+        )
+    }
+
+}
