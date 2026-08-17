@@ -48,6 +48,9 @@ fun RunnerResultsHeader(
         timezone = eventTimezone
     }
 
+    // Calculate the status code of the runner
+    val statusCode = result.statusCode.getStatusCode()
+
     // TODO - Consider adding the other time parameters (neutralization, bonus, penalty)
 
     Column(
@@ -70,13 +73,23 @@ fun RunnerResultsHeader(
             )
 
             // Points - These are not calculated by the API and have to be manually calculated
-            // TODO - Check what points field does and if there's a better option to calculating the points here
-            val time = result.timeSeconds.inWholeSeconds.toDouble()
-            val timeWinner = (result.timeSeconds - result.timeBehind).inWholeSeconds.toDouble()
-            TextFieldWithName(
-                name = Res.string.points,
-                value = ((timeWinner / time) * 1000).roundToInt().toString()   // (Winner Time / Runner Time) * 1000
-            )
+            // TODO - Check if NC runners also have points or not
+            if(statusCode == StatusCode.OK){
+                // TODO - Check what points field does and if there's a better option to calculating the points here
+                val time = result.timeSeconds.inWholeSeconds.toDouble()
+                val timeWinner = (result.timeSeconds - result.timeBehind).inWholeSeconds.toDouble()
+                TextFieldWithName(
+                    name = Res.string.points,
+                    value = ((timeWinner / time) * 1000).roundToInt().toString()   // (Winner Time / Runner Time) * 1000
+                )
+            }
+            else{
+                TextFieldWithName(
+                    name = Res.string.points,
+                    value = "0"
+                )
+            }
+
         }
 
         // Start Time and Total Time
@@ -96,7 +109,6 @@ fun RunnerResultsHeader(
             // TODO - In which cases might the start time be null?
 
             // Time or Status if there's been an error
-            val statusCode = result.statusCode.getStatusCode()
             if(statusCode == StatusCode.OK) {
                 TextFieldWithName(
                     name = Res.string.time_ticket,
