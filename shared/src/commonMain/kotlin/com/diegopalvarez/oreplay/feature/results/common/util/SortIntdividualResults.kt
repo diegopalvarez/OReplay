@@ -46,6 +46,10 @@ fun sortIndividualResults(
             ).thenBy {
                 // Runners that have finished are ordered by their positions, and the others keep their relative order
                 it.stageResult?.position ?: Int.MIN_VALUE
+            }.thenBy {
+                // Runners that have the same position (in a club, for example) are ordered by their total time
+                it.stageResult?.timeSeconds ?: Int.MIN_VALUE
             }
+
         )
 }
