@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

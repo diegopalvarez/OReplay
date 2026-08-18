@@ -1,28 +1,23 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
-import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.domain.types.getStatusCode
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.ResultTimesHeaderRow
 import com.diegopalvarez.oreplay.ui.components.TextFieldWithName
 import com.diegopalvarez.oreplay.ui.util.display
 import com.diegopalvarez.oreplay.ui.util.displayTime
-import com.diegopalvarez.oreplay.ui.util.toPoints
 import kotlinx.datetime.TimeZone
 import oreplay.shared.generated.resources.Res
-import oreplay.shared.generated.resources.bonus
-import oreplay.shared.generated.resources.penalty
 import oreplay.shared.generated.resources.points
 import oreplay.shared.generated.resources.position
 import oreplay.shared.generated.resources.start_time_ticket
@@ -32,7 +27,7 @@ import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 
 @Composable
-fun RunnerScoreResultsHeader(
+fun RunnerResultsHeader(
     result: StageResult,
     eventTimezone: TimeZone,
 ){
@@ -54,6 +49,7 @@ fun RunnerScoreResultsHeader(
     // Calculate the status code of the runner
     val statusCode = result.statusCode.getStatusCode()
 
+    // TODO - Consider adding the other time parameters (neutralization, bonus, penalty)
 
     Column(
         modifier = Modifier
@@ -76,20 +72,21 @@ fun RunnerScoreResultsHeader(
                 )
             }
 
-            // Points - For Score results, these are provided by the API
+            // Points - These are not calculated by the API and have to be manually calculated
+            // TODO - Check if NC runners also have points or not
             if(statusCode == StatusCode.OK){
-                if(result.pointsTotal != null){
+                // TODO - Check what points field does and if there's a better option to calculating the points here
+                val time = result.timeSeconds.inWholeSeconds.toDouble()
+                val timeWinner = (result.timeSeconds - result.timeBehind).inWholeSeconds.toDouble()
+
+                // If the time is 0, dividing would cause an Exception
+                if(time != 0.0){
                     TextFieldWithName(
                         name = Res.string.points,
-                        value = result.pointsTotal.toPoints()
+                        value = ((timeWinner / time) * 1000).roundToInt().toString()   // (Winner Time / Runner Time) * 1000
                     )
                 }
-                else{
-                    TextFieldWithName(
-                        name = Res.string.points,
-                        value = "0"
-                    )
-                }
+
             }
             else{
                 TextFieldWithName(
@@ -99,76 +96,7 @@ fun RunnerScoreResultsHeader(
             }
         }
 
-        // Bonus and Penalty
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            // Point Bonus
-            if(result.pointsBonus != null){
-                TextFieldWithName(
-                    name = Res.string.bonus,
-                    value = result.pointsBonus.toPoints()
-                )
-            }
-            else{
-                TextFieldWithName(
-                    name = Res.string.bonus,
-                    value = "0"
-                )
-            }
-
-            // Point Penalty
-            if(result.pointsPenalty != null){
-                TextFieldWithName(
-                    name = Res.string.penalty,
-                    value = result.pointsPenalty.toPoints()
-                )
-            }
-            else{
-                TextFieldWithName(
-                    name = Res.string.penalty,
-                    value = "0"
-                )
-            }
-        }
-
         // Start Time and Total Time
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            // Start Time
-            if(result.startTime != null) {
-                TextFieldWithName(
-                    name = Res.string.start_time_ticket,
-                    value = result.startTime.displayTime(timezone)
-                )
-            }
-            // TODO - In which cases might the start time be null?
-
-            // Time or Status if there's been an error
-            if(statusCode == StatusCode.OK) {
-                if(result.position != 0L){
-                    // Only display the time if the runner has finished
-                    TextFieldWithName(
-                        name = Res.string.time_ticket,
-                        value = result.timeSeconds.display()
-                    )
-                }
-
-            }
-            else{
-                TextFieldWithName(
-                    name = Res.string.time_ticket,
-                    value = stringResource(statusCode.displayName)
-                )
-            }
-
-        }
+        ResultTimesHeaderRow(result, timezone, statusCode)
     }
 }

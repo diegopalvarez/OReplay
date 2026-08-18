@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +21,7 @@ import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ControlNumber
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.NoPartialSplitTime
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.SplitTime
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
@@ -31,7 +32,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun ClassicTicketSplitItem(
+fun OneManRelayTicketSplitItem(
     split: SplitIndividual,
     alternateColor: Boolean
 ) {
@@ -54,18 +55,14 @@ fun ClassicTicketSplitItem(
         ControlNumber(split.orderNumber, split.control.station, Modifier.weight(0.75f))
 
         // Partial
-        SplitTime(
+        NoPartialSplitTime(
             split.partial,
-            split.partialDifference,
-            split.partialPosition,
             Modifier.weight(1.125f)
         )
 
         // Accumulated
-        SplitTime(
+        NoPartialSplitTime(
             split.accumulated,
-            split.accumulatedDifference,
-            split.accumulatedPosition,
             Modifier.weight(1.125f)
         )
     }

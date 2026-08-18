@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

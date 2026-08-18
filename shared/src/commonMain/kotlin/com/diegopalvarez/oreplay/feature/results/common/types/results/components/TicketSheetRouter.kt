@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StageType
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.ClassicTicketSheet
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.OneManRelayTicketSheet
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.ScoreTicketSheet
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic.ClassicTicketSheet
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay.OneManRelayTicketSheet
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.score.ScoreTicketSheet
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import kotlinx.datetime.TimeZone

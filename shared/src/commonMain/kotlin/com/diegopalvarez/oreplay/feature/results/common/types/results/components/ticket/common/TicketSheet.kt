@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,17 +9,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.domain.types.getStatusCode
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.SplitTime
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic.RunnerResultsHeader
 import kotlinx.datetime.TimeZone
-import kotlin.time.Duration
 
 @Composable
-fun ScoreTicketSheet(
+fun TicketSheet(
     runnerResult: ResultIndividual,
-    eventTimezone: TimeZone
-) {
+    eventTimezone: TimeZone,
+    splitTable: @Composable (result: StageResult) -> Unit,
+){
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -35,14 +36,14 @@ fun ScoreTicketSheet(
         // Information about the runner results
         if (runnerResult.stageResult != null) {
             item {
-                RunnerScoreResultsHeader(runnerResult.stageResult, eventTimezone)
+                RunnerResultsHeader(runnerResult.stageResult, eventTimezone)
             }
 
             if (runnerResult.stageResult.statusCode.getStatusCode() != StatusCode.DID_NOT_START) {
                 if(runnerResult.stageResult.position != 0L){
                     item {
                         // Table of splits
-                        //ScoreTicketScreen(runnerResult.stageResult)
+                        splitTable(runnerResult.stageResult)
                     }
                 }
                 else{
