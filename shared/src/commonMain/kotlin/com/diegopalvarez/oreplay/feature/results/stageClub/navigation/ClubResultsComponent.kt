@@ -7,8 +7,11 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
+import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
+import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +46,12 @@ class ClubResultsComponent(
             .onSuccess {
                 _isError.value = false
                 _results.value = it.result
+
+                // If the results are Score, also fetch the additional information
+                if(stage.stageType.getStageType() == StageType.SCORE){
+                    _visitedScoreControls.value = Optional.Some((it as ScoreRepositoryResult).visitedControls)
+                }
+
                 _isInit.value = true
             }
             .onError {

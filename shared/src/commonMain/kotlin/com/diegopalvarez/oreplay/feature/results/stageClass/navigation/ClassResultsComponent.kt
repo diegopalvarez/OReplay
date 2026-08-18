@@ -16,6 +16,7 @@ import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,6 +51,12 @@ class ClassResultsComponent(
             .onSuccess {
                 _isError.value = false
                 _results.value = it.result
+
+                // If the results are Score, also fetch the additional information
+                if(stage.stageType.getStageType() == StageType.SCORE){
+                    _visitedScoreControls.value = Optional.Some((it as ScoreRepositoryResult).visitedControls)
+                }
+
                 _isInit.value = true
             }
             .onError {

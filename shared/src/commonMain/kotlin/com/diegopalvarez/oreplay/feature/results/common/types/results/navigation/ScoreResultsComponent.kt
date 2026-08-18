@@ -10,7 +10,9 @@ import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.types.StageType
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 
 class ScoreResultsComponent(
     componentContext: ComponentContext,
@@ -18,7 +20,8 @@ class ScoreResultsComponent(
     private val event: Event,
     private val stage: Stage,
     private val stageType: StageType,
-    private val isClubView: Boolean
+    private val isClubView: Boolean,
+    val visitedStatsMap: Value<Optional<Map<String, ScoreResultStats>>>
 ): CommonResultComponent(
     componentContext = componentContext,
     results = scoreResults,
@@ -27,6 +30,26 @@ class ScoreResultsComponent(
     stageType = stageType,
     isClubView = isClubView
 ) {
+    /**
+     * Function to get the visited stats for the class of the runner in the ticker
+     */
+    fun getVisitedStats(classID: String?): Optional<ScoreResultStats>{
+        when(val stats = visitedStatsMap.value){
+            Optional.None -> return Optional.None
+            is Optional.Some -> if(classID != null){
+                                    val result = stats.value[classID]
+                                    return if(result != null) {
+                                        Optional.Some(result)
+                                    } else{
+                                        Optional.None
+                                    }
+                                }
+                                else{
+                                    return Optional.None
+                                }
+        }
+    }
+
     /**
      * Set up Tab Navigation for the different ticket views
      */

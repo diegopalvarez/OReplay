@@ -10,19 +10,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key.Companion.R
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageResult
+import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreTabConfiguration
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ScoreTicketScreen(
     result: StageResult,
-    component: ScoreResultsComponent
+    visitedStats: Optional<ScoreResultStats>,
+    component: ScoreResultsComponent,
 ) {
     // Subscribe to the selected tab
     val pages by component.pages.subscribeAsState()
@@ -67,6 +68,6 @@ fun ScoreTicketScreen(
         }
 
         // Actual content of the tabs
-        ScoreTicketHost(component, result)
+        ScoreTicketHost(component, result, visitedStats)
     }
 }

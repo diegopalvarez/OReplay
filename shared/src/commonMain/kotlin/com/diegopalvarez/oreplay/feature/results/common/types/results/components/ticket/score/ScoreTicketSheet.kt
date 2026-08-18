@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.domain.types.getStatusCode
@@ -22,6 +23,10 @@ fun ScoreTicketSheet(
     eventTimezone: TimeZone,
     component: ScoreResultsComponent
 ) {
+    // Get the visited controls statistics for this runner from the component
+    // TODO - Check if there's a need to subscribe to this variable
+    val visitedStats = component.getVisitedStats(runnerResult.runnerClass?.id)
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -44,7 +49,7 @@ fun ScoreTicketSheet(
                 if(runnerResult.stageResult.position != 0L){
                     item {
                         // Table of splits
-                        ScoreTicketScreen(runnerResult.stageResult, component)
+                        ScoreTicketScreen(runnerResult.stageResult, visitedStats, component)
                     }
                 }
                 else{

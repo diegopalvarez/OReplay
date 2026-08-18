@@ -18,12 +18,14 @@ import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTi
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
 import kotlin.time.Clock
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent.ResultsTabChild.*
 import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 
 abstract class AbstractResultsComponent(
     componentContext: ComponentContext,
@@ -69,6 +71,12 @@ abstract class AbstractResultsComponent(
      * Reload function
      */
     abstract fun reloadResults()
+
+    /**
+     * Variable to hold the information regarding visitedControls in Score
+     */
+    protected val _visitedScoreControls: MutableValue<Optional<Map<String, ScoreResultStats>>> = MutableValue(Optional.None)
+    val visitedScoreControls: Value<Optional<Map<String, ScoreResultStats>>> = _visitedScoreControls
 
     /**
      * Tab Navigation Functionality
@@ -120,7 +128,8 @@ abstract class AbstractResultsComponent(
                             event = event,
                             stage = stage,
                             stageType = stage.stageType.getStageType(),
-                            isClubView = isClubResults
+                            isClubView = isClubResults,
+                            visitedStatsMap = visitedScoreControls
                         )
                     )
                 }
