@@ -27,7 +27,6 @@ fun ScoreTicketTable(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
-            .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

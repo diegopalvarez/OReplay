@@ -111,4 +111,5 @@
     <string name="table_icon">Tabla de resultados</string>
     <string name="score_stat_text">Este control lo han visitado</string>
     <string name="runners">corredores</string>
+    <string name="no_data">No hay datos disponibles</string>
 </resources>

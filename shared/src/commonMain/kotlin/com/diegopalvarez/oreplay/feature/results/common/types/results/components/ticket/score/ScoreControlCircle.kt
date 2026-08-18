@@ -41,6 +41,7 @@ fun ScoreControlCircle(
     // Get the circle color
     val circleColor = MaterialTheme.colorScheme.secondaryContainer
 
+    // TODO - Make the size of the circle responsive
     // Circle size
     val circleSize = 40.dp
 
