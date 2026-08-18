@@ -65,5 +65,8 @@ fun ScoreTicketScreen(
                 }
             )
         }
+
+        // Actual content of the tabs
+        ScoreTicketHost(component, result)
     }
 }

@@ -62,14 +62,12 @@ class ScoreResultsComponent(
                 TableTabComponent(
                     componentContext = component,
                     ticketRunner = ticketRunner,
-                    stageType = stageType
                 )
             )
             ScoreTabConfiguration.ScoreTab -> TicketTabChild.ScoreView(
                 ScoreTabComponent(
                     componentContext = component,
                     ticketRunner = ticketRunner,
-                    stageType = stageType
                 )
             )
         }
