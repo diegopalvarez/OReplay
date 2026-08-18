@@ -109,4 +109,6 @@
     <string name="bonus">Bonus</string>
     <string name="penalty">Penalty</string>
     <string name="table_icon">Table of Results</string>
+    <string name="score_stat_text">This control has been visited by</string>
+    <string name="runners">runners</string>
 </resources>

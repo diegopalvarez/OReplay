@@ -1,8 +1,13 @@
 package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.score
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreTabComponent
@@ -23,16 +28,21 @@ fun ScoreTicketPoints(
         }
         is Optional.Some -> {
             val stats = visited.value
-            Column(
-
+            FlowRow(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalArrangement = Arrangement.Center,
             ){
-                for ((control, number) in stats.visited.entries){
-                    if(runnerControls.contains(control)){
-                        Text("YES - $control - ${number}/${stats.runners}")
-                    }
-                    else{
-                        Text("NO - $control - ${number}/${stats.runners}")
-                    }
+                // TODO - Find a better way to exclude the Finish control
+                for ((control, number) in stats.visited.entries.sortedBy { it.key }.dropLast(1)) {
+                    val isVisited = runnerControls.contains(control)
+                    ScoreControlCircle(
+                        control = control,
+                        visited = isVisited,
+                        numberOfVisitors = number,
+                        totalRunners = stats.runners,
+                    )
                 }
             }
         }
