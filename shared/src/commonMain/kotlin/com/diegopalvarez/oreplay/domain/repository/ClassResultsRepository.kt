@@ -95,8 +95,9 @@ class ClassResultsRepository(
                 // A Score stage only has points and its splits have no order. There must not be rankings
                 // TODO - Develop a better way to calculate and return the list of all possible controls that can be visited during an SCORE race
                 Result.Success(
-                    getUnprocessedResults(
-                        remoteResultsResponse = results
+                    getClassicResults(
+                        remoteResultsResponse = results,
+                        calculateRanks = false
                     )
                 )
             }
