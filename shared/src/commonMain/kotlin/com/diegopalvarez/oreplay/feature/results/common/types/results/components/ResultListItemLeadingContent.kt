@@ -12,11 +12,11 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun resultListItemLeadingContent(
-    runner: ResultIndividual,
+    isNC: Boolean,
     statusCode: StatusCode,
     position: Long
 ): @Composable (() -> Unit)? {
-    return if(runner.isNc){
+    return if(isNC){
         @Composable {
             Text(
                 text = stringResource(Res.string.nc_position),
