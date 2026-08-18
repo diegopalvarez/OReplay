@@ -10,7 +10,9 @@ import com.diegopalvarez.oreplay.data.mappers.remote.getTeamResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getUnprocessedResults
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.repository.type.RepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
+import com.diegopalvarez.oreplay.domain.repository.util.wrapResult
 import kotlin.collections.iterator
 
 class ClubResultsRepository(
@@ -28,7 +30,7 @@ class ClubResultsRepository(
         stageID: String,
         clubID: String,
         stageType: StageType
-    ): Result<List<com.diegopalvarez.oreplay.domain.model.Result>, RepositoryError> {
+    ): Result<RepositoryResult, RepositoryError> {
         val results = api.getStageResults(
             eventID = eventID,
             stageID = stageID,
@@ -71,7 +73,7 @@ class ClubResultsRepository(
         clubID: String,
         results: RemoteResultsResponse,
         stageType: StageType
-    ): Result<List<com.diegopalvarez.oreplay.domain.model.Result>, RepositoryError> {
+    ): Result<RepositoryResult, RepositoryError> {
         return when(stageType) {
             StageType.CLASSIC -> {
                 // A Classic stage has splits and rankings
@@ -90,7 +92,7 @@ class ClubResultsRepository(
 
                 when(processedResults){
                     is Result.Success -> {
-                        Result.Success(processedResults.data)
+                        Result.Success(wrapResult(processedResults.data, StageType.CLASSIC))
                     }
                     is Result.Error -> {
                         Result.Error(processedResults.error)
@@ -101,8 +103,11 @@ class ClubResultsRepository(
             StageType.OVERALL -> {
                 // An Overall stage doesn't have splits, only overalls
                 Result.Success(
-                    getUnprocessedResults(
-                        remoteResultsResponse = results
+                    wrapResult(
+                        getUnprocessedResults(
+                            remoteResultsResponse = results
+                        ),
+                        StageType.OVERALL
                     )
                 )
             }
@@ -111,8 +116,11 @@ class ClubResultsRepository(
                 // A Relay stage is a team race with splits
                 // The Relays don't need to compare because they don't have splits, so it can be mapped the same way as a class result
                 Result.Success(
-                    getTeamResults(
-                        remoteResultsResponse = results
+                    wrapResult(
+                        getTeamResults(
+                            remoteResultsResponse = results
+                        ),
+                        StageType.RELAY
                     )
                 )
             }
@@ -121,9 +129,12 @@ class ClubResultsRepository(
                 // A Score stage only has points and its splits have no order. There must not be rankings
                 // TODO - Develop a better way to calculate and return the list of all possible controls that can be visited during an SCORE race
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = false
+                    wrapResult(
+                        getClassicResults(
+                            remoteResultsResponse = results,
+                            calculateRanks = false
+                        ),
+                        StageType.SCORE
                     )
                 )
             }
@@ -132,9 +143,12 @@ class ClubResultsRepository(
                 // A One-Man Relay stage is like a Classic Stage, but since the runners might have different courses in the same class there are no rankings
                 // The splits can ba calculated directly, and since there's no ranks there is no need to compare the whole class
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = false
+                    wrapResult(
+                        getClassicResults(
+                            remoteResultsResponse = results,
+                            calculateRanks = false
+                        ),
+                        StageType.ONE_MAN_RELAY
                     )
                 )
             }

@@ -9,7 +9,9 @@ import com.diegopalvarez.oreplay.data.mappers.remote.getClassicResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getTeamResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getUnprocessedResults
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
+import com.diegopalvarez.oreplay.domain.repository.type.RepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
+import com.diegopalvarez.oreplay.domain.repository.util.wrapResult
 
 class ClassResultsRepository(
     val api: OReplayAPI
@@ -26,7 +28,7 @@ class ClassResultsRepository(
         stageID: String,
         classID: String,
         stageType: StageType
-    ): Result<List<com.diegopalvarez.oreplay.domain.model.Result>, RepositoryError> {
+    ): Result<RepositoryResult, RepositoryError> {
         val results = api.getStageResults(
             eventID = eventID,
             stageID = stageID,
@@ -61,14 +63,17 @@ class ClassResultsRepository(
     private fun processResultByType(
         results: RemoteResultsResponse,
         stageType: StageType
-    ): Result<List<com.diegopalvarez.oreplay.domain.model.Result>, RepositoryError> {
+    ): Result<RepositoryResult, RepositoryError> {
         return when(stageType) {
             StageType.CLASSIC -> {
                 // A Classic stage has splits and rankings
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = true
+                    wrapResult(
+                        getClassicResults(
+                            remoteResultsResponse = results,
+                            calculateRanks = true
+                        ),
+                        StageType.CLASSIC
                     )
                 )
             }
@@ -76,8 +81,11 @@ class ClassResultsRepository(
             StageType.OVERALL -> {
                 // An Overall stage doesn't have splits, only overalls
                 Result.Success(
-                    getUnprocessedResults(
-                        remoteResultsResponse = results
+                    wrapResult(
+                        getUnprocessedResults(
+                            remoteResultsResponse = results
+                        ),
+                        StageType.OVERALL
                     )
                 )
             }
@@ -85,8 +93,11 @@ class ClassResultsRepository(
             StageType.RELAY -> {
                 // A Relay stage is a team race with splits
                 Result.Success(
-                    getTeamResults(
-                        remoteResultsResponse = results
+                    wrapResult(
+                        getTeamResults(
+                            remoteResultsResponse = results
+                        ),
+                        StageType.RELAY
                     )
                 )
             }
@@ -95,9 +106,12 @@ class ClassResultsRepository(
                 // A Score stage only has points and its splits have no order. There must not be rankings
                 // TODO - Develop a better way to calculate and return the list of all possible controls that can be visited during an SCORE race
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = false
+                    wrapResult(
+                        getClassicResults(
+                            remoteResultsResponse = results,
+                            calculateRanks = false
+                        ),
+                        StageType.SCORE
                     )
                 )
             }
@@ -105,9 +119,12 @@ class ClassResultsRepository(
             StageType.ONE_MAN_RELAY -> {
                 // A One-Man Relay stage is like a Classic Stage, but since the runners might have different courses in the same class there are no rankings
                 Result.Success(
-                    getClassicResults(
-                        remoteResultsResponse = results,
-                        calculateRanks = false
+                    wrapResult(
+                        getClassicResults(
+                            remoteResultsResponse = results,
+                            calculateRanks = false
+                        ),
+                        StageType.ONE_MAN_RELAY
                     )
                 )
             }
