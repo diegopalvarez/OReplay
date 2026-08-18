@@ -15,6 +15,7 @@ import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.ui.util.display
+import com.diegopalvarez.oreplay.ui.util.toPoints
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.nc_position
 import org.jetbrains.compose.resources.stringResource
@@ -48,7 +49,7 @@ fun scoreListItemTrailingContent(
                     if(result.pointsTotal != null){
                         // TODO - See when points can be null
                         Text(
-                            text = result.pointsTotal.toDouble().roundToInt().toString(),
+                            text = result.pointsTotal.toPoints(),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }

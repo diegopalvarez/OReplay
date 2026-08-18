@@ -106,4 +106,6 @@
     <string name="finish">Meta</string>
     <string name="no_split">--</string>
     <string name="no_chip_download">No hay lectura del chip</string>
+    <string name="bonus">Bonus</string>
+    <string name="penalty">Penalización</string>
 </resources>
