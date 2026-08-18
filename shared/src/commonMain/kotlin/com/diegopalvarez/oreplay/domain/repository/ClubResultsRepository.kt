@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.domain.repository
 
+import com.diegopalvarez.oreplay.core.util.NetworkError
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
 import com.diegopalvarez.oreplay.domain.types.StageType
@@ -11,6 +12,8 @@ import com.diegopalvarez.oreplay.data.mappers.remote.getUnprocessedResults
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.repository.type.RepositoryResult
+import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
+import com.diegopalvarez.oreplay.domain.repository.util.calculateVisitedControls
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
 import com.diegopalvarez.oreplay.domain.repository.util.wrapResult
 import kotlin.collections.iterator
@@ -128,15 +131,35 @@ class ClubResultsRepository(
             StageType.SCORE -> {
                 // A Score stage only has points and its splits have no order. There must not be rankings
                 // TODO - Develop a better way to calculate and return the list of all possible controls that can be visited during an SCORE race
-                Result.Success(
-                    wrapResult(
-                        getClassicResults(
-                            remoteResultsResponse = results,
-                            calculateRanks = false
-                        ),
-                        StageType.SCORE
-                    )
+
+                // Get the results for the score stage in the club
+                val clubResults = getClassicResults(
+                    remoteResultsResponse = results,
+                    calculateRanks = false
                 )
+
+                // Calculate all visited results for all the different classes in the club
+                val processedResults = processScoreTeamResults(
+                    eventID = eventID,
+                    stageID = stageID,
+                    clubID = clubID,
+                    results = clubResults
+                )
+
+                when(processedResults){
+                    is Result.Success -> {
+                        Result.Success(
+                            wrapResult(
+                                clubResults,
+                                StageType.SCORE,
+                                processedResults.data
+                            )
+                        )
+                    }
+                    is Result.Error -> {
+                        Result.Error(processedResults.error)
+                    }
+                }
             }
 
             StageType.ONE_MAN_RELAY -> {
@@ -209,5 +232,63 @@ class ClubResultsRepository(
 
         // TODO - Sort the club results
         return Result.Success(clubList)
+    }
+
+    /**
+     * Function to parse all the possible controls to visit in a score race by the members of a club
+     * @param eventID ID of the event
+     * @param stageID ID of the stage
+     * @param clubID ID of the club
+     * @param results List of results of the club
+     * @returns Map that, for each classID, stores a map with the number of visitors per
+     */
+    suspend fun processScoreTeamResults(
+        eventID: String,
+        stageID: String,
+        clubID: String,
+        results: List<ResultIndividual>,
+    ): Result<Map<String, ScoreResultStats>, RepositoryError> {
+        // Group the results given by class, so that results from the same class and club can be calculated together
+        val groupsByClass = results.filter {it.runnerClass != null}.groupBy { it.runnerClass!!.id }
+
+        // Create the map of Score Stats to store each class
+        val map = mutableMapOf<String, ScoreResultStats>()
+
+        // For each class, calculate and store the visited controls information
+        // TODO - Parallelize using coroutines
+        for(classGroup in groupsByClass) {
+            // Extract all details
+            val classID = classGroup.key
+            val classGroupResults = classGroup.value
+
+            // Get all results for the class
+            val classResults = api.getStageResults(
+                eventID = eventID,
+                stageID = stageID,
+                classID = classID
+            )
+
+            when(classResults){
+                is Result.Success -> {
+                    // Calculate the additional information for the whole class
+                    val classicResults = getClassicResults(
+                        remoteResultsResponse = classResults.data,
+                        calculateRanks = false
+                    )
+
+                    // Obtain the information about the control visits for this class
+                    val info = calculateVisitedControls(classicResults)
+
+                    // Add the information to the map
+                    map[classID] = info
+                }
+
+                is Result.Error -> {
+                    return Result.Error(handleNetworkError(classResults.error))
+                }
+            }
+        }
+
+        return Result.Success(map)
     }
 }

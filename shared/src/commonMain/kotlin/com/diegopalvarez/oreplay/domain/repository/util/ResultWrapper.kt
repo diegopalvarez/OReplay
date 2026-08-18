@@ -11,7 +11,8 @@ import com.diegopalvarez.oreplay.domain.types.StageType
 
 fun wrapResult(
     result: List<Result>,
-    stageType: StageType
+    stageType: StageType,
+    visitedControls: Map<String, ScoreResultStats> = emptyMap(),        // Only needed for score results
 ): RepositoryResult {
     return when (stageType) {
         StageType.CLASSIC -> ClassicRepositoryResult(result)
@@ -19,7 +20,7 @@ fun wrapResult(
         StageType.CHASE_START -> TODO("Implement in the whole app")
         StageType.OVERALL -> OverallRepositoryResult(result)
         StageType.RELAY -> RelayRepositoryResult(result)
-        StageType.SCORE -> ScoreRepositoryResult(result)
+        StageType.SCORE -> ScoreRepositoryResult(result, visitedControls)
         StageType.RAID -> TODO("Implement in the whole app")
         StageType.TRAIL -> TODO("Implement in the whole app")
         StageType.ONE_MAN_RELAY -> OneManRelayRepositoryResult(result)

@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.domain.repository
 
+import com.arkivanov.decompose.value.MutableValue
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
 import com.diegopalvarez.oreplay.domain.types.StageType
@@ -10,6 +11,8 @@ import com.diegopalvarez.oreplay.data.mappers.remote.getTeamResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getUnprocessedResults
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.repository.type.RepositoryResult
+import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
+import com.diegopalvarez.oreplay.domain.repository.util.calculateVisitedControls
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
 import com.diegopalvarez.oreplay.domain.repository.util.wrapResult
 
@@ -37,7 +40,7 @@ class ClassResultsRepository(
 
         return when(results) {
             is Result.Success -> {
-                val processed = processResultByType(results.data, stageType)
+                val processed = processResultByType(results.data, stageType, classID)
 
                 when(processed){
                     is Result.Success -> {
@@ -62,7 +65,8 @@ class ClassResultsRepository(
      */
     private fun processResultByType(
         results: RemoteResultsResponse,
-        stageType: StageType
+        stageType: StageType,
+        classID: String
     ): Result<RepositoryResult, RepositoryError> {
         return when(stageType) {
             StageType.CLASSIC -> {
@@ -105,13 +109,21 @@ class ClassResultsRepository(
             StageType.SCORE -> {
                 // A Score stage only has points and its splits have no order. There must not be rankings
                 // TODO - Develop a better way to calculate and return the list of all possible controls that can be visited during an SCORE race
+
+                // Get the results for the Score Stage
+                val results = getClassicResults(
+                    remoteResultsResponse = results,
+                    calculateRanks = false
+                )
+
+                // Calculate the list of all possible controls in the race and the number of participants that visited each one
+                val visitedControls = calculateVisitedControls(results)
+
                 Result.Success(
                     wrapResult(
-                        getClassicResults(
-                            remoteResultsResponse = results,
-                            calculateRanks = false
-                        ),
-                        StageType.SCORE
+                        results,
+                        StageType.SCORE,
+                        mapOf(Pair(classID, visitedControls))
                     )
                 )
             }
