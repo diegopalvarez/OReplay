@@ -26,41 +26,27 @@ fun RunnerInformationHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Name and Club
-        Column(
-            modifier = Modifier
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start,
-        ) {
-            // Runner Name
-            Text(
-                text = runner.fullName,
-                style = MaterialTheme.typography.titleLarge,
-            )
-            // Runner Club
-            if(runner.runnerClub != null){
-                Text(
-                    text = runner.runnerClub.shortName,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-            }
-            else{
-                Text(
-                    text = stringResource(Res.string.no_club),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-            }
-        }
+        // Runner Name
+        Text(
+            text = runner.fullName,
+            style = MaterialTheme.typography.titleLarge,
+        )
+    }
 
+    // Runner Class and Club
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         // Runner Class
-        if(runner.runnerClass != null){
+        if (runner.runnerClass != null) {
             Text(
                 text = runner.runnerClass.shortName,
                 style = MaterialTheme.typography.titleMedium,
             )
-        }
-        else{
+        } else {
             // Should never happen
             Text(
                 text = stringResource(Res.string.no_class),
@@ -68,5 +54,17 @@ fun RunnerInformationHeader(
             )
         }
 
+        // Runner Club
+        if (runner.runnerClub != null) {
+            Text(
+                text = runner.runnerClub.shortName,
+                style = MaterialTheme.typography.titleMedium,
+            )
+        } else {
+            Text(
+                text = stringResource(Res.string.no_club),
+                style = MaterialTheme.typography.titleMedium,
+            )
+        }
     }
 }
