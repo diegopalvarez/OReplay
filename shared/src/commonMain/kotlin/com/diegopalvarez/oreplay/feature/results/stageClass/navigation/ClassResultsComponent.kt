@@ -7,6 +7,12 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
+import com.diegopalvarez.oreplay.domain.repository.type.ClassicRepositoryResult
+import com.diegopalvarez.oreplay.domain.repository.type.OneManRelayRepositoryResult
+import com.diegopalvarez.oreplay.domain.repository.type.OverallRepositoryResult
+import com.diegopalvarez.oreplay.domain.repository.type.RelayRepositoryResult
+import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
+import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
@@ -43,7 +49,7 @@ class ClassResultsComponent(
         )
             .onSuccess {
                 _isError.value = false
-                _results.value = it
+                _results.value = it.result
                 _isInit.value = true
             }
             .onError {

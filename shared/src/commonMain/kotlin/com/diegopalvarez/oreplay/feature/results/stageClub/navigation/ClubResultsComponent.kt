@@ -42,7 +42,7 @@ class ClubResultsComponent(
         )
             .onSuccess {
                 _isError.value = false
-                _results.value = it
+                _results.value = it.result
                 _isInit.value = true
             }
             .onError {
