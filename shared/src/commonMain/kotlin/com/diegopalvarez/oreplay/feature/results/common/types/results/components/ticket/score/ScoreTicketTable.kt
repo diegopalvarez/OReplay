@@ -33,7 +33,7 @@ fun ScoreTicketTable(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Table Header
-        ClassicTicketTableHeader()
+        ScoreTicketTableHeader()
 
         // Table Content
         for(index in result.splits.indices) {
