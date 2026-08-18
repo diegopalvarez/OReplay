@@ -13,15 +13,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
-import com.diegopalvarez.oreplay.feature.results.common.types.results.ResultsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ResultListItem
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ScoreResultListItem
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 import kotlin.time.Instant
 
 @Composable
 fun ScoreResultsScreen(
-    component: ResultsComponent
+    component: CommonResultComponent
 ){
     // Subscribe to the list of results
     val results = component.results.subscribeAsState()

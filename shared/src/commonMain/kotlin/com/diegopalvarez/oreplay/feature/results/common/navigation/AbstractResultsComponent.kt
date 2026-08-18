@@ -13,15 +13,17 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.LegsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.results.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.SplitsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTimesComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
 import kotlin.time.Clock
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent.ResultsTabChild.*
 import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
-import kotlinx.coroutines.launch
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
 
 abstract class AbstractResultsComponent(
     componentContext: ComponentContext,
@@ -108,16 +110,33 @@ abstract class AbstractResultsComponent(
                     isClubView = isClubResults,
                 )
             )
-            ResultsTabConfiguration.Results -> Results(
-                ResultsComponent(
-                    componentContext = component,
-                    results = results,
-                    event = event,
-                    stage = stage,
-                    stageType = stage.stageType.getStageType(),
-                    isClubView = isClubResults
-                )
-            )
+            ResultsTabConfiguration.Results -> {
+                if(stage.stageType.getStageType() == StageType.SCORE){
+                    // The Component for Score Stages is different since it has two tabs for the ticket
+                    Results(
+                        ScoreResultsComponent(
+                            componentContext = component,
+                            scoreResults = results,
+                            event = event,
+                            stage = stage,
+                            stageType = stage.stageType.getStageType(),
+                            isClubView = isClubResults
+                        )
+                    )
+                }
+                else{
+                    Results(
+                        ResultsComponent(
+                            componentContext = component,
+                            regularResults = results,
+                            event = event,
+                            stage = stage,
+                            stageType = stage.stageType.getStageType(),
+                            isClubView = isClubResults
+                        )
+                    )
+                }
+            }
             ResultsTabConfiguration.Splits -> Splits(
                 SplitsComponent(
                     componentContext = component,
@@ -149,7 +168,7 @@ abstract class AbstractResultsComponent(
     // Sealed class will all the different tabs
     sealed class ResultsTabChild {
         data class StartTimes(val component: StartTimesComponent) : ResultsTabChild()
-        data class Results(val component: ResultsComponent) : ResultsTabChild()
+        data class Results(val component: CommonResultComponent) : ResultsTabChild()
         data class Splits(val component: SplitsComponent) : ResultsTabChild()
         data class Legs(val component: LegsComponent) : ResultsTabChild()
         data class Points(val component: PointsComponent) : ResultsTabChild()

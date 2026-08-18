@@ -4,9 +4,12 @@ import androidx.compose.runtime.Composable
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StageType
+import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic.ClassicTicketSheet
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay.OneManRelayTicketSheet
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.score.ScoreTicketSheet
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import kotlinx.datetime.TimeZone
@@ -15,7 +18,8 @@ import kotlinx.datetime.TimeZone
 fun TicketSheetRouter(
     runner: Optional<ResultIndividual>,
     stageType: StageType,
-    eventTimezone: TimeZone
+    eventTimezone: TimeZone,
+    component: CommonResultComponent,
 ) {
     var runnerResult: ResultIndividual? = null
 
@@ -37,7 +41,7 @@ fun TicketSheetRouter(
             StageType.CHASE_START -> TODO("Implement in the whole app")
             StageType.OVERALL -> TODO()
             StageType.RELAY -> TODO()
-            StageType.SCORE -> ScoreTicketSheet(runnerResult, eventTimezone)
+            StageType.SCORE -> ScoreTicketSheet(runnerResult, eventTimezone, component as ScoreResultsComponent)
             StageType.RAID -> TODO("Implement in the whole app")
             StageType.TRAIL -> TODO("Implement in the whole app")
             StageType.ONE_MAN_RELAY -> OneManRelayTicketSheet(runnerResult, eventTimezone)

@@ -108,4 +108,5 @@
     <string name="no_chip_download">No chip reading</string>
     <string name="bonus">Bonus</string>
     <string name="penalty">Penalty</string>
+    <string name="table_icon">Table of Results</string>
 </resources>

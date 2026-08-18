@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results
+package com.diegopalvarez.oreplay.feature.results.common.types.results.navigation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
@@ -11,7 +11,6 @@ import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,15 +18,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
-class ResultsComponent(
+abstract class CommonResultComponent(
     componentContext: ComponentContext,
     val results: Value<List<Result>>,
     private val event: Event,

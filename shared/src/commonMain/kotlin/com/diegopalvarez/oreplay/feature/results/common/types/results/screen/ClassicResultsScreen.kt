@@ -5,30 +5,23 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
-import com.diegopalvarez.oreplay.feature.results.common.types.results.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ResultListItem
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 import kotlin.time.Instant
 
 @Composable
 fun ClassicResultsScreen(
-    component: ResultsComponent
+    component: CommonResultComponent
 ){
     // Subscribe to the list of results
     val results = component.results.subscribeAsState()

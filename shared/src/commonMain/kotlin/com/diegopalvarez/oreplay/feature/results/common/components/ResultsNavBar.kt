@@ -10,8 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.style.TextOverflow
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.results.ResultsComponent
-import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsTabConfiguration
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 

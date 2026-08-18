@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.TicketSheetRouter
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.screen.ClassicResultsScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.results.screen.OverallResultsScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.results.screen.RelayResultsScreen
@@ -27,7 +28,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.screen.Sco
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultsMainScreen(
-    component: ResultsComponent
+    component: CommonResultComponent
 ) {
     // Router to the different type of result views depending on the stage type
 
@@ -70,7 +71,8 @@ fun ResultsMainScreen(
             TicketSheetRouter(
                 runner = ticketRunner.value,
                 stageType = ticketStageType,
-                eventTimezone = eventTimezone
+                eventTimezone = eventTimezone,
+                component = component
             )
         }
     }

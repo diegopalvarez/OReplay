@@ -13,12 +13,14 @@ import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.RunnerInformationHeader
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.NoChipDownload
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
 import kotlinx.datetime.TimeZone
 
 @Composable
 fun ScoreTicketSheet(
     runnerResult: ResultIndividual,
-    eventTimezone: TimeZone
+    eventTimezone: TimeZone,
+    component: ScoreResultsComponent
 ) {
     LazyColumn(
         modifier = Modifier
@@ -42,7 +44,7 @@ fun ScoreTicketSheet(
                 if(runnerResult.stageResult.position != 0L){
                     item {
                         // Table of splits
-                        //ScoreTicketScreen(runnerResult.stageResult)
+                        ScoreTicketScreen(runnerResult.stageResult, component)
                     }
                 }
                 else{
