@@ -18,6 +18,7 @@ enum class StatusCode(val code: String, val displayName: StringResource) {
     OVERTIME("5", Res.string.OT)
 }
 
+// TODO - Decide how to handle legacy STATUS CODE 9 -> NC
 fun String.getStatusCode(): StatusCode {
     return when(this){
         StatusCode.OK.code -> StatusCode.OK
