@@ -51,7 +51,7 @@ fun ScoreTicketPoints(
                 verticalArrangement = Arrangement.Center,
             ){
                 // TODO - Find a better way to exclude the Finish control
-                for ((control, number) in stats.visited.entries.sortedBy { it.key }.dropLast(1)) {
+                for ((control, number) in stats.visited.entries.filterNot { it.key == "Finish" } .sortedBy { it.key.toLong() }) {
                     val isVisited = runnerControls.contains(control)
                     ScoreControlCircle(
                         control = control,
