@@ -53,15 +53,7 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
  */
 private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
     val finishTime = getInstantOrNull(remoteStageResult.finishTime)
-    var statusCode = remoteStageResult.statusCode
 
-    // TODO - Investigate into legacy status code 9 and assess if this special case needs to be handled
-    // If the status code is 9, it's a legacy issue because it used to mean NC
-    var isLegacyNC = false
-    if(statusCode == "9"){
-        statusCode = "0"
-        isLegacyNC = true
-    }
     return StageResult(
         id = remoteStageResult.id,
         resultType = remoteStageResult.resultTypeID,
@@ -70,8 +62,8 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         uploadType = remoteStageResult.uploadType,
         timeSeconds = getDuration(remoteStageResult.timeSeconds),
         position = remoteStageResult.position,
-        statusCode = getStatusCode(statusCode),
-        isNC = remoteStageResult.isNc || isLegacyNC,
+        statusCode = getStatusCode(remoteStageResult.statusCode),
+        isNC = remoteStageResult.isNc,
         contributory = remoteStageResult.contributory,
         timeBehind = getDuration(remoteStageResult.timeBehind),
         timeNeutralization = getDurationOrNull(remoteStageResult.timeNeutralization),
@@ -358,10 +350,18 @@ private fun calculateRelayTimes(results: List<ResultTeam>) {
  * @return domain model object containing the team data
  */
 private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
+    // TODO - Investigate into legacy status code 9 and assess if this special case needs to be handled
+    // If the status code is 9, it's a legacy issue because it used to mean NC
+    var isLegacyNC = false
+    if(remoteResult.stageResult != null && remoteResult.stageResult.statusCode == "9"){
+        remoteResult.stageResult.statusCode = "0"
+        isLegacyNC = true
+    }
+
     return ResultTeam(
         id = remoteResult.id,
         bibNumber = remoteResult.bibNumber,
-        isNc = remoteResult.isNc,
+        isNc = remoteResult.isNc || isLegacyNC,
         eligibility = remoteResult.eligibility,
         legs = remoteResult.legs,       // TODO - Check why legs can be null. What are them used for?
         runners =  getTeamRunners(requireNotNull(remoteResult.runners) {"Team results must all have a list of runners that make up the team"}),

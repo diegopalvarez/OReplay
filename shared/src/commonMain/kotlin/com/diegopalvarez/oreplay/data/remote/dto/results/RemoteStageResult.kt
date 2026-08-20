@@ -26,7 +26,7 @@ data class RemoteStageResult(
     val position: Long,                 // Position is 0 if there's no position for the runner
 
     @SerialName("status_code")
-    val statusCode: String,
+    var statusCode: String,             // TODO - Is  var only because of the legacy 9 status code issue
 
     @SerialName("is_nc")
     val isNc: Boolean,
