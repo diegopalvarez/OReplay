@@ -2,7 +2,6 @@ package com.diegopalvarez.oreplay.feature.results.common.util
 
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-import com.diegopalvarez.oreplay.domain.types.getStatusCode
 
 // TODO - Check if it's possible to handle runners that are still running dynamically in their "LIVE" position
 // TODO - Will need a different function to handle radio controls
@@ -18,7 +17,7 @@ private fun sortPriority(result: ResultIndividual): Int{
     }
 
     // The position is 0 when there's no position applicable
-    return when(result.stageResult.statusCode.getStatusCode()){
+    return when(result.stageResult.statusCode){
         StatusCode.OK -> {
             if(result.stageResult.position > 0){
                 // The first results are the correct ones

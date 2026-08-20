@@ -2,26 +2,21 @@ package com.diegopalvarez.oreplay.feature.results.common.types.startTimes.compon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.ListItemElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 import com.diegopalvarez.oreplay.ui.util.displayTime
@@ -57,9 +52,9 @@ fun StartTimeItemTeam(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
-                    else if(team.stageResult.statusCode.getStatusCode() != StatusCode.OK){
+                    else if(team.stageResult.statusCode != StatusCode.OK){
                         Text(
-                            text = stringResource(team.stageResult.statusCode.getStatusCode().displayName),
+                            text = stringResource(team.stageResult.statusCode.displayName),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }

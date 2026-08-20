@@ -18,9 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-import com.diegopalvarez.oreplay.domain.types.getStatusCode
-import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
-import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 import com.diegopalvarez.oreplay.ui.util.display
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Instant
@@ -41,7 +38,7 @@ fun TeamListItem(
         onClick = {  },
         enabled = true,
         leadingContent =    if(stageResult != null){
-                                resultListItemLeadingContent(teamResult.isNc, teamResult.stageResult.statusCode.getStatusCode(), teamResult.stageResult.position)
+                                resultListItemLeadingContent(teamResult.isNc, teamResult.stageResult.statusCode, teamResult.stageResult.position)
                             }
                             else null,
         trailingContent = null,
@@ -73,8 +70,7 @@ fun TeamListItem(
             // Final time and Time Behind (only if the stageResult isn't null)
 
             if(stageResult != null) {
-                val statusCode = stageResult.statusCode.getStatusCode()
-
+                val statusCode = stageResult.statusCode
 
                 if(statusCode == StatusCode.OK ){
                     if (stageResult.position > 0 || teamResult.isNc) {

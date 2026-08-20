@@ -8,10 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.RunnerInformationHeader
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.NoChipDownload
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
@@ -45,7 +43,7 @@ fun ScoreTicketSheet(
                 RunnerScoreResultsHeader(runnerResult.stageResult, eventTimezone)
             }
 
-            if (runnerResult.stageResult.statusCode.getStatusCode() != StatusCode.DID_NOT_START) {
+            if (runnerResult.stageResult.statusCode != StatusCode.DID_NOT_START) {
                 if(runnerResult.stageResult.position != 0L){
                     item {
                         // Table of splits

@@ -11,11 +11,8 @@ import androidx.compose.ui.Modifier
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.ResultTimesHeaderRow
 import com.diegopalvarez.oreplay.ui.components.TextFieldWithName
-import com.diegopalvarez.oreplay.ui.util.display
-import com.diegopalvarez.oreplay.ui.util.displayTime
 import com.diegopalvarez.oreplay.ui.util.toPoints
 import kotlinx.datetime.TimeZone
 import oreplay.shared.generated.resources.Res
@@ -23,9 +20,6 @@ import oreplay.shared.generated.resources.bonus
 import oreplay.shared.generated.resources.penalty
 import oreplay.shared.generated.resources.points
 import oreplay.shared.generated.resources.position
-import oreplay.shared.generated.resources.start_time_ticket
-import oreplay.shared.generated.resources.time_ticket
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
@@ -49,8 +43,7 @@ fun RunnerScoreResultsHeader(
     }
 
     // Calculate the status code of the runner
-    val statusCode = result.statusCode.getStatusCode()
-
+    val statusCode = result.statusCode
 
     Column(
         modifier = Modifier

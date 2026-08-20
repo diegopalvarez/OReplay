@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
-import com.diegopalvarez.oreplay.domain.types.getStatusCode
 import kotlin.time.Instant
 
  @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -24,7 +23,7 @@ fun TeamResultListItem(
      } else {
          //If the result is complete, handle all the different information
          // Get the status code of the runner and their position
-         val statusCode = runner.stageResult.statusCode.getStatusCode()
+         val statusCode = runner.stageResult.statusCode
          val position = runner.stageResult.position
 
      }
