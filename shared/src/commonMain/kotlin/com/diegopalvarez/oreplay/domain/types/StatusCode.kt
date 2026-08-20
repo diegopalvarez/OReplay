@@ -17,16 +17,3 @@ enum class StatusCode(val code: String, val displayName: StringResource) {
     DISQUALIFIED("4", Res.string.DSQ),
     OVERTIME("5", Res.string.OT)
 }
-
-// TODO - Decide how to handle legacy STATUS CODE 9 -> NC
-fun String.getStatusCode(): StatusCode {
-    return when(this){
-        StatusCode.OK.code -> StatusCode.OK
-        StatusCode.DID_NOT_START.code -> StatusCode.DID_NOT_START
-        StatusCode.DID_NOT_FINISH.code -> StatusCode.DID_NOT_FINISH
-        StatusCode.MISSING_PUNCH.code -> StatusCode.MISSING_PUNCH
-        StatusCode.DISQUALIFIED.code -> StatusCode.DISQUALIFIED
-        StatusCode.OVERTIME.code -> StatusCode.OVERTIME
-        else -> throw IllegalArgumentException("Unknown status code: $this")
-    }
-}

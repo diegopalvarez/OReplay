@@ -4,6 +4,7 @@ import com.diegopalvarez.oreplay.data.mappers.util.getDuration
 import com.diegopalvarez.oreplay.data.mappers.util.getDurationOrNull
 import com.diegopalvarez.oreplay.data.mappers.util.getInstant
 import com.diegopalvarez.oreplay.data.mappers.util.getInstantOrNull
+import com.diegopalvarez.oreplay.data.mappers.util.getStatusCode
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverall
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
@@ -52,6 +53,15 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
  */
 private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
     val finishTime = getInstantOrNull(remoteStageResult.finishTime)
+    var statusCode = remoteStageResult.statusCode
+
+    // TODO - Investigate into legacy status code 9 and assess if this special case needs to be handled
+    // If the status code is 9, it's a legacy issue because it used to mean NC
+    var isLegacyNC = false
+    if(statusCode == "9"){
+        statusCode = "0"
+        isLegacyNC = true
+    }
     return StageResult(
         id = remoteStageResult.id,
         resultType = remoteStageResult.resultTypeID,
@@ -60,8 +70,8 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         uploadType = remoteStageResult.uploadType,
         timeSeconds = getDuration(remoteStageResult.timeSeconds),
         position = remoteStageResult.position,
-        statusCode = remoteStageResult.statusCode,
-        isNC = remoteStageResult.isNc,
+        statusCode = getStatusCode(statusCode),
+        isNC = remoteStageResult.isNc || isLegacyNC,
         contributory = remoteStageResult.contributory,
         timeBehind = getDuration(remoteStageResult.timeBehind),
         timeNeutralization = getDurationOrNull(remoteStageResult.timeNeutralization),
