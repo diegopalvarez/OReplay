@@ -13,7 +13,7 @@ private fun sortPriority(result: ResultIndividual): Int{
 
     // If the results is NC, it has its own priority behind OK results
     if(result.isNc){
-        return 4
+        return 0
     }
 
     // The position is 0 when there's no position applicable
@@ -30,8 +30,8 @@ private fun sortPriority(result: ResultIndividual): Int{
         StatusCode.OVERTIME -> 1
         StatusCode.MISSING_PUNCH -> 3
         StatusCode.DISQUALIFIED -> 5
-        StatusCode.DID_NOT_FINISH -> 6
-        StatusCode.DID_NOT_START -> 7
+        StatusCode.DID_NOT_FINISH -> 4
+        StatusCode.DID_NOT_START -> 6
     }
 }
 
