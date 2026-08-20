@@ -79,7 +79,7 @@ fun TeamListItem(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
                         ) {
                             // Final time
                             Text(

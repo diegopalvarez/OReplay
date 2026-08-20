@@ -2,53 +2,60 @@ package com.diegopalvarez.oreplay.feature.results.common.util
 
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-
-// TODO - Check if it's possible to handle runners that are still running dynamically in their "LIVE" position
-// TODO - Will need a different function to handle radio controls
-private fun sortPriority(result: ResultIndividual): Int{
-    // The default is the lowest priority possible
-    if(result.stageResult == null){
-        return 10
-    }
-
-    // If the results is NC, it has its own priority behind OK results
-    if(result.isNc){
-        return 0
-    }
-
-    // The position is 0 when there's no position applicable
-    return when(result.stageResult.statusCode){
-        StatusCode.OK -> {
-            if(result.stageResult.position > 0){
-                // The first results are the correct ones
-                0
-            } else{
-                // Runners that are still running are displayed under correctly finished runners and OT
-                2
-            }
-        }
-        StatusCode.OVERTIME -> 1
-        StatusCode.MISSING_PUNCH -> 3
-        StatusCode.DISQUALIFIED -> 5
-        StatusCode.DID_NOT_FINISH -> 4
-        StatusCode.DID_NOT_START -> 6
-    }
-}
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 fun sortIndividualResults(
+    results: List<ResultIndividual>,
+    now: Instant?,
+): List<ResultIndividual> {
+    val liveNow = now ?: Clock.System.now()
+    return results
+        .sortedWith(
+            sortByStatus()
+                .then { a, b ->
+                    // All sorting paths must end in a compare(a, b)
+
+                    // Check if they have both finished
+                    val haveBothFinished = haveBothFinished(a, b)
+
+                    if(haveBothFinished){
+                        // If both have finished, compare by stage Position, Start Time and Time
+                        sortByStagePosition()
+                            .then(sortByStartTime(false))
+                            .then(sortByTime())
+                            .compare(a, b)
+                    }
+                    else{
+                        // Check if they have both started
+                        val haveBothStarted = haveBothStarted(a, b, liveNow)
+
+                        if(haveBothStarted){
+                            // TODO - Add radio controls sorts
+                            // TODO - Sort by current live time if not radios
+                            // If both have started, compare by controlRunningTowards, lastCommonOnlineControl, finishedStatus, runningTowardsFirstOnline and startTime
+                            sortByFinishedStatus()
+                                .then(sortByStartTime())
+                                .compare(a, b)
+                        }
+                        else{
+                            // If not both have started, sort by startedStatus and startTime
+                            sortByStartedStatus(liveNow)
+                                .then(sortByStartTime())
+                                .compare(a, b)
+                        }
+                    }
+                }
+                .then(sortByName())
+        )
+}
+
+fun sortIndividualStartTimes(
     results: List<ResultIndividual>
 ): List<ResultIndividual> {
     return results
         .sortedWith(
-            compareBy<ResultIndividual>(
-                ::sortPriority
-            ).thenBy {
-                // Runners that have finished are ordered by their positions, and the others keep their relative order
-                it.stageResult?.position ?: Int.MIN_VALUE
-            }.thenBy {
-                // Runners that have the same position (in a club, for example) are ordered by their total time
-                it.stageResult?.timeSeconds ?: Int.MIN_VALUE
-            }
-
+            sortByStartTime()
+                .then(sortByName())
         )
 }

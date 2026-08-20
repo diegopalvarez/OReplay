@@ -42,7 +42,7 @@ fun ScoreResultsScreen(
         val individualResults = results.value as List<ResultIndividual>
 
         // Sort the results
-        val sortedResults = sortIndividualResults(individualResults)
+        val sortedResults = sortIndividualResults(individualResults, now?.value)
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

@@ -17,6 +17,8 @@ import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.components.StartTimeItemIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.components.StartTimeItemTeam
+import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualStartTimes
+import com.diegopalvarez.oreplay.feature.results.common.util.sortTeamStartTimes
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
@@ -68,11 +70,7 @@ fun ResultsStartTimesScreen(
         }
         else if(runnerList.value.all { it is ResultIndividual}){
             // Sort the list of runners
-            val sortedRunners = (runnerList.value as List<ResultIndividual>)        // TODO - See if there's any other way to do this
-                .sortedWith (
-                    compareBy<ResultIndividual> { it.stageResult?.startTime == null }
-                        .thenBy { it.stageResult?.startTime }
-                )
+            val sortedRunners = sortIndividualStartTimes(runnerList.value as List<ResultIndividual>)        // TODO - See if there's any other way to do this
 
             items(sortedRunners) { runner ->
                 StartTimeItemIndividual(runner, timezone = timezone, isClubView)
@@ -80,11 +78,7 @@ fun ResultsStartTimesScreen(
         }
         else if(runnerList.value.all { it is ResultTeam }){
             // Sort the list of runners
-            val sortedRunners = (runnerList.value as List<ResultTeam>)        // TODO - See if there's any other way to do this
-                .sortedWith (
-                    compareBy<ResultTeam> { it.stageResult?.startTime == null }
-                        .thenBy { it.stageResult?.startTime }
-                )
+            val sortedRunners = sortTeamStartTimes(runnerList.value as List<ResultTeam>)        // TODO - See if there's any other way to do this
 
             items(sortedRunners) { runner ->
                 StartTimeItemTeam(runner, timezone = timezone, isClubView)

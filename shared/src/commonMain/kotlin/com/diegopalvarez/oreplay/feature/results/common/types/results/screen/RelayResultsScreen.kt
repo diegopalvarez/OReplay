@@ -45,7 +45,7 @@ fun RelayResultsScreen(
         val teamResults = results.value as List<ResultTeam>
 
         // Sort the results
-        val sortedResults = sortTeamResults(teamResults)
+        val sortedResults = sortTeamResults(teamResults, now?.value)
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
