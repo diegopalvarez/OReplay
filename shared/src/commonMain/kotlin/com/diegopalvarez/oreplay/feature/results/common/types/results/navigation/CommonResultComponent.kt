@@ -6,6 +6,7 @@ import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
@@ -78,6 +79,9 @@ abstract class CommonResultComponent(
     private val _ticketRunner: MutableValue<Optional<ResultIndividual>> = MutableValue(Optional.None)
     val ticketRunner: Value<Optional<ResultIndividual>> = _ticketRunner
 
+    private val _ticketTeam: MutableValue<Optional<ResultTeam>> = MutableValue(Optional.None)
+    val ticketTeam: Value<Optional<ResultTeam>> = _ticketTeam
+
     private val _ticketDrawerState: MutableValue<Boolean> = MutableValue(false)
     val ticketDrawerState: Value<Boolean> = _ticketDrawerState
 
@@ -86,8 +90,15 @@ abstract class CommonResultComponent(
         _ticketDrawerState.value = true
     }
 
+    fun showTicketModal(runner: ResultIndividual, team: ResultTeam) {
+        _ticketRunner.value = Optional.Some(runner)
+        _ticketTeam.value = Optional.Some(team)
+        _ticketDrawerState.value = true
+    }
+
     fun hideTicketModal() {
         _ticketDrawerState.value = false
         _ticketRunner.value = Optional.None
+        _ticketTeam.value = Optional.None
     }
 }

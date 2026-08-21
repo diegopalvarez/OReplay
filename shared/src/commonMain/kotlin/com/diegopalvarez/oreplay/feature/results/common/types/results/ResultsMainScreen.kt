@@ -45,6 +45,7 @@ fun ResultsMainScreen(
      * Subscribe to the parameters of the Modal Bottom Sheet
      */
     val ticketRunner = component.ticketRunner.subscribeAsState()
+    val ticketTeam = component.ticketTeam.subscribeAsState()
     val ticketStageType = component.getStageType()
     val eventTimezone = component.getEventTimezone()
 
@@ -70,6 +71,7 @@ fun ResultsMainScreen(
             // Ticket Content
             TicketSheetRouter(
                 runner = ticketRunner.value,
+                team = ticketTeam.value,
                 stageType = ticketStageType,
                 eventTimezone = eventTimezone,
                 component = component
