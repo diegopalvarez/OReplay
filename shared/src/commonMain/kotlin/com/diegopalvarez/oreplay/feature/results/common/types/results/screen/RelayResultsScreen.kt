@@ -54,7 +54,11 @@ fun RelayResultsScreen(
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(sortedResults){ result ->
-                TeamListItem(result, now)
+                TeamListItem(
+                    teamResult = result,
+                    now = now,
+                    showTicketDrawer = component::showTicketModal
+                )
             }
         }
     }
