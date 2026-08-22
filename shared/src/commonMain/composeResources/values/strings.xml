@@ -117,4 +117,7 @@
     <string name="team_position">Team position</string>
     <string name="team_time">Team time</string>
     <string name="team_time_behind">Team time behind leader</string>
+    <string name="collapse_icon">Collapse list</string>
+    <string name="expand_icon">Expand list</string>
+    <string name="dropped">Dropped</string>
 </resources>
