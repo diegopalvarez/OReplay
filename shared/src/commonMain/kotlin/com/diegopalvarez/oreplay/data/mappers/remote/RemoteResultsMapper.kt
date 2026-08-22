@@ -277,10 +277,10 @@ private fun getOverallResult(remoteOverallResult: RemoteOverallResult): Overall 
 /**
  * Private function to map the list of parts that make up an overall result
  * @param remoteOverallList list of Remote Overall object gotten from the API
- * @return List of Overall Result parts as domain model objects
+ * @return List of Overall Result parts as domain model objects, sorted by stage order
  */
 private fun getOverallParts(remoteOverallList: List<RemoteOverall>): List<OverallResult> {
-    return remoteOverallList.map(::getOverall)
+    return remoteOverallList.map(::getOverall).sortedBy { it.stageOrder }
 }
 
 /**
@@ -293,7 +293,7 @@ private fun getOverall(remoteOverall: RemoteOverall): OverallResult {
         id = remoteOverall.id,
         stageOrder = remoteOverall.stageOrder,
         uploadType = getUploadType(remoteOverall.uploadType),
-        stage = remoteOverall.stage?.id,             // Stages can be uniquely identified by id, so no description is needed
+        stage = getOverallStage(remoteOverall.stage),             // Stages can be uniquely identified by id, so no description is needed
         position = remoteOverall.position,
         statusCode = getStatusCode(remoteOverall.statusCode),
         isNc = remoteOverall.isNc,

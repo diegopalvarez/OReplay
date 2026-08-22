@@ -8,7 +8,7 @@ data class OverallResult(
     val id: String,
     val stageOrder: Long,
     val uploadType: UploadType,
-    val stage: String?,
+    val stage: OverallStage?,
     val position: Long,
     val statusCode: StatusCode,
     val isNc: Boolean?,
