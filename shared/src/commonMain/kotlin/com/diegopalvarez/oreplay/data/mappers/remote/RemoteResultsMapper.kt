@@ -294,7 +294,7 @@ private fun getOverall(remoteOverall: RemoteOverall): OverallResult {
         uploadType = remoteOverall.uploadType,
         stage = remoteOverall.stage?.id,             // Stages can be uniquely identified by id, so no description is needed
         position = remoteOverall.position,
-        statusCode = remoteOverall.statusCode,
+        statusCode = getStatusCode(remoteOverall.statusCode),
         isNc = remoteOverall.isNc,
         contributory = remoteOverall.contributory,
         timeSeconds = getDuration(remoteOverall.timeSeconds),
