@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.feature.results.common.util
 
+import com.diegopalvarez.oreplay.domain.model.OverallResult
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 
@@ -18,6 +19,36 @@ fun statusOrder(stageResult: StageResult?, isNC: Boolean): Int{
     return when(stageResult.statusCode){
         StatusCode.OK -> {
             if(stageResult.position > 0){
+                // The first results are the correct ones
+                0
+            } else{
+                // Runners that are still running are displayed under correctly finished runners and OT
+                2
+            }
+        }
+        StatusCode.OVERTIME -> 1
+        StatusCode.MISSING_PUNCH -> 3
+        StatusCode.DISQUALIFIED -> 5
+        StatusCode.DID_NOT_FINISH -> 4
+        StatusCode.DID_NOT_START -> 6
+    }
+}
+
+fun statusOrderOverall(overallResult: OverallResult?, isNC: Boolean): Int{
+    // The default is the lowest priority possible
+    if(overallResult == null){
+        return 10
+    }
+
+    // If the results is NC, it has its own priority behind OK results
+    if(isNC){
+        return 0
+    }
+
+    // The position is 0 when there's no position applicable
+    return when(overallResult.statusCode){
+        StatusCode.OK -> {
+            if(overallResult.position > 0){
                 // The first results are the correct ones
                 0
             } else{
