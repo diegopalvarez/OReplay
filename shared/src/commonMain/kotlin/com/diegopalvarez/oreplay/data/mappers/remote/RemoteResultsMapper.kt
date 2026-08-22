@@ -19,8 +19,10 @@ import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.ControlID
+import com.diegopalvarez.oreplay.domain.types.StatusCode
 import kotlin.time.Duration
 import kotlin.Long
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
 /**
@@ -324,6 +326,9 @@ fun getTeamResults(remoteResultsResponse: RemoteResultsResponse): List<ResultTea
         calculateRelayTimes(resultsList)
 
         // There is no need to calculate a rank since it's a relay event and the data can't be directly compared
+
+        // However, there are ranks between each leg final time, calculating leg position, accumulated time and time difference
+        calculateLegRanks(resultsList)
     }
 
     // Overalls don't need additional data to be calculated
@@ -340,6 +345,103 @@ private fun calculateRelayTimes(results: List<ResultTeam>) {
     for (team in results) {
         for (runner in team.runners) {
             calculateTime(runner)
+        }
+    }
+}
+
+/**
+ * Private helper function that calculates the ranks for each leg of a team result, including the accumulated time, time behind and position for each leg
+ * @param results List of Teams from a same class
+ */
+private fun calculateLegRanks(results: List<ResultTeam>) {
+    // TODO - Check what's incomplete from the API. Will relay time behind be added or do I need to calculate it here?
+
+    // Check if results is empty
+    if(results.isEmpty()) return
+
+    // Get the maximum number of legs the results from this class have
+    // TODO - Check why legs is null in the API response :(
+    val numberLegs = results.maxOfOrNull { it.runners.size } ?: return      // Return if there's no runners
+
+    // Create and initialize all the list for all the runners
+    results.forEach {
+        val size = it.runners.size
+
+        it.isAccumulatedError.clear()
+        it.isAccumulatedError.addAll(List(size) { false })
+
+        it.teamPositions.clear()
+        it.teamPositions.addAll(List(size) { 0L })
+
+        it.teamAccumulatedTime.clear()
+        it.teamAccumulatedTime.addAll(List(size) { Duration.INFINITE })
+
+        it.teamTimeBehind.clear()
+        it.teamTimeBehind.addAll(List(size) { Duration.INFINITE })
+    }
+
+    // Calculate if every leg for every team is an Accumulated Error
+    results.forEach { team ->
+        var errorHasHappened = false
+        team.runners.forEachIndexed { index, runner ->
+            if(runner.stageResult?.statusCode != StatusCode.OK) errorHasHappened = true
+            team.isAccumulatedError[index] = errorHasHappened
+        }
+    }
+
+    // Process each leg
+    for(leg in 0 until numberLegs){
+        // Get all the teams with this leg and remove the ones with an accumulated error
+        val teamsWithLeg = results.filter {
+            it.runners.getOrNull(leg)?.stageResult != null
+        }.filterNot { it.isAccumulatedError[leg] }
+
+        if(teamsWithLeg.isEmpty()) continue
+
+        // Calculate the accumulated time for all runners in this leg
+        teamsWithLeg
+            .forEach {
+                val previousAccumulated = it.teamAccumulatedTime.getOrElse(leg - 1, { 0.seconds })
+                it.teamAccumulatedTime[leg] = previousAccumulated + it.runners[leg].stageResult!!.timeSeconds        // This will never be null
+            }
+
+        // Calculate the timeBehind for all the runners in this leg
+        val legWinnerTime = teamsWithLeg.minOf { it.runners[leg].stageResult!!.timeSeconds }
+
+        teamsWithLeg
+            .forEach {
+                it.runners[leg].stageResult!!.timeBehind = it.runners[leg].stageResult!!.timeSeconds - legWinnerTime        // stageResult should never be null
+            }
+
+        // Sort the runners in this leg by accumulated times. Also removes all teams that don't have this specific leg
+        val sortedBestTime = teamsWithLeg
+            .sortedBy { it.teamAccumulatedTime[leg] }
+
+        // Get the runner with the least accumulated time for this leg
+        val accumulatedLegWinner = sortedBestTime.firstOrNull() ?: continue     // If the list is empty, go to the next leg
+
+        // Establish the position and time behind of the winner
+        accumulatedLegWinner.teamPositions[leg] = 1
+        accumulatedLegWinner.teamTimeBehind[leg] = 0.seconds
+
+        // Establish the position and time behind for the other runners
+        val winnerAccumulatedTime = accumulatedLegWinner.teamAccumulatedTime[leg]
+
+        for(teamIndex in 1 until sortedBestTime.size){
+            val previousTeam = sortedBestTime[teamIndex - 1]
+            val currentTeam = sortedBestTime[teamIndex]
+
+            val previousAccumulatedTime = previousTeam.teamAccumulatedTime[leg]
+            val currentAccumulatedTime = currentTeam.teamAccumulatedTime[leg]
+
+            currentTeam.teamPositions[leg] = if(previousAccumulatedTime == currentAccumulatedTime){
+                                                previousTeam.teamPositions[leg]
+                                            }
+                                            else{
+                                                teamIndex + 1L
+                                            }
+
+            currentTeam.teamTimeBehind[leg] = currentAccumulatedTime - winnerAccumulatedTime
         }
     }
 }

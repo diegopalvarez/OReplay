@@ -16,7 +16,7 @@ data class StageResult(
     val isNC: Boolean,
     val contributory: Boolean?,
 
-    val timeBehind: Duration,
+    var timeBehind: Duration,
     val timeNeutralization: Duration?,
     val timeAdjusted: Duration?,
     val timePenalty: Duration?,
