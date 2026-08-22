@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.domain.model
 
 import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.domain.types.UploadType
 import kotlin.time.Duration
 import kotlin.time.Instant
 
@@ -9,7 +10,7 @@ data class StageResult(
     val resultType: String,
     val startTime: Instant?,
     val finishTime: Instant?,
-    val uploadType: String,
+    val uploadType: UploadType,
     val timeSeconds: Duration,
     val position: Long,
     val statusCode: StatusCode,

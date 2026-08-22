@@ -5,6 +5,7 @@ import com.diegopalvarez.oreplay.data.mappers.util.getDurationOrNull
 import com.diegopalvarez.oreplay.data.mappers.util.getInstant
 import com.diegopalvarez.oreplay.data.mappers.util.getInstantOrNull
 import com.diegopalvarez.oreplay.data.mappers.util.getStatusCode
+import com.diegopalvarez.oreplay.data.mappers.util.getUploadType
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverall
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
@@ -61,7 +62,7 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         resultType = remoteStageResult.resultTypeID,
         startTime = getInstantOrNull(remoteStageResult.startTime),
         finishTime = finishTime,
-        uploadType = remoteStageResult.uploadType,
+        uploadType = getUploadType(remoteStageResult.uploadType),
         timeSeconds = getDuration(remoteStageResult.timeSeconds),
         position = remoteStageResult.position,
         statusCode = getStatusCode(remoteStageResult.statusCode),
@@ -291,7 +292,7 @@ private fun getOverall(remoteOverall: RemoteOverall): OverallResult {
     return OverallResult(
         id = remoteOverall.id,
         stageOrder = remoteOverall.stageOrder,
-        uploadType = remoteOverall.uploadType,
+        uploadType = getUploadType(remoteOverall.uploadType),
         stage = remoteOverall.stage?.id,             // Stages can be uniquely identified by id, so no description is needed
         position = remoteOverall.position,
         statusCode = getStatusCode(remoteOverall.statusCode),
