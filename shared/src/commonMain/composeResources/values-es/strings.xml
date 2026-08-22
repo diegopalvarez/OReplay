@@ -112,4 +112,9 @@
     <string name="score_stat_text">Este control lo han visitado</string>
     <string name="runners">corredores</string>
     <string name="no_data">No hay datos disponibles</string>
+    <string name="leg">Posta</string>
+    <string name="after_leg">Resultados del equipo después de esta posta</string>
+    <string name="team_position">Posición del equipo</string>
+    <string name="team_time">Tiempo del equipo</string>
+    <string name="team_time_behind">Tiempo detrás del primer equipo</string>
 </resources>

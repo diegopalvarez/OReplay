@@ -37,7 +37,7 @@ fun TeamListItem(
     now: State<Instant>?,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
-    showTicketDrawer: (ResultIndividual) -> Unit = {}
+    showTicketDrawer: (ResultIndividual, ResultTeam) -> Unit
 ) {
     val stageResult = teamResult.stageResult
 
@@ -58,11 +58,10 @@ fun TeamListItem(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    var accumulatedTime = 0.seconds
-                    var isTeamError = false
-                    for(member in teamResult.runners){
+                    for(index in teamResult.runners.indices){
+                        val member = teamResult.runners[index]
                         SegmentedListItem(
-                            onClick = { showTicketDrawer(member) },
+                            onClick = { showTicketDrawer(member, teamResult) },
                             shapes = ListItemDefaults.shapes(),
                             enabled = true,
                             overlineContent = null,
@@ -74,16 +73,6 @@ fun TeamListItem(
                                 )
                             },
                             trailingContent =   if(member.stageResult != null){
-                                // Add to the accumulated time
-                                if(member.stageResult.finishTime != null && member.stageResult.timeSeconds != 0.seconds){
-                                    accumulatedTime += member.stageResult.timeSeconds
-                                }
-
-                                // Check if there is a previous team error
-                                if(member.stageResult.statusCode != StatusCode.OK){
-                                    isTeamError = true
-                                }
-
                                 // Final time and Time Behind for the leg
                                 teamListItemTrailingContent(
                                     isNC = member.isNc,
@@ -91,8 +80,8 @@ fun TeamListItem(
                                     statusCode = member.stageResult.statusCode,
                                     now = now,
                                     position = member.stageResult.position,
-                                    accumulatedTime = accumulatedTime,
-                                    isAccumulatedError = isTeamError,
+                                    accumulatedTime = teamResult.teamAccumulatedTime[index],
+                                    isAccumulatedError = teamResult.isAccumulatedError[index],
                                     teamStatusCode = teamResult.stageResult.statusCode
                                 )
                             } else null,

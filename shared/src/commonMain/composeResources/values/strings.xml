@@ -112,4 +112,9 @@
     <string name="score_stat_text">This control has been visited by</string>
     <string name="runners">runners</string>
     <string name="no_data">There is no data available</string>
+    <string name="leg">Leg</string>
+    <string name="after_leg">Team results after this leg</string>
+    <string name="team_position">Team position</string>
+    <string name="team_time">Team time</string>
+    <string name="team_time_behind">Team time behind leader</string>
 </resources>

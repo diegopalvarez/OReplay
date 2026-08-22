@@ -1,4 +1,4 @@
-package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.relay
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,17 +9,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
-import com.diegopalvarez.oreplay.domain.model.StageResult
+import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.types.StatusCode
-import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic.RunnerResultsHeader
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.NoChipDownload
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.TicketSheet
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay.OneManRelayTicketSplitTable
 import kotlinx.datetime.TimeZone
 
 @Composable
-fun TicketSheet(
+fun RelayTicketSheet(
     runnerResult: ResultIndividual,
-    eventTimezone: TimeZone,
-    splitTable: @Composable (result: StageResult) -> Unit,
-){
+    teamResult: ResultTeam,
+    eventTimezone: TimeZone
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -27,22 +29,31 @@ fun TicketSheet(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        // Information about the runner
+        // Information about the team and the runner
         item {
-            RunnerInformationHeader(runnerResult)
+            TeamInformationHeader(teamResult, runnerResult)
         }
 
-        // Information about the runner results
-        if (runnerResult.stageResult != null) {
+        // Information about the team and runner results
+        if (teamResult.stageResult != null && runnerResult.stageResult != null) {
+            val runnerLeg = runnerResult.legNumber.toInt() - 1      // The legs start at 1
             item {
-                RunnerResultsHeader(runnerResult.stageResult, eventTimezone)
+                TeamResultsHeader(
+                    runnerResult.stageResult,
+                    teamResult.teamPositions[runnerLeg],
+                    teamResult.teamAccumulatedTime[runnerLeg],
+                    teamResult.teamTimeBehind[runnerLeg],
+                    teamResult.isAccumulatedError[runnerLeg],
+                    teamResult.stageResult.statusCode,
+                    eventTimezone
+                )
             }
 
             if (runnerResult.stageResult.statusCode != StatusCode.DID_NOT_START) {
                 if(runnerResult.stageResult.finishTime != null){    // Only show splits table if the runner has finished
                     item {
-                        // Table of splits
-                        splitTable(runnerResult.stageResult)
+                        // The table of splits is the same as in the One-Man Relay
+                        OneManRelayTicketSplitTable(runnerResult.stageResult)
                     }
                 }
                 else{
