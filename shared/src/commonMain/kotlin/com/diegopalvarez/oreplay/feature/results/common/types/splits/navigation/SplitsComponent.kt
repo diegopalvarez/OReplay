@@ -6,8 +6,11 @@ import com.arkivanov.decompose.router.pages.Pages
 import com.arkivanov.decompose.router.pages.PagesNavigation
 import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.subscribe
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.results.common.navigation.ResultsTabConfiguration
@@ -17,12 +20,39 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTimesComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
+import com.diegopalvarez.oreplay.feature.results.common.util.filterResultsWithSplits
+import com.diegopalvarez.oreplay.feature.results.common.util.hasFinished
+import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 
 class SplitsComponent(
     componentContext: ComponentContext,
     val results: Value<List<Result>>,
     val widestString: Value<String>,
 ): ComponentContext by componentContext {
+    /**
+     * Expose the already sorted results
+     */
+    private val _sortedResults = MutableValue<List<ResultIndividual>>(emptyList())
+    val sortedResults: Value<List<ResultIndividual>> = _sortedResults
+
+    init {
+        filterResults()
+
+        // Subscribe so that in every value change the filter updates
+        results.subscribe {
+            filterResults()
+        }
+    }
+
+    private fun filterResults(){
+        val individualResults = results.value.filterIsInstance<ResultIndividual>()
+        val splitResults = filterResultsWithSplits(individualResults.filter { hasFinished(it) })
+
+        // Sort the results
+        val sortedResults = sortIndividualResults(splitResults, null)
+        _sortedResults.value = sortedResults
+    }
+
     /**
      * Split tab functionality
      */

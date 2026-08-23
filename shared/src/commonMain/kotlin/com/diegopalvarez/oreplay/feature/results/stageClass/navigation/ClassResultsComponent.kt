@@ -116,6 +116,7 @@ class ClassResultsComponent(
     /**
      * Function to measure the column widths
      */
+    // TODO - Parallelize this calculation
     fun getWidestString() {
         if(results.value.all { it is ResultIndividual }){
             val individualResults = results.value.filterIsInstance<ResultIndividual>()      // TODO - Use this better way of casting across all the code

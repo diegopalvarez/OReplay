@@ -30,14 +30,13 @@ fun SplitTableHeader(
         modifier = modifier
             .horizontalScroll(scrollState)
             .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(16.dp, vertical = 8.dp)
     ) {
         // Total time Column Header
         Text(
             text = stringResource(Res.string.total_time),
             modifier = Modifier
-                .width(columnWidth)
-                .padding(8.dp),
+                .width(columnWidth),
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
         )
@@ -49,7 +48,6 @@ fun SplitTableHeader(
                 number = control.control.station,
                 modifier = Modifier
                     .width(columnWidth)
-                    .padding(8.dp),
             )
         }
     }

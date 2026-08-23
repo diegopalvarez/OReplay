@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -26,6 +27,7 @@ fun SplitsTable(
     controls: List<SplitIndividual>,
     runners: List<ResultIndividual>,
     cellWidth: Dp,
+    isAccumulated: MutableState<Boolean>,
 ) {
     // Create and remember the scroll state
     val scrollState = rememberScrollState()
@@ -49,7 +51,8 @@ fun SplitsTable(
             SplitTableContent(
                 scrollState = scrollState,
                 runners = runners,
-                columnWidth = cellWidth
+                columnWidth = cellWidth,
+                isAccumulated = isAccumulated
             )
         }
     }

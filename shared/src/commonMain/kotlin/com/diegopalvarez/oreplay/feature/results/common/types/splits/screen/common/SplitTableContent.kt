@@ -16,12 +16,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.SplitTime
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.ResultIndividualPosition
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.StatusIndicator
@@ -33,6 +35,7 @@ fun SplitTableContent(
     scrollState: ScrollState,
     runners: List<ResultIndividual>,
     columnWidth: Dp,
+    isAccumulated: MutableState<Boolean>,
 ) {
     LazyColumn(
         modifier = modifier
@@ -104,11 +107,10 @@ fun SplitTableContent(
 
                     // Runner splits
                     runner.stageResult.splits.forEachIndexed { index, control ->     // The stageResults are filtered to be not null
-                        SplitTime(
-                            total = control.partial,
-                            partial = control.partialDifference,
-                            position = control.partialPosition,
-                            modifier = Modifier
+                        SplitComposable(
+                            control,
+                            isAccumulated,
+                            Modifier
                                 .width(columnWidth)
                         )
                     }
