@@ -13,7 +13,7 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.LegsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.splits.SplitsComponent
+import com.diegopalvarez.oreplay.feature.results.common.types.splits.navigation.SplitsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTimesComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
 import kotlin.time.Clock

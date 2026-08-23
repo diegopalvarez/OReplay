@@ -120,4 +120,7 @@
     <string name="collapse_icon">Ocular lista</string>
     <string name="expand_icon">Expandir lista</string>
     <string name="dropped">No puntúa</string>
+    <string name="partial_tab">Tiempos Parciales</string>
+    <string name="accumulated_tab">Tiempos Acumulados</string>
+    <string name="total_time">Tiempo</string>
 </resources>

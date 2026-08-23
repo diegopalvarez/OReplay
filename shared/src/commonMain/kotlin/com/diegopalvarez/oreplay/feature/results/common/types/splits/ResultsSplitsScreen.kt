@@ -8,18 +8,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.SplitsContent
+import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.SplitsTabRow
+import com.diegopalvarez.oreplay.feature.results.common.types.splits.navigation.SplitsComponent
 
 @Composable
 fun ResultsSplitsScreen(
     component: SplitsComponent
 ) {
-    LazyColumn(
+    // Create tabs for the different splits
+    Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(text = "Splits Screen")
-        }
+        // Tabs
+        SplitsTabRow(component)
+
+        // Content of the page
+        SplitsContent(component)
     }
 }

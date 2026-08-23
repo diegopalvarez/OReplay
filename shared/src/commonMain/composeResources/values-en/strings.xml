@@ -120,4 +120,7 @@
     <string name="collapse_icon">Collapse list</string>
     <string name="expand_icon">Expand list</string>
     <string name="dropped">Dropped</string>
+    <string name="partial_tab">Partial Times</string>
+    <string name="accumulated_tab">Accumulated Times</string>
+    <string name="total_time">Time</string>
 </resources>
