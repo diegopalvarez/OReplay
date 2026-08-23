@@ -1,9 +1,18 @@
 package com.diegopalvarez.oreplay.feature.results.stageClass.navigation
 
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
+import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
@@ -17,10 +26,14 @@ import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import com.diegopalvarez.oreplay.ui.util.display
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import oreplay.shared.generated.resources.Res
+import oreplay.shared.generated.resources.no_split
+import org.jetbrains.compose.resources.getString
 
 class ClassResultsComponent(
     componentContext: ComponentContext,
@@ -39,7 +52,7 @@ class ClassResultsComponent(
     /**
      * Result Functionality
      */
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     override suspend fun fetchResults(){
         repository.getClassResults(
@@ -56,6 +69,9 @@ class ClassResultsComponent(
                 if(stage.stageType.getStageType() == StageType.SCORE){
                     _visitedScoreControls.value = Optional.Some((it as ScoreRepositoryResult).visitedControls)
                 }
+
+                // Get the widest string from the results
+                getWidestString()
 
                 _isInit.value = true
             }
@@ -95,5 +111,81 @@ class ClassResultsComponent(
                 onGoBack()
             }
         }
+    }
+
+    /**
+     * Function to measure the column widths
+     */
+    fun getWidestString() {
+        if(results.value.all { it is ResultIndividual }){
+            val individualResults = results.value.filterIsInstance<ResultIndividual>()      // TODO - Use this better way of casting across all the code
+
+            scope.launch {
+                val noSplit = getString(Res.string.no_split)
+
+
+                val widest = individualResults
+                    .asSequence()
+                    .flatMap { runner ->
+                        runner.stageResult
+                            ?.splits
+                            ?.asSequence()
+                            ?: emptySequence()
+                    }
+                    .map { split ->
+                        getWidestSplitText(split, noSplit)
+                    }
+                    .maxByOrNull { it.length }
+
+                if(widest != null){
+                    _widestString.value = widest
+                }
+            }
+
+        }
+
+    }
+
+    private fun getWidestSplitText(
+        control: SplitIndividual,
+        noSplit: String
+    ): String {
+        val candidates = buildList {
+            control.partial?.let { total ->
+                add(total.display())
+
+                control.partialDifference?.let { difference ->
+                    add(
+                        buildString {
+                            append("+")
+                            append(difference.display())
+
+                            control.partialPosition?.let {
+                                append(" ($it)")
+                            }
+                        }
+                    )
+                } ?: add(noSplit)
+            } ?: add(noSplit)
+
+            control.accumulated?.let { total ->
+                add(total.display())
+
+                control.accumulatedDifference?.let { difference ->
+                    add(
+                        buildString {
+                            append("+")
+                            append(difference.display())
+
+                            control.accumulatedPosition?.let {
+                                append(" ($it)")
+                            }
+                        }
+                    )
+                } ?: add(noSplit)
+            } ?: add(noSplit)
+        }
+
+        return candidates.maxBy { it.length }
     }
 }

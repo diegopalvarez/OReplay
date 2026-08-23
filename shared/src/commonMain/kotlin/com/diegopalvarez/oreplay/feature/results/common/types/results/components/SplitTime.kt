@@ -39,7 +39,7 @@ fun SplitTime(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = alignment,
         modifier = modifier
-            .padding(horizontal = 8.dp)
+            .padding(8.dp)
     ) {
         if(total != null){
             // In case of an MP, there can be an accumulated time with total (the ones you punch) but no split because you missed the last one

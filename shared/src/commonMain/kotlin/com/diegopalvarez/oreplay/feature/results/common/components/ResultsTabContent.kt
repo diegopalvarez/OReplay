@@ -9,6 +9,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.ResultsMai
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.ResultsSplitsScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.ResultsStartTimesScreen
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.ResultsStatisticsScreen
+import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
 
 @Composable
 fun ResultsTabContent(
@@ -22,7 +23,15 @@ fun ResultsTabContent(
     when(val child = pages.value.items[pages.value.selectedIndex].instance){
         is AbstractResultsComponent.ResultsTabChild.Legs -> ResultsLegScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Results -> ResultsMainScreen(child.component)
-        is AbstractResultsComponent.ResultsTabChild.Splits -> ResultsSplitsScreen(child.component)
+        is AbstractResultsComponent.ResultsTabChild.Splits -> {
+            if(component is ClassResultsComponent){
+                ResultsSplitsScreen(child.component)
+            }
+            else{
+                ResultsSplitsScreen(child.component)
+            }
+
+        }
         is AbstractResultsComponent.ResultsTabChild.StartTimes -> ResultsStartTimesScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Statistics -> ResultsStatisticsScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Points -> ResultsPointsScreen(child.component)

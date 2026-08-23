@@ -20,7 +20,8 @@ import com.diegopalvarez.oreplay.feature.results.common.types.statistics.Statist
 
 class SplitsComponent(
     componentContext: ComponentContext,
-    val results: Value<List<Result>>
+    val results: Value<List<Result>>,
+    val widestString: Value<String>,
 ): ComponentContext by componentContext {
     /**
      * Split tab functionality

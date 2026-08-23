@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.SplitTime
@@ -30,11 +31,9 @@ import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 fun SplitTableContent(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
-    runners: List<ResultIndividual>
+    runners: List<ResultIndividual>,
+    columnWidth: Dp,
 ) {
-    val textModifier = Modifier
-        .width(100.dp)
-        .padding(8.dp)
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
@@ -90,24 +89,27 @@ fun SplitTableContent(
                             total = runner.stageResult.timeSeconds,
                             partial = runner.stageResult.timeBehind,
                             position = null,
-                            modifier = textModifier
+                            modifier = Modifier
+                                .width(columnWidth)
                         )
                     }
                     else{
                         StatusIndicator(
                             statusCode = runner.stageResult.statusCode,
                             isNC = runner.isNc,
-                            modifier = textModifier
+                            modifier = Modifier
+                                .width(columnWidth)
                         )
                     }
 
                     // Runner splits
-                    runner.stageResult.splits.forEach { control ->     // The stageResults are filtered to be not null
+                    runner.stageResult.splits.forEachIndexed { index, control ->     // The stageResults are filtered to be not null
                         SplitTime(
                             total = control.partial,
                             partial = control.partialDifference,
                             position = control.partialPosition,
-                            modifier = textModifier
+                            modifier = Modifier
+                                .width(columnWidth)
                         )
                     }
                 }

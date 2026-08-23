@@ -8,10 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
+import com.diegopalvarez.oreplay.feature.results.common.types.splits.navigation.SplitsComponent
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import com.diegopalvarez.oreplay.ui.util.display
 import oreplay.shared.generated.resources.Res
@@ -22,7 +24,8 @@ import org.jetbrains.compose.resources.stringResource
 fun SplitsTable(
     modifier: Modifier = Modifier,
     controls: List<SplitIndividual>,
-    runners: List<ResultIndividual>
+    runners: List<ResultIndividual>,
+    cellWidth: Dp,
 ) {
     // Create and remember the scroll state
     val scrollState = rememberScrollState()
@@ -39,12 +42,14 @@ fun SplitsTable(
             SplitTableHeader(
                 scrollState = scrollState,
                 controls = controls,
+                columnWidth = cellWidth
             )
 
             // Table Contents
             SplitTableContent(
                 scrollState = scrollState,
                 runners = runners,
+                columnWidth = cellWidth
             )
         }
     }

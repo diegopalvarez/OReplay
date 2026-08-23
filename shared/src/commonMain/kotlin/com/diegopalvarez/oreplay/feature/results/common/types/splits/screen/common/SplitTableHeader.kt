@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ControlNumber
@@ -23,11 +24,8 @@ fun SplitTableHeader(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
     controls: List<SplitIndividual>,
+    columnWidth: Dp
 ) {
-    val textModifier = Modifier
-        .width(100.dp)
-        .padding(8.dp)
-
     Row(
         modifier = modifier
             .horizontalScroll(scrollState)
@@ -37,17 +35,21 @@ fun SplitTableHeader(
         // Total time Column Header
         Text(
             text = stringResource(Res.string.total_time),
-            modifier = textModifier,
+            modifier = Modifier
+                .width(columnWidth)
+                .padding(8.dp),
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
         )
 
         // Column Header for each control
-        controls.forEach { control ->
+        controls.forEachIndexed { index, control ->
             ControlNumber(
                 order = control.orderNumber,
                 number = control.control.station,
-                modifier = textModifier,
+                modifier = Modifier
+                    .width(columnWidth)
+                    .padding(8.dp),
             )
         }
     }

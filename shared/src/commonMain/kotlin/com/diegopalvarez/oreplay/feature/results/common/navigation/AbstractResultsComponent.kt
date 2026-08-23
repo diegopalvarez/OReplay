@@ -79,6 +79,12 @@ abstract class AbstractResultsComponent(
     val visitedScoreControls: Value<Optional<Map<String, ScoreResultStats>>> = _visitedScoreControls
 
     /**
+     * Variable to hold the information regarding the widest string used for Split Tables
+     */
+    protected val _widestString = MutableValue<String>("")
+    val widestString: Value<String> = _widestString
+
+    /**
      * Tab Navigation Functionality
      */
     // Tab Navigation Functionality
@@ -149,7 +155,8 @@ abstract class AbstractResultsComponent(
             ResultsTabConfiguration.Splits -> Splits(
                 SplitsComponent(
                     componentContext = component,
-                    results = results
+                    results = results,
+                    widestString = widestString,
                 )
             )
             ResultsTabConfiguration.Legs -> Legs(
