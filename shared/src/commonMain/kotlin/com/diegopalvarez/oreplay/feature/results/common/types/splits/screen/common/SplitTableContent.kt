@@ -28,6 +28,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.components
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.ResultIndividualPosition
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.StatusIndicator
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
+import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 
 @Composable
 fun SplitTableContent(
@@ -73,7 +74,7 @@ fun SplitTableContent(
                         )
 
                         // Runner Club
-                        RunnerClassFormatter(runner.runnerClass)
+                        StageClubFormatter(runner.runnerClub)
                     }
                 }
 
