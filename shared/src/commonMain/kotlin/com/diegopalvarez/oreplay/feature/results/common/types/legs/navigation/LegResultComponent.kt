@@ -9,6 +9,7 @@ import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 import com.diegopalvarez.oreplay.feature.results.common.util.sortLegResults
 import kotlinx.coroutines.CoroutineScope
@@ -58,9 +59,12 @@ class LegResultComponent(
                     RelayLegResult(
                         result = team.runners.first { it.legNumber.toInt() == legNumber },
                         teamName = team.fullName,
-                        teamError = if(team.isAccumulatedError[legNumber - 1]) team.stageResult?.statusCode else null,
+                        teamNC = team.isNc,
+                        teamError = if(team.isAccumulatedError[legNumber - 1]) team.stageResult?.statusCode ?: StatusCode.OK else StatusCode.OK,
                         accumulatedPosition = team.teamPositions[legNumber - 1],
-                        previousPosition = team.teamPositions.getOrNull(legNumber - 2)
+                        previousPosition = team.teamPositions.getOrNull(legNumber - 2),
+                        teamTime = team.teamAccumulatedTime[legNumber - 1],
+                        teamTimeBehind = team.teamTimeBehind[legNumber - 1],
                     )
 
                 }

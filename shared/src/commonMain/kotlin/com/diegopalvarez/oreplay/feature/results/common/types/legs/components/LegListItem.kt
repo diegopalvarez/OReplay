@@ -23,12 +23,8 @@ fun LegListItem(
          //If the result is complete, handle all the different information
          LegResultListItem(
              runner = runner.result,
-             result = result,
-             teamName = runner.teamName,
-             now = now,
-             teamPosition = runner.accumulatedPosition,
-             previousPosition = runner.previousPosition,
-             teamError = runner.teamError,
+             teamData = runner,
+             now = now
          )
      }
  }

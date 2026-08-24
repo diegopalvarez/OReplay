@@ -28,7 +28,7 @@ fun ResultListItem(
              runner = runner,
              isClubView = isClubView,
              leadingContent = resultListItemLeadingContent(runner.isNc, statusCode, position),
-             trailingContent = classicListItemTrailingContent(runner.isNc, result, statusCode, now, position),
+             trailingContent = classicListItemTrailingContent(runner.isNc, result.timeSeconds, result.timeBehind, result.startTime, statusCode, now, position),
              showTicketDrawer = showTicketDrawer,
          )
      }

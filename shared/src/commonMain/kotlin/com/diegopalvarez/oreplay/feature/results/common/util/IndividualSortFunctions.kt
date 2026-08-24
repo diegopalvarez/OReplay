@@ -104,7 +104,7 @@ fun hasFinished(runner: ResultIndividual): Boolean {
     }
 }
 
-private fun hasStarted(runner: ResultIndividual, now: Instant): Boolean {
+fun hasStarted(runner: ResultIndividual, now: Instant): Boolean {
     return if(hasFinished(runner)){
         // If a runner has finished, then it has started
         true

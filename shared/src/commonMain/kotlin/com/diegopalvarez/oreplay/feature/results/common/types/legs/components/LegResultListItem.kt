@@ -13,6 +13,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.domain.model.RelayLegResult
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
@@ -26,24 +27,21 @@ import kotlin.time.Instant
 @Composable
 fun LegResultListItem(
     runner: ResultIndividual,
-    result: StageResult,
-    teamName: String,
+    teamData: RelayLegResult,
     now: State<Instant>?,
-    teamPosition: Long,
-    previousPosition: Long?,
-    teamError: StatusCode?,
     showTicketDrawer: (ResultIndividual) -> Unit = {}
 ) {
+    val statusCode = teamData.teamError ?: StatusCode.OK
     SegmentedListItem(
         shapes = ListItemDefaults.shapes(),
         onClick = { showTicketDrawer(runner) },
         enabled = true,
-        leadingContent = resultListItemLeadingContent(runner.isNc, result.statusCode, result.position),
-        trailingContent = classicListItemTrailingContent(runner.isNc, result, result.statusCode, now, result.position),
-        overlineContent = positionDifferenceFormatter(teamPosition, previousPosition, teamError, runner.legNumber),
+        leadingContent = resultListItemLeadingContent(teamData.teamNC, statusCode, teamData.accumulatedPosition),
+        trailingContent = classicListItemTrailingContent(teamData.teamNC, teamData.teamTime, teamData.teamTimeBehind, runner.stageResult?.startTime, statusCode, now, teamData.accumulatedPosition),
+        overlineContent = positionDifferenceFormatter(teamData.accumulatedPosition, teamData.previousPosition, statusCode, runner.legNumber),
         supportingContent = {
             // Name of the team and club of the runner
-                RunnerTeamFormatter(runner.runnerClub, teamName)
+                RunnerTeamFormatter(runner.runnerClub, teamData.teamName)
         },
         modifier = Modifier
             .fillMaxWidth()

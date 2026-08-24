@@ -415,11 +415,12 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
             }
 
         // Sort the runners in this leg by accumulated times. Also removes all teams that don't have this specific leg
+        // TODO - See if it's correct to not take into account those teams that are NC
         val sortedBestTime = teamsWithLeg
             .sortedBy { it.teamAccumulatedTime[leg] }
 
         // Get the runner with the least accumulated time for this leg
-        val accumulatedLegWinner = sortedBestTime.firstOrNull() ?: continue     // If the list is empty, go to the next leg
+        val accumulatedLegWinner = sortedBestTime.firstOrNull{ !it.isNc } ?: continue     // If the list is empty, go to the next leg
 
         // Establish the position and time behind of the winner
         accumulatedLegWinner.teamPositions[leg] = 1
@@ -428,6 +429,7 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
         // Establish the position and time behind for the other runners
         val winnerAccumulatedTime = accumulatedLegWinner.teamAccumulatedTime[leg]
 
+        var position = 2L
         for(teamIndex in 1 until sortedBestTime.size){
             val previousTeam = sortedBestTime[teamIndex - 1]
             val currentTeam = sortedBestTime[teamIndex]
@@ -435,12 +437,16 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
             val previousAccumulatedTime = previousTeam.teamAccumulatedTime[leg]
             val currentAccumulatedTime = currentTeam.teamAccumulatedTime[leg]
 
-            currentTeam.teamPositions[leg] = if(previousAccumulatedTime == currentAccumulatedTime){
-                                                previousTeam.teamPositions[leg]
-                                            }
-                                            else{
-                                                teamIndex + 1L
-                                            }
+            if(!currentTeam.isNc){
+                // TODO - See if it's correct to not take into account those teams that are NC
+                currentTeam.teamPositions[leg] = if(previousAccumulatedTime == currentAccumulatedTime){
+                    previousTeam.teamPositions[leg]
+                }
+                else{
+                    position++
+                }
+            }
+
 
             currentTeam.teamTimeBehind[leg] = currentAccumulatedTime - winnerAccumulatedTime
         }
@@ -457,7 +463,13 @@ private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
     // If the status code is 9, it's a legacy issue because it used to mean NC
     var isLegacyNC = false
     if(remoteResult.stageResult != null && remoteResult.stageResult.statusCode == "9"){
-        remoteResult.stageResult.statusCode = "0"
+        // TODO - NC can be shadowing a status error, handle carefully
+        var statusCode = 0
+        if(remoteResult.runners != null){
+            // Get the biggest status code (the error with the most priority) from the team runners
+            statusCode = remoteResult.runners.mapNotNull { it.stageResult?.statusCode?.toInt() }.max()
+        }
+        remoteResult.stageResult.statusCode = statusCode.toString()
         isLegacyNC = true
     }
 

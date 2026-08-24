@@ -10,6 +10,7 @@ fun statusOrder(stageResult: StageResult?, isNC: Boolean): Int{
         return 10
     }
 
+    // TODO - Check NC ordering
     // If the results is NC, it has its own priority behind OK results
     if(isNC){
         return 0

@@ -15,12 +15,15 @@ import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.ui.util.display
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
+import kotlin.time.Duration
 import kotlin.time.Instant
 
 @Composable
 fun classicListItemTrailingContent(
     isNC: Boolean,
-    result: StageResult,
+    timeSeconds: Duration,
+    timeBehind: Duration,
+    startTime: Instant?,
     statusCode: StatusCode,
     now: State<Instant>?,
     position: Long
@@ -42,12 +45,12 @@ fun classicListItemTrailingContent(
                 ){
                     // Final time
                     Text(
-                        text = result.timeSeconds.display(),
+                        text = timeSeconds.display(),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     // Time difference
                     Text(
-                        text = "+${result.timeBehind.display()}",
+                        text = "+${timeBehind.display()}",
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -55,7 +58,7 @@ fun classicListItemTrailingContent(
             else{
                 // Show current time
                 // TODO - Maybe change to monospace font
-                val startTime = result.startTime
+                val startTime = startTime
                 if(now != null && startTime != null){
                     Text(
                         text = "(${now.value.minus(startTime).display()})",

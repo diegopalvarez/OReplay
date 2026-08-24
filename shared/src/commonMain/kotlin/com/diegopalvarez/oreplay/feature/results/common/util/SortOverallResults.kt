@@ -23,14 +23,3 @@ fun sortOverallResults(
                 .then(sortByNameOverall())
         )
 }
-
-fun sortLegResults(
-    results: List<RelayLegResult>,
-    now: Instant?
-): List<RelayLegResult> {
-    val comparator = individualResultsComparator(now)
-    return results
-        .sortedWith { a, b ->
-            comparator.compare(a.result, b.result)
-        }
-}
