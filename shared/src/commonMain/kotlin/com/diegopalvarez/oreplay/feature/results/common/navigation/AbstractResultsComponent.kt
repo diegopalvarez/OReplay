@@ -175,7 +175,8 @@ abstract class AbstractResultsComponent(
             ResultsTabConfiguration.Points -> Points(
                 PointsComponent(
                     componentContext = component,
-                    results = results
+                    results = results,
+                    visitedStatsMap = visitedScoreControls
                 )
             )
         }

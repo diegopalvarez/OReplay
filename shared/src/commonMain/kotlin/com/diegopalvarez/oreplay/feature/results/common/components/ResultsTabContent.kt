@@ -23,18 +23,19 @@ fun ResultsTabContent(
     when(val child = pages.value.items[pages.value.selectedIndex].instance){
         is AbstractResultsComponent.ResultsTabChild.Legs -> ResultsLegScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Results -> ResultsMainScreen(child.component)
-        is AbstractResultsComponent.ResultsTabChild.Splits -> {
+        is AbstractResultsComponent.ResultsTabChild.Splits -> ResultsSplitsScreen(child.component)
+        is AbstractResultsComponent.ResultsTabChild.StartTimes -> ResultsStartTimesScreen(child.component)
+        is AbstractResultsComponent.ResultsTabChild.Statistics -> ResultsStatisticsScreen(child.component)
+        is AbstractResultsComponent.ResultsTabChild.Points -> {
             if(component is ClassResultsComponent){
-                ResultsSplitsScreen(child.component)
+                ResultsPointsScreen(child.component, component.stageClass.id)
             }
             else{
-                ResultsSplitsScreen(child.component)
+                // This should never happen
+                ResultsPointsScreen(child.component, null)
             }
 
         }
-        is AbstractResultsComponent.ResultsTabChild.StartTimes -> ResultsStartTimesScreen(child.component)
-        is AbstractResultsComponent.ResultsTabChild.Statistics -> ResultsStatisticsScreen(child.component)
-        is AbstractResultsComponent.ResultsTabChild.Points -> ResultsPointsScreen(child.component)
         null -> TODO("This shouldn't be a possibility")
     }
 }

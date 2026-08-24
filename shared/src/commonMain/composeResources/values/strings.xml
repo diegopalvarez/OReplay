@@ -123,4 +123,5 @@
     <string name="partial_tab">Partial Times</string>
     <string name="accumulated_tab">Accumulated Times</string>
     <string name="total_time">Time</string>
+    <string name="name">Name</string>
 </resources>
