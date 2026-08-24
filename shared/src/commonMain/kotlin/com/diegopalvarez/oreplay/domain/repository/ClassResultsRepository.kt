@@ -13,6 +13,7 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.repository.type.RepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.repository.util.calculateVisitedControls
+import com.diegopalvarez.oreplay.domain.repository.util.getNumberOfLegs
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
 import com.diegopalvarez.oreplay.domain.repository.util.wrapResult
 
@@ -96,12 +97,19 @@ class ClassResultsRepository(
 
             StageType.RELAY -> {
                 // A Relay stage is a team race with splits
+
+                // Get the results for the relay stage
+                val results = getTeamResults(
+                    remoteResultsResponse = results
+                )
+
+                val numberOfLegs = getNumberOfLegs(results)
+
                 Result.Success(
                     wrapResult(
-                        getTeamResults(
-                            remoteResultsResponse = results
-                        ),
-                        StageType.RELAY
+                        results,
+                        StageType.RELAY,
+                        numberOfLegs = numberOfLegs
                     )
                 )
             }

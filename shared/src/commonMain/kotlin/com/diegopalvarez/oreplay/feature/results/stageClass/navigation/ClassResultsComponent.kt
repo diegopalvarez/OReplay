@@ -69,6 +69,9 @@ class ClassResultsComponent(
                 if(stage.stageType.getStageType() == StageType.SCORE){
                     _visitedScoreControls.value = Optional.Some((it as ScoreRepositoryResult).visitedControls)
                 }
+                else if(stage.stageType.getStageType() == StageType.RELAY){
+                    _numberOfLegs.value = Optional.Some((it as RelayRepositoryResult).numberOfLegs)
+                }
 
                 // Get the widest string from the results
                 getWidestString()

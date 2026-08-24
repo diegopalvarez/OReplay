@@ -85,6 +85,12 @@ abstract class AbstractResultsComponent(
     val widestString: Value<String> = _widestString
 
     /**
+    * Variable to hold the information regarding the number of legs in a Relay Race
+    */
+    protected val _numberOfLegs: MutableValue<Optional<Int>> = MutableValue(Optional.None)
+    val numberOfLegs: Value<Optional<Int>> = _numberOfLegs
+
+    /**
      * Tab Navigation Functionality
      */
     // Tab Navigation Functionality
@@ -162,7 +168,10 @@ abstract class AbstractResultsComponent(
             ResultsTabConfiguration.Legs -> Legs(
                 LegsComponent(
                     componentContext = component,
-                    results = results
+                    event = event,
+                    stage = stage,
+                    results = results,
+                    numberOfLegs = numberOfLegs
                 )
             )
             ResultsTabConfiguration.Statistics -> Statistics(

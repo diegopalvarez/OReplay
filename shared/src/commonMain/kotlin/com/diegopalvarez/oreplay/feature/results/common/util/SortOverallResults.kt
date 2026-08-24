@@ -1,5 +1,7 @@
 package com.diegopalvarez.oreplay.feature.results.common.util
 
+import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.domain.model.RelayLegResult
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import kotlin.time.Clock
@@ -20,4 +22,15 @@ fun sortOverallResults(
                 }
                 .then(sortByNameOverall())
         )
+}
+
+fun sortLegResults(
+    results: List<RelayLegResult>,
+    now: Instant?
+): List<RelayLegResult> {
+    val comparator = individualResultsComparator(now)
+    return results
+        .sortedWith { a, b ->
+            comparator.compare(a.result, b.result)
+        }
 }
