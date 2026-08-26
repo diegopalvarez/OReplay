@@ -1,6 +1,5 @@
 package com.diegopalvarez.oreplay.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +25,7 @@ fun NoDataScreen(){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
+        ThemeImage(
             painter = painterResource(Res.drawable.info),
             contentDescription = stringResource(Res.string.no_info_icon),
             modifier = Modifier
