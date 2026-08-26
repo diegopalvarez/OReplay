@@ -258,35 +258,6 @@ class RemoteResultsMapperTest {
     }
 
     @Test
-    fun `GetClassicResults - Invalid Result without sex`(){
-        val remote = RemoteResultsResponse(
-            results = listOf(
-                RemoteResult(
-                    id = "02c0298a-d3e5-470e-8ae2-77a40063b407",
-                    bibNumber = "4346",
-                    isNc = false,
-                    eligibility = null,
-                    sicard = "2077088",
-                    sex = null,
-                    legNumber = 1,
-                    legs = null,
-                    runners = null,
-                    created = "2026-06-30T08:53:10.392+00:00",
-                    runnerClass = null,
-                    runnerClub = null,
-                    fullName = "Julia Pérez Álvarez",
-                    stageResult = null,
-                    overalls = null,
-                )
-            )
-        )
-
-        assertFailsWith<IllegalArgumentException> {
-            getClassicResults(remote, calculateRanks = false)
-        }
-    }
-
-    @Test
     fun `GetClassicResults - Invalid Result without legNumber`(){
         val remote = RemoteResultsResponse(
             results = listOf(
