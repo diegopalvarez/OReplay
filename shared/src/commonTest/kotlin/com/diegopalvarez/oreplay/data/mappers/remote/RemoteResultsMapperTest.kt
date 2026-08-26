@@ -6,6 +6,8 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.domain.types.UploadType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -63,10 +65,10 @@ class RemoteResultsMapperTest {
         assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
         assertEquals(getInstant("2026-06-28T08:45:00.000+00:00"), stageResult.startTime)
         assertEquals(getInstant("2026-06-28T09:11:33.000+00:00"), stageResult.finishTime)
-        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(UploadType.SPLIT_RESULT, stageResult.uploadType)
         assertEquals(1593.seconds, stageResult.timeSeconds)
         assertEquals(1, stageResult.position)
-        assertEquals("0", stageResult.statusCode)
+        assertEquals(StatusCode.OK, stageResult.statusCode)
         assertFalse(stageResult.isNC)
         assertEquals(true, stageResult.contributory)
         assertEquals(0.seconds, stageResult.timeBehind)
@@ -130,10 +132,10 @@ class RemoteResultsMapperTest {
         assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
         assertEquals(getInstant("2026-06-28T09:20:00.000+00:00"), stageResult.startTime)
         assertEquals(getInstant("2026-06-28T09:57:55.000+00:00"), stageResult.finishTime)
-        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(UploadType.SPLIT_RESULT, stageResult.uploadType)
         assertEquals(2275.seconds, stageResult.timeSeconds)
         assertEquals(0, stageResult.position)
-        assertEquals("3", stageResult.statusCode)
+        assertEquals(StatusCode.MISSING_PUNCH, stageResult.statusCode)
         assertFalse(stageResult.isNC)
         assertEquals(true, stageResult.contributory)
         assertEquals(682.seconds, stageResult.timeBehind)
@@ -441,10 +443,10 @@ class RemoteResultsMapperTest {
         // Test OverallTotal
         assertTrue(overalls.overallTotal.id.isBlank())
         assertEquals(1, overalls.overallTotal.stageOrder)
-        assertEquals("ranking_computed", overalls.overallTotal.uploadType)
+        assertEquals(UploadType.RANKING_COMPUTED, overalls.overallTotal.uploadType)
         assertNull(overalls.overallTotal.stage)
         assertEquals(1L, overalls.overallTotal.position)
-        assertEquals("0", overalls.overallTotal.statusCode)
+        assertEquals(StatusCode.OK, overalls.overallTotal.statusCode)
         assertNull(overalls.overallTotal.isNc)
         assertNull(overalls.overallTotal.contributory)
         assertEquals(0.seconds, overalls.overallTotal.timeSeconds)
@@ -486,10 +488,10 @@ class RemoteResultsMapperTest {
         assertEquals(getInstant("2026-06-22T07:27:00.000+00:00"), stageResult.startTime)
         assertEquals(getInstant("2026-06-22T08:22:58.000+00:00"), stageResult.finishTime)
         assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
-        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(UploadType.SPLIT_RESULT, stageResult.uploadType)
         assertEquals(0.seconds, stageResult.timeSeconds)
         assertEquals(0, stageResult.position)
-        assertEquals("3", stageResult.statusCode)
+        assertEquals(StatusCode.MISSING_PUNCH, stageResult.statusCode)
         assertFalse(stageResult.isNC)
         assertNull(stageResult.contributory)
         assertEquals(0.seconds, stageResult.timeBehind)
@@ -561,7 +563,7 @@ class RemoteResultsMapperTest {
         assertEquals(Duration.parse("42m 58s"), result.stageResult.timeSeconds)
         assertEquals(Duration.parse("47s"), result.stageResult.timeBehind)
         assertEquals(2, result.stageResult.position)
-        assertEquals("0", result.stageResult.statusCode)
+        assertEquals(StatusCode.OK, result.stageResult.statusCode)
     }
 
     @Test
