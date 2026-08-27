@@ -26,6 +26,7 @@ import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
+import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
@@ -67,6 +68,8 @@ fun ResultsScaffold(
     val isError = component.isError.subscribeAsState()
 
     val errorType = component.errorType.subscribeAsState()
+
+    val results = component.results.subscribeAsState()
 
     /**
      * Create the reload functionality and its snackbar
@@ -142,8 +145,13 @@ fun ResultsScaffold(
                         }
                     }
                 } else {
-                    // Actual content of the Tab, depending on which one is selected
-                    ResultsTabContent(component)
+                    if(results.value.isEmpty()){
+                        NoDataScreen()
+                    }
+                    else{
+                        // Actual content of the Tab, depending on which one is selected
+                        ResultsTabContent(component)
+                    }
                 }
             }
         }
