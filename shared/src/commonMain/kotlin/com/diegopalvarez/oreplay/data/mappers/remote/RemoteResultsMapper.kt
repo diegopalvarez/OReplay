@@ -419,36 +419,43 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
         val sortedBestTime = teamsWithLeg
             .sortedBy { it.teamAccumulatedTime[leg] }
 
-        // Get the runner with the least accumulated time for this leg
-        val accumulatedLegWinner = sortedBestTime.firstOrNull{ !it.isNc } ?: continue     // If the list is empty, go to the next leg
+        // Get the first runner by accumulated time for setting the best time
+        val accumulatedLegBestTime = sortedBestTime.first()
+        // The team with the best accumulated time this leg can be an NC team
+        val winnerAccumulatedTime = accumulatedLegBestTime.teamAccumulatedTime[leg]
 
-        // Establish the position and time behind of the winner
-        accumulatedLegWinner.teamPositions[leg] = 1
-        accumulatedLegWinner.teamTimeBehind[leg] = 0.seconds
+        // Calculate the time behind for all runners, NC and non-NC
+        sortedBestTime.forEach { team ->
+            team.teamTimeBehind[leg] = team.teamAccumulatedTime[leg] - winnerAccumulatedTime
+        }
 
-        // Establish the position and time behind for the other runners
-        val winnerAccumulatedTime = accumulatedLegWinner.teamAccumulatedTime[leg]
+        // Calculate the positions only for the teams that are not NC
+        val rankedTeams = sortedBestTime.filterNot { it.isNc }
 
-        var position = 2L
-        for(teamIndex in 1 until sortedBestTime.size){
-            val previousTeam = sortedBestTime[teamIndex - 1]
-            val currentTeam = sortedBestTime[teamIndex]
+        // Check if there are ranked teams
+        if(rankedTeams.isEmpty()) continue
+
+        // Set the position for the first team
+        rankedTeams.first().teamPositions[leg] = 1L
+
+        // Iterate over every ranked team to calculate their position accounting for ties
+        for(teamIndex in 1 until rankedTeams.size){
+            val previousTeam = rankedTeams[teamIndex - 1]
+            val currentTeam = rankedTeams[teamIndex]
 
             val previousAccumulatedTime = previousTeam.teamAccumulatedTime[leg]
             val currentAccumulatedTime = currentTeam.teamAccumulatedTime[leg]
 
-            if(!currentTeam.isNc){
-                // TODO - See if it's correct to not take into account those teams that are NC
-                currentTeam.teamPositions[leg] = if(previousAccumulatedTime == currentAccumulatedTime){
+            // TODO - See if it's correct to not take into account those teams that are NC
+            currentTeam.teamPositions[leg] =
+                if(previousAccumulatedTime == currentAccumulatedTime){
+                    // If the time is the same to the previous one, the position is the same
                     previousTeam.teamPositions[leg]
                 }
                 else{
-                    position++
+                    // If not, skip over the missed positions due to ties (1, 2, 2, 4)
+                    teamIndex.toLong() + 1
                 }
-            }
-
-
-            currentTeam.teamTimeBehind[leg] = currentAccumulatedTime - winnerAccumulatedTime
         }
     }
 }
