@@ -2,14 +2,7 @@ package com.diegopalvarez.oreplay.feature.stageDetails.components
 
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.diegopalvarez.oreplay.domain.model.Event
-import com.diegopalvarez.oreplay.domain.model.Stage
-import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
-import com.diegopalvarez.oreplay.feature.events.screens.futureEvents.FutureEventsScreen
-import com.diegopalvarez.oreplay.feature.events.screens.liveEvents.LiveEventsScreen
-import com.diegopalvarez.oreplay.feature.events.screens.pastEvents.PastEventsScreen
 import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsComponent
-import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsTabConfiguration
 import com.diegopalvarez.oreplay.feature.stageDetails.screens.classes.StageClassesScreen
 import com.diegopalvarez.oreplay.feature.stageDetails.screens.clubs.StageClubsScreen
 

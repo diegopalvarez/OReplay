@@ -18,7 +18,7 @@ data class RemoteEvent (
     val location: String? = null,    // TODO - Check why it's always null
 
     @SerialName("country_code")
-    val countryCode: String?,
+    val countryCode: String? = null,
 
     @SerialName("initial_date")
     val initialDate: String,

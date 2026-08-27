@@ -16,8 +16,8 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.ui.util.AppBarTitle
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.arrow_back
 import oreplay.shared.generated.resources.back
@@ -30,7 +30,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TitlePageBar(
-    text: String,
+    title: String,
+    subtitle: String? = null,
     navigationAction: () -> Unit,
     hasRefresh: Boolean = false,
     refreshAction: () -> Unit = {},
@@ -45,13 +46,9 @@ fun TitlePageBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),   // TODO - Make the text be completely centered and the icon on the side
             ) {
-                Text(
-                    text = text,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                AppBarTitle(title, subtitle)
                 if(displayTimezoneWarning) {
                     // Add a warning tooltip to Top Bar
                     TooltipBox(

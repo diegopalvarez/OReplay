@@ -17,6 +17,7 @@ class StageClassesComponent(
     private val stageID: String,
     private val repository: StageRepository,
     private val addClasses: (List<StageClass>) -> Unit,
+    val onClassClick: (StageClass) -> Unit
 ): AbstractStageComponent(componentContext) {
 
     // Variable to store the list of classes.

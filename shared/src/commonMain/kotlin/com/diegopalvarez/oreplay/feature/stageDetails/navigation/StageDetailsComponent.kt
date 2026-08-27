@@ -38,10 +38,10 @@ import kotlin.time.Duration.Companion.milliseconds
 class StageDetailsComponent(
     componentContext: ComponentContext,
     val stage: Stage,
-    val event: Event,
+    val pageEvent: Event,
     private val repository: StageRepository,
-    private val onNavigateToClassResultsScreen: (StageClass) -> Unit,
-    private val onNavigateToClubResultsScreen: (StageClub) -> Unit,
+    private val onNavigateToClassResultsScreen: (Event, Stage, StageClass) -> Unit,
+    private val onNavigateToClubResultsScreen: (Event, Stage, StageClub) -> Unit,
     private val onGoBack: () -> Unit
 ): ComponentContext by componentContext {
 
@@ -73,8 +73,8 @@ class StageDetailsComponent(
     // Event Handler Function
     fun onEvent(event: StageDetailsEvent) {
         when (event) {
-            is StageDetailsEvent.ClickClass -> onNavigateToClassResultsScreen(event.selectedClass)
-            is StageDetailsEvent.ClickClub -> onNavigateToClubResultsScreen(event.selectedClub)
+            is StageDetailsEvent.ClickClass -> onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass)
+            is StageDetailsEvent.ClickClub -> onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub)
             StageDetailsEvent.GoBack -> onGoBack()
         }
     }
@@ -180,19 +180,25 @@ class StageDetailsComponent(
             StageDetailsTabConfiguration.Classes -> StageDetailsTabChild.StageClasses(
                 StageClassesComponent(
                     componentContext = component,
-                    eventID = event.id,
+                    eventID = pageEvent.id,
                     stageID = stage.id,
                     repository = repository,
-                    addClasses = ::addClasses
+                    addClasses = ::addClasses,
+                    onClassClick = { stageClass ->
+                        onEvent(StageDetailsEvent.ClickClass(stageClass))
+                    }
                 )
             )
             StageDetailsTabConfiguration.Clubs -> StageDetailsTabChild.StageClubs(
                 StageClubsComponent(
                     componentContext = component,
-                    eventID = event.id,
+                    eventID = pageEvent.id,
                     stageID = stage.id,
                     repository = repository,
-                    addClubs = ::addClubs
+                    addClubs = ::addClubs,
+                    onClubClick = { stageClub ->
+                        onEvent(StageDetailsEvent.ClickClub(stageClub))
+                    }
                 )
             )
 

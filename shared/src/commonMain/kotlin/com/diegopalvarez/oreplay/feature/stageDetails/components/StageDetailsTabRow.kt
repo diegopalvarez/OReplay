@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.style.TextOverflow
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.diegopalvarez.oreplay.feature.events.navigation.EventTabConfiguration
 import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsComponent
 import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsTabConfiguration
 import org.jetbrains.compose.resources.stringResource

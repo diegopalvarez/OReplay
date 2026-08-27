@@ -5,13 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -24,11 +19,8 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.EventGrid
-import oreplay.shared.generated.resources.Res
-import oreplay.shared.generated.resources.close
-import oreplay.shared.generated.resources.dismiss
+import com.diegopalvarez.oreplay.ui.components.RepositoryErrorSnackbar
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -122,31 +114,6 @@ fun EventScreen(
         }
 
         // SnackBar for Error Messages
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp),
-            snackbar = { data ->
-                Snackbar(
-                    dismissAction = {
-                        IconButton(
-                            onClick = { data.dismiss() }
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.close),
-                                contentDescription = stringResource(Res.string.dismiss)
-                            )
-                        }
-                    }
-                ) {
-                    Text(
-                        text = data.visuals.message,
-                        modifier = Modifier
-                            .padding(vertical = 4.dp)
-                    )
-                }
-            }
-        )
+        RepositoryErrorSnackbar(snackbarHostState)
     }
 }

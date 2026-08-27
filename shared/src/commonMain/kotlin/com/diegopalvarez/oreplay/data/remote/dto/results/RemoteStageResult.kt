@@ -5,27 +5,28 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteStageResult(
-    val id: String,
+    // TODO - Check entry_list upload type
+    val id: String? = null,
 
     @SerialName("result_type_id")
     val resultTypeID: String,
 
     @SerialName("start_time")
-    val startTime: String,
+    val startTime: String? = null,
 
     @SerialName("finish_time")
-    val finishTime: String,             // TODO - Check if it can be null
+    val finishTime: String? = null,             // TODO - Check if it can be null
 
     @SerialName("upload_type")
-    val uploadType: String,
+    val uploadType: String,             // If upload type is entry_list, there can be no id, start_time, finish_time, time and points parameters, leg_number and created
 
     @SerialName("time_seconds")
     val timeSeconds: Long,
 
-    val position: Long,
+    val position: Long,                 // Position is 0 if there's no position for the runner
 
     @SerialName("status_code")
-    val statusCode: String,
+    var statusCode: String,             // TODO - Is  var only because of the legacy 9 status code issue
 
     @SerialName("is_nc")
     val isNc: Boolean,
@@ -36,37 +37,37 @@ data class RemoteStageResult(
     val timeBehind: Long,
 
     @SerialName("time_neutralization")
-    val timeNeutralization: Long,
+    val timeNeutralization: Long ? = null,
 
     @SerialName("time_adjusted")
-    val timeAdjusted: Long,
+    val timeAdjusted: Long ? = null,
 
     @SerialName("time_penalty")
-    val timePenalty: Long,
+    val timePenalty: Long ? = null,
 
     @SerialName("time_bonus")
-    val timeBonus: Long,
+    val timeBonus: Long ? = null,
 
     @SerialName("points_final")
-    val pointsFinal: String,
+    val pointsFinal: String ? = null,
 
     @SerialName("points_behind")
     val pointsBehind: String ? = null,          // TODO - Why aren't these returned in the overall team result?
 
     @SerialName("points_adjusted")
-    val pointsAdjusted: String,
+    val pointsAdjusted: String ? = null,
 
     @SerialName("points_penalty")
-    val pointsPenalty: String,
+    val pointsPenalty: String ? = null,
 
     @SerialName("points_bonus")
-    val pointsBonus: String,
+    val pointsBonus: String ? = null,
 
     val note: String? = null,       // TODO - Never specified, must check later
 
     @SerialName("leg_number")
-    val legNumber: Long,
+    val legNumber: Long ? = null,
 
-    val created: String,
+    val created: String ? = null,
     val splits: List<RemoteSplit>
 )

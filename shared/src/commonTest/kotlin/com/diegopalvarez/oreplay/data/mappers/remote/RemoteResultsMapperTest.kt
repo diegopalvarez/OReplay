@@ -6,6 +6,8 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.domain.types.UploadType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -63,10 +65,10 @@ class RemoteResultsMapperTest {
         assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
         assertEquals(getInstant("2026-06-28T08:45:00.000+00:00"), stageResult.startTime)
         assertEquals(getInstant("2026-06-28T09:11:33.000+00:00"), stageResult.finishTime)
-        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(UploadType.SPLIT_RESULT, stageResult.uploadType)
         assertEquals(1593.seconds, stageResult.timeSeconds)
         assertEquals(1, stageResult.position)
-        assertEquals("0", stageResult.statusCode)
+        assertEquals(StatusCode.OK, stageResult.statusCode)
         assertFalse(stageResult.isNC)
         assertEquals(true, stageResult.contributory)
         assertEquals(0.seconds, stageResult.timeBehind)
@@ -130,10 +132,10 @@ class RemoteResultsMapperTest {
         assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
         assertEquals(getInstant("2026-06-28T09:20:00.000+00:00"), stageResult.startTime)
         assertEquals(getInstant("2026-06-28T09:57:55.000+00:00"), stageResult.finishTime)
-        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(UploadType.SPLIT_RESULT, stageResult.uploadType)
         assertEquals(2275.seconds, stageResult.timeSeconds)
         assertEquals(0, stageResult.position)
-        assertEquals("3", stageResult.statusCode)
+        assertEquals(StatusCode.MISSING_PUNCH, stageResult.statusCode)
         assertFalse(stageResult.isNC)
         assertEquals(true, stageResult.contributory)
         assertEquals(682.seconds, stageResult.timeBehind)
@@ -237,35 +239,6 @@ class RemoteResultsMapperTest {
                     eligibility = null,
                     sicard = null,
                     sex = "F",
-                    legNumber = 1,
-                    legs = null,
-                    runners = null,
-                    created = "2026-06-30T08:53:10.392+00:00",
-                    runnerClass = null,
-                    runnerClub = null,
-                    fullName = "Julia Pérez Álvarez",
-                    stageResult = null,
-                    overalls = null,
-                )
-            )
-        )
-
-        assertFailsWith<IllegalArgumentException> {
-            getClassicResults(remote, calculateRanks = false)
-        }
-    }
-
-    @Test
-    fun `GetClassicResults - Invalid Result without sex`(){
-        val remote = RemoteResultsResponse(
-            results = listOf(
-                RemoteResult(
-                    id = "02c0298a-d3e5-470e-8ae2-77a40063b407",
-                    bibNumber = "4346",
-                    isNc = false,
-                    eligibility = null,
-                    sicard = "2077088",
-                    sex = null,
                     legNumber = 1,
                     legs = null,
                     runners = null,
@@ -441,10 +414,10 @@ class RemoteResultsMapperTest {
         // Test OverallTotal
         assertTrue(overalls.overallTotal.id.isBlank())
         assertEquals(1, overalls.overallTotal.stageOrder)
-        assertEquals("ranking_computed", overalls.overallTotal.uploadType)
+        assertEquals(UploadType.RANKING_COMPUTED, overalls.overallTotal.uploadType)
         assertNull(overalls.overallTotal.stage)
         assertEquals(1L, overalls.overallTotal.position)
-        assertEquals("0", overalls.overallTotal.statusCode)
+        assertEquals(StatusCode.OK, overalls.overallTotal.statusCode)
         assertNull(overalls.overallTotal.isNc)
         assertNull(overalls.overallTotal.contributory)
         assertEquals(0.seconds, overalls.overallTotal.timeSeconds)
@@ -486,10 +459,10 @@ class RemoteResultsMapperTest {
         assertEquals(getInstant("2026-06-22T07:27:00.000+00:00"), stageResult.startTime)
         assertEquals(getInstant("2026-06-22T08:22:58.000+00:00"), stageResult.finishTime)
         assertEquals("e4ddfa9d-3347-47e4-9d32-c6c119aeac0e", stageResult.resultType)
-        assertEquals("res_splits", stageResult.uploadType)
+        assertEquals(UploadType.SPLIT_RESULT, stageResult.uploadType)
         assertEquals(0.seconds, stageResult.timeSeconds)
         assertEquals(0, stageResult.position)
-        assertEquals("3", stageResult.statusCode)
+        assertEquals(StatusCode.MISSING_PUNCH, stageResult.statusCode)
         assertFalse(stageResult.isNC)
         assertNull(stageResult.contributory)
         assertEquals(0.seconds, stageResult.timeBehind)
@@ -561,7 +534,7 @@ class RemoteResultsMapperTest {
         assertEquals(Duration.parse("42m 58s"), result.stageResult.timeSeconds)
         assertEquals(Duration.parse("47s"), result.stageResult.timeBehind)
         assertEquals(2, result.stageResult.position)
-        assertEquals("0", result.stageResult.statusCode)
+        assertEquals(StatusCode.OK, result.stageResult.statusCode)
     }
 
     @Test
@@ -617,4 +590,333 @@ class RemoteResultsMapperTest {
         // The actual validation of the results is delegated to the tests for GetIndividualResult
     }
 
+    @Test
+    fun `CalculateLegRanks - Valid Team Result`(){
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksValid)
+
+        assertNotNull(response)
+        assertEquals(2, response.size)
+
+        // The actual team results are already tested, this tests only cover the ranks for the runners
+        // This includes the time behind for each runner and the team accumulated error, team position, team accumulated time and team time behind
+
+        val individualTimeBehinds = listOf(
+            listOf(0.seconds, 45.seconds, 36.seconds, 0.seconds),
+            listOf(95.seconds, 0.seconds, 0.seconds, 41.seconds)
+        )
+
+        val teamPositions = listOf<List<Long>>(
+            listOf(1, 1, 1, 1),
+            listOf(2, 2, 2, 2)
+        )
+
+        val teamAccumulatedTime = listOf(
+            listOf(685.seconds, 1185.seconds, 1715.seconds, 2284.seconds),
+            listOf(780.seconds, 1235.seconds, 1729.seconds, 2339.seconds)
+        )
+
+        val teamTimeBehind = listOf(
+            listOf(0.seconds, 0.seconds, 0.seconds, 0.seconds),
+            listOf(95.seconds, 50.seconds, 14.seconds, 55.seconds)
+        )
+
+        for (teamIndex in response.indices){
+            val team = response[teamIndex]
+
+            assertEquals(4, team.runners.size)
+
+            // Test the individual time behinds per leg
+            for(runner in team.runners){
+                val index = runner.legNumber.toInt() - 1
+
+                assertNotNull(runner.stageResult)
+                assertEquals(1, runner.stageResult.splits.size)
+                assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
+
+                // Test the team metrics
+                assertEquals(false, team.isAccumulatedError[index])
+                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
+                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
+                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+            }
+
+        }
+    }
+
+    @Test
+    fun `CalculateLegRanks - Team Result with MP`(){
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksMP)
+
+        assertNotNull(response)
+        assertEquals(2, response.size)
+
+        // The actual team results are already tested, this tests only cover the ranks for the runners
+        // This includes the time behind for each runner and the team accumulated error, team position, team accumulated time and team time behind
+
+        val individualTimeBehinds = listOf(
+            listOf(0.seconds, 189.seconds, 168.seconds, 0.seconds),     // If an error happened, the individual time behind is unmodified, 0
+            listOf(141.seconds, 0.seconds, 0.seconds, 0.seconds)
+        )
+
+        val teamPositions = listOf<List<Long>>(
+            listOf(1, 2, 2, 0),
+            listOf(2, 1, 1, 1)
+        )
+
+        val isAccumulatedError = listOf(
+            listOf(false, false, false, true),
+            listOf(false, false, false, false),
+        )
+
+        val teamAccumulatedTime = listOf(
+            listOf(639.seconds, 1283.seconds, 1945.seconds, Duration.INFINITE),     // If there's an error, the accumulated time is INFINITE
+            listOf(780.seconds, 1235.seconds, 1729.seconds, 2339.seconds)
+        )
+
+        val teamTimeBehind = listOf(
+            listOf(0.seconds, 48.seconds, 216.seconds, Duration.INFINITE),                  // If there's an error, the team time behind is INFINITE
+            listOf(141.seconds, 0.seconds, 0.seconds, 0.seconds)
+        )
+
+        for (teamIndex in response.indices){
+            val team = response[teamIndex]
+
+            assertEquals(4, team.runners.size)
+
+            // Test the individual time behinds per leg
+            for(runner in team.runners){
+                val index = runner.legNumber.toInt() - 1
+
+                assertNotNull(runner.stageResult)
+                assertEquals(1, runner.stageResult.splits.size)
+                assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
+
+                // Test the team metrics
+                assertEquals(isAccumulatedError[teamIndex][index], team.isAccumulatedError[index])
+                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
+                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
+                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+            }
+
+        }
+    }
+
+    @Test
+    fun `CalculateLegRanks - Team Result with NC`() {
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksNC)
+
+        assertNotNull(response)
+        assertEquals(2, response.size)
+
+        // The actual team results are already tested, this tests only cover the ranks for the runners
+        // This includes the time behind for each runner and the team accumulated error, team position, team accumulated time and team time behind
+
+        // If one of the teams is NC, the calculations are the same for the time behind, but they are not taken into account for positions
+
+        val individualTimeBehinds = listOf(
+            listOf(0.seconds, 45.seconds, 36.seconds, 0.seconds),
+            listOf(95.seconds, 0.seconds, 0.seconds, 41.seconds)
+        )
+
+        val teamPositions = listOf<List<Long>>(
+            listOf(0, 0, 0, 0),         // The NC position is 0
+            listOf(1, 1, 1, 1)
+        )
+
+        val teamAccumulatedTime = listOf(
+            listOf(685.seconds, 1185.seconds, 1715.seconds, 2284.seconds),
+            listOf(780.seconds, 1235.seconds, 1729.seconds, 2339.seconds)
+        )
+
+        val teamTimeBehind = listOf(
+            listOf(0.seconds, 0.seconds, 0.seconds, 0.seconds),         // The time behind is calculated, just no positions
+            listOf(95.seconds, 50.seconds, 14.seconds, 55.seconds)
+        )
+
+        for (teamIndex in response.indices) {
+            val team = response[teamIndex]
+
+            assertEquals(4, team.runners.size)
+
+            // Test the individual time behinds per leg
+            for (runner in team.runners) {
+                val index = runner.legNumber.toInt() - 1
+
+                assertNotNull(runner.stageResult)
+                assertEquals(1, runner.stageResult.splits.size)
+                assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
+
+                // Test the team metrics
+                assertEquals(false, team.isAccumulatedError[index])
+                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
+                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
+                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+            }
+
+        }
+    }
+
+    @Test
+    fun `CalculateLegRanks - Team Result with All NC`() {
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksFullNC)
+
+        assertNotNull(response)
+        assertEquals(2, response.size)
+
+        // The actual team results are already tested, this tests only cover the ranks for the runners
+        // This includes the time behind for each runner and the team accumulated error, team position, team accumulated time and team time behind
+
+        // If one of the teams is NC, the calculations are the same for the time behind, but they are not taken into account for positions
+
+        val individualTimeBehinds = listOf(
+            listOf(0.seconds, 45.seconds, 36.seconds, 0.seconds),
+            listOf(95.seconds, 0.seconds, 0.seconds, 41.seconds)
+        )
+
+        val teamAccumulatedTime = listOf(
+            listOf(685.seconds, 1185.seconds, 1715.seconds, 2284.seconds),
+            listOf(780.seconds, 1235.seconds, 1729.seconds, 2339.seconds)
+        )
+
+        val teamTimeBehind = listOf(
+            listOf(0.seconds, 0.seconds, 0.seconds, 0.seconds),         // The time behind is calculated, just no positions
+            listOf(95.seconds, 50.seconds, 14.seconds, 55.seconds)
+        )
+
+        for (teamIndex in response.indices) {
+            val team = response[teamIndex]
+
+            assertEquals(4, team.runners.size)
+
+            // Test the individual time behinds per leg
+            for (runner in team.runners) {
+                val index = runner.legNumber.toInt() - 1
+
+                assertNotNull(runner.stageResult)
+                assertEquals(1, runner.stageResult.splits.size)
+                assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
+
+                // Test the team metrics
+                assertEquals(false, team.isAccumulatedError[index])
+                assertEquals(0, team.teamPositions[index])          // All NC positions are 0
+                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
+                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+            }
+
+        }
+    }
+
+    @Test
+    fun `CalculateLegRanks - Team Result with Ties`(){
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksTie)
+
+        assertNotNull(response)
+        assertEquals(2, response.size)
+
+        // The actual team results are already tested, this tests only cover the ranks for the runners
+        // This includes the time behind for each runner and the team accumulated error, team position, team accumulated time and team time behind
+
+        // Since all times are tied, the results will be the same for both teams
+        val teamAccumulatedTime = listOf(685.seconds, 1185.seconds, 1715.seconds, 2284.seconds)
+
+        for (teamIndex in response.indices){
+            val team = response[teamIndex]
+
+            assertEquals(4, team.runners.size)
+
+            // Test the individual time behinds per leg
+            for(runner in team.runners){
+                val index = runner.legNumber.toInt() - 1
+
+                assertNotNull(runner.stageResult)
+                assertEquals(1, runner.stageResult.splits.size)
+                assertEquals(0.seconds, runner.stageResult.timeBehind)  // If there's a tie, the time behind for both is 0
+
+                // Test the team metrics
+                assertEquals(false, team.isAccumulatedError[index])
+                assertEquals(1, team.teamPositions[index])
+                assertEquals(teamAccumulatedTime[index], team.teamAccumulatedTime[index])
+                assertEquals(0.seconds, team.teamTimeBehind[index])     // If there's a tie, the time behind for both is 0
+            }
+
+        }
+    }
+
+    @Test
+    fun `CalculateLegRanks - Team Result with Multiple Ties`(){
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksMultipleTie)
+
+        assertNotNull(response)
+        assertEquals(4, response.size)
+
+        // The actual team results are already tested, this tests only cover the ranks for the runners
+        // This includes the time behind for each runner and the team accumulated error, team position, team accumulated time and team time behind
+
+        val timeBehind = listOf(
+            listOf(0.seconds, 0.seconds, 0.seconds, 0.seconds),
+            listOf(10.seconds, 10.seconds, 10.seconds, 10.seconds),
+            listOf(10.seconds, 10.seconds, 10.seconds, 10.seconds),
+            listOf(20.seconds, 20.seconds, 20.seconds, 20.seconds)
+        )
+
+        val teamPositions = listOf<List<Long>>(
+            listOf(1, 1, 1, 1),
+            listOf(2, 2, 2, 2),
+            listOf(2, 2, 2, 2),
+            listOf(4, 4, 4, 4)
+        )
+
+        val teamAccumulatedTime = listOf(
+            listOf(675.seconds, 1165.seconds, 1685.seconds, 2244.seconds),
+            listOf(685.seconds, 1185.seconds, 1715.seconds, 2284.seconds),
+            listOf(685.seconds, 1185.seconds, 1715.seconds, 2284.seconds),
+            listOf(695.seconds, 1205.seconds, 1745.seconds, 2324.seconds)
+        )
+
+        val teamTimeBehind = listOf(
+            listOf(0.seconds, 0.seconds, 0.seconds, 0.seconds),
+            listOf(10.seconds, 20.seconds, 30.seconds, 40.seconds),
+            listOf(10.seconds, 20.seconds, 30.seconds, 40.seconds),
+            listOf(20.seconds, 40.seconds, 60.seconds, 80.seconds)
+        )
+
+        for (teamIndex in response.indices){
+            val team = response[teamIndex]
+
+            assertEquals(4, team.runners.size)
+
+            // Test the individual time behinds per leg
+            for(runner in team.runners){
+                val index = runner.legNumber.toInt() - 1
+
+                assertNotNull(runner.stageResult)
+                assertEquals(1, runner.stageResult.splits.size)
+                assertEquals(timeBehind[teamIndex][index], runner.stageResult.timeBehind)  // If there's a tie, the time behind for both is 0
+
+                // Test the team metrics
+                assertEquals(false, team.isAccumulatedError[index])
+                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
+                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
+                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])     // If there's a tie, the time behind for both is 0
+            }
+
+        }
+    }
+
+    @Test
+    fun `CalculateLegRanks - Team Result with NC Status Code 9`() {
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksNCStatusCode)
+
+        assertNotNull(response)
+        assertEquals(2, response.size)
+
+        // The actual team results are already tested, this tests only cover the NC handling with both the flag and Status Code 9
+
+        for(team in response){
+            assertTrue(team.isNc)
+            assertNotNull(team.stageResult)
+            assertEquals(StatusCode.OK, team.stageResult.statusCode)
+        }
+
+    }
 }

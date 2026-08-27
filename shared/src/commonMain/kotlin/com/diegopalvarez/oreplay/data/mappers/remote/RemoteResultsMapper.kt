@@ -1,7 +1,11 @@
 package com.diegopalvarez.oreplay.data.mappers.remote
 
 import com.diegopalvarez.oreplay.data.mappers.util.getDuration
+import com.diegopalvarez.oreplay.data.mappers.util.getDurationOrNull
 import com.diegopalvarez.oreplay.data.mappers.util.getInstant
+import com.diegopalvarez.oreplay.data.mappers.util.getInstantOrNull
+import com.diegopalvarez.oreplay.data.mappers.util.getStatusCode
+import com.diegopalvarez.oreplay.data.mappers.util.getUploadType
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverall
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
@@ -16,8 +20,10 @@ import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.ControlID
+import com.diegopalvarez.oreplay.domain.types.StatusCode
 import kotlin.time.Duration
 import kotlin.Long
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
 /**
@@ -32,7 +38,7 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
         isNc = remoteResult.isNc,
         eligibility = remoteResult.eligibility,
         siCard = requireNotNull(remoteResult.sicard) {"Individual results must contain a SI Card"},
-        sex = requireNotNull(remoteResult.sex) {"Individual results must contain the sex of the runner"},
+        sex = remoteResult.sex,
         legNumber = requireNotNull(remoteResult.legNumber) {"Individual results must all contains a leg number"},
         created = getInstant(remoteResult.created),
         fullName = remoteResult.fullName,
@@ -49,23 +55,24 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
  * @return domain model object with all the stage result data, including the sorted splits
  */
 private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
-    val finishTime = getInstant(remoteStageResult.finishTime)
+    val finishTime = getInstantOrNull(remoteStageResult.finishTime)
+
     return StageResult(
         id = remoteStageResult.id,
         resultType = remoteStageResult.resultTypeID,
-        startTime = getInstant(remoteStageResult.startTime),
+        startTime = getInstantOrNull(remoteStageResult.startTime),
         finishTime = finishTime,
-        uploadType = remoteStageResult.uploadType,
+        uploadType = getUploadType(remoteStageResult.uploadType),
         timeSeconds = getDuration(remoteStageResult.timeSeconds),
         position = remoteStageResult.position,
-        statusCode = remoteStageResult.statusCode,
+        statusCode = getStatusCode(remoteStageResult.statusCode),
         isNC = remoteStageResult.isNc,
         contributory = remoteStageResult.contributory,
         timeBehind = getDuration(remoteStageResult.timeBehind),
-        timeNeutralization = getDuration(remoteStageResult.timeNeutralization),
-        timeAdjusted = getDuration(remoteStageResult.timeAdjusted),
-        timePenalty = getDuration(remoteStageResult.timePenalty),
-        timeBonus = getDuration(remoteStageResult.timeBonus),
+        timeNeutralization = getDurationOrNull(remoteStageResult.timeNeutralization),
+        timeAdjusted = getDurationOrNull(remoteStageResult.timeAdjusted),
+        timePenalty = getDurationOrNull(remoteStageResult.timePenalty),
+        timeBonus = getDurationOrNull(remoteStageResult.timeBonus),
         pointsTotal = remoteStageResult.pointsFinal,
         pointsBehind = remoteStageResult.pointsBehind,
         pointsAdjusted = remoteStageResult.pointsAdjusted,
@@ -73,7 +80,7 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         pointsBonus = remoteStageResult.pointsBonus,
         note = remoteStageResult.note,
         legNumber = remoteStageResult.legNumber,
-        created = getInstant(remoteStageResult.created),
+        created = getInstantOrNull(remoteStageResult.created),
         splits = getSplits(remoteStageResult.splits, finishTime)
     )
 }
@@ -123,6 +130,11 @@ private fun calculateTime(runner: ResultIndividual){
 
     // Get the start time for the runner
     val startTime = runner.stageResult.startTime
+
+    // If the start time is null there are no Splits to calculate
+    if(startTime == null){
+        return
+    }
 
     // Iterate updating the last visited control
     var previousTime: Instant? = startTime
@@ -265,10 +277,10 @@ private fun getOverallResult(remoteOverallResult: RemoteOverallResult): Overall 
 /**
  * Private function to map the list of parts that make up an overall result
  * @param remoteOverallList list of Remote Overall object gotten from the API
- * @return List of Overall Result parts as domain model objects
+ * @return List of Overall Result parts as domain model objects, sorted by stage order
  */
 private fun getOverallParts(remoteOverallList: List<RemoteOverall>): List<OverallResult> {
-    return remoteOverallList.map(::getOverall)
+    return remoteOverallList.map(::getOverall).sortedBy { it.stageOrder }
 }
 
 /**
@@ -280,10 +292,10 @@ private fun getOverall(remoteOverall: RemoteOverall): OverallResult {
     return OverallResult(
         id = remoteOverall.id,
         stageOrder = remoteOverall.stageOrder,
-        uploadType = remoteOverall.uploadType,
-        stage = remoteOverall.stage?.id,             // Stages can be uniquely identified by id, so no description is needed
+        uploadType = getUploadType(remoteOverall.uploadType),
+        stage = getOverallStage(remoteOverall.stage),             // Stages can be uniquely identified by id, so no description is needed
         position = remoteOverall.position,
-        statusCode = remoteOverall.statusCode,
+        statusCode = getStatusCode(remoteOverall.statusCode),
         isNc = remoteOverall.isNc,
         contributory = remoteOverall.contributory,
         timeSeconds = getDuration(remoteOverall.timeSeconds),
@@ -315,6 +327,9 @@ fun getTeamResults(remoteResultsResponse: RemoteResultsResponse): List<ResultTea
         calculateRelayTimes(resultsList)
 
         // There is no need to calculate a rank since it's a relay event and the data can't be directly compared
+
+        // However, there are ranks between each leg final time, calculating leg position, accumulated time and time difference
+        calculateLegRanks(resultsList)
     }
 
     // Overalls don't need additional data to be calculated
@@ -336,15 +351,139 @@ private fun calculateRelayTimes(results: List<ResultTeam>) {
 }
 
 /**
+ * Private helper function that calculates the ranks for each leg of a team result, including the accumulated time, time behind and position for each leg
+ * @param results List of Teams from a same class
+ */
+private fun calculateLegRanks(results: List<ResultTeam>) {
+    // TODO - Check what's incomplete from the API. Will relay time behind be added or do I need to calculate it here?
+
+    // Check if results is empty
+    if(results.isEmpty()) return
+
+    // Get the maximum number of legs the results from this class have
+    // TODO - Check why legs is null in the API response :(
+    val numberLegs = results.maxOfOrNull { it.runners.size } ?: return      // Return if there's no runners
+
+    // Create and initialize all the list for all the runners
+    results.forEach {
+        val size = it.runners.size
+
+        it.isAccumulatedError.clear()
+        it.isAccumulatedError.addAll(List(size) { false })
+
+        it.teamPositions.clear()
+        it.teamPositions.addAll(List(size) { 0L })
+
+        it.teamAccumulatedTime.clear()
+        it.teamAccumulatedTime.addAll(List(size) { Duration.INFINITE })
+
+        it.teamTimeBehind.clear()
+        it.teamTimeBehind.addAll(List(size) { Duration.INFINITE })
+    }
+
+    // Calculate if every leg for every team is an Accumulated Error
+    results.forEach { team ->
+        var errorHasHappened = false
+        team.runners.forEachIndexed { index, runner ->
+            if(runner.stageResult?.statusCode != StatusCode.OK) errorHasHappened = true
+            team.isAccumulatedError[index] = errorHasHappened
+        }
+    }
+
+    // Process each leg
+    for(leg in 0 until numberLegs){
+        // Get all the teams with this leg and remove the ones with an accumulated error
+        val teamsWithLeg = results.filter {
+            it.runners.getOrNull(leg)?.stageResult != null
+        }.filterNot { it.isAccumulatedError[leg] }
+
+        if(teamsWithLeg.isEmpty()) continue
+
+        // Calculate the accumulated time for all runners in this leg
+        teamsWithLeg
+            .forEach {
+                val previousAccumulated = it.teamAccumulatedTime.getOrElse(leg - 1, { 0.seconds })
+                it.teamAccumulatedTime[leg] = previousAccumulated + it.runners[leg].stageResult!!.timeSeconds        // This will never be null
+            }
+
+        // Calculate the timeBehind for all the runners in this leg
+        val legWinnerTime = teamsWithLeg.minOf { it.runners[leg].stageResult!!.timeSeconds }
+
+        teamsWithLeg
+            .forEach {
+                it.runners[leg].stageResult!!.timeBehind = it.runners[leg].stageResult!!.timeSeconds - legWinnerTime        // stageResult should never be null
+            }
+
+        // Sort the runners in this leg by accumulated times. Also removes all teams that don't have this specific leg
+        // TODO - See if it's correct to not take into account those teams that are NC
+        val sortedBestTime = teamsWithLeg
+            .sortedBy { it.teamAccumulatedTime[leg] }
+
+        // Get the first runner by accumulated time for setting the best time
+        val accumulatedLegBestTime = sortedBestTime.first()
+        // The team with the best accumulated time this leg can be an NC team
+        val winnerAccumulatedTime = accumulatedLegBestTime.teamAccumulatedTime[leg]
+
+        // Calculate the time behind for all runners, NC and non-NC
+        sortedBestTime.forEach { team ->
+            team.teamTimeBehind[leg] = team.teamAccumulatedTime[leg] - winnerAccumulatedTime
+        }
+
+        // Calculate the positions only for the teams that are not NC
+        val rankedTeams = sortedBestTime.filterNot { it.isNc }
+
+        // Check if there are ranked teams
+        if(rankedTeams.isEmpty()) continue
+
+        // Set the position for the first team
+        rankedTeams.first().teamPositions[leg] = 1L
+
+        // Iterate over every ranked team to calculate their position accounting for ties
+        for(teamIndex in 1 until rankedTeams.size){
+            val previousTeam = rankedTeams[teamIndex - 1]
+            val currentTeam = rankedTeams[teamIndex]
+
+            val previousAccumulatedTime = previousTeam.teamAccumulatedTime[leg]
+            val currentAccumulatedTime = currentTeam.teamAccumulatedTime[leg]
+
+            // TODO - See if it's correct to not take into account those teams that are NC
+            currentTeam.teamPositions[leg] =
+                if(previousAccumulatedTime == currentAccumulatedTime){
+                    // If the time is the same to the previous one, the position is the same
+                    previousTeam.teamPositions[leg]
+                }
+                else{
+                    // If not, skip over the missed positions due to ties (1, 2, 2, 4)
+                    teamIndex.toLong() + 1
+                }
+        }
+    }
+}
+
+/**
  * Private function to map a remote result from a team
  * @param remoteResult remote team object from the API
  * @return domain model object containing the team data
  */
 private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
+    // TODO - Investigate into legacy status code 9 and assess if this special case needs to be handled
+    // If the status code is 9, it's a legacy issue because it used to mean NC
+    var isLegacyNC = false
+    if(remoteResult.stageResult != null && remoteResult.stageResult.statusCode == "9"){
+        // TODO - NC can be shadowing a status error, handle carefully
+        var statusCode = 0
+        if(remoteResult.runners != null){
+            // Get the biggest status code (the error with the most priority) from the team runners
+            statusCode = remoteResult.runners.mapNotNull { it.stageResult?.statusCode?.toInt() }.max()
+        }
+        remoteResult.stageResult.statusCode = statusCode.toString()
+        isLegacyNC = true
+    }
+
     return ResultTeam(
         id = remoteResult.id,
         bibNumber = remoteResult.bibNumber,
-        isNc = remoteResult.isNc,
+        isNc = remoteResult.isNc || isLegacyNC,
         eligibility = remoteResult.eligibility,
         legs = remoteResult.legs,       // TODO - Check why legs can be null. What are them used for?
         runners =  getTeamRunners(requireNotNull(remoteResult.runners) {"Team results must all have a list of runners that make up the team"}),

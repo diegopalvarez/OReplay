@@ -12,6 +12,8 @@ import com.diegopalvarez.oreplay.app.navigation.RootComponent
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.feature.eventStages.EventStagesScreen
 import com.diegopalvarez.oreplay.feature.events.EventsScreen
+import com.diegopalvarez.oreplay.feature.results.stageClass.screens.ClassResultsScreen
+import com.diegopalvarez.oreplay.feature.results.stageClub.screens.ClubResultsScreen
 import com.diegopalvarez.oreplay.feature.stageDetails.StageDetailsScreen
 import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
@@ -36,11 +38,11 @@ fun App(root: RootComponent) {
                 animation = stackAnimation(slide())
             ) { child ->
                 when (val instance = child.instance) {
-                    is RootComponent.Child.ClassResultsScreen -> TODO() //ClassResultUI(instance.component)
-                    is RootComponent.Child.ClubResultsScreen -> TODO()  //ClubResultUI(instance.component)
+                    is RootComponent.Child.ClassResultsScreen -> ClassResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClass, instance.component)
+                    is RootComponent.Child.ClubResultsScreen -> ClubResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClub, instance.component)
                     is RootComponent.Child.EventStagesScreen -> EventStagesScreen(instance.component.pageEvent, instance.component)
                     is RootComponent.Child.EventsScreen -> EventsScreen(instance.component)
-                    is RootComponent.Child.StageDetailsScreen -> StageDetailsScreen(instance.component.event, instance.component.stage, instance.component)
+                    is RootComponent.Child.StageDetailsScreen -> StageDetailsScreen(instance.component.pageEvent, instance.component.stage, instance.component)
                 }
             }
         }

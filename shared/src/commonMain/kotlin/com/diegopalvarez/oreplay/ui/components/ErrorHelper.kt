@@ -1,6 +1,5 @@
 package com.diegopalvarez.oreplay.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -47,7 +46,7 @@ fun ErrorHelper(
         item {
             when (errorType) {
                 RepositoryError.NETWORK -> {
-                    Image(
+                    ThemeImage(
                         painter = painterResource(Res.drawable.network_error),
                         contentDescription = stringResource(Res.string.icon_network_error),
                         modifier = iconModifier,
@@ -60,7 +59,7 @@ fun ErrorHelper(
                 }
 
                 RepositoryError.INTERNAL -> {
-                    Image(
+                    ThemeImage(
                         painter = painterResource(Res.drawable.app_error),
                         contentDescription = stringResource(Res.string.icon_app_error),
                         modifier = iconModifier,
@@ -73,7 +72,7 @@ fun ErrorHelper(
                 }
 
                 RepositoryError.SERVER -> {
-                    Image(
+                    ThemeImage(
                         painter = painterResource(Res.drawable.server_error),
                         contentDescription = stringResource(Res.string.icon_server_error),
                         modifier = iconModifier,
@@ -86,7 +85,7 @@ fun ErrorHelper(
                 }
 
                 RepositoryError.NOT_IMPLEMENTED -> {
-                    Image(
+                    ThemeImage(
                         painter = painterResource(Res.drawable.app_error),
                         contentDescription = stringResource(Res.string.icon_app_error),
                         modifier = iconModifier,
@@ -99,7 +98,7 @@ fun ErrorHelper(
                 }
 
                 RepositoryError.UNKNOWN -> {
-                    Image(
+                    ThemeImage(
                         painter = painterResource(Res.drawable.error),
                         contentDescription = stringResource(Res.string.icon_error),
                         modifier = iconModifier,

@@ -9,7 +9,7 @@ data class ResultIndividual(
     val isNc: Boolean,
     val eligibility: Boolean?,
     val siCard: String,
-    val sex: String,
+    val sex: String?,
     val legNumber: Long,
     val created: Instant,
     val runnerClass: ResultClass?,

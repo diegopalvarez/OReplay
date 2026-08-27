@@ -12,3 +12,20 @@ enum class StageType(val id: String) {
     ONE_MAN_RELAY("cf89c9f2-4046-4e4b-a903-feb6bb279516"),
     RANKING("fb7ffebf-90ae-4e68-9a6f-0a6762a8b454"),
 }
+
+// Function to parse Stage Types
+fun String.getStageType(): StageType {
+    return when (this) {
+        StageType.CLASSIC.id -> StageType.CLASSIC
+        StageType.MASS_START.id -> StageType.MASS_START
+        StageType.CHASE_START.id -> StageType.CHASE_START
+        StageType.OVERALL.id -> StageType.OVERALL
+        StageType.RELAY.id -> StageType.RELAY
+        StageType.SCORE.id -> StageType.SCORE
+        StageType.RAID.id -> StageType.RAID
+        StageType.TRAIL.id -> StageType.TRAIL
+        StageType.ONE_MAN_RELAY.id -> StageType.ONE_MAN_RELAY
+        StageType.RANKING.id -> StageType.RANKING
+        else -> throw IllegalArgumentException("Unknown stage type: $this")
+    }
+}

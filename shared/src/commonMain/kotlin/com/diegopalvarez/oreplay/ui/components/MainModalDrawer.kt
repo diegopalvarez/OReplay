@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
@@ -20,16 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
-import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
-import kotlinx.coroutines.Dispatchers
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.app_name
 import oreplay.shared.generated.resources.language
@@ -38,7 +32,6 @@ import oreplay.shared.generated.resources.timezone_switch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import org.koin.core.component.KoinComponent
 
 @Composable
 fun MainModalDrawer(
@@ -76,10 +69,12 @@ fun MainModalDrawer(
                     NavigationDrawerItem(
                         label = { Text(stringResource(Res.string.language)) },
                         selected = false,
-                        icon = { Icon(
-                            painter = painterResource(Res.drawable.language),
-                            contentDescription = stringResource(Res.string.language_description)
-                        ) },
+                        icon = {
+                            Icon(
+                                painter = painterResource(Res.drawable.language),
+                                contentDescription = stringResource(Res.string.language_description)
+                            )
+                        },
                         onClick = {
                             openLanguageDialog.value = !openLanguageDialog.value
                         }

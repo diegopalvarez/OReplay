@@ -1,0 +1,67 @@
+package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.score
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key.Companion.R
+import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.domain.model.StageResult
+import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreTabComponent
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import oreplay.shared.generated.resources.Res
+import oreplay.shared.generated.resources.no_data
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun ScoreTicketPoints(
+    result: StageResult,
+    visited: Optional<ScoreResultStats>
+) {
+    // Get the list of all controls the runner has visited
+    val runnerControls = result.splits.map { it.control.station }
+
+    // Check if the stats are valid
+    when(visited){
+        Optional.None -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(Res.string.no_data),
+                )
+            }
+        }
+        is Optional.Some -> {
+            val stats = visited.value
+            FlowRow(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalArrangement = Arrangement.Center,
+            ){
+                // TODO - Find a better way to exclude the Finish control
+                for ((control, number) in stats.visited.entries.filterNot { it.key == "Finish" } .sortedBy { it.key.toLong() }) {
+                    val isVisited = runnerControls.contains(control)
+                    ScoreControlCircle(
+                        control = control,
+                        visited = isVisited,
+                        numberOfVisitors = number,
+                        totalRunners = stats.runners,
+                    )
+                }
+            }
+        }
+    }
+
+}

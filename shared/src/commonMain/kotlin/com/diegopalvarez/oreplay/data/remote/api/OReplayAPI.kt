@@ -185,6 +185,10 @@ class OReplayAPI(
                 val eventList = try{
                     response.body<T>()
                 }
+                catch (e: Exception){
+                    println(e)
+                    return Result.Error(NetworkError.SERIALIZATION)
+                }
                 catch (e: SerializationException){
                     return Result.Error(NetworkError.SERIALIZATION)
                 }

@@ -1,14 +1,16 @@
 package com.diegopalvarez.oreplay.domain.model
 
+import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.domain.types.UploadType
 import kotlin.time.Duration
 
 data class OverallResult(
     val id: String,
     val stageOrder: Long,
-    val uploadType: String,
-    val stage: String?,
+    val uploadType: UploadType,
+    val stage: OverallStage?,
     val position: Long,
-    val statusCode: String,
+    val statusCode: StatusCode,
     val isNc: Boolean?,
     val contributory: Boolean?,
     val timeSeconds: Duration,
