@@ -10,6 +10,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.feature.results.common.util.filterResultsWithSplits
 import com.diegopalvarez.oreplay.feature.results.common.util.hasFinished
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
@@ -22,8 +23,8 @@ class SplitsComponent(
     /**
      * Expose the already sorted results
      */
-    private val _sortedResults = MutableValue<List<ResultIndividual>>(emptyList())
-    val sortedResults: Value<List<ResultIndividual>> = _sortedResults
+    private val _sortedResults = MutableValue<Optional<List<ResultIndividual>>>(Optional.None)
+    val sortedResults: Value<Optional<List<ResultIndividual>>> = _sortedResults
 
     init {
         filterResults()
@@ -40,7 +41,7 @@ class SplitsComponent(
 
         // Sort the results
         val sortedResults = sortIndividualResults(splitResults)
-        _sortedResults.value = sortedResults
+        _sortedResults.value = Optional.Some(sortedResults)
     }
 
     /**

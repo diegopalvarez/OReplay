@@ -127,4 +127,5 @@
     <string name="reload_interval">Auto-refresh interval</string>
     <string name="reload_description">Refresh</string>
     <string name="change_reload">Choose the time interval to automatically refresh live results</string>
+    <string name="no_splits">No runner has downloaded their chip yet</string>
 </resources>
