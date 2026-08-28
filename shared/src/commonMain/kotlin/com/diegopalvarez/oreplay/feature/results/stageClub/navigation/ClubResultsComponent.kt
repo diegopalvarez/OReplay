@@ -66,6 +66,12 @@ class ClubResultsComponent(
             .onError {
                 _isError.value = true
                 _errorType.value = it
+
+
+                // In case of error, also reset the optional values for these types of events
+                if(stage.stageType.getStageType() == StageType.SCORE){
+                    _visitedScoreControls.value = Optional.None
+                }
             }
     }
 
