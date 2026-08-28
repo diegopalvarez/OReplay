@@ -15,6 +15,10 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.navigation.SplitsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.screen.common.SplitsTable
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.screen.common.rememberCellWidth
+import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import com.diegopalvarez.oreplay.ui.components.NoDataScreen
+import oreplay.shared.generated.resources.Res
+import oreplay.shared.generated.resources.no_splits
 
 @Composable
 fun SplitsContent(
@@ -42,26 +46,32 @@ fun SplitsContent(
         null -> TODO()
     }
 
-    if(results.value.isNotEmpty()) {
-        SplitsTable(
-            controls = results.value.first().stageResult!!.splits,       // The stageResults are forced to be not null
-            runners = results.value,
-            cellWidth = cellWidth,
-            isAccumulated = isAccumulated,
-        )
-    }
-    else{
-        // Show loading spinner
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator()
+    when(val list = results.value){
+        Optional.None -> {
+            // The results haven't been loaded yet, show a loading spinner
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        is Optional.Some -> {
+            if(list.value.isNotEmpty()) {
+                SplitsTable(
+                    controls = list.value.first().stageResult!!.splits,       // The stageResults are forced to be not null
+                    runners = list.value,
+                    cellWidth = cellWidth,
+                    isAccumulated = isAccumulated,
+                )
+            }
+            else{
+                // If the results have been processed but are empty, show a No Data Screen
+                NoDataScreen(Res.string.no_splits)
+            }
         }
     }
-
-
 }
