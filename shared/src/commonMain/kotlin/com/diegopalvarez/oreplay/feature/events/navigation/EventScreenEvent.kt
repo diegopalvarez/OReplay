@@ -7,4 +7,6 @@ sealed interface EventScreenEvent {
     data class ClickEvent(val selectedEvent: Event): EventScreenEvent
 
     data class ChangeLanguage(val languageCode: String): EventScreenEvent
+
+    data class ChangeRefreshInterval(val interval: Long): EventScreenEvent
 }

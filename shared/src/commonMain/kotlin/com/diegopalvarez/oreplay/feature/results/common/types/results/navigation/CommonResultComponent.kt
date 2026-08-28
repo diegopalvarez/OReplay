@@ -31,7 +31,8 @@ abstract class CommonResultComponent(
     private val event: Event,
     private val stage: Stage,
     private val stageType: StageType,
-    private val isClubView: Boolean
+    private val isClubView: Boolean,
+    val isLive: Value<Boolean>
 ): ComponentContext by componentContext {
     // Create a coroutine scope
     val scope = CoroutineScope(Dispatchers.Main)
@@ -44,15 +45,6 @@ abstract class CommonResultComponent(
     // Function to get the event timezone
     fun getEventTimezone(): TimeZone {
         return event.timezone
-    }
-
-    // Function to get if the event is live or not
-    fun isLive(): Boolean {
-        return if(stage.start == null){
-            false
-        } else{
-            stage.start.toLocalDateTime(event.timezone).date == Clock.System.now().toLocalDateTime(event.timezone).date
-        }
     }
 
     // Function to get if the results are for a club or a class view

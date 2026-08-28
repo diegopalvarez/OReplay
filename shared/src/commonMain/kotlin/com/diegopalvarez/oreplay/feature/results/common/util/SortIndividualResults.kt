@@ -7,11 +7,10 @@ import kotlin.time.Instant
 
 fun sortIndividualResults(
     results: List<ResultIndividual>,
-    now: Instant?,
 ): List<ResultIndividual> {
     return results
         .sortedWith(
-            individualResultsComparator(now)
+            individualResultsComparator()
         )
 }
 

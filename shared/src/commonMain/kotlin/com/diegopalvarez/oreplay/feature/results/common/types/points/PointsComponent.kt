@@ -36,7 +36,7 @@ class PointsComponent(
         val splitResults = filterResultsWithSplits(individualResults.filter { hasFinished(it) })
 
         // Sort the results
-        val sortedResults = sortIndividualResults(splitResults, null)
+        val sortedResults = sortIndividualResults(splitResults)
         _individualResults.value = sortedResults
     }
 

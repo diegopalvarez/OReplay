@@ -5,9 +5,8 @@ import kotlin.time.Clock
 import kotlin.time.Instant
 
 fun individualResultsComparator(
-    now: Instant?
 ): Comparator<ResultIndividual> {
-    val liveNow = now ?: Clock.System.now()
+    val liveNow = Clock.System.now()
     return sortByStatus()
         .then { a, b ->
             // All sorting paths must end in a compare(a, b)

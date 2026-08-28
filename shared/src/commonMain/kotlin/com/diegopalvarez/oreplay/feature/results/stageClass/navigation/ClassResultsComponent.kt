@@ -8,6 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
@@ -30,10 +32,15 @@ import com.diegopalvarez.oreplay.ui.util.display
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.no_split
 import org.jetbrains.compose.resources.getString
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class ClassResultsComponent(
     componentContext: ComponentContext,
@@ -41,13 +48,15 @@ class ClassResultsComponent(
     val stage: Stage,
     val stageClass: StageClass,
     private val repository: ClassResultsRepository,
+    private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
     event = pageEvent,
     stage = stage,
-    isClubResults = false
+    isClubResults = false,
+    preferencesManager = preferences
 ) {
     /**
      * Result Functionality
@@ -89,8 +98,22 @@ class ClassResultsComponent(
      * Init function
      */
     init {
+        // Set up scope cancellation if the component is destroyed
+        componentContext.lifecycle.doOnDestroy {
+            scope.cancel()
+        }
+
         scope.launch {
-            fetchResults()
+            getResults()
+
+            // If the event is live, set up the automatic reload timer
+            if(isLive.value){
+                while(isActive){
+                    delay(reloadInterval.value?.seconds ?: 1.minutes)       // If it's null, defaults to 1 minute
+                    getResults()
+                    println("AUTOMATIC RELOAD")
+                }
+            }
         }
     }
 
@@ -100,7 +123,7 @@ class ClassResultsComponent(
     override fun reloadResults(){
         scope.launch {
             _isRefreshing.value = true // TODO - Check and standardize where the loading state is updated
-            fetchResults()
+            getResults()
             _isRefreshing.value = false
         }
     }

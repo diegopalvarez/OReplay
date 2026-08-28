@@ -8,18 +8,8 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.decompose.value.subscribe
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
-import com.diegopalvarez.oreplay.domain.types.StageType
-import com.diegopalvarez.oreplay.domain.types.getStageType
-import com.diegopalvarez.oreplay.feature.results.common.navigation.ResultsTabConfiguration
-import com.diegopalvarez.oreplay.feature.results.common.types.legs.LegsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTimesComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.filterResultsWithSplits
 import com.diegopalvarez.oreplay.feature.results.common.util.hasFinished
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
@@ -49,7 +39,7 @@ class SplitsComponent(
         val splitResults = filterResultsWithSplits(individualResults.filter { hasFinished(it) })
 
         // Sort the results
-        val sortedResults = sortIndividualResults(splitResults, null)
+        val sortedResults = sortIndividualResults(splitResults)
         _sortedResults.value = sortedResults
     }
 

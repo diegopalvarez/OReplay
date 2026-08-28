@@ -16,3 +16,20 @@ fun Duration.display(): String{
         }
     }
 }
+
+fun Duration.displayWithUnit(): String{
+    return this.toComponents { minutes, seconds, _ ->
+        if(minutes == 0L){
+            "${seconds}s"
+
+        }
+        else{
+            if(seconds == 0){
+                "${minutes}m"
+            }
+            else{
+                "${minutes}m ${seconds}s"
+            }
+        }
+    }
+}

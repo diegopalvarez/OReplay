@@ -13,14 +13,16 @@ class ResultsComponent(
     private val event: Event,
     private val stage: Stage,
     private val stageType: StageType,
-    private val isClubView: Boolean
+    private val isClubView: Boolean,
+    private val isStageLive: Value<Boolean>,
 ): CommonResultComponent(
     componentContext = componentContext,
     results = regularResults,
     event = event,
     stage = stage,
     stageType = stageType,
-    isClubView = isClubView
+    isClubView = isClubView,
+    isLive = isStageLive
 ) {
 
 }

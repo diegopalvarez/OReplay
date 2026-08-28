@@ -8,6 +8,7 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.domain.model.Event
@@ -38,7 +39,8 @@ class EventsScreenComponent(
     componentContext: ComponentContext,
     private val eventRepository: EventRepository,
     private val onNavigateToEventStagesScreen: (Event) -> Unit,
-    private val languageManager: LanguageManager
+    private val languageManager: LanguageManager,
+    private val preferencesManager: PreferencesManager
 ): ComponentContext by componentContext {
 
     /**
@@ -48,6 +50,8 @@ class EventsScreenComponent(
         println("Current Language: ${languageManager.languageCode.value}")
         return languageManager.languageCode.value
     }
+
+    val currentReloadInterval = preferencesManager.convertRefresh
 
     // Date Picker Modal State and Results
     private val _showDatePicker = MutableValue(false)
@@ -136,6 +140,7 @@ class EventsScreenComponent(
         when (event) {
             is EventScreenEvent.ClickEvent -> onNavigateToEventStagesScreen(event.selectedEvent)
             is EventScreenEvent.ChangeLanguage -> languageManager.switchLanguage(event.languageCode)
+            is EventScreenEvent.ChangeRefreshInterval -> preferencesManager.changeRefreshInterval(event.interval)
         }
     }
 
