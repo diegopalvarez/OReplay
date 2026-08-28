@@ -64,7 +64,8 @@ fun scoreListItemTrailingContent(
                 // Show current time
                 // TODO - Maybe change to monospace font
                 val startTime = result.startTime
-                if (now != null && startTime != null) {
+                // Only show the elapsed time if the runner has started running
+                if (now != null && startTime != null && startTime < now.value) {
                     Text(
                         text = "(${now.value.minus(startTime).display()})",
                         style = MaterialTheme.typography.bodyMedium,

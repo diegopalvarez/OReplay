@@ -70,7 +70,8 @@ fun teamListItemTrailingContent(
                 // Show current time for both the leg and the accumulated
                 // TODO - Maybe change to monospace font
                 val startTime = result.startTime
-                if(now != null && startTime != null){
+                // Only show the elapsed time if the runner has started
+                if(now != null && startTime != null && startTime < now.value) {
                     Row(
                         modifier = Modifier
                             .fillMaxHeight(),

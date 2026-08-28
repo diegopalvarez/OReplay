@@ -58,8 +58,8 @@ fun classicListItemTrailingContent(
             else{
                 // Show current time
                 // TODO - Maybe change to monospace font
-                val startTime = startTime
-                if(now != null && startTime != null){
+                // Only display the time if the runner has started
+                if(now != null && startTime != null && startTime < now.value){
                     Text(
                         text = "(${now.value.minus(startTime).display()})",
                         style = MaterialTheme.typography.bodyMedium,
