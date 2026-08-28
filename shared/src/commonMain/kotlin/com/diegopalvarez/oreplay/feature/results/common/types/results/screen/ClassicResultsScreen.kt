@@ -30,10 +30,10 @@ fun ClassicResultsScreen(
     val isClubView = component.isClubView()
 
     // Get if the event is live or not
-    val isLive = component.isLive()
+    val isLive = component.isLive.subscribeAsState()
 
     var now: State<Instant>? = null
-    if(isLive){
+    if(isLive.value){
         now = component.now.collectAsStateWithLifecycle()
     }
 
@@ -42,7 +42,7 @@ fun ClassicResultsScreen(
         val individualResults = results.value as List<ResultIndividual>
 
         // Sort the results
-        val sortedResults = sortIndividualResults(individualResults, now?.value)
+        val sortedResults = sortIndividualResults(individualResults)
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

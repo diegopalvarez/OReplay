@@ -15,7 +15,6 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ScoreResultListItem
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
-import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 import kotlin.time.Instant
 
@@ -30,10 +29,10 @@ fun ScoreResultsScreen(
     val isClubView = component.isClubView()
 
     // Get if the event is live or not
-    val isLive = component.isLive()
+    val isLive = component.isLive.subscribeAsState()
 
     var now: State<Instant>? = null
-    if(isLive){
+    if(isLive.value){
         now = component.now.collectAsStateWithLifecycle()
     }
 
@@ -42,7 +41,7 @@ fun ScoreResultsScreen(
         val individualResults = results.value as List<ResultIndividual>
 
         // Sort the results
-        val sortedResults = sortIndividualResults(individualResults, now?.value)
+        val sortedResults = sortIndividualResults(individualResults)
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

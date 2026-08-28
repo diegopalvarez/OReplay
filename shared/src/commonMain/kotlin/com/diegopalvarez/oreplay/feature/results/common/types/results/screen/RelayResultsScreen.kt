@@ -33,10 +33,10 @@ fun RelayResultsScreen(
     val isClubView = component.isClubView()
 
     // Get if the event is live or not
-    val isLive = component.isLive()
+    val isLive = component.isLive.subscribeAsState()
 
     var now: State<Instant>? = null
-    if(isLive){
+    if(isLive.value){
         now = component.now.collectAsStateWithLifecycle()
     }
 
@@ -45,7 +45,7 @@ fun RelayResultsScreen(
         val teamResults = results.value as List<ResultTeam>
 
         // Sort the results
-        val sortedResults = sortTeamResults(teamResults, now?.value)
+        val sortedResults = sortTeamResults(teamResults)
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

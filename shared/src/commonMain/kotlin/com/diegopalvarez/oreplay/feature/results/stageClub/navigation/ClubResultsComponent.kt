@@ -1,6 +1,8 @@
 package com.diegopalvarez.oreplay.feature.results.stageClub.navigation
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
@@ -15,7 +17,12 @@ import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class ClubResultsComponent(
     componentContext: ComponentContext,
@@ -23,13 +30,15 @@ class ClubResultsComponent(
     val stage: Stage,
     val stageClub: StageClub,
     private val repository: ClubResultsRepository,
+    private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
     event = pageEvent,
     stage = stage,
-    isClubResults = true
+    isClubResults = true,
+    preferencesManager = preferences
 ) {
     /**
      * Result Functionality
@@ -64,8 +73,21 @@ class ClubResultsComponent(
      * Init function
      */
     init {
+        // Set up scope cancellation if the component is destroyed
+        componentContext.lifecycle.doOnDestroy {
+            scope.cancel()
+        }
+
         scope.launch {
-            fetchResults()
+            getResults()
+
+            // If the event is live, set up the automatic reload timer
+            if(isLive.value){
+                while(scope.isActive){
+                    delay(reloadInterval.value?.seconds ?: 1.minutes)       // Use 1 minute as the default value
+                    getResults()
+                }
+            }
         }
     }
 
@@ -75,7 +97,7 @@ class ClubResultsComponent(
     override fun reloadResults(){
         scope.launch {
             _isRefreshing.value = true // TODO - Check and standardize where the loading state is updated
-            fetchResults()
+            getResults()
             _isRefreshing.value = false
         }
     }

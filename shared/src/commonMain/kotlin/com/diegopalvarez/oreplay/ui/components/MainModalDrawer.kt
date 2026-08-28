@@ -17,6 +17,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -50,6 +51,9 @@ fun MainModalDrawer(
     val preferenceManager: PreferencesManager = koinInject()
 
     val timezoneSelected = preferenceManager.convertTimezone.collectAsState()
+
+    // Get the refresh interval
+    val currentInterval by preferenceManager.convertRefresh.collectAsState()
 
     ModalNavigationDrawer(
         drawerContent = {
@@ -135,13 +139,16 @@ fun MainModalDrawer(
                 )
             }
             DrawerDialog.REFRESH -> {
-                RefreshDialog(
-                    onDismissRequest = { openDialog.value = null },
-                    onConfirmation = { interval ->
-                        component.onEvent(EventScreenEvent.ChangeRefreshInterval(interval))
-                    },
-                    currentInterval = component.currentReloadInterval.collectAsState()
-                )
+                // Only open the dialog if the current interval is not null
+                currentInterval?.let {
+                    RefreshDialog(
+                        onDismissRequest = { openDialog.value = null },
+                        onConfirmation = { interval ->
+                            component.onEvent(EventScreenEvent.ChangeRefreshInterval(interval))
+                        },
+                        currentInterval = currentInterval
+                    )
+                }
             }
             null -> Unit
         }

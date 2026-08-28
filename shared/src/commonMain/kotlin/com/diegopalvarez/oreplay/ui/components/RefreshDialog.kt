@@ -37,10 +37,10 @@ import kotlin.time.Duration.Companion.seconds
 fun RefreshDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: (Long) -> Unit,
-    currentInterval: State<Long>,
+    currentInterval: Long?,
 ) {
     // Select the initial selected interval
-    val initialSelection = when(currentInterval.value){
+    val initialSelection = when(currentInterval){
         30.seconds.inWholeSeconds -> 0
         1.minutes.inWholeSeconds -> 1
         2.minutes.inWholeSeconds -> 2

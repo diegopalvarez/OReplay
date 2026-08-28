@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.feature.results.common.navigation
 
+import androidx.compose.runtime.collectAsState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.children.ChildNavState.Status
 import com.arkivanov.decompose.router.pages.Pages
@@ -8,6 +9,7 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
@@ -26,6 +28,9 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.datetime.toLocalDateTime
 
 abstract class AbstractResultsComponent(
     componentContext: ComponentContext,
@@ -37,6 +42,9 @@ abstract class AbstractResultsComponent(
 
     // List of attributes to create the different tabs
     private val isClubResults: Boolean,
+
+    // Preferences manager
+    val preferencesManager: PreferencesManager
 ): ComponentContext by componentContext {
     /**
      * Repository Connection
@@ -68,6 +76,15 @@ abstract class AbstractResultsComponent(
     protected abstract suspend fun fetchResults()
 
     /**
+     * Protected function to safely get the results using a MUTEX
+     */
+    protected suspend fun getResults(){
+        refreshMutex.withLock {
+            fetchResults()
+        }
+    }
+
+    /**
      * Reload function
      */
     abstract fun reloadResults()
@@ -91,15 +108,33 @@ abstract class AbstractResultsComponent(
     val numberOfLegs: Value<Optional<Int>> = _numberOfLegs
 
     /**
+     * Variables to know if the event has started and is live
+     */
+    private val stageStart = stage.start
+    private val hasStarted = (stageStart != null && stageStart < Clock.System.now())    // Check if the stage has already started
+    private val isToday = (stageStart != null && stageStart.toLocalDateTime(event.timezone).date == Clock.System.now().toLocalDateTime(event.timezone).date)
+
+    // Check if the event is happening right now
+    private val _isLive = MutableValue(!hasStarted && isToday)
+    val isLive: Value<Boolean> = _isLive
+
+    /**
+     * State of the automatic reload interval
+     */
+    val reloadInterval = preferencesManager.convertRefresh
+
+    /**
+     * Set up a Mutex so that only one results fetch can be happening at the same time
+     */
+    protected val refreshMutex = Mutex()
+
+    /**
      * Tab Navigation Functionality
      */
     // Tab Navigation Functionality
     private val navigation = PagesNavigation<ResultsTabConfiguration>()
 
     // Create the initial pages based on the stage type
-    private val stageStart = stage.start
-    private val hasStarted = (stageStart != null && stageStart < Clock.System.now())    // Check if the stage has already started
-
     private val initialPages = initialPagesHelper(isClubResults, hasStarted, stage.stageType.getStageType())
 
     // TODO - Handle back button to exit, not go to the first screen
@@ -141,6 +176,7 @@ abstract class AbstractResultsComponent(
                             stage = stage,
                             stageType = stage.stageType.getStageType(),
                             isClubView = isClubResults,
+                            isStageLive = isLive,
                             visitedStatsMap = visitedScoreControls
                         )
                     )
@@ -153,7 +189,8 @@ abstract class AbstractResultsComponent(
                             event = event,
                             stage = stage,
                             stageType = stage.stageType.getStageType(),
-                            isClubView = isClubResults
+                            isClubView = isClubResults,
+                            isStageLive = isLive,
                         )
                     )
                 }

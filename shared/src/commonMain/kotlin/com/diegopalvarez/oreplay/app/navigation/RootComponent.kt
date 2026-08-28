@@ -104,6 +104,7 @@ class RootComponent(
             }
             is Configuration.ClassResultsScreen -> {
                 val repository: ClassResultsRepository by inject()
+                val preferencesManager: PreferencesManager by inject()
                 Child.ClassResultsScreen(
                     ClassResultsComponent(
                         componentContext = context,
@@ -111,6 +112,7 @@ class RootComponent(
                         stage = config.stage,
                         stageClass = config.stageClass,
                         repository = repository,
+                        preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
                         }
@@ -119,6 +121,7 @@ class RootComponent(
             }
             is Configuration.ClubResultsScreen -> {
                 val repository: ClubResultsRepository by inject()
+                val preferencesManager: PreferencesManager by inject()
                 Child.ClubResultsScreen(
                     ClubResultsComponent(
                         componentContext = context,
@@ -126,6 +129,7 @@ class RootComponent(
                         stage = config.stage,
                         stageClub = config.stageClub,
                         repository = repository,
+                        preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
                         }

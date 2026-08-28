@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.diegopalvarez.oreplay.core.language.getDefaultLocale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -47,14 +48,18 @@ class PreferencesManager(
     // Preference 2 - Refresh interval
     private val convertRefreshKey = longPreferencesKey("refreshInterval")
 
-    // By default, the timezones are converted
+    // By default, the interval is 1 minute
     val convertRefresh = dataStore
         .data
-        .map { prefs -> prefs[convertRefreshKey] ?: 1.minutes.inWholeSeconds }
+        .map { prefs ->
+            val value = prefs[convertRefreshKey] ?: 1.minutes.inWholeSeconds
+            println("Reading refresh interval: $value")
+            value
+        }
         .stateIn(
             scope,
             SharingStarted.WhileSubscribed(5000L),
-            1.minutes.inWholeSeconds
+            null
         )
 
     fun changeRefreshInterval(
@@ -62,6 +67,7 @@ class PreferencesManager(
     ){
         scope.launch {
             dataStore.edit { mutablePrefs ->
+                println("Saving refresh interval: $newInterval")
                 mutablePrefs[convertRefreshKey] = newInterval
             }
         }
