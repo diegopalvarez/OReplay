@@ -115,6 +115,9 @@ class RootComponent(
                         preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
+                        },
+                        onGoToClub = { event, stage, stageClub ->
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub))
                         }
                     )
                 )
@@ -132,6 +135,9 @@ class RootComponent(
                         preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
+                        },
+                        onGoToClass = { event, stage, stageClass ->
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass))
                         }
                     )
                 )

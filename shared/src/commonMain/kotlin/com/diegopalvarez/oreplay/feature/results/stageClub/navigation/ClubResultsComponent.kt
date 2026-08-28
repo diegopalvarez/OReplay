@@ -7,6 +7,7 @@ import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
@@ -31,7 +32,8 @@ class ClubResultsComponent(
     val stageClub: StageClub,
     private val repository: ClubResultsRepository,
     private val preferences: PreferencesManager,
-    private val onGoBack: () -> Unit
+    private val onGoBack: () -> Unit,
+    private val onGoToClass: (Event, Stage, StageClass) -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -111,10 +113,14 @@ class ClubResultsComponent(
     /**
      * Event Handling
      */
-    fun onEvent(event: ClassResultsEvent) {
+    fun onEvent(event: ClubResultsEvent) {
         when(event) {
-            ClassResultsEvent.GoBack -> {
+            ClubResultsEvent.GoBack -> {
                 onGoBack()
+            }
+
+            is ClubResultsEvent.GoToClass -> {
+                onGoToClass(pageEvent, stage, event.stageClass)
             }
         }
     }

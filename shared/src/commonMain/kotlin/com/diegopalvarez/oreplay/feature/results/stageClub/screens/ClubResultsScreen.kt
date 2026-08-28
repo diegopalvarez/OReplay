@@ -7,6 +7,7 @@ import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.feature.results.common.components.ResultsScaffold
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsEvent
 import com.diegopalvarez.oreplay.feature.results.stageClub.navigation.ClubResultsComponent
+import com.diegopalvarez.oreplay.feature.results.stageClub.navigation.ClubResultsEvent
 
 @Composable
 fun ClubResultsScreen(
@@ -20,7 +21,7 @@ fun ClubResultsScreen(
         stage = stage,
         tabName = stageClub.shortName,
         navigationAction = {
-            component.onEvent(ClassResultsEvent.GoBack)
+            component.onEvent(ClubResultsEvent.GoBack)
         },
         component = component,
     )

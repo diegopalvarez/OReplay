@@ -17,6 +17,7 @@ import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
+import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.type.ClassicRepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.type.OneManRelayRepositoryResult
@@ -49,7 +50,8 @@ class ClassResultsComponent(
     val stageClass: StageClass,
     private val repository: ClassResultsRepository,
     private val preferences: PreferencesManager,
-    private val onGoBack: () -> Unit
+    private val onGoBack: () -> Unit,
+    private val onGoToClub: (Event, Stage, StageClub) -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -143,6 +145,10 @@ class ClassResultsComponent(
         when(event) {
             ClassResultsEvent.GoBack -> {
                 onGoBack()
+            }
+
+            is ClassResultsEvent.GoToClub -> {
+                onGoToClub(pageEvent, stage, event.stageClub)
             }
         }
     }
