@@ -8,9 +8,8 @@ import kotlin.time.Instant
 
 fun sortTeamResults(
     results: List<ResultTeam>,
-    now: Instant?,
 ): List<ResultTeam> {
-    val liveNow = now ?: Clock.System.now()
+    val liveNow = Clock.System.now()
     return results
         .sortedWith(
             sortByStatusTeam()
