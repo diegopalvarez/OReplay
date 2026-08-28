@@ -115,7 +115,7 @@ abstract class AbstractResultsComponent(
     private val isToday = (stageStart != null && stageStart.toLocalDateTime(event.timezone).date == Clock.System.now().toLocalDateTime(event.timezone).date)
 
     // Check if the event is happening right now
-    private val _isLive = MutableValue(!hasStarted && isToday)
+    private val _isLive = MutableValue(hasStarted && isToday)
     val isLive: Value<Boolean> = _isLive
 
     /**
