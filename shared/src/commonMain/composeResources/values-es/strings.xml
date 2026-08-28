@@ -124,4 +124,7 @@
     <string name="accumulated_tab">Tiempos Acumulados</string>
     <string name="total_time">Tiempo</string>
     <string name="name">Nombre</string>
+    <string name="reload_interval">Intervalo de recarga automática</string>
+    <string name="reload_description">Recarga</string>
+    <string name="change_reload">Elige el intervalo de tiempo para recargar los resultados en directo</string>
 </resources>

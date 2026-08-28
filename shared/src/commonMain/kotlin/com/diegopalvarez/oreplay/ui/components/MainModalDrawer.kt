@@ -28,6 +28,9 @@ import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.app_name
 import oreplay.shared.generated.resources.language
 import oreplay.shared.generated.resources.language_description
+import oreplay.shared.generated.resources.reload
+import oreplay.shared.generated.resources.reload_description
+import oreplay.shared.generated.resources.reload_interval
 import oreplay.shared.generated.resources.timezone_switch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -40,8 +43,8 @@ fun MainModalDrawer(
     component: EventsScreenComponent,
     screenContent: @Composable () -> Unit,
 ) {
-    // Language dialog state
-    val openLanguageDialog = remember { mutableStateOf(false) }
+    // Combined dialog state
+    val openDialog = remember { mutableStateOf<DrawerDialog?>(null) }
 
     // Get the timezone status
     val preferenceManager: PreferencesManager = koinInject()
@@ -76,11 +79,26 @@ fun MainModalDrawer(
                             )
                         },
                         onClick = {
-                            openLanguageDialog.value = !openLanguageDialog.value
+                            openDialog.value = DrawerDialog.LANGUAGE
                         }
                     )
 
-                    // Third Item - Timezone Translator
+                    // Third Item - Refresh Interval Picker
+                    NavigationDrawerItem(
+                        label = { Text(stringResource(Res.string.reload_interval)) },
+                        selected = false,
+                        icon = {
+                            Icon(
+                                painter = painterResource(Res.drawable.reload),
+                                contentDescription = stringResource(Res.string.reload_description)
+                            )
+                        },
+                        onClick = {
+                            openDialog.value = DrawerDialog.REFRESH
+                        }
+                    )
+
+                    // Fourth Item - Timezone Translator
                     NavigationDrawerItem(
                         label = { Text(stringResource(Res.string.timezone_switch)) },
                         selected = false,
@@ -104,15 +122,28 @@ fun MainModalDrawer(
         drawerState = drawerState,
         gesturesEnabled = gesturesEnabled,
     ) {
-        // Language Picker Dialog, in case it's open
-        if (openLanguageDialog.value) {
-            LanguagePickerDialog(
-                onDismissRequest = { openLanguageDialog.value = false },
-                onConfirmation = { language ->
-                    component.onEvent(EventScreenEvent.ChangeLanguage(language))
-                },
-                currentSelected = component.getCurrentLanguage()
-            )
+
+        // Handle the different Dialogs
+        when(openDialog.value) {
+            DrawerDialog.LANGUAGE -> {
+                LanguagePickerDialog(
+                    onDismissRequest = { openDialog.value = null },
+                    onConfirmation = { language ->
+                        component.onEvent(EventScreenEvent.ChangeLanguage(language))
+                    },
+                    currentSelected = component.getCurrentLanguage()
+                )
+            }
+            DrawerDialog.REFRESH -> {
+                RefreshDialog(
+                    onDismissRequest = { openDialog.value = null },
+                    onConfirmation = { interval ->
+                        component.onEvent(EventScreenEvent.ChangeRefreshInterval(interval))
+                    },
+                    currentInterval = component.currentReloadInterval.collectAsState()
+                )
+            }
+            null -> Unit
         }
 
         // Content of the actual Screen

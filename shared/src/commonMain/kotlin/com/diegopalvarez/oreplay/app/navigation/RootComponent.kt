@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceCurrent
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
@@ -48,6 +49,7 @@ class RootComponent(
             Configuration.EventsScreen -> {
                 // Get the LanguageManager by Dependency Injection
                 val languageManager: LanguageManager by inject()
+                val preferencesManager: PreferencesManager by inject()
                 val eventRepository: EventRepository by inject()
                 Child.EventsScreen(
                     EventsScreenComponent(
@@ -56,6 +58,7 @@ class RootComponent(
                             navigation.pushNew(Configuration.EventStagesScreen(event))
                         },
                         languageManager = languageManager,
+                        preferencesManager = preferencesManager,
                         eventRepository = eventRepository
                     )
                 )

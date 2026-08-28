@@ -124,4 +124,7 @@
     <string name="accumulated_tab">Accumulated Times</string>
     <string name="total_time">Time</string>
     <string name="name">Name</string>
+    <string name="reload_interval">Auto-refresh interval</string>
+    <string name="reload_description">Refresh</string>
+    <string name="change_reload">Choose the time interval to automatically refresh live results</string>
 </resources>
