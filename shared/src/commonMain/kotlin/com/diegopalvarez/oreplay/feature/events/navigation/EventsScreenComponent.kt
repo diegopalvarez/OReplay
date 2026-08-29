@@ -10,6 +10,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
+import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
@@ -79,6 +80,14 @@ class EventsScreenComponent(
     private val _isSearching = MutableValue(false)
     val isSearching: Value<Boolean> = _isSearching
 
+    // Search Error State
+    private val _isSearchError = MutableValue(false)
+    val isSearchError: Value<Boolean> = _isSearchError
+
+    // Search Error Type
+    private val _searchErrorType = MutableValue(RepositoryError.UNKNOWN)
+    val searchErrorType: Value<RepositoryError> = _searchErrorType
+
     // Combine the query and the Date Range and then execute the query
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val searchResults = combine(
@@ -99,10 +108,15 @@ class EventsScreenComponent(
                 when(searchResults){
                     is Result.Error -> {
                         _isSearching.value = false
+                        _isSearchError.value = true
+                        _searchErrorType.value = searchResults.error
+
                         flowOf<List<Event>>(emptyList())
                     }
                     is Result.Success -> {
                         _isSearching.value = false
+                        _isSearchError.value = false
+
                         flowOf<List<Event>>(searchResults.data)
                     }
                 }
