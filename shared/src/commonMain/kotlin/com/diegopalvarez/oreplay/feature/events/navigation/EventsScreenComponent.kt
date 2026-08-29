@@ -21,8 +21,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -147,6 +149,18 @@ class EventsScreenComponent(
     }
 
     /**
+     * Variable to refresh the three event screens at once when coming back from an error
+     */
+    private val _errorRefresh = MutableSharedFlow<RefreshTrigger>(
+        extraBufferCapacity = 1,
+    )
+    val errorRefresh = _errorRefresh.asSharedFlow()
+
+    private fun triggerErrorRefresh(trigger: RefreshTrigger){
+        _errorRefresh.tryEmit(trigger)
+    }
+
+    /**
      * Auxiliary functions for Event Handling and Navigation
      */
     // Event Handler Function
@@ -192,19 +206,25 @@ class EventsScreenComponent(
             EventTabConfiguration.PastEvents -> EventTabChild.PastEvents(
                 PastEventsComponent(
                     componentContext = component,
-                    repository = eventRepository
+                    repository = eventRepository,
+                    errorRefresh = errorRefresh,
+                    triggerRefresh = ::triggerErrorRefresh
                 )
             )
             EventTabConfiguration.LiveEvents -> EventTabChild.LiveEvents(
                 LiveEventsComponent(
                     componentContext = component,
-                    repository = eventRepository
+                    repository = eventRepository,
+                    errorRefresh = errorRefresh,
+                    triggerRefresh = ::triggerErrorRefresh
                 )
             )
             EventTabConfiguration.FutureEvents -> EventTabChild.FutureEvents(
                 FutureEventsComponent(
                     componentContext = component,
-                    repository = eventRepository
+                    repository = eventRepository,
+                    errorRefresh = errorRefresh,
+                    triggerRefresh = ::triggerErrorRefresh
                 )
             )
 
