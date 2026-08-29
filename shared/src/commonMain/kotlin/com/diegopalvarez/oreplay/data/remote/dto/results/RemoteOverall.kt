@@ -32,10 +32,10 @@ data class RemoteOverall(
     val timeBehind: Long? = null,
 
     @SerialName("points_final")
-    val pointsFinal: Long,
+    val pointsFinal: Double,
 
     @SerialName("points_behind")
-    val pointsBehind: Long? = null,
+    val pointsBehind: Double? = null,
 
     val note: String? = null
 )
