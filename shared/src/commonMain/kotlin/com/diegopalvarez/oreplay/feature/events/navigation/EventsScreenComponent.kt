@@ -8,6 +8,7 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.core.util.RepositoryError
@@ -43,7 +44,8 @@ class EventsScreenComponent(
     private val eventRepository: EventRepository,
     private val onNavigateToEventStagesScreen: (Event) -> Unit,
     private val languageManager: LanguageManager,
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: PreferencesManager,
+    onGoBack: () -> Unit
 ): ComponentContext by componentContext {
 
     /**
@@ -252,4 +254,13 @@ class EventsScreenComponent(
         }
     }
 
+    // Custom function to handle the back button
+    private val backCallback = BackCallback{
+        onGoBack()          // On back gesture, skip the tab switching and go back directly
+    }
+
+    // Register the callback function
+    init {
+        backHandler.register(backCallback)
+    }
 }

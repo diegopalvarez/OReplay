@@ -9,6 +9,7 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.core.util.onError
@@ -151,7 +152,6 @@ class StageDetailsComponent(
 
     // TODO - Modularize to avoid code repetition
     private val navigation = PagesNavigation<StageDetailsTabConfiguration>()
-    // TODO - Handle back button in Tabs
 
     // Exposed navigation
     val pages = childPages(
@@ -223,5 +223,15 @@ class StageDetailsComponent(
             pages.selectedIndex -> Status.RESUMED
             else -> Status.CREATED
         }
+    }
+
+    // Custom function to handle the back button
+    private val backCallback = BackCallback{
+        onGoBack()      // On back gesture, skip the tab switching and go back directly
+    }
+
+    // Register the callback function
+    init {
+        backHandler.register(backCallback)
     }
 }

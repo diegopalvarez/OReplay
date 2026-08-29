@@ -9,6 +9,7 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.Event
@@ -143,8 +144,6 @@ abstract class AbstractResultsComponent(
     // Create the initial pages based on the stage type
     private val initialPages = initialPagesHelper(isClubResults, hasStarted, stage.stageType.getStageType())
 
-    // TODO - Handle back button to exit, not go to the first screen
-
     // Exposed navigation
     val pages = childPages(
         source = navigation,
@@ -258,5 +257,15 @@ abstract class AbstractResultsComponent(
             pages.selectedIndex -> Status.RESUMED
             else -> Status.CREATED
         }
+    }
+
+    // Custom function to handle the back button
+    private val backCallback = BackCallback{
+        onGoBack()      // On back gesture, skip the tab switching and go back directly
+    }
+
+    // Register the callback function
+    init {
+        backHandler.register(backCallback)
     }
 }
