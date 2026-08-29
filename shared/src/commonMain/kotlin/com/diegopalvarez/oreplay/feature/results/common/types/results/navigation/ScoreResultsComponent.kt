@@ -23,7 +23,7 @@ class ScoreResultsComponent(
     private val isClubView: Boolean,
     private val isStageLive: Value<Boolean>,
     val visitedStatsMap: Value<Optional<Map<String, ScoreResultStats>>>,
-    goToPage: (String, String) -> Unit
+    goToPage: (String, String, Boolean) -> Unit
 ): CommonResultComponent(
     componentContext = componentContext,
     results = scoreResults,

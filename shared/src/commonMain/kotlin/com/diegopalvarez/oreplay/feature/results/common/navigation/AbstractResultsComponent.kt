@@ -92,7 +92,7 @@ abstract class AbstractResultsComponent(
     /**
      * Abstract function to go to a page using direct links
      */
-    abstract fun goToPage(id: String, name: String)
+    abstract fun goToPage(id: String, name: String, isClub: Boolean)
 
 
     /**

@@ -87,11 +87,11 @@ class RootComponent(
                 Child.StageDetailsScreen(
                     StageDetailsComponent(
                         componentContext = context,
-                        onNavigateToClassResultsScreen = { event, stage, stageClass ->
-                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass.id, stageClass.longName))
+                        onNavigateToClassResultsScreen = { event, stage, stageClass, stageClassesList, stageClubsList ->
+                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass.id, stageClass.longName, stageClassesList, stageClubsList))
                         },
-                        onNavigateToClubResultsScreen = { event, stage, stageClub ->
-                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub.id, stageClub.shortName))
+                        onNavigateToClubResultsScreen = { event, stage, stageClub, stageClassesList, stageClubsList ->
+                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub.id, stageClub.shortName, stageClassesList, stageClubsList))
                         },
                         onGoBack = {
                             navigation.pop()
@@ -117,9 +117,13 @@ class RootComponent(
                         onGoBack = {
                             navigation.pop()
                         },
+                        onGoToClass = { event, stage, stageClassID, stageClassName ->
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName, config.stageClasses, config.stageClubs))
+                        },
                         onGoToClub = { event, stage, stageClubID, stageClubName ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName))
-                        }
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName, config.stageClasses, config.stageClubs))
+                        },
+                        stageClasses = config.stageClasses,
                     )
                 )
             }
@@ -139,8 +143,12 @@ class RootComponent(
                             navigation.pop()
                         },
                         onGoToClass = { event, stage, stageClassID, stageClassName ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName))
-                        }
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName, config.stageClasses, config.stageClubs))
+                        },
+                        onGoToClub = { event, stage, stageClubID, stageClubName ->
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName, config.stageClasses, config.stageClubs))
+                        },
+                        stageClubs = config.stageClubs
                     )
                 )
             }
@@ -181,9 +189,9 @@ class RootComponent(
         data class StageDetailsScreen(val event: Event, val stage: Stage): Configuration()
 
         @Serializable
-        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClassID: String, val stageClassName: String): Configuration()
+        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClassID: String, val stageClassName: String, val stageClasses: List<StageClass>, val stageClubs: List<StageClub>): Configuration()
 
         @Serializable
-        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClubID: String, val stageClubName: String): Configuration()
+        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClubID: String, val stageClubName: String, val stageClasses: List<StageClass>, val stageClubs: List<StageClub>): Configuration()
     }
 }

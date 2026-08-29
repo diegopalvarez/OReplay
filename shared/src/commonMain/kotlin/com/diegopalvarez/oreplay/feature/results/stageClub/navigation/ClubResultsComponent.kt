@@ -34,7 +34,11 @@ class ClubResultsComponent(
     private val repository: ClubResultsRepository,
     private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit,
-    private val onGoToClass: (Event, Stage, String, String) -> Unit
+    private val onGoToClass: (Event, Stage, String, String) -> Unit,
+    private val onGoToClub: (Event, Stage, String, String) -> Unit,
+
+    // List of clubs for the dialog picker
+    val stageClubs: List<StageClub>
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -125,7 +129,12 @@ class ClubResultsComponent(
     /**
      * Function to go directly to a class
      */
-    override fun goToPage(id: String, name: String) {
-        onGoToClass(pageEvent, stage, id, name)
+    override fun goToPage(id: String, name: String, isClub: Boolean) {
+        if(isClub){
+            onGoToClub(pageEvent, stage, id, name)
+        }
+        else{
+            onGoToClass(pageEvent, stage, id, name)
+        }
     }
 }
