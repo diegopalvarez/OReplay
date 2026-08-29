@@ -1,8 +1,8 @@
 package com.diegopalvarez.oreplay.feature.results.common.components
 
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.change
@@ -14,7 +14,7 @@ import org.jetbrains.compose.resources.stringResource
 fun ChangeClassClubButton(
     onClick: () -> Unit
 ) {
-    SmallFloatingActionButton(
+    FloatingActionButton(
         onClick = {
             onClick()
         },
