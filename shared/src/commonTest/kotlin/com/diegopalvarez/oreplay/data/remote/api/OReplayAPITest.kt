@@ -840,7 +840,7 @@ class OReplayAPITest {
             assertThat(part.contributory!!).isTrue()
             assertThat(part.timeSeconds).isEqualTo(0)
             assertThat(part.timeBehind).isEqualTo(0)
-            assertThat(part.pointsFinal).isEqualTo(100)
+            assertThat(part.pointsFinal).isEqualTo(100.0)
             assertThat(part.pointsBehind).isNull()
             assertThat(part.note).isNull()
 
@@ -858,7 +858,7 @@ class OReplayAPITest {
             assertThat(total.contributory).isNull()
             assertThat(total.timeSeconds).isEqualTo(0)
             assertThat(total.timeBehind).isNull()
-            assertThat(total.pointsFinal).isEqualTo(300)
+            assertThat(total.pointsFinal).isEqualTo(300.0)
             assertThat(total.pointsBehind).isNull()
             assertThat(total.note).isNull()
         }
