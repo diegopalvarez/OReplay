@@ -128,4 +128,5 @@
     <string name="reload_description">Recarga</string>
     <string name="change_reload">Elige el intervalo de tiempo para recargar los resultados en directo</string>
     <string name="no_splits">Ningún corredor ha descargado aún sus resultados</string>
+    <string name="change_icon">Cambia de club o de categoría</string>
 </resources>
