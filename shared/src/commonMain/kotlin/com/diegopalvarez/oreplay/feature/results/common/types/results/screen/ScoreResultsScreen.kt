@@ -16,6 +16,7 @@ import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ScoreResultListItem
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import kotlin.time.Instant
 
 @Composable
@@ -43,7 +44,7 @@ fun ScoreResultsScreen(
         // Sort the results
         val sortedResults = sortIndividualResults(individualResults)
 
-        LazyColumn(
+        FABLazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,

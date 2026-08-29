@@ -19,6 +19,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.compone
 import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.components.StartTimeItemTeam
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualStartTimes
 import com.diegopalvarez.oreplay.feature.results.common.util.sortTeamStartTimes
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
@@ -50,7 +51,7 @@ fun ResultsStartTimesScreen(
     // Get if the results are from a class from the component
     val isClubView = component.isClubView()
 
-    LazyColumn(
+    FABLazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,

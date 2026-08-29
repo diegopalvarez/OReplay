@@ -8,12 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 
 @Composable
 fun ResultsStatisticsScreen(
     component: StatisticsComponent
 ) {
-    LazyColumn(
+    FABLazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

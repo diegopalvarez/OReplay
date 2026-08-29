@@ -27,6 +27,7 @@ import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.SplitTime
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.ResultIndividualPosition
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.StatusIndicator
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 
@@ -38,7 +39,7 @@ fun SplitTableContent(
     columnWidth: Dp,
     isAccumulated: MutableState<Boolean>,
 ) {
-    LazyColumn(
+    FABLazyColumn(
         modifier = modifier
             .fillMaxSize(),
     ) {
