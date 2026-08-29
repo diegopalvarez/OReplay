@@ -153,7 +153,7 @@ abstract class AbstractResultsComponent(
         },
         pageStatus = ::handlePageStatus,
         childFactory = ::createChild,
-        handleBackButton = true
+        handleBackButton = false
     )
 
     // Child Factory Function
@@ -257,15 +257,5 @@ abstract class AbstractResultsComponent(
             pages.selectedIndex -> Status.RESUMED
             else -> Status.CREATED
         }
-    }
-
-    // Custom function to handle the back button
-    private val backCallback = BackCallback{
-        onGoBack()      // On back gesture, skip the tab switching and go back directly
-    }
-
-    // Register the callback function
-    init {
-        backHandler.register(backCallback)
     }
 }
