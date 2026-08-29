@@ -7,3 +7,14 @@ import kotlin.math.roundToInt
 fun String.toPoints(): String{
     return this.toDouble().roundToInt().toString()
 }
+
+fun Double.toPoints(): String{
+    return if(this % 1.0 == 0.0){
+        // The number is exact
+        this.toInt().toString()
+    }
+    else{
+        // The number has decimals
+        this.toString()
+    }
+}

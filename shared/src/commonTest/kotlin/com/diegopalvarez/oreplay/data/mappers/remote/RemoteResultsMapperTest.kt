@@ -399,7 +399,7 @@ class RemoteResultsMapperTest {
         val idList = listOf("a5332eef-29e9-4484-ad7b-c4d132793223", "f278711a-c089-45cc-b504-28ff19f5b324", "d5cd0837-b3a7-48a4-828a-437594785be7", "be80d22b-ff32-47cb-a79b-83ba04df2e09", "e43acf5b-1619-4a40-8101-ab19835fb9e0")
         val positionList = listOf<Long>(1, 2, 1, 1, 1)
         val contributoryList = listOf(true, false, true, true, false)
-        val pointsFinal = listOf<Long>(100, 83, 100, 100, 100)
+        val pointsFinal = listOf<Double>(100.0, 83.6, 100.0, 100.0, 27.3)
 
         for(i in parts.indices) {
             assertEquals(idList[i], parts[i].id)
@@ -422,7 +422,7 @@ class RemoteResultsMapperTest {
         assertNull(overalls.overallTotal.contributory)
         assertEquals(0.seconds, overalls.overallTotal.timeSeconds)
         assertNull(overalls.overallTotal.timeBehind)
-        assertEquals(300L, overalls.overallTotal.pointsFinal)
+        assertEquals(300.0, overalls.overallTotal.pointsFinal)
         assertNull(overalls.overallTotal.pointsBehind)
     }
 

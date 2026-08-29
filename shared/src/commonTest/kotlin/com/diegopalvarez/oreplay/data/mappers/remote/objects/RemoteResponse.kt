@@ -3040,7 +3040,7 @@ object RemoteResponse {
                             contributory = true,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 100L,
+                            pointsFinal = 100.0,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3058,7 +3058,7 @@ object RemoteResponse {
                             contributory = false,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 83L,
+                            pointsFinal = 83.6,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3076,7 +3076,7 @@ object RemoteResponse {
                             contributory = true,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 100L,
+                            pointsFinal = 100.0,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3094,7 +3094,7 @@ object RemoteResponse {
                             contributory = true,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 100L,
+                            pointsFinal = 100.0,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3112,7 +3112,7 @@ object RemoteResponse {
                             contributory = false,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 100L,
+                            pointsFinal = 27.3,
                             pointsBehind = null,
                             note = null
                         )
@@ -3128,7 +3128,7 @@ object RemoteResponse {
                         contributory = null,
                         timeSeconds = 0L,
                         timeBehind = null,
-                        pointsFinal = 300L,
+                        pointsFinal = 300.0,
                         pointsBehind = null,
                         note = null
                     )
@@ -3172,7 +3172,7 @@ object RemoteResponse {
                             contributory = true,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 100L,
+                            pointsFinal = 100.0,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3190,7 +3190,7 @@ object RemoteResponse {
                             contributory = true,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 0L,
+                            pointsFinal = 0.0,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3208,7 +3208,7 @@ object RemoteResponse {
                             contributory = false,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 0L,
+                            pointsFinal = 0.0,
                             pointsBehind = null,
                             note = null
                         ),
@@ -3226,7 +3226,7 @@ object RemoteResponse {
                             contributory = true,
                             timeSeconds = 0L,
                             timeBehind = 0L,
-                            pointsFinal = 89L,
+                            pointsFinal = 89.7,
                             pointsBehind = null,
                             note = null
                         )
@@ -3242,7 +3242,7 @@ object RemoteResponse {
                         contributory = null,
                         timeSeconds = 0L,
                         timeBehind = null,
-                        pointsFinal = 189L,
+                        pointsFinal = 189.0,
                         pointsBehind = null,
                         note = null
                     )

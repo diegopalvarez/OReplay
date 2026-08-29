@@ -15,7 +15,7 @@ data class OverallResult(
     val contributory: Boolean?,
     val timeSeconds: Duration,
     val timeBehind: Duration?,
-    val pointsFinal: Long,
-    val pointsBehind: Long?,
+    val pointsFinal: Double,
+    val pointsBehind: Double?,
     val note: String?,
 )

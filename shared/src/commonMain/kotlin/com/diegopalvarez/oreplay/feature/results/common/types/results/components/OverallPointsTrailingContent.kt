@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontStyle
 import com.diegopalvarez.oreplay.domain.model.OverallResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.ui.util.display
+import com.diegopalvarez.oreplay.ui.util.toPoints
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -30,13 +31,13 @@ fun OverallPointsTrailingContent(
         ){
             // Final points
             Text(
-                text = total.pointsFinal.toString(),
+                text = total.pointsFinal.toPoints(),
                 style = MaterialTheme.typography.bodyMedium,
             )
             // Points difference
             if(total.pointsBehind != null){
                 Text(
-                    text = "+${total.pointsBehind}",
+                    text = "+${total.pointsBehind.toPoints()}",
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
