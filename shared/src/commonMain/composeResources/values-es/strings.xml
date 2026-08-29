@@ -130,4 +130,24 @@
     <string name="no_splits">Ningún corredor ha descargado aún sus resultados</string>
     <string name="change_icon">Cambia de club o de categoría</string>
     <string name="close_icon">Cerrar</string>
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
+    <string name="january">enero</string>
+    <string name="february">febrero</string>
+    <string name="march">marzo</string>
+    <string name="april">abril</string>
+    <string name="may">mayo</string>
+    <string name="june">junio</string>
+    <string name="july">julio</string>
+    <string name="august">agosto</string>
+    <string name="september">septiembre</string>
+    <string name="october">octubre</string>
+    <string name="november">noviembre</string>
+    <string name="december">diciembre</string>
+    <string name="date_full">%1$s, %3$d de %2$s del %4$d a las %5$s</string>
 </resources>
