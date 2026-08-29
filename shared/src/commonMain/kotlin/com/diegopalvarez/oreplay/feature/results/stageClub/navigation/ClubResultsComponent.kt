@@ -29,11 +29,12 @@ class ClubResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
-    val stageClub: StageClub,
+    val stageClubID: String,
+    val stageClubName: String,
     private val repository: ClubResultsRepository,
     private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit,
-    private val onGoToClass: (Event, Stage, StageClass) -> Unit
+    private val onGoToClass: (Event, Stage, String, String) -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -51,7 +52,7 @@ class ClubResultsComponent(
         repository.getClubResults(
             eventID = pageEvent.id,
             stageID = stage.id,
-            clubID = stageClub.id,
+            clubID = stageClubID,
             stageType = stage.stageType.getStageType()
         )
             .onSuccess {
@@ -118,10 +119,13 @@ class ClubResultsComponent(
             ClubResultsEvent.GoBack -> {
                 onGoBack()
             }
-
-            is ClubResultsEvent.GoToClass -> {
-                onGoToClass(pageEvent, stage, event.stageClass)
-            }
         }
+    }
+
+    /**
+     * Function to go directly to a class
+     */
+    override fun goToPage(id: String, name: String) {
+        onGoToClass(pageEvent, stage, id, name)
     }
 }

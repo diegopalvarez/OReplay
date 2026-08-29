@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.ClassLink
+import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.ClubLink
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import com.diegopalvarez.oreplay.ui.components.TextFieldWithName
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.leg
@@ -26,8 +29,12 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun TeamInformationHeader(
     team: ResultTeam,
-    runner: ResultIndividual
+    runner: ResultIndividual,
+    component: CommonResultComponent
 ) {
+    // Get from the component if it's a class or club view
+    val isClubView = component.isClubView()
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -50,9 +57,10 @@ fun TeamInformationHeader(
     ) {
         // Team Class
         if (team.teamClass != null) {
-            Text(
-                text = team.teamClass.shortName,
-                style = MaterialTheme.typography.titleMedium,
+            ClassLink(
+                stageClass = team.teamClass,
+                isClubView = isClubView,
+                goToPage = component.goToPage
             )
         } else {
             // Should never happen
@@ -64,9 +72,10 @@ fun TeamInformationHeader(
 
         // Team Club
         if (team.teamClub != null) {
-            Text(
-                text = team.teamClub.shortName,
-                style = MaterialTheme.typography.titleMedium,
+            ClubLink(
+                stageClub = team.teamClub,
+                isClubView = isClubView,
+                goToPage = component.goToPage
             )
         } else {
             Text(

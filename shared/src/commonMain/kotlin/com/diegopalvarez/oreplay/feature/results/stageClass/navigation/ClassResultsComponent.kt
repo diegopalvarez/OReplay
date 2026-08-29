@@ -47,11 +47,12 @@ class ClassResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
-    val stageClass: StageClass,
+    val stageClassID: String,
+    val stageClassName: String,
     private val repository: ClassResultsRepository,
     private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit,
-    private val onGoToClub: (Event, Stage, StageClub) -> Unit
+    private val onGoToClub: (Event, Stage, String, String) -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -69,7 +70,7 @@ class ClassResultsComponent(
         repository.getClassResults(
             eventID = pageEvent.id,
             stageID = stage.id,
-            classID = stageClass.id,
+            classID = stageClassID,
             stageType = stage.stageType.getStageType()
         )
             .onSuccess {
@@ -145,10 +146,6 @@ class ClassResultsComponent(
         when(event) {
             ClassResultsEvent.GoBack -> {
                 onGoBack()
-            }
-
-            is ClassResultsEvent.GoToClub -> {
-                onGoToClub(pageEvent, stage, event.stageClub)
             }
         }
     }
@@ -228,5 +225,12 @@ class ClassResultsComponent(
         }
 
         return candidates.maxBy { it.length }
+    }
+
+    /**
+     * Function to go directly to a club
+     */
+    override fun goToPage(id: String, name: String) {
+        onGoToClub(pageEvent, stage, id, name)
     }
 }

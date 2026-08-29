@@ -90,6 +90,12 @@ abstract class AbstractResultsComponent(
     abstract fun reloadResults()
 
     /**
+     * Abstract function to go to a page using direct links
+     */
+    abstract fun goToPage(id: String, name: String)
+
+
+    /**
      * Variable to hold the information regarding visitedControls in Score
      */
     protected val _visitedScoreControls: MutableValue<Optional<Map<String, ScoreResultStats>>> = MutableValue(Optional.None)
@@ -177,7 +183,8 @@ abstract class AbstractResultsComponent(
                             stageType = stage.stageType.getStageType(),
                             isClubView = isClubResults,
                             isStageLive = isLive,
-                            visitedStatsMap = visitedScoreControls
+                            visitedStatsMap = visitedScoreControls,
+                            goToPage = ::goToPage
                         )
                     )
                 }
@@ -191,6 +198,7 @@ abstract class AbstractResultsComponent(
                             stageType = stage.stageType.getStageType(),
                             isClubView = isClubResults,
                             isStageLive = isLive,
+                            goToPage = ::goToPage
                         )
                     )
                 }

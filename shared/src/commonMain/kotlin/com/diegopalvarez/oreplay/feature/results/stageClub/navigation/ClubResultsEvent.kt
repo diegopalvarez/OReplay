@@ -6,6 +6,4 @@ import com.diegopalvarez.oreplay.domain.model.StageClass
 // A Sealed Interface is an interface whose direct implementations are known at compile time
 sealed interface ClubResultsEvent {
     data object GoBack: ClubResultsEvent
-
-    data class GoToClass(val stageClass: StageClass): ClubResultsEvent
 }

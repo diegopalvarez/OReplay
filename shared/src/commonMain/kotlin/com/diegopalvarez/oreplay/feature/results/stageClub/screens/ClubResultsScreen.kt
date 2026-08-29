@@ -13,13 +13,13 @@ import com.diegopalvarez.oreplay.feature.results.stageClub.navigation.ClubResult
 fun ClubResultsScreen(
     pageEvent: Event,
     stage: Stage,
-    stageClub: StageClub,
+    stageClubName: String,
     component: ClubResultsComponent
 ) {
     ResultsScaffold(
         event = pageEvent,
         stage = stage,
-        tabName = stageClub.shortName,
+        tabName = stageClubName,
         navigationAction = {
             component.onEvent(ClubResultsEvent.GoBack)
         },

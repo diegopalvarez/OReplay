@@ -22,7 +22,8 @@ class ScoreResultsComponent(
     private val stageType: StageType,
     private val isClubView: Boolean,
     private val isStageLive: Value<Boolean>,
-    val visitedStatsMap: Value<Optional<Map<String, ScoreResultStats>>>
+    val visitedStatsMap: Value<Optional<Map<String, ScoreResultStats>>>,
+    goToPage: (String, String) -> Unit
 ): CommonResultComponent(
     componentContext = componentContext,
     results = scoreResults,
@@ -30,7 +31,8 @@ class ScoreResultsComponent(
     stage = stage,
     stageType = stageType,
     isClubView = isClubView,
-    isLive = isStageLive
+    isLive = isStageLive,
+    goToPage = goToPage
 ) {
     /**
      * Function to get the visited stats for the class of the runner in the ticker

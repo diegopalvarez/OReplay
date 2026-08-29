@@ -15,6 +15,7 @@ class ResultsComponent(
     private val stageType: StageType,
     private val isClubView: Boolean,
     private val isStageLive: Value<Boolean>,
+    goToPage: (String, String) -> Unit
 ): CommonResultComponent(
     componentContext = componentContext,
     results = regularResults,
@@ -22,7 +23,8 @@ class ResultsComponent(
     stage = stage,
     stageType = stageType,
     isClubView = isClubView,
-    isLive = isStageLive
+    isLive = isStageLive,
+    goToPage = goToPage
 ) {
 
 }

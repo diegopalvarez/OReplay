@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.no_class
 import oreplay.shared.generated.resources.no_club
@@ -18,8 +19,12 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RunnerInformationHeader(
-    runner: ResultIndividual
+    runner: ResultIndividual,
+    component: CommonResultComponent
 ) {
+    // Get from the component if it's a class or club view
+    val isClubView = component.isClubView()
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -42,9 +47,10 @@ fun RunnerInformationHeader(
     ) {
         // Runner Class
         if (runner.runnerClass != null) {
-            Text(
-                text = runner.runnerClass.shortName,
-                style = MaterialTheme.typography.titleMedium,
+            ClassLink(
+                stageClass = runner.runnerClass,
+                isClubView = isClubView,
+                goToPage = component.goToPage
             )
         } else {
             // Should never happen
@@ -56,9 +62,10 @@ fun RunnerInformationHeader(
 
         // Runner Club
         if (runner.runnerClub != null) {
-            Text(
-                text = runner.runnerClub.shortName,
-                style = MaterialTheme.typography.titleMedium,
+            ClubLink(
+                stageClub = runner.runnerClub,
+                isClubView = isClubView,
+                goToPage = component.goToPage
             )
         } else {
             Text(

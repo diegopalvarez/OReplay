@@ -39,7 +39,7 @@ fun TicketSheetRouter(
     else{
         // Route the contents of the ticket to the corresponding Composable
         when(stageType){
-            StageType.CLASSIC -> ClassicTicketSheet(runnerResult, eventTimezone)
+            StageType.CLASSIC -> ClassicTicketSheet(runnerResult, eventTimezone, component)
             StageType.MASS_START -> TODO("Implement in the whole app")
             StageType.CHASE_START -> TODO("Implement in the whole app")
             StageType.OVERALL -> TODO()
@@ -47,13 +47,13 @@ fun TicketSheetRouter(
                 // Check if the team is set up
                 when(team){
                     Optional.None -> ErrorHelper(RepositoryError.INTERNAL)
-                    is Optional.Some-> RelayTicketSheet(runnerResult, team.value, eventTimezone)
+                    is Optional.Some-> RelayTicketSheet(runnerResult, team.value, eventTimezone, component)
                 }
             }
             StageType.SCORE -> ScoreTicketSheet(runnerResult, eventTimezone, component as ScoreResultsComponent)
             StageType.RAID -> TODO("Implement in the whole app")
             StageType.TRAIL -> TODO("Implement in the whole app")
-            StageType.ONE_MAN_RELAY -> OneManRelayTicketSheet(runnerResult, eventTimezone)
+            StageType.ONE_MAN_RELAY -> OneManRelayTicketSheet(runnerResult, eventTimezone, component)
             StageType.RANKING -> TODO("Implement in the whole app")
         }
     }
