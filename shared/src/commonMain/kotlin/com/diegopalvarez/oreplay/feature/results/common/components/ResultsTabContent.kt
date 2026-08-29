@@ -28,7 +28,7 @@ fun ResultsTabContent(
         is AbstractResultsComponent.ResultsTabChild.Statistics -> ResultsStatisticsScreen(child.component)
         is AbstractResultsComponent.ResultsTabChild.Points -> {
             if(component is ClassResultsComponent){
-                ResultsPointsScreen(child.component, component.stageClass.id)
+                ResultsPointsScreen(child.component, component.stageClassID)
             }
             else{
                 // This should never happen

@@ -17,6 +17,7 @@ import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
+import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.type.ClassicRepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.type.OneManRelayRepositoryResult
@@ -46,10 +47,12 @@ class ClassResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
-    val stageClass: StageClass,
+    val stageClassID: String,
+    val stageClassName: String,
     private val repository: ClassResultsRepository,
     private val preferences: PreferencesManager,
-    private val onGoBack: () -> Unit
+    private val onGoBack: () -> Unit,
+    private val onGoToClub: (Event, Stage, String, String) -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -67,7 +70,7 @@ class ClassResultsComponent(
         repository.getClassResults(
             eventID = pageEvent.id,
             stageID = stage.id,
-            classID = stageClass.id,
+            classID = stageClassID,
             stageType = stage.stageType.getStageType()
         )
             .onSuccess {
@@ -222,5 +225,12 @@ class ClassResultsComponent(
         }
 
         return candidates.maxBy { it.length }
+    }
+
+    /**
+     * Function to go directly to a club
+     */
+    override fun goToPage(id: String, name: String) {
+        onGoToClub(pageEvent, stage, id, name)
     }
 }

@@ -12,6 +12,7 @@ import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic.RunnerResultsHeader
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import kotlinx.datetime.TimeZone
 
 @Composable
@@ -19,6 +20,7 @@ fun TicketSheet(
     runnerResult: ResultIndividual,
     eventTimezone: TimeZone,
     splitTable: @Composable (result: StageResult) -> Unit,
+    component: CommonResultComponent
 ){
     LazyColumn(
         modifier = Modifier
@@ -29,7 +31,7 @@ fun TicketSheet(
     ) {
         // Information about the runner
         item {
-            RunnerInformationHeader(runnerResult)
+            RunnerInformationHeader(runnerResult, component)
         }
 
         // Information about the runner results

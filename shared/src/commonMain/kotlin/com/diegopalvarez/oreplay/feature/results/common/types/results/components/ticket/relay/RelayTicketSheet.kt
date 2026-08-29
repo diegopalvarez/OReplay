@@ -14,13 +14,15 @@ import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.NoChipDownload
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.TicketSheet
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay.OneManRelayTicketSplitTable
+import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import kotlinx.datetime.TimeZone
 
 @Composable
 fun RelayTicketSheet(
     runnerResult: ResultIndividual,
     teamResult: ResultTeam,
-    eventTimezone: TimeZone
+    eventTimezone: TimeZone,
+    component: CommonResultComponent
 ) {
     LazyColumn(
         modifier = Modifier
@@ -31,7 +33,7 @@ fun RelayTicketSheet(
     ) {
         // Information about the team and the runner
         item {
-            TeamInformationHeader(teamResult, runnerResult)
+            TeamInformationHeader(teamResult, runnerResult, component)
         }
 
         // Information about the team and runner results

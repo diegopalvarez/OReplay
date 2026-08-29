@@ -7,6 +7,7 @@ import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
@@ -28,10 +29,12 @@ class ClubResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
-    val stageClub: StageClub,
+    val stageClubID: String,
+    val stageClubName: String,
     private val repository: ClubResultsRepository,
     private val preferences: PreferencesManager,
-    private val onGoBack: () -> Unit
+    private val onGoBack: () -> Unit,
+    private val onGoToClass: (Event, Stage, String, String) -> Unit
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
@@ -49,7 +52,7 @@ class ClubResultsComponent(
         repository.getClubResults(
             eventID = pageEvent.id,
             stageID = stage.id,
-            clubID = stageClub.id,
+            clubID = stageClubID,
             stageType = stage.stageType.getStageType()
         )
             .onSuccess {
@@ -111,11 +114,18 @@ class ClubResultsComponent(
     /**
      * Event Handling
      */
-    fun onEvent(event: ClassResultsEvent) {
+    fun onEvent(event: ClubResultsEvent) {
         when(event) {
-            ClassResultsEvent.GoBack -> {
+            ClubResultsEvent.GoBack -> {
                 onGoBack()
             }
         }
+    }
+
+    /**
+     * Function to go directly to a class
+     */
+    override fun goToPage(id: String, name: String) {
+        onGoToClass(pageEvent, stage, id, name)
     }
 }

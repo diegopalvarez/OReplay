@@ -34,7 +34,7 @@ fun ScoreTicketSheet(
     ) {
         // Information about the runner
         item {
-            RunnerInformationHeader(runnerResult)
+            RunnerInformationHeader(runnerResult, component)
         }
 
         // Information about the runner results

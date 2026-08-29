@@ -12,13 +12,13 @@ import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResu
 fun ClassResultsScreen(
     pageEvent: Event,
     stage: Stage,
-    stageClass: StageClass,
+    stageClassName: String,
     component: ClassResultsComponent
 ) {
     ResultsScaffold(
         event = pageEvent,
         stage = stage,
-        tabName = stageClass.longName,
+        tabName = stageClassName,
         navigationAction = {
             component.onEvent(ClassResultsEvent.GoBack)
         },
