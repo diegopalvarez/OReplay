@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.OverallResult
+import com.diegopalvarez.oreplay.domain.types.UploadType
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.generic_stage
 import org.jetbrains.compose.resources.stringResource
@@ -22,7 +23,6 @@ import org.jetbrains.compose.resources.stringResource
 fun ExpandedListParent(
     part: OverallResult,
     isNC: Boolean,
-    trailingContent: @Composable (OverallResult, Boolean) -> Unit,
 ) {
     ListItem(
         onClick = { },
@@ -30,7 +30,12 @@ fun ExpandedListParent(
         leadingContent = null,
         trailingContent = {
             // Result for this stage
-            trailingContent(part, isNC)
+            if(part.uploadType == UploadType.TOTAL_TIMES) {
+                TimePartTrailingContent(part, isNC)
+            }
+            else{
+                PointPartTrailingContent(part, isNC)
+            }
         },
         overlineContent =   if(part.contributory != null && !part.contributory) {
                                 {

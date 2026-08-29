@@ -135,7 +135,6 @@ fun ExpandableListParent(
                     ExpandedListParent(
                         part = item,
                         isNC = runner.isNc,
-                        trailingContent = trailingContent
                     )
                 }
             }
