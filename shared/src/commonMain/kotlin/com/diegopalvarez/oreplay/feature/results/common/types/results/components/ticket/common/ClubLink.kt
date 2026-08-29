@@ -12,12 +12,12 @@ import com.diegopalvarez.oreplay.domain.model.StageClub
 fun ClubLink(
     stageClub: StageClub,
     isClubView: Boolean,
-    goToPage: (String, String) -> Unit,
+    goToPage: (String, String, Boolean) -> Unit,
 ){
     if(!isClubView){
         TextButton(
             onClick = {
-                goToPage(stageClub.id, stageClub.shortName)
+                goToPage(stageClub.id, stageClub.shortName, true)
             }
         ){
             Text(

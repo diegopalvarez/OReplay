@@ -33,7 +33,7 @@ abstract class CommonResultComponent(
     private val stageType: StageType,
     private val isClubView: Boolean,
     val isLive: Value<Boolean>,
-    val goToPage: (String, String) -> Unit,
+    val goToPage: (String, String, Boolean) -> Unit,
 ): ComponentContext by componentContext {
     // Create a coroutine scope
     val scope = CoroutineScope(Dispatchers.Main)

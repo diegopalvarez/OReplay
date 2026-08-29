@@ -15,6 +15,7 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -41,6 +42,9 @@ fun ResultsScaffold(
 ){
     // Create the scrollBehavior for the Page Bar
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    // Create the state for the class/club dialog
+    val openChangeDialog = rememberSaveable { mutableStateOf(false) }
 
     /**
      * Timezone conversion warning display logic
@@ -105,9 +109,15 @@ fun ResultsScaffold(
             )
         },
         bottomBar = { ResultsNavBar(component) },
-        snackbarHost = { CombinedSnackbarHost(snackbarHostState, isError.value) }
-
-        ) { innerPadding ->
+        snackbarHost = { CombinedSnackbarHost(snackbarHostState, isError.value) },
+        floatingActionButton = {
+            ChangeClassClubButton(
+                onClick = {
+                    openChangeDialog.value = true
+                }
+            )
+        }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -154,6 +164,17 @@ fun ResultsScaffold(
                     }
                 }
             }
+        }
+
+        // Show the dialog to change between classes and clubs
+        when(openChangeDialog.value){
+            true -> StageDetailsDialog(
+                onDismissRequest = {
+                    openChangeDialog.value = false
+                },
+                component = component
+            )
+            false -> Unit
         }
     }
 }

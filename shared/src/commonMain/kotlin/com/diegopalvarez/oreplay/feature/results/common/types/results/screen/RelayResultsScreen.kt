@@ -20,6 +20,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 import com.diegopalvarez.oreplay.feature.results.common.util.sortTeamResults
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import kotlin.time.Instant
 
 @Composable
@@ -47,7 +48,7 @@ fun RelayResultsScreen(
         // Sort the results
         val sortedResults = sortTeamResults(teamResults)
 
-        LazyColumn(
+        FABLazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,

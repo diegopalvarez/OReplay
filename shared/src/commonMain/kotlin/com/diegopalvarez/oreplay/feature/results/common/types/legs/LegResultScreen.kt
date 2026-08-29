@@ -16,6 +16,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.components.LegListItem
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.navigation.LegResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ResultListItem
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import kotlin.time.Instant
 
@@ -35,7 +36,7 @@ fun LegResultScreen(
     }
 
     if(legResults.value.isNotEmpty()){
-        LazyColumn(
+        FABLazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,

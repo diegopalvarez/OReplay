@@ -31,6 +31,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.StatusIndicator
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.screen.common.SplitComposable
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 import com.diegopalvarez.oreplay.ui.util.display
@@ -50,7 +51,7 @@ fun PointsTableContent(
     // Define the cell style
     val cellTextStyle = MaterialTheme.typography.bodyMedium
 
-    LazyColumn(
+    FABLazyColumn(
         modifier = modifier
             .fillMaxSize(),
     ) {

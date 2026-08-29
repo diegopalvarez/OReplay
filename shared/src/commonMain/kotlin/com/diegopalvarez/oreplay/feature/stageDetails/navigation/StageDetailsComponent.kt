@@ -40,8 +40,8 @@ class StageDetailsComponent(
     val stage: Stage,
     val pageEvent: Event,
     private val repository: StageRepository,
-    private val onNavigateToClassResultsScreen: (Event, Stage, StageClass) -> Unit,
-    private val onNavigateToClubResultsScreen: (Event, Stage, StageClub) -> Unit,
+    private val onNavigateToClassResultsScreen: (Event, Stage, StageClass, List<StageClass>, List<StageClub>) -> Unit,
+    private val onNavigateToClubResultsScreen: (Event, Stage, StageClub, List<StageClass>, List<StageClub>) -> Unit,
     private val onGoBack: () -> Unit
 ): ComponentContext by componentContext {
 
@@ -73,8 +73,8 @@ class StageDetailsComponent(
     // Event Handler Function
     fun onEvent(event: StageDetailsEvent) {
         when (event) {
-            is StageDetailsEvent.ClickClass -> onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass)
-            is StageDetailsEvent.ClickClub -> onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub)
+            is StageDetailsEvent.ClickClass -> onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass, classList.value, clubList.value)
+            is StageDetailsEvent.ClickClub -> onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub, classList.value, clubList.value)
             StageDetailsEvent.GoBack -> onGoBack()
         }
     }

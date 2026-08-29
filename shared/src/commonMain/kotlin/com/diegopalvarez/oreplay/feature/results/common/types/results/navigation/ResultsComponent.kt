@@ -15,7 +15,7 @@ class ResultsComponent(
     private val stageType: StageType,
     private val isClubView: Boolean,
     private val isStageLive: Value<Boolean>,
-    goToPage: (String, String) -> Unit
+    goToPage: (String, String, Boolean) -> Unit
 ): CommonResultComponent(
     componentContext = componentContext,
     results = regularResults,

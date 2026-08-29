@@ -12,12 +12,12 @@ import com.diegopalvarez.oreplay.domain.model.ResultClass
 fun ClassLink(
     stageClass: ResultClass,
     isClubView: Boolean,
-    goToPage: (String, String) -> Unit,
+    goToPage: (String, String, Boolean) -> Unit,
 ){
     if(isClubView){
         TextButton(
             onClick = {
-                goToPage(stageClass.id, stageClass.longName)
+                goToPage(stageClass.id, stageClass.longName, false)
             }
         ){
             Text(
