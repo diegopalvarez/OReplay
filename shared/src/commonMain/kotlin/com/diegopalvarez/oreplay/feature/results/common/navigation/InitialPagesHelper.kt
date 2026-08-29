@@ -23,7 +23,7 @@ fun initialPagesHelper(
                         ResultsTabConfiguration.StartTimes,
                         ResultsTabConfiguration.Results,
                         ResultsTabConfiguration.Splits,
-                        ResultsTabConfiguration.Statistics
+                        //ResultsTabConfiguration.Statistics
                     ),
                     selectedIndex = if(hasStarted) 1 else 0
                 )
