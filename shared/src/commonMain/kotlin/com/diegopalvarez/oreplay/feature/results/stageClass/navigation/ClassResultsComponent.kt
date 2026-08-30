@@ -126,7 +126,6 @@ class ClassResultsComponent(
                 while(isActive){
                     delay(reloadInterval.value?.seconds ?: 1.minutes)       // If it's null, defaults to 1 minute
                     getResults()
-                    println("AUTOMATIC RELOAD")
                 }
             }
         }

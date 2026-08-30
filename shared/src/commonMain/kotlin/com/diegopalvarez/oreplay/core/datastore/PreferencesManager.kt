@@ -53,7 +53,6 @@ class PreferencesManager(
         .data
         .map { prefs ->
             val value = prefs[convertRefreshKey] ?: 1.minutes.inWholeSeconds
-            println("Reading refresh interval: $value")
             value
         }
         .stateIn(
@@ -67,7 +66,6 @@ class PreferencesManager(
     ){
         scope.launch {
             dataStore.edit { mutablePrefs ->
-                println("Saving refresh interval: $newInterval")
                 mutablePrefs[convertRefreshKey] = newInterval
             }
         }
