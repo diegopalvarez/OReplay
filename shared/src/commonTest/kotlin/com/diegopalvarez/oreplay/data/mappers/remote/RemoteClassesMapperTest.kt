@@ -24,7 +24,7 @@ class RemoteClassesMapperTest {
                     id = "class-1",
                     shortName = "M21E",
                     longName = "Men 21 Elite",
-                    radios = emptyList(),
+                    //radios = emptyList(),
                 ),
             )
         )
@@ -38,7 +38,7 @@ class RemoteClassesMapperTest {
         assertEquals("class-1", mapped.id)
         assertEquals("M21E", mapped.shortName)
         assertEquals("Men 21 Elite", mapped.longName)
-        assertTrue(mapped.radioControls.isEmpty())
+        //assertTrue(mapped.radioControls.isEmpty())
     }
 
     @Test

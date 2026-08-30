@@ -59,7 +59,10 @@ class RootComponent(
                         },
                         languageManager = languageManager,
                         preferencesManager = preferencesManager,
-                        eventRepository = eventRepository
+                        eventRepository = eventRepository,
+                        onGoBack = {
+                            navigation.pop()
+                        }
                     )
                 )
             }
@@ -193,5 +196,10 @@ class RootComponent(
 
         @Serializable
         data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClubID: String, val stageClubName: String, val stageClasses: List<StageClass>, val stageClubs: List<StageClub>): Configuration()
+    }
+
+    // Function to go back in the navigation stack
+    fun onGoBack(){
+        navigation.pop()
     }
 }

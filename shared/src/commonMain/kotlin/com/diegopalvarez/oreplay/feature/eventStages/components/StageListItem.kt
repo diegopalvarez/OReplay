@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.ui.util.DateTimeFormatter
 import com.diegopalvarez.oreplay.ui.util.StageTypeToText
 import com.diegopalvarez.oreplay.ui.util.display
 import kotlinx.coroutines.launch
@@ -58,11 +59,7 @@ fun StageListItem(
             }
             if(stage.start != null){
                 Row {
-                    Text(
-                        text = stage.start.display(timezone),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodySmall,
-                    )
+                    DateTimeFormatter(stage.start, timezone)
                 }
             }
 

@@ -8,8 +8,10 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
+import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
@@ -20,8 +22,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -40,7 +44,8 @@ class EventsScreenComponent(
     private val eventRepository: EventRepository,
     private val onNavigateToEventStagesScreen: (Event) -> Unit,
     private val languageManager: LanguageManager,
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: PreferencesManager,
+    onGoBack: () -> Unit
 ): ComponentContext by componentContext {
 
     /**
@@ -79,6 +84,14 @@ class EventsScreenComponent(
     private val _isSearching = MutableValue(false)
     val isSearching: Value<Boolean> = _isSearching
 
+    // Search Error State
+    private val _isSearchError = MutableValue(false)
+    val isSearchError: Value<Boolean> = _isSearchError
+
+    // Search Error Type
+    private val _searchErrorType = MutableValue(RepositoryError.UNKNOWN)
+    val searchErrorType: Value<RepositoryError> = _searchErrorType
+
     // Combine the query and the Date Range and then execute the query
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val searchResults = combine(
@@ -99,10 +112,15 @@ class EventsScreenComponent(
                 when(searchResults){
                     is Result.Error -> {
                         _isSearching.value = false
+                        _isSearchError.value = true
+                        _searchErrorType.value = searchResults.error
+
                         flowOf<List<Event>>(emptyList())
                     }
                     is Result.Success -> {
                         _isSearching.value = false
+                        _isSearchError.value = false
+
                         flowOf<List<Event>>(searchResults.data)
                     }
                 }
@@ -130,6 +148,18 @@ class EventsScreenComponent(
         } else {
             null
         }
+    }
+
+    /**
+     * Variable to refresh the three event screens at once when coming back from an error
+     */
+    private val _errorRefresh = MutableSharedFlow<RefreshTrigger>(
+        extraBufferCapacity = 1,
+    )
+    val errorRefresh = _errorRefresh.asSharedFlow()
+
+    private fun triggerErrorRefresh(trigger: RefreshTrigger){
+        _errorRefresh.tryEmit(trigger)
     }
 
     /**
@@ -166,7 +196,7 @@ class EventsScreenComponent(
         },
         pageStatus = ::handlePageStatus,
         childFactory = ::createChild,
-        handleBackButton = true
+        handleBackButton = false
     )
 
     // Child Factory Function
@@ -178,19 +208,25 @@ class EventsScreenComponent(
             EventTabConfiguration.PastEvents -> EventTabChild.PastEvents(
                 PastEventsComponent(
                     componentContext = component,
-                    repository = eventRepository
+                    repository = eventRepository,
+                    errorRefresh = errorRefresh,
+                    triggerRefresh = ::triggerErrorRefresh
                 )
             )
             EventTabConfiguration.LiveEvents -> EventTabChild.LiveEvents(
                 LiveEventsComponent(
                     componentContext = component,
-                    repository = eventRepository
+                    repository = eventRepository,
+                    errorRefresh = errorRefresh,
+                    triggerRefresh = ::triggerErrorRefresh
                 )
             )
             EventTabConfiguration.FutureEvents -> EventTabChild.FutureEvents(
                 FutureEventsComponent(
                     componentContext = component,
-                    repository = eventRepository
+                    repository = eventRepository,
+                    errorRefresh = errorRefresh,
+                    triggerRefresh = ::triggerErrorRefresh
                 )
             )
 
@@ -217,5 +253,4 @@ class EventsScreenComponent(
             else -> Status.CREATED
         }
     }
-
 }

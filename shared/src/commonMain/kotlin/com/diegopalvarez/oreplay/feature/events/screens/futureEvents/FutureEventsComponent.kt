@@ -5,16 +5,25 @@ import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
 import com.diegopalvarez.oreplay.feature.events.common.AbstractEventComponent
+import com.diegopalvarez.oreplay.feature.events.navigation.RefreshTrigger
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class FutureEventsComponent(
     componentContext: ComponentContext,
-    private val repository: EventRepository
+    private val repository: EventRepository,
+    private val errorRefresh: SharedFlow<RefreshTrigger>,
+    private val triggerRefresh: (RefreshTrigger) -> Unit
 ): AbstractEventComponent(componentContext) {
     // Function to fetch the events from the Repository
     override suspend fun fetchEvents(){
         repository.getFutureEvents()
             .onSuccess {
+                // If it was an error, trigger a reload for all screens
+                if(_isError.value){
+                    triggerRefresh(RefreshTrigger.FUTURE)
+                }
+
                 _isError.value = false
                 _eventList.value = it.first
                 _isInit.value = true
@@ -41,6 +50,15 @@ class FutureEventsComponent(
         // Load the events from the Repository
         scope.launch {
             fetchEvents()
+        }
+
+        // Subscribe to the reload trigger
+        scope.launch {
+            errorRefresh.collect {
+                if(it != RefreshTrigger.FUTURE){
+                    onRefresh()
+                }
+            }
         }
     }
 

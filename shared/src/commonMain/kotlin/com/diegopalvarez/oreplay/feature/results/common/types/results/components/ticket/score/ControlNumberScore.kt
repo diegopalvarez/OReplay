@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import oreplay.shared.generated.resources.Res
+import oreplay.shared.generated.resources.finish
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -39,7 +41,7 @@ fun ControlNumberScore(
                 .padding(horizontal = 8.dp)
         ) {
             Text(
-                text = number,
+                text = stringResource(Res.string.finish),
                 style = style,
             )
         }

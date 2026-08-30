@@ -8336,4 +8336,411 @@ object RemoteResponse {
             )
         )
     )
+
+    val classicFilterRadios = RemoteResultsResponse(
+        results = listOf(
+            RemoteResult(
+                id = "02c0298a-d3e5-470e-8ae2-77a40063b407",
+                bibNumber = "4346",
+                isNc = false,
+                eligibility = null,
+                sicard = "2077088",
+                sex = "F",
+                legNumber = 1L,
+                legs = null,
+                runners = null,
+                created = "2026-06-30T08:53:10.392+00:00",
+                runnerClass = RemoteClassResults(
+                    id = "2c708bd2-cb93-4a56-a1ff-9471f1dfa590",
+                    shortName = "F-21",
+                    longName = "Feminino 21"
+                ),
+                runnerClub = RemoteClub(
+                    id = "8aec7d3c-5e45-4a80-b459-93d7514d507c",
+                    shortName = "Vigo U-VIGO"
+                ),
+                fullName = "Julia Pérez Álvarez",
+                stageResult = RemoteStageResult(
+                    id = "40062c79-1ccd-4c98-bfbe-a58ddd7f7096",
+                    resultTypeID = "e4ddfa9d-3347-47e4-9d32-c6c119aeac0e",
+                    startTime = "2026-06-28T09:13:00.000+00:00",
+                    finishTime = "2026-06-28T09:51:03.000+00:00",
+                    uploadType = "res_splits",
+                    timeSeconds = 2283L,
+                    position = 4L,
+                    statusCode = "0",
+                    isNc = false,
+                    contributory = true,
+                    timeBehind = 690L,
+                    timeNeutralization = 0L,
+                    timeAdjusted = 0L,
+                    timePenalty = 0L,
+                    timeBonus = 0L,
+                    pointsFinal = "0.0000",
+                    pointsBehind = "0.0000",
+                    pointsAdjusted = "0.0000",
+                    pointsPenalty = "0.0000",
+                    pointsBonus = "0.0000",
+                    note = null,
+                    legNumber = 1L,
+                    created = "2026-06-30T08:53:10.402+00:00",
+                    splits = listOf(
+                        RemoteSplit(
+                            id = "ea17d001-1dfc-4b6a-8c78-7eb2eb0d4096",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:50:53.000+00:00",
+                            points = 0L,
+                            orderNumber = 22L,
+                            created = "2026-06-30T08:53:10.658+00:00",
+                            control = RemoteControl(
+                                id = "6c5c5f62-08ca-4834-8fc8-d7d75138c363",
+                                station = "100",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "c8af39f9-c402-424a-a0fa-9d961f5ef635",
+                            isIntermediate = true,
+                            readingTime = "2026-06-28T09:50:11.000+00:00",
+                            points = 0L,
+                            orderNumber = 21L,
+                            created = "2026-06-30T08:53:10.646+00:00",
+                            control = RemoteControl(
+                                id = "ea5e8c26-5a16-40ac-a7c9-8c1574c42bcd",
+                                station = "75",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "541aa644-8dd1-42fd-a1fb-921c64335a1e",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:49:22.000+00:00",
+                            points = 0L,
+                            orderNumber = 20L,
+                            created = "2026-06-30T08:53:10.636+00:00",
+                            control = RemoteControl(
+                                id = "157912be-832a-4d19-a804-074876dffdc3",
+                                station = "57",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "cedd814e-7817-497e-a664-4b5e2c095aed",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:49:01.000+00:00",
+                            points = 0L,
+                            orderNumber = 19L,
+                            created = "2026-06-30T08:53:10.627+00:00",
+                            control = RemoteControl(
+                                id = "865bcb3e-c783-438d-9ac9-216d7427e9ce",
+                                station = "65",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "0002c0fd-5488-4917-9184-7fba2b8c65bd",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:45:51.000+00:00",
+                            points = 0L,
+                            orderNumber = 18L,
+                            created = "2026-06-30T08:53:10.618+00:00",
+                            control = RemoteControl(
+                                id = "cacf4e42-e05e-456f-a9fe-0fa68cf06dcd",
+                                station = "50",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "38ba786b-a63e-4e0d-bdea-98125ab17bd9",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:44:43.000+00:00",
+                            points = 0L,
+                            orderNumber = 17L,
+                            created = "2026-06-30T08:53:10.595+00:00",
+                            control = RemoteControl(
+                                id = "3427e89d-d5b7-4c1f-b2d7-2bc0749df20a",
+                                station = "53",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "f9f5a7d5-0aab-4ebe-a136-47f79ed9ca73",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:39:20.000+00:00",
+                            points = 0L,
+                            orderNumber = 16L,
+                            created = "2026-06-30T08:53:10.566+00:00",
+                            control = RemoteControl(
+                                id = "42bc473d-396d-488e-b7fc-d265bc58b1f2",
+                                station = "49",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "537c9ed4-6afa-4eb1-b7da-5d0dfa186164",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:37:08.000+00:00",
+                            points = 0L,
+                            orderNumber = 15L,
+                            created = "2026-06-30T08:53:10.555+00:00",
+                            control = RemoteControl(
+                                id = "bded55d9-6d90-453f-9050-2e1e46b4fc00",
+                                station = "41",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "7d695b2c-ac1f-4ac9-a120-e487b65ec464",
+                            isIntermediate = true,
+                            readingTime = "2026-06-28T09:33:06.000+00:00",
+                            points = 0L,
+                            orderNumber = 14L,
+                            created = "2026-06-30T08:53:10.545+00:00",
+                            control = RemoteControl(
+                                id = "7ccf49e1-d48e-4c1c-95cd-f5989d6a9702",
+                                station = "38",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "64297f00-9df1-4e43-97e0-9404d045a0cb",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:31:26.000+00:00",
+                            points = 0L,
+                            orderNumber = 13L,
+                            created = "2026-06-30T08:53:10.536+00:00",
+                            control = RemoteControl(
+                                id = "80b7f349-1106-4f59-90bf-b8fd5f58933f",
+                                station = "37",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "96823c33-381a-417f-b87d-8f3b5c33c3fc",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:29:35.000+00:00",
+                            points = 0L,
+                            orderNumber = 12L,
+                            created = "2026-06-30T08:53:10.527+00:00",
+                            control = RemoteControl(
+                                id = "11cfdefb-efb7-483a-856c-91110689c19b",
+                                station = "36",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "a1ed9aed-1410-4763-8169-405f6585d198",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:29:14.000+00:00",
+                            points = 0L,
+                            orderNumber = 11L,
+                            created = "2026-06-30T08:53:10.516+00:00",
+                            control = RemoteControl(
+                                id = "8d07d63a-1153-49fd-8de9-c89a20fe0c9d",
+                                station = "71",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "45837732-b902-40a9-8d07-55d47c309694",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:27:27.000+00:00",
+                            points = 0L,
+                            orderNumber = 10L,
+                            created = "2026-06-30T08:53:10.508+00:00",
+                            control = RemoteControl(
+                                id = "699aef52-a2b7-4fb4-9851-c6dfcc39bb8b",
+                                station = "47",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "1f8f4403-99a2-4d72-a3e6-16e63aaac8d5",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:26:49.000+00:00",
+                            points = 0L,
+                            orderNumber = 9L,
+                            created = "2026-06-30T08:53:10.499+00:00",
+                            control = RemoteControl(
+                                id = "c0693939-3927-46d8-8567-ba2a334e0442",
+                                station = "43",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "708f80e8-feba-4d0f-a8c4-7c353df55595",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:26:12.000+00:00",
+                            points = 0L,
+                            orderNumber = 8L,
+                            created = "2026-06-30T08:53:10.491+00:00",
+                            control = RemoteControl(
+                                id = "60cf13fa-1edd-449d-9461-333720b9d141",
+                                station = "59",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "91119fa0-7c1f-4275-9215-1bf49ae1bc8a",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:25:10.000+00:00",
+                            points = 0L,
+                            orderNumber = 7L,
+                            created = "2026-06-30T08:53:10.486+00:00",
+                            control = RemoteControl(
+                                id = "1397180c-25e4-4cef-b504-0d6b0c5e9246",
+                                station = "44",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "0401581a-c170-4b12-b03c-e6b6d502eb08",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:24:08.000+00:00",
+                            points = 0L,
+                            orderNumber = 6L,
+                            created = "2026-06-30T08:53:10.477+00:00",
+                            control = RemoteControl(
+                                id = "41b69055-bc0c-4523-b54d-42dfd8be5fb2",
+                                station = "77",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "5796d33b-ef8f-496c-b4e1-ce265b2c6483",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:18:58.000+00:00",
+                            points = 0L,
+                            orderNumber = 5L,
+                            created = "2026-06-30T08:53:10.468+00:00",
+                            control = RemoteControl(
+                                id = "127239de-227d-4e20-b2ad-aeafa2f8bc5a",
+                                station = "81",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "7a1db23a-a1f7-4a64-b2ad-d740af8cb795",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:18:21.000+00:00",
+                            points = 0L,
+                            orderNumber = 4L,
+                            created = "2026-06-30T08:53:10.453+00:00",
+                            control = RemoteControl(
+                                id = "3d50f06c-35b7-48e6-945c-8fed925f0de6",
+                                station = "82",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "ede6c7a8-953c-4653-afa2-f1a398f2b87d",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:15:23.000+00:00",
+                            points = 0L,
+                            orderNumber = 3L,
+                            created = "2026-06-30T08:53:10.446+00:00",
+                            control = RemoteControl(
+                                id = "0088db1e-a2ab-40d8-ba68-68b922caf619",
+                                station = "64",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "66368887-01dd-4bf2-b204-70ad3c3d1d0d",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:14:43.000+00:00",
+                            points = 0L,
+                            orderNumber = 2L,
+                            created = "2026-06-30T08:53:10.438+00:00",
+                            control = RemoteControl(
+                                id = "fe5be3ff-95a7-41f4-b307-2e833f6add65",
+                                station = "52",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        ),
+                        RemoteSplit(
+                            id = "bd34d40c-844c-48a3-b6cd-d2afda3a937a",
+                            isIntermediate = false,
+                            readingTime = "2026-06-28T09:13:35.000+00:00",
+                            points = 0L,
+                            orderNumber = 1L,
+                            created = "2026-06-30T08:53:10.420+00:00",
+                            control = RemoteControl(
+                                id = "7ef9b6b3-e877-4c0d-94f1-3b61ed26b6d4",
+                                station = "51",
+                                controlType = ControlType(
+                                    id = "f3cc5efa-065f-4ad6-844b-74e99612889b",
+                                    description = "Normal Control"
+                                )
+                            )
+                        )
+                    )
+                ),
+                overalls = null
+            ),
+        )
+    )
 }

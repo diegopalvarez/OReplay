@@ -2,9 +2,12 @@ package com.diegopalvarez.oreplay.app
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.diegopalvarez.oreplay.core.language.LocalAppLocale
 import com.diegopalvarez.oreplay.ui.theme.AppTheme
 import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatableV2
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -18,6 +21,7 @@ import com.diegopalvarez.oreplay.feature.stageDetails.StageDetailsScreen
 import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun App(root: RootComponent) {
     // Language Manager
@@ -35,7 +39,10 @@ fun App(root: RootComponent) {
             // Different pages of the app
             Children(
                 stack = childStack,
-                animation = stackAnimation(slide())
+                animation = predictiveBackAnimation(
+                    backHandler = root.backHandler,
+                    onBack = root::onGoBack,
+                )
             ) { child ->
                 when (val instance = child.instance) {
                     is RootComponent.Child.ClassResultsScreen -> ClassResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClassName, instance.component)

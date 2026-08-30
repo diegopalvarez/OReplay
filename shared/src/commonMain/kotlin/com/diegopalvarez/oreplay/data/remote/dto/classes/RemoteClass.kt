@@ -14,6 +14,6 @@ data class RemoteClass(
     @SerialName("long_name")
     val longName: String,
 
-    @SerialName("splits")
-    val radios: List<RemoteRadioControl>,       // TODO - Verify Radio Controls
+    //@SerialName("splits")
+    //val radios: List<RemoteRadioControl>,       // TODO - Verify Radio Controls
 )

@@ -57,6 +57,9 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
 private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
     val finishTime = getInstantOrNull(remoteStageResult.finishTime)
 
+    // Get the list of all the splits
+    val splits = getSplits(remoteStageResult.splits, finishTime)
+
     return StageResult(
         id = remoteStageResult.id,
         resultType = remoteStageResult.resultTypeID,
@@ -81,7 +84,7 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
         note = remoteStageResult.note,
         legNumber = remoteStageResult.legNumber,
         created = getInstantOrNull(remoteStageResult.created),
-        splits = getSplits(remoteStageResult.splits, finishTime)
+        splits = splits.filterNot { it.isIntermediate }        // Filter out the radio controls
     )
 }
 

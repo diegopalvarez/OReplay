@@ -35,7 +35,7 @@ fun EventGridItem(
     Card(
         modifier = Modifier
             .fillMaxHeight()
-            .aspectRatio(1.2f),
+            .aspectRatio(1.15f),
         onClick = {
             onEventClick(event)
         }
@@ -51,7 +51,6 @@ fun EventGridItem(
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
-
 
             Column(
                 modifier = Modifier
@@ -70,7 +69,9 @@ fun EventGridItem(
                     )
                     Text(
                         style = MaterialTheme.typography.bodyMedium,
-                        text =  event.organizer.name
+                        text =  event.organizer.name,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
@@ -91,7 +92,9 @@ fun EventGridItem(
                         }
                         else{
                             event.initialDate.display()
-                        }
+                        },
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }

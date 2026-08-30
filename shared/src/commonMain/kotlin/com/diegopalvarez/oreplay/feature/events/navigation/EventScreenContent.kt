@@ -18,6 +18,8 @@ fun EventScreenContent(
 
     // TODO - Handle the back button behavior
 
+    // Each component now has to subscribe to the refresh flow variable to load them all at once in case of a network reconnection
+
     when(val child = pages.value.items[pages.value.selectedIndex].instance) {
         is EventsScreenComponent.EventTabChild.FutureEvents -> FutureEventsScreen(child.component, onEventClick)
         is EventsScreenComponent.EventTabChild.LiveEvents -> LiveEventsScreen(child.component, onEventClick) { component.selectTab(2) }
