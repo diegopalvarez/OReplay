@@ -52,7 +52,6 @@ class EventsScreenComponent(
      * Common Component Functionality for the Events Screen (as a whole, not per event type)
      */
     fun getCurrentLanguage(): String? {
-        println("Current Language: ${languageManager.languageCode.value}")
         return languageManager.languageCode.value
     }
 
@@ -108,7 +107,6 @@ class EventsScreenComponent(
             else {
                 _isSearching.value = true
                 val searchResults = eventRepository.searchEvents(query, parseDate(selectedDateRange.first), parseDate(selectedDateRange.second))
-                println("SEARCH RESULTS: $searchResults")
                 when(searchResults){
                     is Result.Error -> {
                         _isSearching.value = false
@@ -133,7 +131,6 @@ class EventsScreenComponent(
     )
 
     fun onQueryChange(newQuery: String){
-        println("QUERY: $newQuery")
         _searchQuery.value = newQuery
     }
 

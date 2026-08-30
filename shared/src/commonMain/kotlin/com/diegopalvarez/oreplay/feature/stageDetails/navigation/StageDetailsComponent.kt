@@ -110,7 +110,6 @@ class StageDetailsComponent(
         )
 
     fun onQueryChange(newQuery: String){
-        println("QUERY: $newQuery")
         _searchQuery.value = newQuery
     }
 

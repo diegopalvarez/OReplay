@@ -186,7 +186,12 @@ fun EventsScreen(
                 dateRangePickerState = dateRangePickerState,
                 searchResults = searchResults,
                 onResultClick = { event ->
-                    component.onEvent(EventScreenEvent.ClickEvent(event))
+                    scope.launch {
+                        component.clearQuery()
+                        searchAppBarState.animateToCollapsed()
+                        component.onEvent(EventScreenEvent.ClickEvent(event))
+                    }
+
                 },
                 inputField = extendedInputField
             )

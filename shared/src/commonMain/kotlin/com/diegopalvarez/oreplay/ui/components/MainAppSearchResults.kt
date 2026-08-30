@@ -117,9 +117,6 @@ fun MainAppSearchResults(
                                     .padding(horizontal = 16.dp, vertical = 2.dp),
                                 onClick = {
                                     onResultClick(event)
-                                    scope.launch {
-                                        searchBarState.animateToCollapsed()
-                                    }
                                 }
                             ){
                                 Column {
