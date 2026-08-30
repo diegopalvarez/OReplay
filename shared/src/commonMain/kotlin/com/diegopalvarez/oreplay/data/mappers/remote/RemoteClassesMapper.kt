@@ -11,7 +11,7 @@ private fun getClass(remoteClass: RemoteClass): StageClass {
         id = remoteClass.id,
         shortName = remoteClass.shortName,
         longName = remoteClass.longName,
-        radioControls = getRadioControls(remoteClass.radios),
+        //radioControls = getRadioControls(remoteClass.radios),
     )
 }
 

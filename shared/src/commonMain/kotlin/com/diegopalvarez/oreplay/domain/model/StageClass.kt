@@ -7,5 +7,5 @@ data class StageClass(
     val id: String,
     val shortName: String,
     val longName: String,
-    val radioControls: List<SplitRadio>
+    //val radioControls: List<SplitRadio>
 )
