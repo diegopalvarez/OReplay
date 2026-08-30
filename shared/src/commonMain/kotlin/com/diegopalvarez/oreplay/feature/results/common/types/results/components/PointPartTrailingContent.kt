@@ -21,36 +21,33 @@ fun PointPartTrailingContent(
     isNC: Boolean,
 ) {
     if(part.statusCode == StatusCode.OK){
-        // The position is 0 when a position is not applicable
-        if(part.position > 0 || isNC){
-            // Show all the data available
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.End,
-            ){
-                // Final Points
-                Text(
-                    text = part.pointsFinal.toPoints(),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                // Final time
-                if(part.timeSeconds != 0.seconds) {
-                    if(part.position > 0){
-                        // Show time with position
-                        Text(
-                            text = "${part.timeSeconds.display()} (${part.position})",
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
-                    else{
-                        // Only show the final time
-                        Text(
-                            text = part.timeSeconds.display(),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
+        // Show all the data available
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.End,
+        ){
+            // Final Points
+            Text(
+                text = part.pointsFinal.toPoints(),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            // Final time
+            if(part.timeSeconds != 0.seconds) {
+                if(part.position > 0){
+                    // Show time with position
+                    Text(
+                        text = "${part.timeSeconds.display()} (${part.position})",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                else{
+                    // Only show the final time
+                    Text(
+                        text = part.timeSeconds.display(),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                 }
             }
         }
