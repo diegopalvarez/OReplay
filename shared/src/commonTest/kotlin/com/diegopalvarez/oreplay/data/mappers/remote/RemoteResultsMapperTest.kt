@@ -426,6 +426,42 @@ class RemoteResultsMapperTest {
         assertNull(overalls.overallTotal.pointsBehind)
     }
 
+    // Test for filtering out the intermediate splits in a race
+
+    @Test
+    fun `GetClassicResults - Splits with Radio Controls`(){
+        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.classicFilterRadios)
+
+        // Check the integrity of the list
+        assertTrue(response.isNotEmpty())
+        assertEquals(1, response.size)
+
+        // Test the splits for the single player
+        val runner = response.first()
+
+        assertNotNull(runner.stageResult)
+
+        // Test GetSplits and GetSplit
+        val splits = runner.stageResult.splits
+        assertEquals(21, splits.size)       // Tests that the finish control is added and the intermediate controls removed
+
+        val indexes = listOf<Long>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 22, 23)
+        val stations = listOf("51", "52", "64", "82", "81", "77", "44", "59", "43", "47", "71", "36", "37", "41", "49", "53", "50", "65", "57", "100", "Finish")
+        val splitTime = listOf("35s", "1m 8s", "40s", "2m 58s", "37s", "5m 10s","1m 02s", "1m 02s", "37s", "38s", "1m 47s", "21s", "1m 51s", "5m 42s", "2m 12s", "5m 23s", "1m 08s", "3m 10s", "21s", "1m 31s", "10s")
+        val accumulatedTime = listOf("35s", "1m 43s", "2m 23s", "5m 21s", "5m 58s", "11m 08s", "12m 10s", "13m 12s", "13m 49s", "14m 27s", "16m 14s", "16m 35s", "18m 26s", "24m 08s", "26m 20s", "31m 43s", "32m 51s", "36m 01s", "36m 22s", "37m 53s", "38m 03s")
+
+        for(index in splits.indices){
+            assertEquals(indexes[index], splits[index].orderNumber)
+            assertEquals(stations[index], splits[index].control.station)
+            assertEquals(Duration.parse(splitTime[index]), splits[index].partial)
+            assertEquals(0.seconds, splits[index].partialDifference)
+            assertEquals(1, splits[index].partialPosition)
+            assertEquals(Duration.parse(accumulatedTime[index]), splits[index].accumulated)
+            assertEquals(0.seconds, splits[index].accumulatedDifference)
+            assertEquals(1, splits[index].accumulatedPosition)
+        }
+    }
+
     /**
      * Tests for getTeamResults
      * They also test indirectly the functionality provided by the private functions calculateRelayTimes, getTeamResult and getTeamRunners
