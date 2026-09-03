@@ -37,6 +37,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.no_split
 import org.jetbrains.compose.resources.getString
@@ -68,15 +69,19 @@ class ClassResultsComponent(
     /**
      * Result Functionality
      */
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override suspend fun fetchResults(){
-        repository.getClassResults(
-            eventID = pageEvent.id,
-            stageID = stage.id,
-            classID = stageClassID,
-            stageType = stage.stageType.getStageType()
-        )
+        val result = withContext(Dispatchers.Default) {
+            repository.getClassResults(
+                eventID = pageEvent.id,
+                stageID = stage.id,
+                classID = stageClassID,
+                stageType = stage.stageType.getStageType()
+            )
+        }
+
+        result
             .onSuccess {
                 _isError.value = false
                 _results.value = it.result

@@ -22,6 +22,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -53,12 +54,16 @@ class ClubResultsComponent(
     private val scope = CoroutineScope(Dispatchers.Main)
 
     override suspend fun fetchResults(){
-        repository.getClubResults(
-            eventID = pageEvent.id,
-            stageID = stage.id,
-            clubID = stageClubID,
-            stageType = stage.stageType.getStageType()
-        )
+        val result = withContext(Dispatchers.Default) {
+            repository.getClubResults(
+                eventID = pageEvent.id,
+                stageID = stage.id,
+                clubID = stageClubID,
+                stageType = stage.stageType.getStageType()
+            )
+        }
+
+        result
             .onSuccess {
                 _isError.value = false
                 _results.value = it.result
