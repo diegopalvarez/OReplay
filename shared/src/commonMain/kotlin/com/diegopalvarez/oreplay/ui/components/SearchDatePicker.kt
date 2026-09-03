@@ -52,13 +52,13 @@ fun SearchDatePicker(
         DateRangePicker(
             state = dateRangePickerState,
             title = {
-                Text(stringResource(Res.string.datepicker))
+                Text(
+                    text = stringResource(Res.string.datepicker),
+                    modifier = Modifier
+                        .padding(16.dp),
+                )
             },
             showModeToggle = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                .padding(16.dp),
         )
     }
 }
