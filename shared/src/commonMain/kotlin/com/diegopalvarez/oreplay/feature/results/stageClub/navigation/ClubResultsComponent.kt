@@ -51,7 +51,7 @@ class ClubResultsComponent(
     /**
      * Result Functionality
      */
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     override suspend fun fetchResults(){
         val result = withContext(Dispatchers.Default) {
