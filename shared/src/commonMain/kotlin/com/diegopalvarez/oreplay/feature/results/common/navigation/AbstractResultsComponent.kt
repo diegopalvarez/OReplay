@@ -105,8 +105,8 @@ abstract class AbstractResultsComponent(
     /**
      * Variable to hold the information regarding the widest string used for Split Tables
      */
-    protected val _widestString = MutableValue<String>("")
-    val widestString: Value<String> = _widestString
+    protected val _widestString = MutableValue<Int>(0)
+    val widestString: Value<Int> = _widestString
 
     /**
     * Variable to hold the information regarding the number of legs in a Relay Race

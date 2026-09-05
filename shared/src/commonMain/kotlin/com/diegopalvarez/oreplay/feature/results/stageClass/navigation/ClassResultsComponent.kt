@@ -166,26 +166,19 @@ class ClassResultsComponent(
         if(results.value.all { it is ResultIndividual }){
             val individualResults = results.value.filterIsInstance<ResultIndividual>()      // TODO - Use this better way of casting across all the code
 
-            scope.launch {
-                val noSplit = getString(Res.string.no_split)
-
-
-                val widest = individualResults
-                    .asSequence()
-                    .flatMap { runner ->
-                        runner.stageResult
-                            ?.splits
-                            ?.asSequence()
-                            ?: emptySequence()
-                    }
-                    .map { split ->
-                        getWidestSplitText(split, noSplit)
-                    }
-                    .maxByOrNull { it.length }
-
-                if(widest != null){
-                    _widestString.value = widest
+            val widest = individualResults
+                .asSequence()
+                .flatMap { runner ->
+                    runner.stageResult
+                        ?.splits
+                        ?.asSequence()
+                        ?: emptySequence()
+                }.maxOfOrNull { split ->
+                    getWidestSplitText(split)
                 }
+
+            if(widest != null){
+                _widestString.value = widest
             }
 
         }
@@ -194,11 +187,12 @@ class ClassResultsComponent(
 
     private fun getWidestSplitText(
         control: SplitIndividual,
-        noSplit: String
-    ): String {
+    ): Int {
+        val noSplitLength = 2
+
         val candidates = buildList {
             control.partial?.let { total ->
-                add(total.display())
+                add(total.display().length)
 
                 control.partialDifference?.let { difference ->
                     add(
@@ -209,13 +203,13 @@ class ClassResultsComponent(
                             control.partialPosition?.let {
                                 append(" ($it)")
                             }
-                        }
+                        }.length
                     )
-                } ?: add(noSplit)
-            } ?: add(noSplit)
+                } ?: add(noSplitLength)
+            } ?: add(noSplitLength)
 
             control.accumulated?.let { total ->
-                add(total.display())
+                add(total.display().length)
 
                 control.accumulatedDifference?.let { difference ->
                     add(
@@ -226,13 +220,13 @@ class ClassResultsComponent(
                             control.accumulatedPosition?.let {
                                 append(" ($it)")
                             }
-                        }
+                        }.length
                     )
-                } ?: add(noSplit)
-            } ?: add(noSplit)
+                } ?: add(noSplitLength)
+            } ?: add(noSplitLength)
         }
 
-        return candidates.maxBy { it.length }
+        return candidates.max()
     }
 
     /**
