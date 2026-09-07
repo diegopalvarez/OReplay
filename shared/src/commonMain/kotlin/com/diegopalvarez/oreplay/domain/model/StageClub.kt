@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 data class StageClub(
     val id: String,
     val shortName: String,
-)
+): StageCategory

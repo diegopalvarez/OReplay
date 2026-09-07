@@ -8,4 +8,4 @@ data class StageClass(
     val shortName: String,
     val longName: String,
     //val radioControls: List<SplitRadio>
-)
+): StageCategory
