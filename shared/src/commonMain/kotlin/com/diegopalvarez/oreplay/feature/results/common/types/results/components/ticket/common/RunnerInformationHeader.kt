@@ -47,8 +47,12 @@ fun RunnerInformationHeader(
     ) {
         // Runner Class
         if (runner.runnerClass != null) {
+            // Get the corresponding StageClass from the component
+            val stageClass = component.mapResultClass(runner.runnerClass)
+
             ClassLink(
-                stageClass = runner.runnerClass,
+                stageClass = stageClass,
+                stageClassName = runner.runnerClass.shortName,
                 isClubView = isClubView,
                 goToPage = component.goToPage
             )

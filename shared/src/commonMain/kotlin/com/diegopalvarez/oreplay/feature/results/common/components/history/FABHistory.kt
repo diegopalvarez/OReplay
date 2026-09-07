@@ -89,7 +89,7 @@ fun FABHistory(
                 is StageClass -> {
                     FloatingActionButtonMenuItem(
                         onClick = {
-                            component.goToPage(item.id, item.longName, false)
+                            component.goToPage(item)
                         },
                         text = {
                             Text(item.shortName)
@@ -106,7 +106,7 @@ fun FABHistory(
                 is StageClub -> {
                     FloatingActionButtonMenuItem(
                         onClick = {
-                            component.goToPage(item.id, item.shortName, true)
+                            component.goToPage(item)
                         },
                         text = {
                             Text(item.shortName)

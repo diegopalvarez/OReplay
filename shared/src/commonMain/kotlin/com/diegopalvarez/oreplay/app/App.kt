@@ -41,8 +41,8 @@ fun App(root: RootComponent) {
                 )
             ) { child ->
                 when (val instance = child.instance) {
-                    is RootComponent.Child.ClassResultsScreen -> ClassResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClassName, instance.component)
-                    is RootComponent.Child.ClubResultsScreen -> ClubResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClubName, instance.component)
+                    is RootComponent.Child.ClassResultsScreen -> ClassResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClass.longName, instance.component)
+                    is RootComponent.Child.ClubResultsScreen -> ClubResultsScreen(instance.component.pageEvent, instance.component.stage, instance.component.stageClub.shortName, instance.component)
                     is RootComponent.Child.EventStagesScreen -> EventStagesScreen(instance.component.pageEvent, instance.component)
                     is RootComponent.Child.EventsScreen -> EventsScreen(instance.component)
                     is RootComponent.Child.StageDetailsScreen -> StageDetailsScreen(instance.component.pageEvent, instance.component.stage, instance.component)

@@ -92,10 +92,10 @@ class RootComponent(
                     StageDetailsComponent(
                         componentContext = context,
                         onNavigateToClassResultsScreen = { event, stage, stageClass, stageHistory ->
-                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass.id, stageClass.longName, stageHistory))
+                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass, stageHistory))
                         },
                         onNavigateToClubResultsScreen = { event, stage, stageClub, stageHistory ->
-                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub.id, stageClub.shortName, stageHistory))
+                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub, stageHistory))
                         },
                         onGoBack = {
                             navigation.pop()
@@ -114,18 +114,17 @@ class RootComponent(
                         componentContext = context,
                         pageEvent = config.event,
                         stage = config.stage,
-                        stageClassID = config.stageClassID,
-                        stageClassName = config.stageClassName,
+                        stageClass = config.stageClass,
                         repository = repository,
                         preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
                         },
-                        onGoToClass = { event, stage, stageClassID, stageClassName ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName, config.stageHistory))
+                        onGoToClass = { event, stage, stageClass ->
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass, config.stageHistory))
                         },
-                        onGoToClub = { event, stage, stageClubID, stageClubName ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName, config.stageHistory))
+                        onGoToClub = { event, stage, stageClub ->
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub, config.stageHistory))
                         },
                         stageHistory = config.stageHistory,
                     )
@@ -139,18 +138,17 @@ class RootComponent(
                         componentContext = context,
                         pageEvent = config.event,
                         stage = config.stage,
-                        stageClubID = config.stageClubID,
-                        stageClubName = config.stageClubName,
+                        stageClub = config.stageClub,
                         repository = repository,
                         preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
                         },
-                        onGoToClass = { event, stage, stageClassID, stageClassName ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName, config.stageHistory))
+                        onGoToClass = { event, stage, stageClass ->
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass, config.stageHistory))
                         },
-                        onGoToClub = { event, stage, stageClubID, stageClubName ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName, config.stageHistory))
+                        onGoToClub = { event, stage, stageClub ->
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub, config.stageHistory))
                         },
                         stageHistory = config.stageHistory,
                     )
@@ -193,10 +191,10 @@ class RootComponent(
         data class StageDetailsScreen(val event: Event, val stage: Stage): Configuration()
 
         @Serializable
-        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClassID: String, val stageClassName: String, val stageHistory: ResultHistory): Configuration()
+        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClass: StageClass, val stageHistory: ResultHistory): Configuration()
 
         @Serializable
-        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClubID: String, val stageClubName: String, val stageHistory: ResultHistory): Configuration()
+        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClub: StageClub, val stageHistory: ResultHistory): Configuration()
     }
 
     // Function to go back in the navigation stack

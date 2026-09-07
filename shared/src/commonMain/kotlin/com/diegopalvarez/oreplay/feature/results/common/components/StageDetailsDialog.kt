@@ -97,14 +97,12 @@ fun StageDetailsDialog(
                         ){
                             DialogListItem(
                                 displayName = it.shortName,
-                                id = it.id,
-                                navigationName = it.longName,
-                                onClick = { id, name, isClub ->
+                                item = it,
+                                onClick = { item ->
                                     onDismissRequest()
-                                    component.goToPage(id, name, isClub)
+                                    component.goToPage(item)
                                 },
-                                isClub = false,
-                                isSelected = (it.id == component.stageClassID)
+                                isSelected = (it.id == component.stageClass.id)
                             )
                         }
                     }
@@ -117,14 +115,12 @@ fun StageDetailsDialog(
                         ){
                             DialogListItem(
                                 displayName = it.shortName,
-                                id = it.id,
-                                navigationName = it.shortName,
-                                onClick = { id, name, isClub ->
+                                item = it,
+                                onClick = { item ->
                                     onDismissRequest()
-                                    component.goToPage(id, name, isClub)
+                                    component.goToPage(item)
                                 },
-                                isClub = true,
-                                isSelected = (it.id == component.stageClubID)
+                                isSelected = (it.id == component.stageClub.id)
                             )
                         }
                     }

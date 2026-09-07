@@ -4,7 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.model.ResultClass
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.model.StageCategory
+import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.types.StageType
 
 class ResultsComponent(
@@ -15,7 +18,8 @@ class ResultsComponent(
     private val stageType: StageType,
     private val isClubView: Boolean,
     private val isStageLive: Value<Boolean>,
-    goToPage: (String, String, Boolean) -> Unit
+    goToPage: (StageCategory) -> Unit,
+    mapResultClass: (ResultClass) -> StageClass?,
 ): CommonResultComponent(
     componentContext = componentContext,
     results = regularResults,
@@ -24,7 +28,8 @@ class ResultsComponent(
     stageType = stageType,
     isClubView = isClubView,
     isLive = isStageLive,
-    goToPage = goToPage
+    goToPage = goToPage,
+    mapResultClass = mapResultClass
 ) {
 
 }

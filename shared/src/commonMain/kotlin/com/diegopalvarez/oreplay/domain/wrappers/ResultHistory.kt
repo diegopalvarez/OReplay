@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.domain.wrappers
 
+import com.diegopalvarez.oreplay.domain.model.ResultClass
 import com.diegopalvarez.oreplay.domain.model.StageCategory
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
@@ -37,4 +38,9 @@ class ResultHistory(
 
     // Function to get the history
     fun getHistory(): List<StageCategory> = history.toList()
+
+    // Function to get the corresponding StageClass to a ResultClass
+    fun getClass(resultClass: ResultClass): StageClass? {
+        return classList.firstOrNull { it.id == resultClass.id }
+    }
 }

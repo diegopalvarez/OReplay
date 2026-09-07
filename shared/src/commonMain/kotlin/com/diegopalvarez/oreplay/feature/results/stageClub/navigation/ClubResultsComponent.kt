@@ -31,13 +31,12 @@ class ClubResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
-    val stageClubID: String,
-    val stageClubName: String,
+    val stageClub: StageClub,
     private val repository: ClubResultsRepository,
     private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit,
-    private val onGoToClass: (Event, Stage, String, String) -> Unit,
-    private val onGoToClub: (Event, Stage, String, String) -> Unit,
+    onGoToClass: (Event, Stage, StageClass) -> Unit,
+    onGoToClub: (Event, Stage, StageClub) -> Unit,
 
     // Stage History
     stageHistory: ResultHistory,
@@ -49,6 +48,9 @@ class ClubResultsComponent(
     isClubResults = true,
     preferencesManager = preferences,
     stageHistory = stageHistory,
+    onGoToClass = onGoToClass,
+    onGoToClub = onGoToClub,
+
 ) {
     /**
      * Result Functionality
@@ -60,7 +62,7 @@ class ClubResultsComponent(
             repository.getClubResults(
                 eventID = pageEvent.id,
                 stageID = stage.id,
-                clubID = stageClubID,
+                clubID = stageClub.id,
                 stageType = stage.stageType.getStageType()
             )
         }
@@ -133,15 +135,8 @@ class ClubResultsComponent(
         }
     }
 
-    /**
-     * Function to go directly to a class
-     */
-    override fun goToPage(id: String, name: String, isClub: Boolean) {
-        if(isClub){
-            onGoToClub(pageEvent, stage, id, name)
-        }
-        else{
-            onGoToClass(pageEvent, stage, id, name)
-        }
+    // Function to update the history when navigating away
+    override fun updateStageHistory() {
+        stageHistory.push(stageClub)
     }
 }
