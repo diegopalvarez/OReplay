@@ -1,4 +1,6 @@
 package com.diegopalvarez.oreplay.domain.model
 
-interface StageCategory {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed interface StageCategory
