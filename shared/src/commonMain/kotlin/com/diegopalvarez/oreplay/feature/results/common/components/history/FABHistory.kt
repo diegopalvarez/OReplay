@@ -86,8 +86,26 @@ fun FABHistory(
             }
         }
     ) {
+        // Add the item to show the whole dialog
+        FloatingActionButtonMenuItem(
+            onClick = {
+                onOpenDialog()
+            },
+            text = {
+                Text(stringResource(Res.string.see_more))
+            },
+            icon = {
+                // Show the icon to select a different class or club
+                Icon(
+                    painter = painterResource(Res.drawable.add),
+                    contentDescription = stringResource(Res.string.add_icon),
+                )
+            },
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        )
+
         // Content of the menu
-        items.forEach { item ->
+        items.reversed().forEach { item ->
             when (item) {
                 is StageClass -> {
                     FloatingActionButtonMenuItem(
@@ -126,23 +144,5 @@ fun FABHistory(
             }
 
         }
-
-        // Add the item to show the whole dialog
-        FloatingActionButtonMenuItem(
-            onClick = {
-                onOpenDialog()
-            },
-            text = {
-                Text(stringResource(Res.string.see_more))
-            },
-            icon = {
-                // Show the icon to select a different class or club
-                Icon(
-                    painter = painterResource(Res.drawable.add),
-                    contentDescription = stringResource(Res.string.add_icon),
-                )
-            },
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
-        )
     }
 }
