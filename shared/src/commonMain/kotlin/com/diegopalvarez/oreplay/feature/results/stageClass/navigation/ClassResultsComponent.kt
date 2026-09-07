@@ -26,6 +26,7 @@ import com.diegopalvarez.oreplay.domain.repository.type.RelayRepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
@@ -56,8 +57,8 @@ class ClassResultsComponent(
     private val onGoToClass: (Event, Stage, String, String) -> Unit,
     private val onGoToClub: (Event, Stage, String, String) -> Unit,
 
-    // List of classes for the dialog picker
-    val stageClasses: List<StageClass>,
+    // Stage History
+    val stageHistory: ResultHistory,
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,

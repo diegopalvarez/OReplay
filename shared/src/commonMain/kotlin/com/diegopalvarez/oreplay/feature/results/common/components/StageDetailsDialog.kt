@@ -85,7 +85,7 @@ fun StageDetailsDialog(
                 when(component){
                     is ClassResultsComponent -> {
                         items(
-                            items = component.stageClasses,
+                            items = component.stageHistory.classList,
                             span = { item ->
                                 if(item.shortName.length > 8){
                                     GridItemSpan(maxLineSpan)
@@ -110,7 +110,7 @@ fun StageDetailsDialog(
                     }
                     is ClubResultsComponent -> {
                         items(
-                            items = component.stageClubs,
+                            items = component.stageHistory.clubList,
                             span = {
                                 GridItemSpan(maxLineSpan)
                             }
