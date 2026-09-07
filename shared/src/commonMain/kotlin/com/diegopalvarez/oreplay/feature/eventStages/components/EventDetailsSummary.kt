@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -38,14 +41,13 @@ fun EventDetailsSummary(
     Card(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()
-            .aspectRatio(2f),
+            .fillMaxWidth(),
+            //.aspectRatio(2f),
     ) {
         Column(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start,
         ) {
             // Event Description at the top of the card
@@ -54,51 +56,56 @@ fun EventDetailsSummary(
                 style = MaterialTheme.typography.titleLarge,
             )
 
+            // Add a spacer so that the rest of the items are shown at the bottom of the card
+            Spacer(
+                modifier = Modifier
+                    .height(16.dp)
+            )
+
             // Rest of the information at the bottom
-            Column{
-                // Event Organizer
-                IconRow(
-                    text = event.organizer.name,
-                    style = MaterialTheme.typography.bodyLarge,
-                    icon = Res.drawable.person,
-                    iconDescription = Res.string.event_organizer
-                )
 
-                // Event Dates
-                IconRow(
-                    text =  if(event.initialDate != event.finalDate){
-                        "${event.initialDate.display()} - ${event.finalDate.display()}"
+            // Event Organizer
+            IconRow(
+                text = event.organizer.name,
+                style = MaterialTheme.typography.bodyLarge,
+                icon = Res.drawable.person,
+                iconDescription = Res.string.event_organizer
+            )
+
+            // Event Dates
+            IconRow(
+                text =  if(event.initialDate != event.finalDate){
+                    "${event.initialDate.display()} - ${event.finalDate.display()}"
+                }
+                else{
+                    event.initialDate.display()
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                icon = Res.drawable.event,
+                iconDescription = Res.string.event_date
+            )
+
+            // Event Website Link
+            if(event.website != null){
+                // Create the URI handler to open links
+                val localURIHandler = LocalUriHandler.current
+
+                Button(
+                    onClick = {
+                        localURIHandler.openUri(event.website)
                     }
-                    else{
-                        event.initialDate.display()
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                    icon = Res.drawable.event,
-                    iconDescription = Res.string.event_date
-                )
-
-                // Event Website Link
-                if(event.website != null){
-                    // Create the URI handler to open links
-                    val localURIHandler = LocalUriHandler.current
-
-                    Button(
-                        onClick = {
-                            localURIHandler.openUri(event.website)
-                        }
-                    ){
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = stringResource(Res.string.open_website),
-                            )
-                            Icon(
-                                painter = painterResource(Res.drawable.open),
-                                contentDescription = stringResource(Res.string.open_website),
-                            )
-                        }
+                ){
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.open_website),
+                        )
+                        Icon(
+                            painter = painterResource(Res.drawable.open),
+                            contentDescription = stringResource(Res.string.open_website),
+                        )
                     }
                 }
             }

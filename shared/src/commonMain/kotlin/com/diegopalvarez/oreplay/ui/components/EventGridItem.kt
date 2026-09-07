@@ -3,9 +3,9 @@ package com.diegopalvarez.oreplay.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
@@ -31,18 +31,17 @@ import org.jetbrains.compose.resources.stringResource
 fun EventGridItem(
     event: Event,
     onEventClick: (Event) -> Unit,
+    modifier: Modifier = Modifier,
 ){
     Card(
-        modifier = Modifier
-            .fillMaxHeight()
-            .aspectRatio(1.15f),
+        modifier = modifier,
         onClick = {
             onEventClick(event)
         }
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(16.dp)
         ){
             // Event Name
@@ -52,51 +51,52 @@ fun EventGridItem(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Column(
+            // Add a spacer to push the items to the bottom of the card
+            Spacer(
                 modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                // Event Organizer
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ){
-                    Icon(
-                        painter = painterResource(Res.drawable.person),
-                        contentDescription = stringResource(Res.string.event_organizer),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        style = MaterialTheme.typography.bodyMedium,
-                        text =  event.organizer.name,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                    .heightIn(min = 8.dp)
+                    .weight(1f)
+            )
 
-                // Event Dates
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ){
-                    Icon(
-                        painter = painterResource(Res.drawable.event),
-                        contentDescription = stringResource(Res.string.event_date),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        style = MaterialTheme.typography.labelMediumEmphasized,
-                        text =  if(event.initialDate != event.finalDate){
-                            "${event.initialDate.display()} - ${event.finalDate.display()}"
-                        }
-                        else{
-                            event.initialDate.display()
-                        },
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+            // Event Organizer
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ){
+                Icon(
+                    painter = painterResource(Res.drawable.person),
+                    contentDescription = stringResource(Res.string.event_organizer),
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    style = MaterialTheme.typography.bodyMedium,
+                    text =  event.organizer.name,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            // Event Dates
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ){
+                Icon(
+                    painter = painterResource(Res.drawable.event),
+                    contentDescription = stringResource(Res.string.event_date),
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    style = MaterialTheme.typography.labelMediumEmphasized,
+                    text =  if(event.initialDate != event.finalDate){
+                        "${event.initialDate.display()} - ${event.finalDate.display()}"
+                    }
+                    else{
+                        event.initialDate.display()
+                    },
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }

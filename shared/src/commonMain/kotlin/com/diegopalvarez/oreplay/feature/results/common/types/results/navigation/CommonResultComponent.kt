@@ -36,7 +36,7 @@ abstract class CommonResultComponent(
     val goToPage: (String, String, Boolean) -> Unit,
 ): ComponentContext by componentContext {
     // Create a coroutine scope
-    val scope = CoroutineScope(Dispatchers.Main)
+    val scope = CoroutineScope(Dispatchers.Default)
 
     // Function to get the stage type
     fun getStageType(): StageType {

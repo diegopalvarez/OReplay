@@ -18,7 +18,7 @@ import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResul
 class SplitsComponent(
     componentContext: ComponentContext,
     val results: Value<List<Result>>,
-    val widestString: Value<String>,
+    val widestString: Value<Int>,
 ): ComponentContext by componentContext {
     /**
      * Expose the already sorted results

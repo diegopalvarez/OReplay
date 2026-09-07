@@ -10,13 +10,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlin.collections.get
 
 class LanguageManager(
     private val dataStore: DataStore<Preferences>
 ) {
     // Call Coroutine Scope
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     private val languageCodeKey = stringPreferencesKey("languageCode")
 
@@ -25,7 +24,7 @@ class LanguageManager(
         .map { prefs -> prefs[languageCodeKey] }
         .stateIn(
             scope,
-            SharingStarted.WhileSubscribed(5000L),
+            SharingStarted.Eagerly,
             getDefaultLocale()
         )
 
@@ -35,9 +34,5 @@ class LanguageManager(
                 mutablePrefs[languageCodeKey] = languageCode
             }
         }
-
-        // TODO - Check if this is actually needed since it doesn't solve the Date Picker language problem
-        // Also set the actual application locale to the new language
-        setApplicationLocale(languageCode)
     }
 }

@@ -21,11 +21,11 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberCellWidth(
-    widestText: String,
+    widestText: Int,
 ): Dp {
 
     // If the widestString is empty, return the default size
-    if(widestText.isEmpty()){
+    if(widestText == 0){
         return 116.dp
     }
 
@@ -40,15 +40,23 @@ fun rememberCellWidth(
         fontWeight = FontWeight.Bold,
     )
 
-    // Measure the widest string
+    // Measure a string of as many 0 as the length of the widest string
+    val string = "0".repeat(widestText)
     val widthPx = textMeasurer.measure(
-        text = AnnotatedString(widestText),
+        text = AnnotatedString(string),
         style = headerStyle,
     ).size.width
 
 
     // Convert the pixels to Dp and add padding
-    return with(density){
-        widthPx.toDp()
-    } + 16.dp   // 8.dp of padding in each side
+    val size =  with(density){
+                    widthPx.toDp()
+                } + 16.dp   // 8.dp of padding in each side
+
+    return  if(size > 116.dp){
+                size
+            }
+            else{
+                116.dp
+            }
 }
