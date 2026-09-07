@@ -150,4 +150,6 @@
     <string name="november">November</string>
     <string name="december">December</string>
     <string name="date_full">%1$s, %2$s %3$d, %4$d at %5$s</string>
+    <string name="see_more">See more</string>
+    <string name="add_icon">Add</string>
 </resources>

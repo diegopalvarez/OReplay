@@ -19,6 +19,8 @@ import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import oreplay.shared.generated.resources.Res
+import oreplay.shared.generated.resources.add
+import oreplay.shared.generated.resources.add_icon
 import oreplay.shared.generated.resources.category
 import oreplay.shared.generated.resources.change
 import oreplay.shared.generated.resources.change_icon
@@ -27,6 +29,7 @@ import oreplay.shared.generated.resources.close
 import oreplay.shared.generated.resources.close_icon
 import oreplay.shared.generated.resources.club
 import oreplay.shared.generated.resources.club_icon
+import oreplay.shared.generated.resources.see_more
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -130,13 +133,13 @@ fun FABHistory(
                 onOpenDialog()
             },
             text = {
-                Text("See more")
+                Text(stringResource(Res.string.see_more))
             },
             icon = {
                 // Show the icon to select a different class or club
                 Icon(
-                    painter = painterResource(Res.drawable.change),
-                    contentDescription = stringResource(Res.string.change_icon),
+                    painter = painterResource(Res.drawable.add),
+                    contentDescription = stringResource(Res.string.add_icon),
                 )
             },
             containerColor = MaterialTheme.colorScheme.secondaryContainer
