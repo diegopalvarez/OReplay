@@ -25,6 +25,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.feature.results.common.components.history.FABHistory
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
@@ -111,8 +112,9 @@ fun ResultsScaffold(
         bottomBar = { ResultsNavBar(component) },
         snackbarHost = { CombinedSnackbarHost(snackbarHostState, isError.value) },
         floatingActionButton = {
-            ChangeClassClubButton(
-                onClick = {
+            FABHistory(
+                component = component,
+                onOpenDialog = {
                     openChangeDialog.value = true
                 }
             )

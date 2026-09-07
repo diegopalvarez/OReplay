@@ -23,6 +23,7 @@ import kotlin.time.Clock
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.types.StageType
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent.ResultsTabChild.*
 import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
@@ -45,7 +46,10 @@ abstract class AbstractResultsComponent(
     private val isClubResults: Boolean,
 
     // Preferences manager
-    val preferencesManager: PreferencesManager
+    val preferencesManager: PreferencesManager,
+
+    // Stage History
+    val stageHistory: ResultHistory
 ): ComponentContext by componentContext {
     /**
      * Repository Connection

@@ -40,14 +40,15 @@ class ClubResultsComponent(
     private val onGoToClub: (Event, Stage, String, String) -> Unit,
 
     // Stage History
-    val stageHistory: ResultHistory,
+    stageHistory: ResultHistory,
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
     event = pageEvent,
     stage = stage,
     isClubResults = true,
-    preferencesManager = preferences
+    preferencesManager = preferences,
+    stageHistory = stageHistory,
 ) {
     /**
      * Result Functionality
