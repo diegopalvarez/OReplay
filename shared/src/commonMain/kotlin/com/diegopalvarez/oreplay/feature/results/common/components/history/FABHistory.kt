@@ -1,5 +1,9 @@
 package com.diegopalvarez.oreplay.feature.results.common.components.history
 
+import androidx.compose.foundation.layout.absolutePadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonMenu
@@ -14,6 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
@@ -48,6 +54,8 @@ fun FABHistory(
 
     // Create the FAB menu
     FloatingActionButtonMenu(
+        modifier = Modifier
+            .offset(x = 16.dp, y = 16.dp),        // TODO - Find a better way to space the FAB Menu
         expanded = expanded,
         button = {
             // Create the actual FAB that displays when closed
