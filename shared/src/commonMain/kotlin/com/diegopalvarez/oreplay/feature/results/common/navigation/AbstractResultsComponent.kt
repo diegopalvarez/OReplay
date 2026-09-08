@@ -21,8 +21,12 @@ import com.diegopalvarez.oreplay.feature.results.common.types.startTimes.StartTi
 import com.diegopalvarez.oreplay.feature.results.common.types.statistics.StatisticsComponent
 import kotlin.time.Clock
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.model.StageCategory
+import com.diegopalvarez.oreplay.domain.model.StageClass
+import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.types.StageType
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent.ResultsTabChild.*
 import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
@@ -45,7 +49,14 @@ abstract class AbstractResultsComponent(
     private val isClubResults: Boolean,
 
     // Preferences manager
-    val preferencesManager: PreferencesManager
+    val preferencesManager: PreferencesManager,
+
+    // Stage History
+    val stageHistory: ResultHistory,
+
+    // Navigation functions
+    private val onGoToClass: (Event, Stage, StageClass) -> Unit,
+    private val onGoToClub: (Event, Stage, StageClub) -> Unit,
 ): ComponentContext by componentContext {
     /**
      * Repository Connection
@@ -91,9 +102,30 @@ abstract class AbstractResultsComponent(
     abstract fun reloadResults()
 
     /**
-     * Abstract function to go to a page using direct links
+     * Abstract function that allows the components to add their current category to the history before navigating
      */
-    abstract fun goToPage(id: String, name: String, isClub: Boolean)
+    abstract fun updateStageHistory()
+
+    /**
+     * Function to go to a page using direct links
+     */
+    fun goToPage(page: StageCategory){
+        // Add the CURRENT class or club to the history before navigating
+        updateStageHistory()
+
+        when(page){
+            is StageClass -> onGoToClass(
+                event,
+                stage,
+                page
+            )
+            is StageClub -> onGoToClub(
+                event,
+                stage,
+                page
+            )
+        }
+    }
 
 
     /**
@@ -183,7 +215,8 @@ abstract class AbstractResultsComponent(
                             isClubView = isClubResults,
                             isStageLive = isLive,
                             visitedStatsMap = visitedScoreControls,
-                            goToPage = ::goToPage
+                            goToPage = ::goToPage,
+                            mapResultClass = stageHistory::getClass
                         )
                     )
                 }
@@ -197,7 +230,8 @@ abstract class AbstractResultsComponent(
                             stageType = stage.stageType.getStageType(),
                             isClubView = isClubResults,
                             isStageLive = isLive,
-                            goToPage = ::goToPage
+                            goToPage = ::goToPage,
+                            mapResultClass = stageHistory::getClass
                         )
                     )
                 }

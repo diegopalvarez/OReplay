@@ -1,9 +1,7 @@
 package com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.relay
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -20,10 +18,8 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation
 import com.diegopalvarez.oreplay.ui.components.TextFieldWithName
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.leg
-import oreplay.shared.generated.resources.legs_title
 import oreplay.shared.generated.resources.no_class
 import oreplay.shared.generated.resources.no_club
-import oreplay.shared.generated.resources.position
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -57,8 +53,12 @@ fun TeamInformationHeader(
     ) {
         // Team Class
         if (team.teamClass != null) {
+            // Get the corresponding StageClass from the component
+            val stageClass = component.mapResultClass(team.teamClass)
+
             ClassLink(
-                stageClass = team.teamClass,
+                stageClass = stageClass,
+                stageClassName = team.teamClass.shortName,
                 isClubView = isClubView,
                 goToPage = component.goToPage
             )

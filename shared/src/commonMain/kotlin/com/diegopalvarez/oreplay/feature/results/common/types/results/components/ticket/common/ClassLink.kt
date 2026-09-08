@@ -6,29 +6,42 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.diegopalvarez.oreplay.domain.model.ResultClass
+import com.diegopalvarez.oreplay.domain.model.StageCategory
+import com.diegopalvarez.oreplay.domain.model.StageClass
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ClassLink(
-    stageClass: ResultClass,
+    stageClass: StageClass?,
+    stageClassName: String,
     isClubView: Boolean,
-    goToPage: (String, String, Boolean) -> Unit,
+    goToPage: (StageCategory) -> Unit,
 ){
     if(isClubView){
-        TextButton(
-            onClick = {
-                goToPage(stageClass.id, stageClass.longName, false)
-            }
-        ){
+        if(stageClass == null){
+            // Show only the text
             Text(
-                text = stageClass.shortName,
+                text = stageClassName,
                 style = MaterialTheme.typography.titleMedium,
             )
+        }
+        else{
+            // Show a button link
+            TextButton(
+                onClick = {
+                    goToPage(stageClass)
+                }
+            ){
+                Text(
+                    text = stageClass.shortName,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
         }
     }
     else{
         Text(
-            text = stageClass.shortName,
+            text = stageClassName,
             style = MaterialTheme.typography.titleMedium,
         )
     }

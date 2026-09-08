@@ -13,6 +13,7 @@ import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsEvent
@@ -30,23 +31,26 @@ class ClubResultsComponent(
     componentContext: ComponentContext,
     val pageEvent: Event,
     val stage: Stage,
-    val stageClubID: String,
-    val stageClubName: String,
+    val stageClub: StageClub,
     private val repository: ClubResultsRepository,
     private val preferences: PreferencesManager,
     private val onGoBack: () -> Unit,
-    private val onGoToClass: (Event, Stage, String, String) -> Unit,
-    private val onGoToClub: (Event, Stage, String, String) -> Unit,
+    onGoToClass: (Event, Stage, StageClass) -> Unit,
+    onGoToClub: (Event, Stage, StageClub) -> Unit,
 
-    // List of clubs for the dialog picker
-    val stageClubs: List<StageClub>
+    // Stage History
+    stageHistory: ResultHistory,
 ): AbstractResultsComponent(
     componentContext = componentContext,
     onGoBack = onGoBack,
     event = pageEvent,
     stage = stage,
     isClubResults = true,
-    preferencesManager = preferences
+    preferencesManager = preferences,
+    stageHistory = stageHistory,
+    onGoToClass = onGoToClass,
+    onGoToClub = onGoToClub,
+
 ) {
     /**
      * Result Functionality
@@ -58,7 +62,7 @@ class ClubResultsComponent(
             repository.getClubResults(
                 eventID = pageEvent.id,
                 stageID = stage.id,
-                clubID = stageClubID,
+                clubID = stageClub.id,
                 stageType = stage.stageType.getStageType()
             )
         }
@@ -126,20 +130,16 @@ class ClubResultsComponent(
     fun onEvent(event: ClubResultsEvent) {
         when(event) {
             ClubResultsEvent.GoBack -> {
+                // Add the current screen to the history
+                updateStageHistory()
+
                 onGoBack()
             }
         }
     }
 
-    /**
-     * Function to go directly to a class
-     */
-    override fun goToPage(id: String, name: String, isClub: Boolean) {
-        if(isClub){
-            onGoToClub(pageEvent, stage, id, name)
-        }
-        else{
-            onGoToClass(pageEvent, stage, id, name)
-        }
+    // Function to update the history when navigating away
+    override fun updateStageHistory() {
+        stageHistory.push(stageClub)
     }
 }

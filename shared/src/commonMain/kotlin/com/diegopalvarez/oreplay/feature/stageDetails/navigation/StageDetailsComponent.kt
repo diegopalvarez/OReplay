@@ -19,6 +19,7 @@ import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.stageDetails.common.SearchResultWrapper
 import com.diegopalvarez.oreplay.feature.stageDetails.screens.classes.StageClassesComponent
 import com.diegopalvarez.oreplay.feature.stageDetails.screens.clubs.StageClubsComponent
@@ -41,8 +42,8 @@ class StageDetailsComponent(
     val stage: Stage,
     val pageEvent: Event,
     private val repository: StageRepository,
-    private val onNavigateToClassResultsScreen: (Event, Stage, StageClass, List<StageClass>, List<StageClub>) -> Unit,
-    private val onNavigateToClubResultsScreen: (Event, Stage, StageClub, List<StageClass>, List<StageClub>) -> Unit,
+    private val onNavigateToClassResultsScreen: (Event, Stage, StageClass, ResultHistory) -> Unit,
+    private val onNavigateToClubResultsScreen: (Event, Stage, StageClub, ResultHistory) -> Unit,
     private val onGoBack: () -> Unit
 ): ComponentContext by componentContext {
 
@@ -71,11 +72,23 @@ class StageDetailsComponent(
         _clubList.value = list
     }
 
+    /**
+     * History object to preserve the history even when changing through this screen
+     */
+    val history = ResultHistory(
+        classList = _classList.value,
+        clubList = _clubList.value,
+    )
+
     // Event Handler Function
     fun onEvent(event: StageDetailsEvent) {
         when (event) {
-            is StageDetailsEvent.ClickClass -> onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass, classList.value, clubList.value)
-            is StageDetailsEvent.ClickClub -> onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub, classList.value, clubList.value)
+            is StageDetailsEvent.ClickClass -> {
+                onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass, history)
+            }
+            is StageDetailsEvent.ClickClub -> {
+                onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub, history)
+            }
             StageDetailsEvent.GoBack -> onGoBack()
         }
     }
@@ -120,11 +133,17 @@ class StageDetailsComponent(
     // Callback Function to add Classes
      fun addClasses(classList: List<StageClass>){
         _classList.value = classList
+
+        // Keep the classes in the history updated
+        history.updateClassList(classList)
     }
 
     // Callback Function to add Clubs
      fun addClubs(clubList: List<StageClub>){
         _clubList.value = clubList
+
+        // Keep the classes in the history updated
+        history.updateClubList(clubList)
     }
 
     // Private functions for each of the searches

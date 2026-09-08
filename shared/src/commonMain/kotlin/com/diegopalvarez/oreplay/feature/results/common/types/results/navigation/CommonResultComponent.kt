@@ -5,9 +5,12 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
+import com.diegopalvarez.oreplay.domain.model.ResultClass
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.model.StageCategory
+import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +36,8 @@ abstract class CommonResultComponent(
     private val stageType: StageType,
     private val isClubView: Boolean,
     val isLive: Value<Boolean>,
-    val goToPage: (String, String, Boolean) -> Unit,
+    val goToPage: (StageCategory) -> Unit,
+    val mapResultClass: (ResultClass) -> StageClass?,
 ): ComponentContext by componentContext {
     // Create a coroutine scope
     val scope = CoroutineScope(Dispatchers.Default)

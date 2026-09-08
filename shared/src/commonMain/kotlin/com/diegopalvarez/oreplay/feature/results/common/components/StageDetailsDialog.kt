@@ -85,7 +85,7 @@ fun StageDetailsDialog(
                 when(component){
                     is ClassResultsComponent -> {
                         items(
-                            items = component.stageClasses,
+                            items = component.stageHistory.classList,
                             span = { item ->
                                 if(item.shortName.length > 8){
                                     GridItemSpan(maxLineSpan)
@@ -97,34 +97,30 @@ fun StageDetailsDialog(
                         ){
                             DialogListItem(
                                 displayName = it.shortName,
-                                id = it.id,
-                                navigationName = it.longName,
-                                onClick = { id, name, isClub ->
+                                item = it,
+                                onClick = { item ->
                                     onDismissRequest()
-                                    component.goToPage(id, name, isClub)
+                                    component.goToPage(item)
                                 },
-                                isClub = false,
-                                isSelected = (it.id == component.stageClassID)
+                                isSelected = (it.id == component.stageClass.id)
                             )
                         }
                     }
                     is ClubResultsComponent -> {
                         items(
-                            items = component.stageClubs,
+                            items = component.stageHistory.clubList,
                             span = {
                                 GridItemSpan(maxLineSpan)
                             }
                         ){
                             DialogListItem(
                                 displayName = it.shortName,
-                                id = it.id,
-                                navigationName = it.shortName,
-                                onClick = { id, name, isClub ->
+                                item = it,
+                                onClick = { item ->
                                     onDismissRequest()
-                                    component.goToPage(id, name, isClub)
+                                    component.goToPage(item)
                                 },
-                                isClub = true,
-                                isSelected = (it.id == component.stageClubID)
+                                isSelected = (it.id == component.stageClub.id)
                             )
                         }
                     }

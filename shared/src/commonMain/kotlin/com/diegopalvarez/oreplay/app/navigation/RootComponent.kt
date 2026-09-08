@@ -16,6 +16,7 @@ import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.ClubResultsRepository
 import com.diegopalvarez.oreplay.domain.repository.EventRepository
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesComponent
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
@@ -90,11 +91,11 @@ class RootComponent(
                 Child.StageDetailsScreen(
                     StageDetailsComponent(
                         componentContext = context,
-                        onNavigateToClassResultsScreen = { event, stage, stageClass, stageClassesList, stageClubsList ->
-                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass.id, stageClass.longName, stageClassesList, stageClubsList))
+                        onNavigateToClassResultsScreen = { event, stage, stageClass, stageHistory ->
+                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass, stageHistory))
                         },
-                        onNavigateToClubResultsScreen = { event, stage, stageClub, stageClassesList, stageClubsList ->
-                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub.id, stageClub.shortName, stageClassesList, stageClubsList))
+                        onNavigateToClubResultsScreen = { event, stage, stageClub, stageHistory ->
+                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub, stageHistory))
                         },
                         onGoBack = {
                             navigation.pop()
@@ -113,20 +114,19 @@ class RootComponent(
                         componentContext = context,
                         pageEvent = config.event,
                         stage = config.stage,
-                        stageClassID = config.stageClassID,
-                        stageClassName = config.stageClassName,
+                        stageClass = config.stageClass,
                         repository = repository,
                         preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
                         },
-                        onGoToClass = { event, stage, stageClassID, stageClassName ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName, config.stageClasses, config.stageClubs))
+                        onGoToClass = { event, stage, stageClass ->
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass, config.stageHistory))
                         },
-                        onGoToClub = { event, stage, stageClubID, stageClubName ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName, config.stageClasses, config.stageClubs))
+                        onGoToClub = { event, stage, stageClub ->
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub, config.stageHistory))
                         },
-                        stageClasses = config.stageClasses,
+                        stageHistory = config.stageHistory,
                     )
                 )
             }
@@ -138,20 +138,19 @@ class RootComponent(
                         componentContext = context,
                         pageEvent = config.event,
                         stage = config.stage,
-                        stageClubID = config.stageClubID,
-                        stageClubName = config.stageClubName,
+                        stageClub = config.stageClub,
                         repository = repository,
                         preferences = preferencesManager,
                         onGoBack = {
                             navigation.pop()
                         },
-                        onGoToClass = { event, stage, stageClassID, stageClassName ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClassID, stageClassName, config.stageClasses, config.stageClubs))
+                        onGoToClass = { event, stage, stageClass ->
+                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass, config.stageHistory))
                         },
-                        onGoToClub = { event, stage, stageClubID, stageClubName ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClubID, stageClubName, config.stageClasses, config.stageClubs))
+                        onGoToClub = { event, stage, stageClub ->
+                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub, config.stageHistory))
                         },
-                        stageClubs = config.stageClubs
+                        stageHistory = config.stageHistory,
                     )
                 )
             }
@@ -192,10 +191,10 @@ class RootComponent(
         data class StageDetailsScreen(val event: Event, val stage: Stage): Configuration()
 
         @Serializable
-        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClassID: String, val stageClassName: String, val stageClasses: List<StageClass>, val stageClubs: List<StageClub>): Configuration()
+        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClass: StageClass, val stageHistory: ResultHistory): Configuration()
 
         @Serializable
-        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClubID: String, val stageClubName: String, val stageClasses: List<StageClass>, val stageClubs: List<StageClub>): Configuration()
+        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClub: StageClub, val stageHistory: ResultHistory): Configuration()
     }
 
     // Function to go back in the navigation stack

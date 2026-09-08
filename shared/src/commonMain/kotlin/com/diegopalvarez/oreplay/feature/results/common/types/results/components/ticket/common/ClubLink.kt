@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import com.diegopalvarez.oreplay.domain.model.StageCategory
 import com.diegopalvarez.oreplay.domain.model.StageClub
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -12,12 +13,12 @@ import com.diegopalvarez.oreplay.domain.model.StageClub
 fun ClubLink(
     stageClub: StageClub,
     isClubView: Boolean,
-    goToPage: (String, String, Boolean) -> Unit,
+    goToPage: (StageCategory) -> Unit,
 ){
     if(!isClubView){
         TextButton(
             onClick = {
-                goToPage(stageClub.id, stageClub.shortName, true)
+                goToPage(stageClub)
             }
         ){
             Text(

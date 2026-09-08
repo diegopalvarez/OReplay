@@ -15,15 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.domain.model.StageCategory
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DialogListItem(
     displayName: String,
-    id: String,
-    navigationName: String,
-    isClub: Boolean,
-    onClick: (id: String, name: String, isClub: Boolean) -> Unit,
+    item: StageCategory,
+    onClick: (item: StageCategory) -> Unit,
     isSelected: Boolean,
 ) {
     // List item shapes
@@ -34,7 +33,7 @@ fun DialogListItem(
         modifier = Modifier
             .fillMaxWidth(),
         onClick = {
-            onClick(id, navigationName, isClub)
+            onClick(item)
         },
         colors = ListItemDefaults.colors(
             containerColor =    if(isSelected){
