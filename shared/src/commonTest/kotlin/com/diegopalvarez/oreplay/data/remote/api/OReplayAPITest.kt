@@ -300,8 +300,8 @@ class OReplayAPITest {
 
         // Check that the parameters are applied to the request
         assertThat(request.url.parameters["description"]).isNull()
-        assertThat(request.url.parameters["initial_date"]).isEqualTo("2025-03-11")
-        assertThat(request.url.parameters["final_date"]).isNull()
+        assertThat(request.url.parameters["initial_date:lte"]).isEqualTo("2025-03-11")
+        assertThat(request.url.parameters["final_date:gte"]).isNull()
     }
 
     @Test
@@ -317,8 +317,8 @@ class OReplayAPITest {
 
         // Check that the parameters are applied to the request
         assertThat(request.url.parameters["description"]).isNull()
-        assertThat(request.url.parameters["initial_date"]).isNull()
-        assertThat(request.url.parameters["final_date"]).isEqualTo("2025-03-11")
+        assertThat(request.url.parameters["initial_date:lte"]).isNull()
+        assertThat(request.url.parameters["final_date:gte"]).isEqualTo("2025-03-11")
 
     }
 
