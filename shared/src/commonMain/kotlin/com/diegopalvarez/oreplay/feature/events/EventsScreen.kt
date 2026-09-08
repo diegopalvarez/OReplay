@@ -187,7 +187,11 @@ fun EventsScreen(
                 searchResults = searchResults,
                 onResultClick = { event ->
                     scope.launch {
+                        // Clear the query and the Date Range Filter
                         component.clearQuery()
+                        component.setSelectedDate(Pair(null, null))
+                        dateRangePickerState.setSelection(null, null)
+
                         searchAppBarState.animateToCollapsed()
                         component.onEvent(EventScreenEvent.ClickEvent(event))
                     }

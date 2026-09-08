@@ -66,11 +66,11 @@ class OReplayAPI(
                 }
 
                 if(initialDate != null) {
-                    parameter("initial_date", initialDate.toString())  // Automatically transforms the date following the IS O8601 (YYYY-MM-DD)
+                    parameter("initial_date:lte", initialDate.toString())  // Automatically transforms the date following the IS O8601 (YYYY-MM-DD)
                 }
 
                 if(finalDate != null) {
-                    parameter("final_date", finalDate.toString())  // Automatically transforms the date following the IS O8601 (YYYY-MM-DD)
+                    parameter("final_date:gte", finalDate.toString())  // Automatically transforms the date following the IS O8601 (YYYY-MM-DD)
                 }
             }
         }

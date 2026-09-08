@@ -60,9 +60,6 @@ fun MainAppSearchResults(
     // Variable to get the type of error from the search
     val searchErrorType = component.searchErrorType.subscribeAsState()
 
-    // TODO - Searching by Date Interval doesn't seem to be supported
-    // TODO - Check if so, and remove it from the UI :(
-
     ExpandedFullScreenSearchBar(
         state = searchBarState,
         inputField = inputField
