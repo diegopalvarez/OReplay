@@ -45,7 +45,7 @@ class ClubResultsComponent(
     onGoBack = onGoBack,
     event = pageEvent,
     stage = stage,
-    isClubResults = true,
+    category = stageClub,
     preferencesManager = preferences,
     stageHistory = stageHistory,
     onGoToClass = onGoToClass,
