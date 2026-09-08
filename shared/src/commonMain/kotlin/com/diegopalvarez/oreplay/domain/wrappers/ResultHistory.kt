@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class ResultHistory(
-    val classList: List<StageClass>,
-    val clubList: List<StageClub>,
+    var classList: List<StageClass>,
+    var clubList: List<StageClub>,
 
     @Serializable(with = HistoryDequeSerializer::class)
     private val history: ArrayDeque<StageCategory> = ArrayDeque()
@@ -42,5 +42,14 @@ class ResultHistory(
     // Function to get the corresponding StageClass to a ResultClass
     fun getClass(resultClass: ResultClass): StageClass? {
         return classList.firstOrNull { it.id == resultClass.id }
+    }
+
+    // Functions to update the lists
+    fun updateClassList(list: List<StageClass>){
+        classList = list
+    }
+
+    fun updateClubList(list: List<StageClub>){
+        clubList = list
     }
 }

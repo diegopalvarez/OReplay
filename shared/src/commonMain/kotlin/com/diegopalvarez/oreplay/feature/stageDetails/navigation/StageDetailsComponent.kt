@@ -72,23 +72,21 @@ class StageDetailsComponent(
         _clubList.value = list
     }
 
+    /**
+     * History object to preserve the history even when changing through this screen
+     */
+    val history = ResultHistory(
+        classList = _classList.value,
+        clubList = _clubList.value,
+    )
+
     // Event Handler Function
     fun onEvent(event: StageDetailsEvent) {
         when (event) {
             is StageDetailsEvent.ClickClass -> {
-                // Create a new history when navigating to a new result
-                val history = ResultHistory(
-                    classList = _classList.value,
-                    clubList = _clubList.value,
-                )
                 onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass, history)
             }
             is StageDetailsEvent.ClickClub -> {
-                // Create a new history when navigating to a new result
-                val history = ResultHistory(
-                    classList = _classList.value,
-                    clubList = _clubList.value,
-                )
                 onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub, history)
             }
             StageDetailsEvent.GoBack -> onGoBack()
@@ -135,11 +133,17 @@ class StageDetailsComponent(
     // Callback Function to add Classes
      fun addClasses(classList: List<StageClass>){
         _classList.value = classList
+
+        // Keep the classes in the history updated
+        history.updateClassList(classList)
     }
 
     // Callback Function to add Clubs
      fun addClubs(clubList: List<StageClub>){
         _clubList.value = clubList
+
+        // Keep the classes in the history updated
+        history.updateClubList(clubList)
     }
 
     // Private functions for each of the searches

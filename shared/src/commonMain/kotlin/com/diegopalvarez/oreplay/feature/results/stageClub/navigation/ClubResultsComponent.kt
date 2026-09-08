@@ -130,6 +130,9 @@ class ClubResultsComponent(
     fun onEvent(event: ClubResultsEvent) {
         when(event) {
             ClubResultsEvent.GoBack -> {
+                // Add the current screen to the history
+                updateStageHistory()
+
                 onGoBack()
             }
         }

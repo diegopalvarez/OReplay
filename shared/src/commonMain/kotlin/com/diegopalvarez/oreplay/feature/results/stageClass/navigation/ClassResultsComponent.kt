@@ -156,6 +156,9 @@ class ClassResultsComponent(
     fun onEvent(event: ClassResultsEvent) {
         when(event) {
             ClassResultsEvent.GoBack -> {
+                // Add the current screen to the history
+                updateStageHistory()
+
                 onGoBack()
             }
         }
