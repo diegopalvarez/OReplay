@@ -1,6 +1,5 @@
 package com.diegopalvarez.oreplay.feature.results.common.navigation
 
-import androidx.compose.runtime.collectAsState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.children.ChildNavState.Status
 import com.arkivanov.decompose.router.pages.Pages
@@ -9,7 +8,6 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.Event
@@ -28,6 +26,7 @@ import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent.ResultsTabChild.*
+import com.diegopalvarez.oreplay.feature.results.common.navigation.categories.CategoryTabComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.points.PointsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
@@ -36,6 +35,7 @@ import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.Serializable
 
 abstract class AbstractResultsComponent(
     componentContext: ComponentContext,
@@ -45,8 +45,8 @@ abstract class AbstractResultsComponent(
     private val event: Event,
     private val stage: Stage,
 
-    // List of attributes to create the different tabs
-    private val isClubResults: Boolean,
+    // Category Selected for this view
+    private val category: StageCategory,
 
     // Preferences manager
     val preferencesManager: PreferencesManager,
@@ -174,7 +174,11 @@ abstract class AbstractResultsComponent(
     private val navigation = PagesNavigation<ResultsTabConfiguration>()
 
     // Create the initial pages based on the stage type
-    private val initialPages = initialPagesHelper(isClubResults, hasStarted, stage.stageType.getStageType())
+    val isClubResult = when(category){
+        is StageClass -> false
+        is StageClub -> true
+    }
+    private val initialPages = initialPagesHelper(isClubResult, hasStarted, stage.stageType.getStageType())
 
     // Exposed navigation
     val pages = childPages(
@@ -185,7 +189,8 @@ abstract class AbstractResultsComponent(
         },
         pageStatus = ::handlePageStatus,
         childFactory = ::createChild,
-        handleBackButton = false
+        handleBackButton = false,
+        key = "DefaultChildPages"
     )
 
     // Child Factory Function
@@ -199,7 +204,7 @@ abstract class AbstractResultsComponent(
                     componentContext = component,
                     results = results,
                     event = event,
-                    isClubView = isClubResults,
+                    isClubView = isClubResult,
                 )
             )
             ResultsTabConfiguration.Results -> {
@@ -212,7 +217,7 @@ abstract class AbstractResultsComponent(
                             event = event,
                             stage = stage,
                             stageType = stage.stageType.getStageType(),
-                            isClubView = isClubResults,
+                            isClubView = isClubResult,
                             isStageLive = isLive,
                             visitedStatsMap = visitedScoreControls,
                             goToPage = ::goToPage,
@@ -228,7 +233,7 @@ abstract class AbstractResultsComponent(
                             event = event,
                             stage = stage,
                             stageType = stage.stageType.getStageType(),
-                            isClubView = isClubResults,
+                            isClubView = isClubResult,
                             isStageLive = isLive,
                             goToPage = ::goToPage,
                             mapResultClass = stageHistory::getClass
@@ -286,6 +291,88 @@ abstract class AbstractResultsComponent(
 
     // Custom function to handle Page Status
     private fun handlePageStatus(index: Int, pages: Pages<ResultsTabConfiguration>): Status{
+        // Keeps all pages CREATED, doesn't destroy and recompose the tabs
+        return when(index){
+            pages.selectedIndex -> Status.RESUMED
+            else -> Status.CREATED
+        }
+    }
+
+    /**
+     * State to track the selected tab in the stage details dialog
+     */
+    private val dialogNavigation = PagesNavigation<CategoryTabConfiguration>()
+
+
+    // Exposed navigation
+    val dialogPages = childPages(
+        source = dialogNavigation,
+        serializer = CategoryTabConfiguration.serializer(),
+        initialPages = {
+            Pages(
+                items = listOf(
+                    CategoryTabConfiguration.ClassTab,
+                    CategoryTabConfiguration.ClubTab
+                ),
+                selectedIndex = if(isClubResult) 1 else 0
+            )
+        },
+        pageStatus = ::handleDialogPageStatus,
+        childFactory = ::createDialogChild,
+        handleBackButton = false,
+        key = "CategoryDialogChildPages"
+    )
+
+    // Sealed Configuration Class
+    @Serializable
+    sealed class CategoryTabConfiguration {
+        @Serializable
+        data object ClassTab: CategoryTabConfiguration()
+
+        @Serializable
+        data object ClubTab: CategoryTabConfiguration()
+    }
+
+    // Child Factory Function
+    private fun createDialogChild(
+        config: CategoryTabConfiguration,
+        component: ComponentContext
+    ): CategoryTabChild {
+        return when(config){
+            CategoryTabConfiguration.ClassTab -> {
+                CategoryTabChild.ClassTab(
+                    CategoryTabComponent(
+                        componentContext = component,
+                        history = stageHistory,
+                        current = category
+                    )
+                )
+            }
+            CategoryTabConfiguration.ClubTab -> {
+                CategoryTabChild.ClubTab(
+                    CategoryTabComponent(
+                        componentContext = component,
+                        history = stageHistory,
+                        current = category
+                    )
+                )
+            }
+        }
+    }
+
+    // Sealed class will all the different tabs
+    sealed class CategoryTabChild {
+        data class ClassTab(val component: CategoryTabComponent) : CategoryTabChild()
+        data class ClubTab(val component: CategoryTabComponent) : CategoryTabChild()
+    }
+
+    // Tab Picker Function
+    fun selectDialogTab(index: Int) {
+        dialogNavigation.select(index)
+    }
+
+    // Custom function to handle Page Status
+    private fun handleDialogPageStatus(index: Int, pages: Pages<CategoryTabConfiguration>): Status{
         // Keeps all pages CREATED, doesn't destroy and recompose the tabs
         return when(index){
             pages.selectedIndex -> Status.RESUMED

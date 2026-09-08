@@ -63,7 +63,7 @@ class ClassResultsComponent(
     onGoBack = onGoBack,
     event = pageEvent,
     stage = stage,
-    isClubResults = false,
+    category = stageClass,
     preferencesManager = preferences,
     stageHistory = stageHistory,
     onGoToClass = onGoToClass,

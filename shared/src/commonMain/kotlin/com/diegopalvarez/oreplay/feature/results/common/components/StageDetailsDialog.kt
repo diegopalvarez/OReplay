@@ -15,12 +15,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SecondaryTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
 import com.diegopalvarez.oreplay.feature.results.stageClub.navigation.ClubResultsComponent
@@ -34,6 +37,9 @@ fun StageDetailsDialog(
     onDismissRequest: () -> Unit,
     component: AbstractResultsComponent
 ) {
+    // Subscribe to the selected tab from the component
+    val selectedDestination = component.dialogPages.subscribeAsState()
+
     Dialog(
         onDismissRequest = { onDismissRequest() },
     ) {
@@ -47,85 +53,38 @@ fun StageDetailsDialog(
                 containerColor = MaterialTheme.colorScheme.surface,
             )
         ) {
-            // Title
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+            // Tab Row
+            SecondaryTabRow(
+                selectedTabIndex = selectedDestination.value.selectedIndex
             ) {
-                // Title
-                if(component is ClassResultsComponent) {
-                    Text(
-                        text = stringResource(Res.string.classes_title),
-                        modifier = Modifier
-                            .padding(vertical = 16.dp)
-                    )
-                }
-                else{
-                    Text(
-                        text = stringResource(Res.string.clubs_title),
-                        modifier = Modifier
-                            .padding(vertical = 16.dp)
-                    )
-                }
+                // Classes Tab
+                Tab(
+                    selected = selectedDestination.value.selectedIndex == 0,
+                    onClick = {
+                        component.selectDialogTab(0)
+                    },
+                    text = {
+                        Text(
+                            stringResource(Res.string.classes_title)
+                        )
+                    }
+                )
 
+                // Classes Tab
+                Tab(
+                    selected = selectedDestination.value.selectedIndex == 1,
+                    onClick = {
+                        component.selectDialogTab(1)
+                    },
+                    text = {
+                        Text(
+                            stringResource(Res.string.clubs_title)
+                        )
+                    }
+                )
             }
 
-            // List of items
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(bottom = 16.dp, start = 16.dp, end = 16.dp),
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // The list contents depend on the type of screen (class or club)
-                when(component){
-                    is ClassResultsComponent -> {
-                        items(
-                            items = component.stageHistory.classList,
-                            span = { item ->
-                                if(item.shortName.length > 8){
-                                    GridItemSpan(maxLineSpan)
-                                }
-                                else{
-                                    GridItemSpan(1)
-                                }
-                            }
-                        ){
-                            DialogListItem(
-                                displayName = it.shortName,
-                                item = it,
-                                onClick = { item ->
-                                    onDismissRequest()
-                                    component.goToPage(item)
-                                },
-                                isSelected = (it.id == component.stageClass.id)
-                            )
-                        }
-                    }
-                    is ClubResultsComponent -> {
-                        items(
-                            items = component.stageHistory.clubList,
-                            span = {
-                                GridItemSpan(maxLineSpan)
-                            }
-                        ){
-                            DialogListItem(
-                                displayName = it.shortName,
-                                item = it,
-                                onClick = { item ->
-                                    onDismissRequest()
-                                    component.goToPage(item)
-                                },
-                                isSelected = (it.id == component.stageClub.id)
-                            )
-                        }
-                    }
-                }
-            }
+            StageDetailsDialogContent(component, onDismissRequest)
         }
     }
 }
