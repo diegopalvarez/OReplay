@@ -45,6 +45,9 @@ dateTime = "0.8.0"
 # DataStore (Local Preferences)
 datastore = "1.2.1"
 
+# KMP Native Coroutines
+kmpNativeCoroutines = "1.0.6"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -121,6 +124,9 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 
 # SQLDelight
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+
+# KMP Native Coroutines
+kmpNativeCoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "kmpNativeCoroutines" }
 
 [bundles]
 ktor = [
