@@ -47,7 +47,7 @@ fun ScorePointsCircle(
 
     Box(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(vertical = 8.dp)
             .size(circleSize)
             .background(
                 color = if (visited) circleColor else Color.Transparent,

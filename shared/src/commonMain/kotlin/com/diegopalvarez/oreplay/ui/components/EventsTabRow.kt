@@ -36,7 +36,7 @@ fun EventsTabRow(
             text = {
                 Text(
                     text = stringResource(EventTabConfiguration.PastEvents.title),
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
@@ -51,7 +51,7 @@ fun EventsTabRow(
             text = {
                 Text(
                     text = stringResource(EventTabConfiguration.LiveEvents.title),
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
@@ -66,7 +66,7 @@ fun EventsTabRow(
             text = {
                 Text(
                     text = stringResource(EventTabConfiguration.FutureEvents.title),
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
             }

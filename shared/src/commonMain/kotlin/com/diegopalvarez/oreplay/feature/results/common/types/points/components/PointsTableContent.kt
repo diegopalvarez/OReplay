@@ -6,6 +6,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,6 +55,7 @@ fun PointsTableContent(
     FABLazyColumn(
         modifier = modifier
             .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(runners) { runner ->
             // Assert that stageResult isn't null, since they have been filtered out
@@ -65,7 +67,7 @@ fun PointsTableContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 2.dp),
+                        .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start)
                 ) {
@@ -91,11 +93,14 @@ fun PointsTableContent(
                     }
                 }
 
+                // Add a spacer between the name and the results
+                Spacer(Modifier.height(10.dp))
+
                 // Runner Results Row
                 Row(
                     modifier = Modifier
                         .horizontalScroll(scrollState)
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(horizontal = 16.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .background(MaterialTheme.colorScheme.tertiaryContainer)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
