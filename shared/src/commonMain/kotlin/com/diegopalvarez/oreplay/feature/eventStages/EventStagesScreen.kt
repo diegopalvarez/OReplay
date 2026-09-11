@@ -28,6 +28,7 @@ import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.TimezoneErrorSnackbar
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
+import com.diegopalvarez.oreplay.ui.util.offsetOn
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
 
@@ -61,7 +62,7 @@ fun EventStagesScreen(
     val convertTimezones = preferencesManager.convertTimezone.collectAsState()
 
     // Check if the timezones are different
-    val isTimezoneDifferent = rememberSaveable { event.timezone != TimeZone.currentSystemDefault() }
+    val isTimezoneDifferent = rememberSaveable { event.timezone.offsetOn(event.initialDate) != TimeZone.currentSystemDefault().offsetOn(event.initialDate) }
 
     // Bind Timezone Error Snackbar Helper
     TimezoneErrorSnackbarHelper(
