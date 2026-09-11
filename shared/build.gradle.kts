@@ -12,6 +12,9 @@ plugins {
 
     // SQLDelight
     alias(libs.plugins.sqlDelight)
+
+    // KMP Native Coroutines
+    alias(libs.plugins.kmpNativeCoroutines)
 }
 
 kotlin {
@@ -112,6 +115,12 @@ kotlin {
 
             // SQLDelight
             implementation(libs.sqldelight.ios)
+        }
+
+        all {
+            languageSettings {
+                optIn("kotlin.experimental.ExperimentalObjCName")
+            }
         }
     }
 }

@@ -16,6 +16,12 @@ import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
 import com.diegopalvarez.oreplay.domain.repository.util.calculateVisitedControls
 import com.diegopalvarez.oreplay.domain.repository.util.handleNetworkError
 import com.diegopalvarez.oreplay.domain.repository.util.wrapResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.collections.iterator
 
 class ClubResultsRepository(
@@ -189,49 +195,61 @@ class ClubResultsRepository(
         clubID: String,
         results: List<ResultIndividual>,
         calculateRanks: Boolean
-    ): Result<List<com.diegopalvarez.oreplay.domain.model.Result>, RepositoryError> {
+    ): Result<List<com.diegopalvarez.oreplay.domain.model.Result>, RepositoryError> = coroutineScope {
         // Group the results given by class, so that results from the same class and club can be calculated together
         val groupsByClass = results.filter {it.runnerClass != null}.groupBy { it.runnerClass!!.id }
 
-        // Create and populate a list of club runners
-        val clubList = mutableListOf<ResultIndividual>()
+        // Create and populate a list of club runners in parallel
+        val deferredResults = groupsByClass.map { (classID, classGroupResults) ->
 
-        // For each class group, calculate the individual results for the whole class
-        // TODO - Parallelize using coroutines
-        for(classGroup in groupsByClass) {
-            // Extract all details
-            val classID = classGroup.key
-            val classGroupResults = classGroup.value
+            // Launch the coroutine for this item
+            async {
+                // Get all results for the class
+                val classResults = api.getStageResults(
+                    eventID = eventID,
+                    stageID = stageID,
+                    classID = classID
+                )
 
-            // Get all results for the class
-            val classResults = api.getStageResults(
-                eventID = eventID,
-                stageID = stageID,
-                classID = classID
-            )
+                when(classResults){
+                    is Result.Success -> {
+                        // Calculate the additional information for the whole class
+                        val classicResults = getClassicResults(
+                            remoteResultsResponse = classResults.data,
+                            calculateRanks = calculateRanks
+                        )
 
-            when(classResults){
-                is Result.Success -> {
-                    // Calculate the additional information for the whole class
-                    val classicResults = getClassicResults(
-                        remoteResultsResponse = classResults.data,
-                        calculateRanks = calculateRanks
-                    )
+                        // Add only the information for the runners of the club
+                        classicResults.filter { it.runnerClub != null }.filter { it.runnerClub!!.id == clubID }
+                    }
 
-                    // Add to the list only the information for the runners of the club
-                    clubList.addAll(classicResults.filter { it.runnerClub != null }.filter { it.runnerClub!!.id == clubID })
-                }
-
-                is Result.Error -> {
-                    return Result.Error(handleNetworkError(classResults.error))
+                    is Result.Error -> {
+                        // Add the error to the list
+                        Result.Error(handleNetworkError(classResults.error))
+                    }
                 }
             }
-
-
         }
 
+        // Wait for all the coroutines to finish
+        val clubResults = deferredResults.awaitAll()
+
+        // Return an error if any of the classes failed
+        val firstError = clubResults.firstOrNull{ it is Result.Error<*> }
+
+        if(firstError is Result.Error<*>){
+            // Return the error
+            return@coroutineScope Result.Error(firstError.error as RepositoryError)
+        }
+
+        val clubList = clubResults
+            .filterIsInstance<List<com.diegopalvarez.oreplay.domain.model.Result>>()
+            .flatten()
+
         // TODO - Sort the club results
-        return Result.Success(clubList)
+
+        // Return the list
+        return@coroutineScope Result.Success(clubList)
     }
 
     /**
@@ -247,48 +265,55 @@ class ClubResultsRepository(
         stageID: String,
         clubID: String,
         results: List<ResultIndividual>,
-    ): Result<Map<String, ScoreResultStats>, RepositoryError> {
+    ): Result<Map<String, ScoreResultStats>, RepositoryError> = coroutineScope {
         // Group the results given by class, so that results from the same class and club can be calculated together
         val groupsByClass = results.filter {it.runnerClass != null}.groupBy { it.runnerClass!!.id }
 
-        // Create the map of Score Stats to store each class
-        val map = mutableMapOf<String, ScoreResultStats>()
+        // Create the map of Score Stats to store each class, in parallel
+        val deferredResults = groupsByClass.map { (classID, classGroupResults) ->
+            async {
+                // Get all results for the class
+                val classResults = api.getStageResults(
+                    eventID = eventID,
+                    stageID = stageID,
+                    classID = classID
+                )
 
-        // For each class, calculate and store the visited controls information
-        // TODO - Parallelize using coroutines
-        for(classGroup in groupsByClass) {
-            // Extract all details
-            val classID = classGroup.key
-            val classGroupResults = classGroup.value
+                when(classResults){
+                    is Result.Success -> {
+                        // Calculate the additional information for the whole class
+                        val classicResults = getClassicResults(
+                            remoteResultsResponse = classResults.data,
+                            calculateRanks = false
+                        )
 
-            // Get all results for the class
-            val classResults = api.getStageResults(
-                eventID = eventID,
-                stageID = stageID,
-                classID = classID
-            )
+                        // Obtain the information about the control visits for this class and add it to the list
+                        Pair(classID, calculateVisitedControls(classicResults))
+                    }
 
-            when(classResults){
-                is Result.Success -> {
-                    // Calculate the additional information for the whole class
-                    val classicResults = getClassicResults(
-                        remoteResultsResponse = classResults.data,
-                        calculateRanks = false
-                    )
-
-                    // Obtain the information about the control visits for this class
-                    val info = calculateVisitedControls(classicResults)
-
-                    // Add the information to the map
-                    map[classID] = info
-                }
-
-                is Result.Error -> {
-                    return Result.Error(handleNetworkError(classResults.error))
+                    is Result.Error -> {
+                        // Add the error to the list
+                        Result.Error(handleNetworkError(classResults.error))
+                    }
                 }
             }
         }
 
-        return Result.Success(map)
+        // Wait for all the coroutines to finish
+        val clubStats = deferredResults.awaitAll()
+
+        // Return an error if any of the classes failed
+        val firstError = clubStats.firstOrNull{ it is Result.Error<*> }
+
+        if(firstError is Result.Error<*>){
+            // Return the error
+            return@coroutineScope Result.Error(firstError.error as RepositoryError)
+        }
+
+        val clubList = clubStats
+            .filterIsInstance<Pair<String, ScoreResultStats>>()
+
+        // Return the list
+        return@coroutineScope Result.Success(clubList.toMap())
     }
 }
