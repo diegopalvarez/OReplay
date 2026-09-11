@@ -34,8 +34,8 @@ android {
         applicationId = "com.diegopalvarez.oreplay"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = providers.gradleProperty("APP_VERSION_CODE").get().toInt()
+        versionName = providers.gradleProperty("APP_VERSION").get()
     }
     packaging {
         resources {
