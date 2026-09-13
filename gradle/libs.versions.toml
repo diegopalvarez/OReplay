@@ -45,8 +45,8 @@ sqldelight = "2.3.2"
 # DateTime
 dateTime = "0.8.0"
 
-# DataStore (Local Preferences)
-datastore = "1.2.1"
+# DataStore (Local Preferences)     -- Alpha is required for now for the JS target
+datastore = "1.3.0-alpha11"
 
 # KMP Native Coroutines
 kmpNativeCoroutines = "1.0.6"
