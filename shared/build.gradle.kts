@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeCacheApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -28,6 +28,16 @@ kotlin {
             linkerOpts("-miphoneos-version-min=16.0")
             linkerOpts("-mios-simulator-version-min=16.0")
         }
+    }
+
+    // Web Target
+    js {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
     }
     
     androidLibrary {
@@ -115,6 +125,10 @@ kotlin {
 
             // SQLDelight
             implementation(libs.sqldelight.ios)
+        }
+
+        jsMain.dependencies {
+            implementation(libs.wrappers.browser)
         }
 
         all {

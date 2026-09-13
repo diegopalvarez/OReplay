@@ -14,6 +14,9 @@ junit = "4.13.2"
 kotlin = "2.4.0"
 material3 = "1.11.0-alpha07"
 
+# Kotlin Wrappers
+kotlin-wrappers = "2026.8.4"
+
 # Decompose
 extensionsCompose = "3.5.0"
 decompose = "3.5.0"
@@ -111,6 +114,9 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # DataStore
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+# Kotlin Wrappers
+wrappers-browser = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser", version.ref = "kotlin-wrappers" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
