@@ -132,6 +132,10 @@ kotlin {
         }
 
         webMain.dependencies {
+            // HTTP Requests
+            implementation(libs.ktor.client.js)
+
+
             // SQLDelight
             implementation(libs.sqldelight.web)
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
