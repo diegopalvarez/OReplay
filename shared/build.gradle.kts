@@ -131,6 +131,12 @@ kotlin {
             implementation(libs.wrappers.browser)
         }
 
+        webMain.dependencies {
+            // SQLDelight
+            implementation(libs.sqldelight.web)
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+        }
+
         all {
             languageSettings {
                 optIn("kotlin.experimental.ExperimentalObjCName")
@@ -148,6 +154,7 @@ sqldelight {
     databases {
         create("LocalDatabase") {
             packageName.set("com.diegopalvarez.oreplay.data.local")
+            generateAsync.set(true)
         }
     }
 }
