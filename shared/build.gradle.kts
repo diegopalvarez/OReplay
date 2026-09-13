@@ -139,6 +139,10 @@ kotlin {
             // SQLDelight
             implementation(libs.sqldelight.web)
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+
+            // SQL.js
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.3.2"))
+            implementation(npm("sql.js", "1.8.0"))
         }
 
         all {
