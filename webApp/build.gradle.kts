@@ -23,6 +23,9 @@ kotlin {
             implementation(project(":shared"))
 
             implementation(libs.compose.ui)
+
+            // Decompose
+            implementation(libs.decompose)
         }
     }
 }
