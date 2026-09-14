@@ -6,10 +6,14 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.diegopalvarez.oreplay.app.App
+import com.diegopalvarez.oreplay.app.di.initKoin
 import com.diegopalvarez.oreplay.app.navigation.RootComponent
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    // Initialize Koin for Dependency Injection
+    initKoin()
+
     // Create Root Component
     val lifecycle = LifecycleRegistry()
 
