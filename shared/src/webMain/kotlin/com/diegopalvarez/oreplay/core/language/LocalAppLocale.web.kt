@@ -3,6 +3,9 @@ package com.diegopalvarez.oreplay.core.language
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.intl.Locale
+import kotlin.js.ExperimentalWasmJsInterop
+import kotlin.js.js
 
 actual object LocalAppLocale {
 
@@ -16,10 +19,20 @@ actual object LocalAppLocale {
 
     @Composable
     actual infix fun provides(value: String?): ProvidedValue<*> {
-        val newLocale = value ?: defaultLocale
+        updateCustomLocale(value?.replace('_', '-'))
 
-        // There's no browser global locale to modify
-
-        return LocalAppLocale provides newLocale
+        return LocalAppLocale provides Locale.current.toString()
     }
+}
+
+@OptIn(ExperimentalWasmJsInterop::class)
+private fun updateCustomLocale(value: String?) {
+    js(
+        """
+        if (window.__customLocale !== value) {
+            window.__customLocale = value;
+            window.dispatchEvent(new Event("languagechange"));
+        }
+        """
+    )
 }
