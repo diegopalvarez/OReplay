@@ -135,7 +135,6 @@ kotlin {
             // HTTP Requests
             implementation(libs.ktor.client.js)
 
-
             // SQLDelight
             implementation(libs.sqldelight.web)
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
@@ -143,6 +142,9 @@ kotlin {
             // SQL.js
             implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.3.2"))
             implementation(npm("sql.js", "1.8.0"))
+
+            // DateTime
+            implementation(npm("@js-joda/timezone", "2.25.1"))
         }
 
         all {
