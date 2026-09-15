@@ -15,6 +15,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.components
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.TicketSheet
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.oneManRelay.OneManRelayTicketSplitTable
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
+import com.diegopalvarez.oreplay.ui.components.ScrollableLazyColumn
 import kotlinx.datetime.TimeZone
 
 @Composable
@@ -24,7 +25,7 @@ fun RelayTicketSheet(
     eventTimezone: TimeZone,
     component: CommonResultComponent
 ) {
-    LazyColumn(
+    ScrollableLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),

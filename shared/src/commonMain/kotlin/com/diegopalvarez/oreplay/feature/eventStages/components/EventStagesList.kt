@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
+import com.diegopalvarez.oreplay.ui.components.ScrollableLazyColumn
 import kotlinx.datetime.TimeZone
 
 @Composable
@@ -42,7 +43,7 @@ fun EventStagesList(
             timezone = eventTimezone
         }
 
-        LazyColumn(
+        ScrollableLazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(vertical = 8.dp,),

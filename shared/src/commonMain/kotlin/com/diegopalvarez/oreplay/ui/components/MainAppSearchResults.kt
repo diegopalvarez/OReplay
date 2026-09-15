@@ -99,7 +99,7 @@ fun MainAppSearchResults(
                     EmptySearchMessage()
                 }
                 else{
-                    LazyColumn {
+                    ScrollableLazyColumn {
                         items(count = searchResults.size) { index ->
                             val event = searchResults[index]
                             SegmentedListItem(

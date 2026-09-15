@@ -43,7 +43,7 @@ fun EventGrid(
 
         // Content of the screen
         if(eventList.value.isEmpty()){
-            LazyColumn(
+            ScrollableLazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -61,7 +61,7 @@ fun EventGrid(
             }
         }
         else{
-            LazyVerticalGrid(
+            ScrollableLazyGrid(
                 columns = GridCells.Fixed(1),
                 contentPadding = PaddingValues(16.dp),
                 modifier = Modifier

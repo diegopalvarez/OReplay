@@ -16,6 +16,7 @@ import com.diegopalvarez.oreplay.feature.stageDetails.components.ClassListItem
 import com.diegopalvarez.oreplay.feature.stageDetails.components.ClubListItem
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
+import com.diegopalvarez.oreplay.ui.components.ScrollableLazyColumn
 
 @Composable
 fun StageClubsScreen(
@@ -53,7 +54,7 @@ fun StageClubsScreen(
             NoDataScreen()
         }
         else{
-            LazyColumn(
+            ScrollableLazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {

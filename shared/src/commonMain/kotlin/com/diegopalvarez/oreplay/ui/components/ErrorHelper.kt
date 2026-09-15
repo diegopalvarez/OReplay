@@ -36,7 +36,7 @@ fun ErrorHelper(
     val iconModifier = Modifier
         .width(100.dp)
 
-    LazyColumn(
+    ScrollableLazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
