@@ -14,6 +14,9 @@ junit = "4.13.2"
 kotlin = "2.4.0"
 material3 = "1.11.0-alpha07"
 
+# Kotlin Wrappers
+kotlin-wrappers = "2026.8.4"
+
 # Decompose
 extensionsCompose = "3.5.0"
 decompose = "3.5.0"
@@ -26,7 +29,7 @@ koin = "4.2.2"
 koinComposeMultiplatform = "4.2.2"
 
 # HTTP Requests
-ktor = "3.5.1"
+ktor = "3.5.2"
 
 # Ktor Testing
 turbine = "1.2.1"
@@ -42,8 +45,8 @@ sqldelight = "2.3.2"
 # DateTime
 dateTime = "0.8.0"
 
-# DataStore (Local Preferences)
-datastore = "1.2.1"
+# DataStore (Local Preferences)     -- Alpha is required for now for the JS target
+datastore = "1.3.0-alpha11"
 
 # KMP Native Coroutines
 kmpNativeCoroutines = "1.0.6"
@@ -85,6 +88,7 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -104,13 +108,17 @@ compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "
 # SQLDelight
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-web = { module = "app.cash.sqldelight:web-worker-driver", version.ref = "sqldelight" }
 
 # DateTime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
 
 # DataStore
-androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
-androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastore" }
+androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+
+# Kotlin Wrappers
+wrappers-browser = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser", version.ref = "kotlin-wrappers" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

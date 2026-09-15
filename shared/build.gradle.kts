@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeCacheApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -28,6 +28,16 @@ kotlin {
             linkerOpts("-miphoneos-version-min=16.0")
             linkerOpts("-mios-simulator-version-min=16.0")
         }
+    }
+
+    // Web Target
+    js {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
     }
     
     androidLibrary {
@@ -92,8 +102,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             // DataStore
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.datastore.core)
+            implementation(libs.androidx.datastore.preferences.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -117,6 +127,26 @@ kotlin {
             implementation(libs.sqldelight.ios)
         }
 
+        jsMain.dependencies {
+            implementation(libs.wrappers.browser)
+        }
+
+        webMain.dependencies {
+            // HTTP Requests
+            implementation(libs.ktor.client.js)
+
+            // SQLDelight
+            implementation(libs.sqldelight.web)
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+
+            // SQL.js
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.3.2"))
+            implementation(npm("sql.js", "1.8.0"))
+
+            // DateTime
+            implementation(npm("@js-joda/timezone", "2.25.1"))
+        }
+
         all {
             languageSettings {
                 optIn("kotlin.experimental.ExperimentalObjCName")
@@ -134,6 +164,7 @@ sqldelight {
     databases {
         create("LocalDatabase") {
             packageName.set("com.diegopalvarez.oreplay.data.local")
+            generateAsync.set(true)
         }
     }
 }

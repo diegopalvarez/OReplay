@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsComponent
+import com.diegopalvarez.oreplay.ui.components.ScrollableLazyColumn
 import com.diegopalvarez.oreplay.ui.components.search.ActionSearchMessage
 import com.diegopalvarez.oreplay.ui.components.search.EmptySearchMessage
 import kotlinx.coroutines.Dispatchers
@@ -105,7 +106,7 @@ fun ClassClubSearchBar(
             }
             else{
                 // Show the list of results
-                LazyColumn(
+                ScrollableLazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {

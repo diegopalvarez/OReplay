@@ -13,6 +13,7 @@ import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.RunnerInformationHeader
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.NoChipDownload
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ScoreResultsComponent
+import com.diegopalvarez.oreplay.ui.components.ScrollableLazyColumn
 import kotlinx.datetime.TimeZone
 
 @Composable
@@ -25,7 +26,7 @@ fun ScoreTicketSheet(
     // TODO - Check if there's a need to subscribe to this variable
     val visitedStats = component.getVisitedStats(runnerResult.runnerClass?.id)
 
-    LazyColumn(
+    ScrollableLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),

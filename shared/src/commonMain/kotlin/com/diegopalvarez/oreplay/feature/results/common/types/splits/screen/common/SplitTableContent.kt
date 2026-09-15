@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +31,7 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.components
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.ResultIndividualPosition
 import com.diegopalvarez.oreplay.feature.results.common.types.splits.components.StatusIndicator
 import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
+import com.diegopalvarez.oreplay.ui.scrollbar.HorizontalScrollBar
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 
@@ -41,89 +43,101 @@ fun SplitTableContent(
     columnWidth: Dp,
     isAccumulated: MutableState<Boolean>,
 ) {
-    FABLazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        items(runners) { runner ->
-            // Assert that stageResult isn't null, since they have been filtered out
-            requireNotNull(runner.stageResult)
+        FABLazyColumn(
+            modifier = modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(runners) { runner ->
+                // Assert that stageResult isn't null, since they have been filtered out
+                requireNotNull(runner.stageResult)
 
-            // Each runner has two rows
-            Column{
-                // Runner Details Row
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start)
-                ) {
-                    // Runner Position
-                    ResultIndividualPosition(
-                        isNC = runner.isNc,
-                        statusCode = runner.stageResult.statusCode,
-                        position = runner.stageResult.position,
-                    )
-
-                    // Runner Name and Details
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.Start
+                // Each runner has two rows
+                Column{
+                    // Runner Details Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start)
                     ) {
-                        // Runner Name
-                        Text(
-                            text = runner.fullName,
-                        )
-
-                        // Runner Club
-                        StageClubFormatter(runner.runnerClub)
-                    }
-                }
-
-                // Add a spacer between the name and the results
-                Spacer(Modifier.height(10.dp))
-
-                // Runner Results Row
-                Row(
-                    modifier = Modifier
-                        .horizontalScroll(scrollState)
-                        .padding(horizontal = 16.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(MaterialTheme.colorScheme.tertiaryContainer),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    // Total Stage Time
-                    if(runner.stageResult.position > 0){
-                        SplitTime(
-                            total = runner.stageResult.timeSeconds,
-                            partial = runner.stageResult.timeBehind,
-                            position = null,
-                            modifier = Modifier
-                                .width(columnWidth)
-                        )
-                    }
-                    else{
-                        StatusIndicator(
-                            statusCode = runner.stageResult.statusCode,
+                        // Runner Position
+                        ResultIndividualPosition(
                             isNC = runner.isNc,
-                            modifier = Modifier
-                                .width(columnWidth)
+                            statusCode = runner.stageResult.statusCode,
+                            position = runner.stageResult.position,
                         )
+
+                        // Runner Name and Details
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            // Runner Name
+                            Text(
+                                text = runner.fullName,
+                            )
+
+                            // Runner Club
+                            StageClubFormatter(runner.runnerClub)
+                        }
                     }
 
-                    // Runner splits
-                    runner.stageResult.splits.forEachIndexed { index, control ->     // The stageResults are filtered to be not null
-                        SplitComposable(
-                            control,
-                            isAccumulated,
-                            Modifier
-                                .width(columnWidth)
-                        )
+                    // Add a spacer between the name and the results
+                    Spacer(Modifier.height(10.dp))
+
+                    // Runner Results Row
+                    Row(
+                        modifier = Modifier
+                            .horizontalScroll(scrollState)
+                            .padding(horizontal = 16.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(MaterialTheme.colorScheme.tertiaryContainer),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        // Total Stage Time
+                        if(runner.stageResult.position > 0){
+                            SplitTime(
+                                total = runner.stageResult.timeSeconds,
+                                partial = runner.stageResult.timeBehind,
+                                position = null,
+                                modifier = Modifier
+                                    .width(columnWidth)
+                            )
+                        }
+                        else{
+                            StatusIndicator(
+                                statusCode = runner.stageResult.statusCode,
+                                isNC = runner.isNc,
+                                modifier = Modifier
+                                    .width(columnWidth)
+                            )
+                        }
+
+                        // Runner splits
+                        runner.stageResult.splits.forEachIndexed { index, control ->     // The stageResults are filtered to be not null
+                            SplitComposable(
+                                control,
+                                isAccumulated,
+                                Modifier
+                                    .width(columnWidth)
+                            )
+                        }
                     }
                 }
             }
         }
+
+        // If the platform is Web, show a scroll bar
+        HorizontalScrollBar(
+            scrollState = scrollState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+        )
     }
 }
