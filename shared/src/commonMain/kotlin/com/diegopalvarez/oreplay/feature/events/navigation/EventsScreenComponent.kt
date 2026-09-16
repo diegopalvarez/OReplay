@@ -168,6 +168,7 @@ class EventsScreenComponent(
             is EventScreenEvent.ClickEvent -> onNavigateToEventStagesScreen(event.selectedEvent)
             is EventScreenEvent.ChangeLanguage -> languageManager.switchLanguage(event.languageCode)
             is EventScreenEvent.ChangeRefreshInterval -> preferencesManager.changeRefreshInterval(event.interval)
+            is EventScreenEvent.ChangeAppTheme -> preferencesManager.changeTheme(event.theme)
         }
     }
 
