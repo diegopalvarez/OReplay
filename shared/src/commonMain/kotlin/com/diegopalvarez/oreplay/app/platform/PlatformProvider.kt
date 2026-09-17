@@ -1,5 +1,5 @@
 package com.diegopalvarez.oreplay.app.platform
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
-expect fun getPlatform(): Platform
+expect fun getPlatform(): StateFlow<Platform>

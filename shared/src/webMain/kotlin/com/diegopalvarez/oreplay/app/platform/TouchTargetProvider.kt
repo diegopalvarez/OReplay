@@ -13,6 +13,12 @@ val isTouchTarget: StateFlow<Boolean> = _isTouchTarget
 @JsExport
 fun setPointerType(pointerType: String) {
     _isTouchTarget.value = pointerType == "touch"
+    if(_isTouchTarget.value) {
+        platform.value = Platform.WEB_TOUCHABLE
+    }
+    else{
+        platform.value = Platform.WEB
+    }
 }
 
 @OptIn(ExperimentalWasmJsInterop::class)
