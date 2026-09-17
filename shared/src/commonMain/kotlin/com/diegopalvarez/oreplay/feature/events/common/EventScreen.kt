@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.EventGrid
+import com.diegopalvarez.oreplay.ui.components.PullToRefresh
 import com.diegopalvarez.oreplay.ui.components.RepositoryErrorSnackbar
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -67,7 +67,7 @@ fun EventScreen(
     )
 
     // Create Pull-To-Refresh box for the Live Events
-    PullToRefreshBox(
+    PullToRefresh(
         isRefreshing = isRefreshing.value,
         onRefresh = component::onRefresh,
         state = refreshState,

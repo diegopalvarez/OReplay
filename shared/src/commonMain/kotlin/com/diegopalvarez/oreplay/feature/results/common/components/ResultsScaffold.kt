@@ -29,6 +29,7 @@ import com.diegopalvarez.oreplay.feature.results.common.components.history.FABHi
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
+import com.diegopalvarez.oreplay.ui.components.PullToRefresh
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
 import com.diegopalvarez.oreplay.ui.util.offsetOn
 import kotlinx.datetime.TimeZone
@@ -127,7 +128,7 @@ fun ResultsScaffold(
                 .fillMaxSize()
         ) {
             // Create a Pull-to-Refresh box that includes all the results content
-            PullToRefreshBox(
+            PullToRefresh(
                 isRefreshing = isRefreshing.value,
                 onRefresh = component::reloadResults,
                 state = refreshState,
