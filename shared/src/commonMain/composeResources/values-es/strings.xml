@@ -158,4 +158,6 @@
     <string name="theme_dark">Modo oscuro</string>
     <string name="theme_light">Modo claro</string>
     <string name="theme_default">Predeterminado del sistema</string>
+    <string name="reload_icon">Recargar</string>
+    <string name="menu_icon">Menú</string>
 </resources>

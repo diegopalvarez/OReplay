@@ -22,6 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.diegopalvarez.oreplay.app.platform.Platform
+import com.diegopalvarez.oreplay.app.platform.getPlatform
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
@@ -48,6 +50,9 @@ fun ResultsScaffold(
 
     // Create the state for the class/club dialog
     val openChangeDialog = rememberSaveable { mutableStateOf(false) }
+
+    // Subscribe to the type of platform
+    val platform = getPlatform().collectAsState()
 
     /**
      * Timezone conversion warning display logic
@@ -109,6 +114,11 @@ fun ResultsScaffold(
                 },
                 scrollBehavior = scrollBehavior,
                 displayTimezoneWarning = timezoneIconDisplay,
+                refreshAction = when(platform.value){
+                    Platform.WEB -> component::reloadResults
+                    else -> null
+                },
+                isRefreshing = isRefreshing.value
             )
         },
         bottomBar = { ResultsNavBar(component) },
