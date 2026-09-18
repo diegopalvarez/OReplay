@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent
+import com.diegopalvarez.oreplay.feature.events.navigation.EventScreenEvent.*
 import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.app_name
@@ -32,6 +33,8 @@ import oreplay.shared.generated.resources.language_description
 import oreplay.shared.generated.resources.reload
 import oreplay.shared.generated.resources.reload_description
 import oreplay.shared.generated.resources.reload_interval
+import oreplay.shared.generated.resources.theme
+import oreplay.shared.generated.resources.theme_description
 import oreplay.shared.generated.resources.timezone_switch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -54,6 +57,9 @@ fun MainModalDrawer(
 
     // Get the refresh interval
     val currentInterval by preferenceManager.convertRefresh.collectAsState()
+
+    // Get the app theme
+    val appTheme by preferenceManager.darkTheme.collectAsState()
 
     ModalNavigationDrawer(
         drawerContent = {
@@ -102,7 +108,22 @@ fun MainModalDrawer(
                         }
                     )
 
-                    // Fourth Item - Timezone Translator
+                    // Fourth Item - App Theme Picker
+                    NavigationDrawerItem(
+                        label = { Text(stringResource(Res.string.theme)) },
+                        selected = false,
+                        icon = {
+                            Icon(
+                                painter = painterResource(Res.drawable.theme),
+                                contentDescription = stringResource(Res.string.theme_description)
+                            )
+                        },
+                        onClick = {
+                            openDialog.value = DrawerDialog.THEME
+                        }
+                    )
+
+                    // Fifth Item - Timezone Translator
                     NavigationDrawerItem(
                         label = { Text(stringResource(Res.string.timezone_switch)) },
                         selected = false,
@@ -133,7 +154,7 @@ fun MainModalDrawer(
                 LanguagePickerDialog(
                     onDismissRequest = { openDialog.value = null },
                     onConfirmation = { language ->
-                        component.onEvent(EventScreenEvent.ChangeLanguage(language))
+                        component.onEvent(ChangeLanguage(language))
                     },
                     currentSelected = component.getCurrentLanguage()
                 )
@@ -144,11 +165,20 @@ fun MainModalDrawer(
                     RefreshDialog(
                         onDismissRequest = { openDialog.value = null },
                         onConfirmation = { interval ->
-                            component.onEvent(EventScreenEvent.ChangeRefreshInterval(interval))
+                            component.onEvent(ChangeRefreshInterval(interval))
                         },
                         currentInterval = currentInterval
                     )
                 }
+            }
+            DrawerDialog.THEME -> {
+                ThemePickerDialog(
+                    onDismissRequest = { openDialog.value = null },
+                    onConfirmation = { theme ->
+                        component.onEvent(ChangeAppTheme(theme))
+                    },
+                    currentTheme = appTheme
+                )
             }
             null -> Unit
         }

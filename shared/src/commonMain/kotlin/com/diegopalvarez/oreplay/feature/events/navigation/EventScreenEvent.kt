@@ -9,4 +9,6 @@ sealed interface EventScreenEvent {
     data class ChangeLanguage(val languageCode: String): EventScreenEvent
 
     data class ChangeRefreshInterval(val interval: Long): EventScreenEvent
+
+    data class ChangeAppTheme(val theme: Boolean?): EventScreenEvent
 }

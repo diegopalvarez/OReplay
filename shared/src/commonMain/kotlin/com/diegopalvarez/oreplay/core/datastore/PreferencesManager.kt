@@ -70,4 +70,38 @@ class PreferencesManager(
             }
         }
     }
+
+    // Preference 3 - Theme
+    private val darkThemeKey = stringPreferencesKey("darkTheme")
+
+    // By default, the interval is 1 minute
+    val darkTheme = dataStore
+        .data
+        .map { prefs ->
+            val value = prefs[darkThemeKey]
+            when (value) {
+                "dark" -> true
+                "light" -> false
+                else -> null
+            }
+        }
+        .stateIn(
+            scope,
+            SharingStarted.Eagerly,
+            null
+        )
+
+    fun changeTheme(
+        isDarkTheme: Boolean?
+    ){
+        scope.launch {
+            dataStore.edit { mutablePrefs ->
+                mutablePrefs[darkThemeKey] = when(isDarkTheme){
+                    true -> "dark"
+                    false -> "light"
+                    else -> "default"
+                }
+            }
+        }
+    }
 }

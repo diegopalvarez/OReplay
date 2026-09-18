@@ -1,5 +1,6 @@
 package com.diegopalvarez.oreplay.app
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -9,6 +10,7 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.app.navigation.RootComponent
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.language.LanguageManager
 import com.diegopalvarez.oreplay.feature.eventStages.EventStagesScreen
 import com.diegopalvarez.oreplay.feature.events.EventsScreen
@@ -24,11 +26,17 @@ fun App(root: RootComponent) {
     val languageManager: LanguageManager = koinInject()
     val languageCode by languageManager.languageCode.collectAsStateWithLifecycle()
 
+    // Preferences Manager
+    val preferencesManager: PreferencesManager = koinInject()
+    val isDarkTheme by preferencesManager.darkTheme.collectAsStateWithLifecycle()
+
     // TODO - Check why the language sometimes takes a while to update on start-up
 
     // Create a CompositionLocalProvider to handle the language preferences for the whole app
     CompositionLocalProvider(LocalAppLocale provides languageCode) {
-        AppTheme {
+        AppTheme(
+            darkTheme = isDarkTheme ?: isSystemInDarkTheme(),
+        ) {
             // Create the ChildStack for the Navigation
             val childStack by root.childStack.subscribeAsState()
 

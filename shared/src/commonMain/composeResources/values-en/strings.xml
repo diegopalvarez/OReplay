@@ -152,4 +152,12 @@
     <string name="date_full">%1$s, %2$s %3$d, %4$d at %5$s</string>
     <string name="see_more">See more</string>
     <string name="add_icon">Add</string>
+    <string name="theme">Dark Theme</string>
+    <string name="theme_description">Dark Theme Menu</string>
+    <string name="theme_dialog">Choose a theme</string>
+    <string name="theme_dark">Dark theme</string>
+    <string name="theme_light">Light theme</string>
+    <string name="theme_default">System default</string>
+    <string name="reload_icon">Reload</string>
+    <string name="menu_icon">Menu</string>
 </resources>

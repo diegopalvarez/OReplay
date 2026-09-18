@@ -152,4 +152,12 @@
     <string name="date_full">%1$s, %3$d de %2$s del %4$d a las %5$s</string>
     <string name="see_more">Ver más</string>
     <string name="add_icon">Añadir</string>
+    <string name="theme">Modo Oscuro</string>
+    <string name="theme_description">Menu de Modo Oscuro</string>
+    <string name="theme_dialog">Elige un modo</string>
+    <string name="theme_dark">Modo oscuro</string>
+    <string name="theme_light">Modo claro</string>
+    <string name="theme_default">Predeterminado del sistema</string>
+    <string name="reload_icon">Recargar</string>
+    <string name="menu_icon">Menú</string>
 </resources>

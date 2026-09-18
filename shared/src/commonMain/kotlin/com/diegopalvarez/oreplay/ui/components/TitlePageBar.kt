@@ -1,8 +1,13 @@
 package com.diegopalvarez.oreplay.ui.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +20,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.ui.util.AppBarTitle
 import oreplay.shared.generated.resources.Res
@@ -33,11 +42,32 @@ fun TitlePageBar(
     title: String,
     subtitle: String? = null,
     navigationAction: () -> Unit,
-    hasRefresh: Boolean = false,
-    refreshAction: () -> Unit = {},
+    refreshAction: (() -> Unit)? = null,
     scrollBehavior: TopAppBarScrollBehavior,
     displayTimezoneWarning: Boolean = false,
+    isRefreshing: Boolean = false,
 ) {
+    // Create the icon rotation
+    val rotation = remember { Animatable(0f) }
+
+    LaunchedEffect(isRefreshing) {
+        if (isRefreshing) {
+            while (true) {
+                rotation.animateTo(
+                    targetValue = rotation.value + 360f,
+                    animationSpec = tween(
+                        durationMillis = 1000,
+                        easing = LinearEasing,
+                    )
+                )
+            }
+        }
+        else{
+            // Reset the rotation value
+            rotation.snapTo(0f)
+        }
+    }
+
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -80,13 +110,15 @@ fun TitlePageBar(
             }
         },
         actions = {
-            if(hasRefresh) {
+            if(refreshAction != null) {
                 IconButton(
-                    onClick = refreshAction
+                    onClick = refreshAction,
+                    enabled = !isRefreshing,
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.refresh),
                         contentDescription = stringResource(Res.string.refresh),
+                        modifier = Modifier.rotate(rotation.value)      // Keep rotating while loading
                     )
                 }
             }
