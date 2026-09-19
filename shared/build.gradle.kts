@@ -86,6 +86,7 @@ kotlin {
             // Decompose
             implementation(libs.decompose)
             implementation(libs.decompose.jetbrains)
+            implementation(libs.decompose.extensions.experimental)
 
             // Serialization
             implementation(libs.kotlinx.serialization.json)
