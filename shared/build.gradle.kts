@@ -110,6 +110,9 @@ kotlin {
             implementation(libs.compose.material3.adaptive)
             implementation(libs.compose.material3.adaptive.layout)
             implementation(libs.compose.material3.adaptive.navigation)
+
+            // Material3 Window Size Class
+            implementation(libs.compose.material3.adaptive.navigation.suite)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -54,6 +54,9 @@ kmpNativeCoroutines = "1.0.6"
 # Material 3 Adaptive Layout
 material3-adaptive = "1.2.0"
 
+# Material 3 Adaptive Navigation Suite
+material3-adaptive-navigation-suite = "1.9.0"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -129,6 +132,8 @@ compose-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptiv
 compose-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "material3-adaptive"}
 compose-material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "material3-adaptive"}
 
+# Material3 Adaptive Navigation Suite
+compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
