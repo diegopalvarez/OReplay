@@ -22,6 +22,7 @@ import com.diegopalvarez.oreplay.feature.events.navigation.EventsScreenComponent
 import com.diegopalvarez.oreplay.feature.results.stageClass.navigation.ClassResultsComponent
 import com.diegopalvarez.oreplay.feature.results.stageClub.navigation.ClubResultsComponent
 import com.diegopalvarez.oreplay.feature.stageDetails.navigation.StageDetailsComponent
+import com.diegopalvarez.oreplay.feature.stageResults.navigation.StagePanelsComponent
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -73,10 +74,10 @@ class RootComponent(
                     EventStagesComponent(
                         componentContext = context,
                         onNavigateToStageDetailsScreen = { event, stage ->
-                            navigation.pushNew(Configuration.StageDetailsScreen(event, stage))
+                            navigation.pushNew(Configuration.StageResultsScreen(event, stage))
                         },
                         onSkipToStageDetailsScreen = { event, stage ->
-                            navigation.replaceCurrent(Configuration.StageDetailsScreen(event, stage))
+                            navigation.replaceCurrent(Configuration.StageResultsScreen(event, stage))
                         },
                         pageEvent = config.event,
                         onGoBack = {
@@ -86,71 +87,17 @@ class RootComponent(
                     )
                 )
             }
-            is Configuration.StageDetailsScreen -> {
+            is Configuration.StageResultsScreen -> {
                 val stageRepository: StageRepository by inject()
-                Child.StageDetailsScreen(
-                    StageDetailsComponent(
+                Child.StageResultsScreen(
+                    StagePanelsComponent(
                         componentContext = context,
-                        onNavigateToClassResultsScreen = { event, stage, stageClass, stageHistory ->
-                            navigation.pushNew(Configuration.ClassResultsScreen(event, stage, stageClass, stageHistory))
-                        },
-                        onNavigateToClubResultsScreen = { event, stage, stageClub, stageHistory ->
-                            navigation.pushNew(Configuration.ClubResultsScreen(event, stage, stageClub, stageHistory))
-                        },
-                        onGoBack = {
-                            navigation.pop()
-                        },
                         stage = config.stage,
                         pageEvent = config.event,
-                        repository = stageRepository
-                    )
-                )
-            }
-            is Configuration.ClassResultsScreen -> {
-                val repository: ClassResultsRepository by inject()
-                val preferencesManager: PreferencesManager by inject()
-                Child.ClassResultsScreen(
-                    ClassResultsComponent(
-                        componentContext = context,
-                        pageEvent = config.event,
-                        stage = config.stage,
-                        stageClass = config.stageClass,
-                        repository = repository,
-                        preferences = preferencesManager,
+                        stageRepository = stageRepository,
                         onGoBack = {
                             navigation.pop()
-                        },
-                        onGoToClass = { event, stage, stageClass ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass, config.stageHistory))
-                        },
-                        onGoToClub = { event, stage, stageClub ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub, config.stageHistory))
-                        },
-                        stageHistory = config.stageHistory,
-                    )
-                )
-            }
-            is Configuration.ClubResultsScreen -> {
-                val repository: ClubResultsRepository by inject()
-                val preferencesManager: PreferencesManager by inject()
-                Child.ClubResultsScreen(
-                    ClubResultsComponent(
-                        componentContext = context,
-                        pageEvent = config.event,
-                        stage = config.stage,
-                        stageClub = config.stageClub,
-                        repository = repository,
-                        preferences = preferencesManager,
-                        onGoBack = {
-                            navigation.pop()
-                        },
-                        onGoToClass = { event, stage, stageClass ->
-                            navigation.replaceCurrent(Configuration.ClassResultsScreen(event, stage, stageClass, config.stageHistory))
-                        },
-                        onGoToClub = { event, stage, stageClub ->
-                            navigation.replaceCurrent(Configuration.ClubResultsScreen(event, stage, stageClub, config.stageHistory))
-                        },
-                        stageHistory = config.stageHistory,
+                        }
                     )
                 )
             }
@@ -166,14 +113,8 @@ class RootComponent(
         // Event Screen, shows the details and stages for the selected Event
         data class EventStagesScreen(val component: EventStagesComponent) : Child()
 
-        // Stage Details Screen, shows the classes and clubs for a single stage of an event
-        data class StageDetailsScreen(val component: StageDetailsComponent) : Child()
-
-        // Class Results Screen, shows the results for the selected class
-        data class ClassResultsScreen(val component: ClassResultsComponent) : Child()
-
-        // Club Results Screen, shows the results for the selected club
-        data class ClubResultsScreen(val component: ClubResultsComponent) : Child()
+        // Stage Results Screen, shows the classes and clubs for a single stage of an event, and allows to see their results
+        data class StageResultsScreen(val component: StagePanelsComponent) : Child()
 
     }
 
@@ -188,13 +129,7 @@ class RootComponent(
         data class EventStagesScreen(val event: Event): Configuration()   // Class because it does have parameters that can change
 
         @Serializable
-        data class StageDetailsScreen(val event: Event, val stage: Stage): Configuration()
-
-        @Serializable
-        data class ClassResultsScreen(val event: Event, val stage: Stage, val stageClass: StageClass, val stageHistory: ResultHistory): Configuration()
-
-        @Serializable
-        data class ClubResultsScreen(val event: Event, val stage: Stage, val stageClub: StageClub, val stageHistory: ResultHistory): Configuration()
+        data class StageResultsScreen(val event: Event, val stage: Stage): Configuration()
     }
 
     // Function to go back in the navigation stack
