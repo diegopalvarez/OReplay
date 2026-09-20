@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.feature.results.common.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import com.diegopalvarez.oreplay.ui.components.PullToRefresh
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
+import com.diegopalvarez.oreplay.ui.util.isExpandedDevice
 import com.diegopalvarez.oreplay.ui.util.offsetOn
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
@@ -104,6 +106,9 @@ fun ResultsScaffold(
         isTimezoneDifferent = isTimezoneDifferent
     )
 
+    // Get the Display Information to know what UI to display
+    val isLargeDevice = isExpandedDevice()
+
     Scaffold(
         topBar = {
             TitlePageBar(
@@ -121,15 +126,23 @@ fun ResultsScaffold(
                 isRefreshing = isRefreshing.value
             )
         },
-        bottomBar = { ResultsNavBar(component) },
+        bottomBar = {
+            // Show only the Bottom Bar if the device isn't an Expanded Display
+            if(!isLargeDevice) {
+                ResultsNavBar(component)
+            }
+        },
         snackbarHost = { CombinedSnackbarHost(snackbarHostState, isError.value) },
         floatingActionButton = {
-            FABHistory(
-                component = component,
-                onOpenDialog = {
-                    openChangeDialog.value = true
-                }
-            )
+            // Show the FAB only if the device isn't an Expanded Display
+            if(!isLargeDevice) {
+                FABHistory(
+                    component = component,
+                    onOpenDialog = {
+                        openChangeDialog.value = true
+                    }
+                )
+            }
         }
     ) { innerPadding ->
         Column(
@@ -189,6 +202,23 @@ fun ResultsScaffold(
                 component = component
             )
             false -> Unit
+        }
+
+        // Show the Navigation Rail only if the display is an Expanded Display
+        if(isLargeDevice){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp),
+            ) {
+                // Show the navigation rail
+                ResultsNavigationToolbar(
+                    component = component,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                )
+            }
         }
     }
 }
