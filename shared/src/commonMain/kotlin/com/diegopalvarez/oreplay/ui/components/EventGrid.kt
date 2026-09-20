@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.Event
+import com.diegopalvarez.oreplay.feature.events.common.getExpandedGridSize
+import com.diegopalvarez.oreplay.ui.util.isExpandedDevice
 
 @Composable
 fun EventGrid(
@@ -28,6 +30,16 @@ fun EventGrid(
     nextPageFunction: () -> Unit,
     isNextPageLoading: State<Boolean>,
 ) {
+    // Determine the number of elements in each grid row depending on the device
+    val isLargeDevice = isExpandedDevice()
+
+    val gridSize = if(isLargeDevice) {
+        getExpandedGridSize()
+    }
+    else{
+        2
+    }
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -37,7 +49,7 @@ fun EventGrid(
         val itemSpacing = 16.dp
         val aspectRatio = 1.2f
 
-        val cardWidth = (maxWidth - horizontalPadding*2 - itemSpacing) / 2
+        val cardWidth = (maxWidth - horizontalPadding*2 - itemSpacing) / gridSize
 
         val minCardHeight = cardWidth / aspectRatio
 
@@ -68,12 +80,13 @@ fun EventGrid(
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ){
-                // Divide the events in groups of 2
-                items(eventList.value.chunked(2)){ events ->
+                // Divide the events in groups
+                items(eventList.value.chunked(gridSize)){ events ->
                     EventGridRow(
                         events,
                         onEventClick,
-                        minCardHeight
+                        minCardHeight,
+                        gridSize,
                     )
                 }
 
