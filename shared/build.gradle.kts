@@ -86,6 +86,7 @@ kotlin {
             // Decompose
             implementation(libs.decompose)
             implementation(libs.decompose.jetbrains)
+            implementation(libs.decompose.extensions.experimental)
 
             // Serialization
             implementation(libs.kotlinx.serialization.json)
@@ -104,6 +105,14 @@ kotlin {
             // DataStore
             implementation(libs.androidx.datastore.core)
             implementation(libs.androidx.datastore.preferences.core)
+
+            // Material3 Adaptive Layout
+            implementation(libs.compose.material3.adaptive)
+            implementation(libs.compose.material3.adaptive.layout)
+            implementation(libs.compose.material3.adaptive.navigation)
+
+            // Material3 Window Size Class
+            implementation(libs.compose.material3.adaptive.navigation.suite)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
