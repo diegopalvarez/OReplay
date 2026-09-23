@@ -12,6 +12,8 @@ class ResultHistory(
     var classList: List<StageClass>,
     var clubList: List<StageClub>,
 
+    var currentCategory: StageCategory? = null,
+
     @Serializable(with = HistoryDequeSerializer::class)
     private val history: ArrayDeque<StageCategory> = ArrayDeque()
 ) {
