@@ -19,11 +19,14 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
+import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.ui.util.AppBarTitle
 import com.diegopalvarez.oreplay.ui.util.SmallAppBarTitle
 import oreplay.shared.generated.resources.Res
@@ -45,6 +48,8 @@ fun SidePanelTitleBar(
     scrollBehavior: TopAppBarScrollBehavior,
     displayTimezoneWarning: Boolean = false,
     isRefreshing: Boolean = false,
+    component: AbstractResultsComponent,
+    onOpenDialog: () -> Unit
 ) {
     // Create the icon rotation
     val rotation = remember { Animatable(0f) }
@@ -77,7 +82,7 @@ fun SidePanelTitleBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),   // TODO - Make the text be completely centered and the icon on the side
             ) {
-                SmallAppBarTitle(title, subtitle)
+                SmallAppBarTitle(title, subtitle, component, onOpenDialog)
                 if(displayTimezoneWarning) {
                     // Add a warning tooltip to Top Bar
                     TooltipBox(

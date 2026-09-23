@@ -136,7 +136,11 @@ fun ResultsScaffold(
                         Platform.WEB -> component::reloadResults
                         else -> null
                     },
-                    isRefreshing = isRefreshing.value
+                    isRefreshing = isRefreshing.value,
+                    component = component,
+                    onOpenDialog = {
+                        openChangeDialog.value = true
+                    }
                 )
             }
             else {
