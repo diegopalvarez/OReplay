@@ -19,6 +19,7 @@ fun EventGridRow(
     events: List<Event>,
     onEventClick: (Event) -> Unit,
     minCardHeight: Dp,
+    numberOfElements: Int,
 ) {
     Row(
         modifier = Modifier
@@ -37,11 +38,12 @@ fun EventGridRow(
             )
         }
 
-        // If this row only has one event, add a spacer
-        if(events.size == 1){
+        // If this row isn't filled with items, add a spacer
+        for(i in events.size until numberOfElements) {
+            // Add them in a loop to account for paddings
             Spacer(
                 modifier = Modifier
-                .weight(1f)
+                    .weight(1f)
                     .fillMaxHeight()
             )
         }

@@ -16,6 +16,7 @@ import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
+import com.diegopalvarez.oreplay.domain.model.StageCategory
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
@@ -84,12 +85,36 @@ class StageDetailsComponent(
     fun onEvent(event: StageDetailsEvent) {
         when (event) {
             is StageDetailsEvent.ClickClass -> {
+                // Update the navigation history adding the current class
+                val current = history.getCurrentCategory().value
+                if(current != null){
+                    // In case of a direct change without closing the previous class
+                    history.push(current)
+                }
+
                 onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass, history)
+
+                // Set up the new current category
+                history.setCurrentCategory(event.selectedClass)
             }
             is StageDetailsEvent.ClickClub -> {
+                // Update the navigation history adding the current class
+                val current = history.getCurrentCategory().value
+                if(current != null){
+                    // In case of a direct change without closing the previous class
+                    history.push(current)
+                }
                 onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub, history)
+
+                // Set up the new current category
+                history.setCurrentCategory(event.selectedClub)
             }
-            StageDetailsEvent.GoBack -> onGoBack()
+            StageDetailsEvent.GoBack -> {
+                // Remove the current selected category
+                history.clearCurrentCategory()
+
+                onGoBack()
+            }
         }
     }
 
@@ -201,6 +226,7 @@ class StageDetailsComponent(
                     eventID = pageEvent.id,
                     stageID = stage.id,
                     repository = repository,
+                    history = history,
                     addClasses = ::addClasses,
                     onClassClick = { stageClass ->
                         onEvent(StageDetailsEvent.ClickClass(stageClass))
@@ -213,6 +239,7 @@ class StageDetailsComponent(
                     eventID = pageEvent.id,
                     stageID = stage.id,
                     repository = repository,
+                    history = history,
                     addClubs = ::addClubs,
                     onClubClick = { stageClub ->
                         onEvent(StageDetailsEvent.ClickClub(stageClub))

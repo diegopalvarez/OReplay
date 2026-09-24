@@ -1,9 +1,12 @@
 package com.diegopalvarez.oreplay.feature.results.common.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.app.platform.Platform
@@ -32,7 +36,9 @@ import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResul
 import com.diegopalvarez.oreplay.ui.components.ErrorHelper
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import com.diegopalvarez.oreplay.ui.components.PullToRefresh
+import com.diegopalvarez.oreplay.ui.components.SidePanelTitleBar
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
+import com.diegopalvarez.oreplay.ui.util.isExpandedDevice
 import com.diegopalvarez.oreplay.ui.util.offsetOn
 import kotlinx.datetime.TimeZone
 import org.koin.compose.koinInject
@@ -104,33 +110,75 @@ fun ResultsScaffold(
         isTimezoneDifferent = isTimezoneDifferent
     )
 
+    // Get the Display Information to know what UI to display
+    val isLargeDevice = isExpandedDevice()
+
+    // Apply different modifiers depending on the device size
+    val modifier = if(isLargeDevice) {
+        Modifier
+            .padding(8.dp)
+            .clip(RoundedCornerShape(8.dp))
+    } else Modifier
+
+
     Scaffold(
         topBar = {
-            TitlePageBar(
-                title = tabName,
-                subtitle = stage.description.ifBlank { event.description },
-                navigationAction = {
-                    navigationAction()
-                },
-                scrollBehavior = scrollBehavior,
-                displayTimezoneWarning = timezoneIconDisplay,
-                refreshAction = when(platform.value){
-                    Platform.WEB -> component::reloadResults
-                    else -> null
-                },
-                isRefreshing = isRefreshing.value
-            )
+            if(isLargeDevice) {
+                SidePanelTitleBar(
+                    title = tabName,
+                    subtitle = stage.description.ifBlank { event.description },
+                    navigationAction = {
+                        navigationAction()
+                    },
+                    scrollBehavior = scrollBehavior,
+                    displayTimezoneWarning = timezoneIconDisplay,
+                    refreshAction = when(platform.value){
+                        Platform.WEB -> component::reloadResults
+                        else -> null
+                    },
+                    isRefreshing = isRefreshing.value,
+                    component = component,
+                    onOpenDialog = {
+                        openChangeDialog.value = true
+                    }
+                )
+            }
+            else {
+                TitlePageBar(
+                    title = tabName,
+                    subtitle = stage.description.ifBlank { event.description },
+                    navigationAction = {
+                        navigationAction()
+                    },
+                    scrollBehavior = scrollBehavior,
+                    displayTimezoneWarning = timezoneIconDisplay,
+                    refreshAction = when(platform.value){
+                        Platform.WEB -> component::reloadResults
+                        else -> null
+                    },
+                    isRefreshing = isRefreshing.value
+                )
+            }
         },
-        bottomBar = { ResultsNavBar(component) },
+        bottomBar = {
+            // Show only the Bottom Bar if the device isn't an Expanded Display
+            if(!isLargeDevice) {
+                ResultsNavBar(component)
+            }
+        },
         snackbarHost = { CombinedSnackbarHost(snackbarHostState, isError.value) },
         floatingActionButton = {
-            FABHistory(
-                component = component,
-                onOpenDialog = {
-                    openChangeDialog.value = true
-                }
-            )
-        }
+            // Show the FAB only if the device isn't an Expanded Display
+            if(!isLargeDevice) {
+                FABHistory(
+                    component = component,
+                    onOpenDialog = {
+                        openChangeDialog.value = true
+                    }
+                )
+            }
+        },
+        modifier = modifier
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -189,6 +237,23 @@ fun ResultsScaffold(
                 component = component
             )
             false -> Unit
+        }
+
+        // Show the Navigation Rail only if the display is an Expanded Display
+        if(isLargeDevice){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp),
+            ) {
+                // Show the navigation rail
+                ResultsNavigationToolbar(
+                    component = component,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                )
+            }
         }
     }
 }

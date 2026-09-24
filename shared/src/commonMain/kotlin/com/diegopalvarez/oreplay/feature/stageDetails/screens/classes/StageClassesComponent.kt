@@ -8,6 +8,7 @@ import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.stageDetails.common.AbstractStageComponent
 import kotlinx.coroutines.launch
 
@@ -16,9 +17,10 @@ class StageClassesComponent(
     private val eventID: String,
     private val stageID: String,
     private val repository: StageRepository,
+    history: ResultHistory,
     private val addClasses: (List<StageClass>) -> Unit,
     val onClassClick: (StageClass) -> Unit
-): AbstractStageComponent(componentContext) {
+): AbstractStageComponent(componentContext, history) {
 
     // Variable to store the list of classes.
     private val _list = MutableValue<List<StageClass>>(emptyList())

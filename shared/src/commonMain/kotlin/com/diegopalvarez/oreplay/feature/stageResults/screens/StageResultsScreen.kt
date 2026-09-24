@@ -1,8 +1,12 @@
 package com.diegopalvarez.oreplay.feature.stageResults.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.extensions.compose.experimental.panels.ChildPanels
@@ -84,7 +88,9 @@ fun StageResultsScreen(
                 },
                 animatable = ::materialPredictiveBackAnimatable
             )
-        }
+        },
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surfaceContainer)
 
     )
 }

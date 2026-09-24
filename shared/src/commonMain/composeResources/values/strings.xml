@@ -161,4 +161,5 @@
     <string name="reload_icon">Reload</string>
     <string name="menu_icon">Menu</string>
     <string name="select_category">Select a class or a club to see its results</string>
+    <string name="dropdown_icon">Show options</string>
 </resources>

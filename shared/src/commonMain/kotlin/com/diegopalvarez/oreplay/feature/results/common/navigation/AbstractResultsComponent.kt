@@ -113,6 +113,9 @@ abstract class AbstractResultsComponent(
         // Add the CURRENT class or club to the history before navigating
         updateStageHistory()
 
+        // Update the current selected category
+        stageHistory.setCurrentCategory(page)
+
         when(page){
             is StageClass -> onGoToClass(
                 event,

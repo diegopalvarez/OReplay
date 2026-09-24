@@ -161,4 +161,5 @@
     <string name="reload_icon">Recargar</string>
     <string name="menu_icon">Menú</string>
     <string name="select_category">Selecciona una categoría o un club para ver sus resultados</string>
+    <string name="dropdown_icon">Ver opciones</string>
 </resources>

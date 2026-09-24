@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.ui.scrollbar.VerticalScrollBar
+import com.diegopalvarez.oreplay.ui.util.isExpandedDevice
 
 @Composable
 fun FABLazyColumn(
@@ -38,6 +39,11 @@ fun FABLazyColumn(
     // Get the layout direction
     val layoutDirection = LocalLayoutDirection.current
 
+    // Adapt the bottom padding depending on the device type
+    val isLargeDevice = isExpandedDevice()
+
+    val bottomPadding = if(isLargeDevice) 96.dp else 88.dp
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -49,7 +55,7 @@ fun FABLazyColumn(
                 start = contentPadding.calculateStartPadding(layoutDirection),
                 top = contentPadding.calculateTopPadding(),
                 end = contentPadding.calculateEndPadding(layoutDirection),
-                bottom = 88.dp
+                bottom = bottomPadding
             ),
             reverseLayout = reverseLayout,
             verticalArrangement = verticalArrangement,

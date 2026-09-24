@@ -5,6 +5,8 @@ import com.diegopalvarez.oreplay.domain.model.StageCategory
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.serializer.HistoryDequeSerializer
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -52,4 +54,20 @@ class ResultHistory(
     fun updateClubList(list: List<StageClub>){
         clubList = list
     }
+
+    // StateFlow to store the current selected category
+    private val currentCategory: MutableStateFlow<StageCategory?> = MutableStateFlow(null)
+
+    // Function to edit the current category
+    fun setCurrentCategory(category: StageCategory) {
+        currentCategory.value = category
+    }
+
+    // Function to empty the current category
+    fun clearCurrentCategory() {
+        currentCategory.value = null
+    }
+
+    // Function to get the current category
+    fun getCurrentCategory(): StateFlow<StageCategory?> = currentCategory
 }

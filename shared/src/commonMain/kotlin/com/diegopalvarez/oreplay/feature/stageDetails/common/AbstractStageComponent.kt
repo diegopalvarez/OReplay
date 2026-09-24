@@ -8,11 +8,13 @@ import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 abstract class AbstractStageComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    val history: ResultHistory,
 ): ComponentContext by componentContext {
 
     // Declare the coroutine scope

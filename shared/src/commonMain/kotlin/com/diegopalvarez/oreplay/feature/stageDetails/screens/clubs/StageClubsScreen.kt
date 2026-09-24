@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,9 @@ fun StageClubsScreen(
     // Subscribe to the type of error received
     val errorType = component.errorType.subscribeAsState()
 
+    // Get the current selected category
+    val currentSelected = component.history.getCurrentCategory().collectAsState()
+
     if(!isLoaded.value){
         // If the data hasn't loaded yet, show a progress indicator
         Column(
@@ -63,7 +67,8 @@ fun StageClubsScreen(
                         club = it,
                         onClick = { stageClub ->
                             component.onClubClick(stageClub)
-                        }
+                        },
+                        isSelected = it == currentSelected.value,
                     )
                 }
             }
