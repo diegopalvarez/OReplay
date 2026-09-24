@@ -9,6 +9,7 @@ import com.diegopalvarez.oreplay.core.util.onSuccess
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.StageRepository
+import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
 import com.diegopalvarez.oreplay.feature.stageDetails.common.AbstractStageComponent
 import kotlinx.coroutines.launch
 
@@ -17,9 +18,10 @@ class StageClubsComponent(
     private val eventID: String,
     private val stageID: String,
     private val repository: StageRepository,
+    history: ResultHistory,
     private val addClubs: (List<StageClub>) -> Unit,
     val onClubClick: (StageClub) -> Unit
-): AbstractStageComponent(componentContext) {
+): AbstractStageComponent(componentContext, history) {
 
     // Variable to store the list of clubs.
     private val _list = MutableValue<List<StageClub>>(emptyList())

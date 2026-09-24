@@ -21,6 +21,7 @@ import com.diegopalvarez.oreplay.ui.util.display
 fun ClubListItem(
     club: StageClub,
     onClick: (StageClub) -> Unit,
+    isSelected: Boolean,
 ) {
     SegmentedListItem(
         shapes = ListItemDefaults.shapes(),
@@ -36,7 +37,7 @@ fun ClubListItem(
             onClick(club)
         },
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = if(isSelected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceVariant,
         )
     ){
         Text(

@@ -114,7 +114,7 @@ abstract class AbstractResultsComponent(
         updateStageHistory()
 
         // Update the current selected category
-        stageHistory.currentCategory = page
+        stageHistory.setCurrentCategory(page)
 
         when(page){
             is StageClass -> onGoToClass(

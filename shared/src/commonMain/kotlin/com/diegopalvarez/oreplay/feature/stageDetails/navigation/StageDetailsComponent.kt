@@ -86,7 +86,7 @@ class StageDetailsComponent(
         when (event) {
             is StageDetailsEvent.ClickClass -> {
                 // Update the navigation history adding the current class
-                val current = history.currentCategory
+                val current = history.getCurrentCategory().value
                 if(current != null){
                     // In case of a direct change without closing the previous class
                     history.push(current)
@@ -95,11 +95,11 @@ class StageDetailsComponent(
                 onNavigateToClassResultsScreen(pageEvent, stage, event.selectedClass, history)
 
                 // Set up the new current category
-                history.currentCategory = event.selectedClass
+                history.setCurrentCategory(event.selectedClass)
             }
             is StageDetailsEvent.ClickClub -> {
                 // Update the navigation history adding the current class
-                val current = history.currentCategory
+                val current = history.getCurrentCategory().value
                 if(current != null){
                     // In case of a direct change without closing the previous class
                     history.push(current)
@@ -107,11 +107,11 @@ class StageDetailsComponent(
                 onNavigateToClubResultsScreen(pageEvent, stage, event.selectedClub, history)
 
                 // Set up the new current category
-                history.currentCategory = event.selectedClub
+                history.setCurrentCategory(event.selectedClub)
             }
             StageDetailsEvent.GoBack -> {
                 // Remove the current selected category
-                history.currentCategory = null
+                history.clearCurrentCategory()
 
                 onGoBack()
             }
@@ -226,6 +226,7 @@ class StageDetailsComponent(
                     eventID = pageEvent.id,
                     stageID = stage.id,
                     repository = repository,
+                    history = history,
                     addClasses = ::addClasses,
                     onClassClick = { stageClass ->
                         onEvent(StageDetailsEvent.ClickClass(stageClass))
@@ -238,6 +239,7 @@ class StageDetailsComponent(
                     eventID = pageEvent.id,
                     stageID = stage.id,
                     repository = repository,
+                    history = history,
                     addClubs = ::addClubs,
                     onClubClick = { stageClub ->
                         onEvent(StageDetailsEvent.ClickClub(stageClub))
