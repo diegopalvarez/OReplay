@@ -4,17 +4,19 @@ import kotlinx.datetime.LocalDateTime
 import kotlin.time.Instant
 
 data class ResultIndividual(
-    val id: String,
-    val bibNumber: String?,
-    val isNc: Boolean,
-    val eligibility: Boolean?,
+    override val id: String,
+    override val bibNumber: String?,
+    override val isNc: Boolean,
+    override val eligibility: Boolean?,
+    override val fullName: String,
+    override val stageResult: StageResult?,
+    override val overallResult: Overall?,
+
+    // Individual-specific information
     val siCard: String,
     val sex: String?,
     val legNumber: Long,
     val created: Instant,
     val runnerClass: ResultClass?,
     val runnerClub: StageClub?,
-    val fullName: String,
-    val stageResult: StageResult?,
-    val overallResult: Overall?
 ): Result

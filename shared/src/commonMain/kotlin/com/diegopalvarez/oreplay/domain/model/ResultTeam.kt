@@ -6,20 +6,22 @@ import kotlin.time.Duration
 import kotlin.time.Instant
 
 data class ResultTeam(
-    val id: String,
-    val bibNumber: String?,
-    val isNc: Boolean,
-    val eligibility: Boolean?,
+    override val id: String,
+    override val bibNumber: String?,
+    override val isNc: Boolean,
+    override val eligibility: Boolean?,
+    override val fullName: String,
+
+    // Team-specific information
     val legs: Long?,
     val created: Instant,
     val runners: List<ResultIndividual>,
     val teamClass: ResultClass?,
     val teamClub: StageClub?,
-    val fullName: String,
 
     // Final team result information
-    val stageResult: StageResult?,
-    val overallResult: Overall?,
+    override val stageResult: StageResult?,
+    override val overallResult: Overall?,
 
     // Additional information for the team result
     val isAccumulatedError: MutableList<Boolean> = mutableListOf(),
