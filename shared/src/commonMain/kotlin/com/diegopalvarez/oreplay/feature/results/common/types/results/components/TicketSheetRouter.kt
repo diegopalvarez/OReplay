@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.diegopalvarez.oreplay.core.util.RepositoryError
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.domain.model.ResultTeamRunner
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.classic.ClassicTicketSheet
@@ -47,7 +48,12 @@ fun TicketSheetRouter(
                 // Check if the team is set up
                 when(team){
                     Optional.None -> ErrorHelper(RepositoryError.INTERNAL)
-                    is Optional.Some-> RelayTicketSheet(runnerResult, team.value, eventTimezone, component)
+                    is Optional.Some-> {
+                        // Get the runner team result from the team
+                        val runnerTeamResult = team.value.runners.get(runnerResult.legNumber.toInt() - 1)
+
+                        RelayTicketSheet(runnerTeamResult, team.value, eventTimezone, component)
+                    }
                 }
             }
             StageType.SCORE -> ScoreTicketSheet(runnerResult, eventTimezone, component as ScoreResultsComponent)

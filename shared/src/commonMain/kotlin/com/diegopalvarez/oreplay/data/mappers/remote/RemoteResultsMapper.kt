@@ -10,16 +10,14 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverall
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
-import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteSplit
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteStageResult
-import com.diegopalvarez.oreplay.domain.model.Control
 import com.diegopalvarez.oreplay.domain.model.Overall
 import com.diegopalvarez.oreplay.domain.model.OverallResult
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.domain.model.ResultTeamRunner
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
 import com.diegopalvarez.oreplay.domain.model.StageResult
-import com.diegopalvarez.oreplay.domain.types.ControlID
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import kotlin.time.Duration
 import kotlin.Long
@@ -348,7 +346,7 @@ private fun calculateRelayTimes(results: List<ResultTeam>) {
     // TODO - Check what's incomplete from the API. Will relay time behind be added or do I need to calculate it here?
     for (team in results) {
         for (runner in team.runners) {
-            calculateTime(runner)
+            calculateTime(runner.individualResult)
         }
     }
 }
@@ -367,29 +365,12 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
     // TODO - Check why legs is null in the API response :(
     val numberLegs = results.maxOfOrNull { it.runners.size } ?: return      // Return if there's no runners
 
-    // Create and initialize all the list for all the runners
-    results.forEach {
-        val size = it.runners.size
-
-        it.isAccumulatedError.clear()
-        it.isAccumulatedError.addAll(List(size) { false })
-
-        it.teamPositions.clear()
-        it.teamPositions.addAll(List(size) { 0L })
-
-        it.teamAccumulatedTime.clear()
-        it.teamAccumulatedTime.addAll(List(size) { Duration.INFINITE })
-
-        it.teamTimeBehind.clear()
-        it.teamTimeBehind.addAll(List(size) { Duration.INFINITE })
-    }
-
     // Calculate if every leg for every team is an Accumulated Error
     results.forEach { team ->
         var errorHasHappened = false
-        team.runners.forEachIndexed { index, runner ->
-            if(runner.stageResult?.statusCode != StatusCode.OK) errorHasHappened = true
-            team.isAccumulatedError[index] = errorHasHappened
+        team.runners.forEach { runner ->
+            if(runner.individualResult.stageResult?.statusCode != StatusCode.OK) errorHasHappened = true
+            runner.isAccumulatedError = errorHasHappened
         }
     }
 
@@ -397,39 +378,39 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
     for(leg in 0 until numberLegs){
         // Get all the teams with this leg and remove the ones with an accumulated error
         val teamsWithLeg = results.filter {
-            it.runners.getOrNull(leg)?.stageResult != null
-        }.filterNot { it.isAccumulatedError[leg] }
+            it.runners.getOrNull(leg)?.individualResult?.stageResult != null
+        }.filterNot { it.runners[leg].isAccumulatedError }      // The teams remaining must have a runner for this leg that isn't null
 
         if(teamsWithLeg.isEmpty()) continue
 
         // Calculate the accumulated time for all runners in this leg
         teamsWithLeg
             .forEach {
-                val previousAccumulated = it.teamAccumulatedTime.getOrElse(leg - 1, { 0.seconds })
-                it.teamAccumulatedTime[leg] = previousAccumulated + it.runners[leg].stageResult!!.timeSeconds        // This will never be null
+                val previousAccumulated = it.runners.getOrNull(leg - 1)?.teamAccumulatedTime ?:  0.seconds
+                it.runners[leg].teamAccumulatedTime = previousAccumulated + it.runners[leg].individualResult.stageResult!!.timeSeconds        // This will never be null
             }
 
         // Calculate the timeBehind for all the runners in this leg
-        val legWinnerTime = teamsWithLeg.minOf { it.runners[leg].stageResult!!.timeSeconds }
+        val legWinnerTime = teamsWithLeg.minOf { it.runners[leg].individualResult.stageResult!!.timeSeconds }
 
         teamsWithLeg
             .forEach {
-                it.runners[leg].stageResult!!.timeBehind = it.runners[leg].stageResult!!.timeSeconds - legWinnerTime        // stageResult should never be null
+                it.runners[leg].individualResult.stageResult!!.timeBehind = it.runners[leg].individualResult.stageResult!!.timeSeconds - legWinnerTime        // stageResult should never be null
             }
 
         // Sort the runners in this leg by accumulated times. Also removes all teams that don't have this specific leg
         // TODO - See if it's correct to not take into account those teams that are NC
         val sortedBestTime = teamsWithLeg
-            .sortedBy { it.teamAccumulatedTime[leg] }
+            .sortedBy { it.runners[leg].teamAccumulatedTime }
 
         // Get the first runner by accumulated time for setting the best time
         val accumulatedLegBestTime = sortedBestTime.first()
         // The team with the best accumulated time this leg can be an NC team
-        val winnerAccumulatedTime = accumulatedLegBestTime.teamAccumulatedTime[leg]
+        val winnerAccumulatedTime = accumulatedLegBestTime.runners[leg].teamAccumulatedTime
 
         // Calculate the time behind for all runners, NC and non-NC
         sortedBestTime.forEach { team ->
-            team.teamTimeBehind[leg] = team.teamAccumulatedTime[leg] - winnerAccumulatedTime
+            team.runners[leg].teamTimeBehind = team.runners[leg].teamAccumulatedTime - winnerAccumulatedTime
         }
 
         // Calculate the positions only for the teams that are not NC
@@ -439,21 +420,21 @@ private fun calculateLegRanks(results: List<ResultTeam>) {
         if(rankedTeams.isEmpty()) continue
 
         // Set the position for the first team
-        rankedTeams.first().teamPositions[leg] = 1L
+        rankedTeams.first().runners[leg].teamPositions = 1L
 
         // Iterate over every ranked team to calculate their position accounting for ties
         for(teamIndex in 1 until rankedTeams.size){
             val previousTeam = rankedTeams[teamIndex - 1]
             val currentTeam = rankedTeams[teamIndex]
 
-            val previousAccumulatedTime = previousTeam.teamAccumulatedTime[leg]
-            val currentAccumulatedTime = currentTeam.teamAccumulatedTime[leg]
+            val previousAccumulatedTime = previousTeam.runners[leg].teamAccumulatedTime
+            val currentAccumulatedTime = currentTeam.runners[leg].teamAccumulatedTime
 
             // TODO - See if it's correct to not take into account those teams that are NC
-            currentTeam.teamPositions[leg] =
+            currentTeam.runners[leg].teamPositions =
                 if(previousAccumulatedTime == currentAccumulatedTime){
                     // If the time is the same to the previous one, the position is the same
-                    previousTeam.teamPositions[leg]
+                    previousTeam.runners[leg].teamPositions
                 }
                 else{
                     // If not, skip over the missed positions due to ties (1, 2, 2, 4)
@@ -500,12 +481,22 @@ private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
 }
 
 /**
+ * Private function to map an individual runner of a team
+ * @param
+ */
+private fun getTeamRunnerResult(result: RemoteResult): ResultTeamRunner {
+    return ResultTeamRunner(
+        individualResult = getIndividualResult(result),
+    )
+}
+
+/**
  * Private function to map the list of runners of a team
  * @param runnerList list of runners from the API
  * @return list of ResultIndividual
  */
-private fun getTeamRunners(runnerList: List<RemoteResult>): List<ResultIndividual> {
-    return runnerList.map(::getIndividualResult)
+private fun getTeamRunners(runnerList: List<RemoteResult>): List<ResultTeamRunner> {
+    return runnerList.map(::getTeamRunnerResult)
 }
 
 /**

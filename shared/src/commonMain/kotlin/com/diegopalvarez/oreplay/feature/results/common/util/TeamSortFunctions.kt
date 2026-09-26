@@ -2,6 +2,7 @@ package com.diegopalvarez.oreplay.feature.results.common.util
 
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.domain.model.ResultTeamRunner
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import kotlin.time.Clock
 import kotlin.time.Duration
@@ -245,7 +246,7 @@ fun liveRelayTime(
     var isValidResult = false
 
     for(i in 0 until maxLeg){
-        val legTime = liveParticipantTime(result.runners[i], now)
+        val legTime = liveParticipantTime(result.runners[i].individualResult, now)
 
         if(legTime != null){
             teamTime += legTime
@@ -263,10 +264,10 @@ fun liveRelayTime(
 }
 
 fun findLastFinishedRelayLeg(
-    members: List<ResultIndividual>
+    members: List<ResultTeamRunner>
 ): Int{
     for(i in members.indices.reversed()){
-        if(hasFinished(members[i])){
+        if(hasFinished(members[i].individualResult)){
             return i
         }
     }
@@ -287,8 +288,9 @@ fun findLegsNumberRunning(
 
     // Find the legs that have started
     return result.runners.filter { leg ->
-        leg.stageResult != null && leg.stageResult.startTime != null && leg.stageResult.finishTime == null && liveNow > leg.stageResult.startTime
-    }.map { leg -> leg.legNumber }
+        val result = leg.individualResult
+        result.stageResult != null && result.stageResult.startTime != null && result.stageResult.finishTime == null && liveNow > result.stageResult.startTime
+    }.map { leg -> leg.individualResult.legNumber }
 }
 
 fun sortByLiveRelayTime(now: Instant): Comparator<ResultTeam> {

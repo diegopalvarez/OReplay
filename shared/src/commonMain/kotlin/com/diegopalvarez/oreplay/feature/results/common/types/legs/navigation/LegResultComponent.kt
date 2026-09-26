@@ -55,16 +55,19 @@ class LegResultComponent(
                 .filterIsInstance<ResultTeam>()
                 .filter { it.runners.size >= legNumber }
                 .map { team ->
+                    // Get the runner for this leg
+                    val runner = team.runners.first { it.individualResult.legNumber.toInt() == legNumber }
+                    val previousRunner = team.runners.firstOrNull { it.individualResult.legNumber.toInt() == legNumber - 1 }
                     // Create a RelayLegResult for each leg runner in the team
                     RelayLegResult(
-                        result = team.runners.first { it.legNumber.toInt() == legNumber },
+                        result = runner.individualResult,
                         teamName = team.fullName,
                         teamNC = team.isNc,
-                        teamError = if(team.isAccumulatedError[legNumber - 1]) team.stageResult?.statusCode ?: StatusCode.OK else StatusCode.OK,
-                        accumulatedPosition = team.teamPositions[legNumber - 1],
-                        previousPosition = team.teamPositions.getOrNull(legNumber - 2),
-                        teamTime = team.teamAccumulatedTime[legNumber - 1],
-                        teamTimeBehind = team.teamTimeBehind[legNumber - 1],
+                        teamError = if(runner.isAccumulatedError) team.stageResult?.statusCode ?: StatusCode.OK else StatusCode.OK,
+                        accumulatedPosition = runner.teamPositions,
+                        previousPosition = previousRunner?.teamPositions,
+                        teamTime = runner.teamAccumulatedTime,
+                        teamTimeBehind = runner.teamTimeBehind,
                     )
 
                 }

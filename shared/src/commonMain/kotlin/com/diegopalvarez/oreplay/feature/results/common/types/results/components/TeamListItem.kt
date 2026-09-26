@@ -61,27 +61,28 @@ fun TeamListItem(
                     for(index in teamResult.runners.indices){
                         val member = teamResult.runners[index]
                         SegmentedListItem(
-                            onClick = { showTicketDrawer(member, teamResult) },
+                            onClick = { showTicketDrawer(member.individualResult, teamResult) },
                             shapes = ListItemDefaults.shapes(),
                             enabled = true,
                             overlineContent = null,
                             leadingContent = {
                                 Text(
-                                    text = "${member.legNumber}.",
+                                    text = "${member.individualResult.legNumber}.",
                                     style = MaterialTheme.typography.bodyLarge,
                                     fontWeight = FontWeight.Bold,
                                 )
                             },
-                            trailingContent =   if(member.stageResult != null){
+                            trailingContent =   if(member.individualResult.stageResult != null){
                                 // Final time and Time Behind for the leg
+                                val stageResult = member.individualResult.stageResult
                                 teamListItemTrailingContent(
-                                    isNC = member.isNc,
-                                    result = member.stageResult,
-                                    statusCode = member.stageResult.statusCode,
+                                    isNC = member.individualResult.isNc,
+                                    result = stageResult,
+                                    statusCode = stageResult.statusCode,
                                     now = now,
-                                    position = member.stageResult.position,
-                                    accumulatedTime = teamResult.teamAccumulatedTime[index],
-                                    isAccumulatedError = teamResult.isAccumulatedError[index],
+                                    position = stageResult.position,
+                                    accumulatedTime = member.teamAccumulatedTime,
+                                    isAccumulatedError = member.isAccumulatedError,
                                     teamStatusCode = teamResult.stageResult.statusCode
                                 )
                             } else null,
@@ -95,7 +96,7 @@ fun TeamListItem(
                         ){
                             // Name of the team runner
                             Text(
-                                text = member.fullName
+                                text = member.individualResult.fullName
                             )
                         }
                     }

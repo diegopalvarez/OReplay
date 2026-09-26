@@ -4,7 +4,7 @@ import kotlin.time.Duration
 
 data class ResultTeamRunner(
     // Individual Runner Result
-    val result: ResultIndividual,
+    val individualResult: ResultIndividual,
 
     // Additional team information
     var isAccumulatedError: Boolean = false,
