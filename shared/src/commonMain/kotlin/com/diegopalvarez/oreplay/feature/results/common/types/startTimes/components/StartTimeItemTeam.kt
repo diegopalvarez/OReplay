@@ -72,7 +72,7 @@ fun StartTimeItemTeam(
             // Names of the members of the team as supporting content
 
             // Order the team members by team number
-            val orderedMembers = team.runners.sortedBy { it.legNumber }
+            val orderedMembers = team.runners.sortedBy { it.individualResult.legNumber }
             Column(
                 modifier = Modifier
                     .fillMaxHeight(),
@@ -88,12 +88,12 @@ fun StartTimeItemTeam(
                     ) {
                         // Number of the member in the team
                         Text(
-                            text = "${member.legNumber}.",
+                            text = "${member.individualResult.legNumber}.",
                             style = MaterialTheme.typography.bodySmall,
                         )
 
                         Text(
-                            text = member.fullName,
+                            text = member.individualResult.fullName,
                             style = MaterialTheme.typography.bodySmall,
                         )
                     }

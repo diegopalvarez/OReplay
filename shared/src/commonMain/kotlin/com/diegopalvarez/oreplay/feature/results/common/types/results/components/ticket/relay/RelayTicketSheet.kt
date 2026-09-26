@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
+import com.diegopalvarez.oreplay.domain.model.ResultTeamRunner
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.NoChipDownload
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ticket.common.TicketSheet
@@ -20,11 +21,14 @@ import kotlinx.datetime.TimeZone
 
 @Composable
 fun RelayTicketSheet(
-    runnerResult: ResultIndividual,
+    runnerResult: ResultTeamRunner,
     teamResult: ResultTeam,
     eventTimezone: TimeZone,
     component: CommonResultComponent
 ) {
+    // Get the runner individual result
+    val individualResult = runnerResult.individualResult
+
     ScrollableLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -34,29 +38,29 @@ fun RelayTicketSheet(
     ) {
         // Information about the team and the runner
         item {
-            TeamInformationHeader(teamResult, runnerResult, component)
+            TeamInformationHeader(teamResult, individualResult, component)
         }
 
         // Information about the team and runner results
-        if (teamResult.stageResult != null && runnerResult.stageResult != null) {
-            val runnerLeg = runnerResult.legNumber.toInt() - 1      // The legs start at 1
+        if (teamResult.stageResult != null && individualResult.stageResult != null) {
+            val runnerLeg = individualResult.legNumber.toInt() - 1      // The legs start at 1
             item {
                 TeamResultsHeader(
-                    runnerResult.stageResult,
-                    teamResult.teamPositions[runnerLeg],
-                    teamResult.teamAccumulatedTime[runnerLeg],
-                    teamResult.teamTimeBehind[runnerLeg],
-                    teamResult.isAccumulatedError[runnerLeg],
+                    individualResult.stageResult,
+                    runnerResult.teamPositions,
+                    runnerResult.teamAccumulatedTime,
+                    runnerResult.teamTimeBehind,
+                    runnerResult.isAccumulatedError,
                     teamResult.stageResult.statusCode,
                     eventTimezone
                 )
             }
 
-            if (runnerResult.stageResult.statusCode != StatusCode.DID_NOT_START) {
-                if(runnerResult.stageResult.finishTime != null){    // Only show splits table if the runner has finished
+            if (individualResult.stageResult.statusCode != StatusCode.DID_NOT_START) {
+                if(individualResult.stageResult.finishTime != null){    // Only show splits table if the runner has finished
                     item {
                         // The table of splits is the same as in the One-Man Relay
-                        OneManRelayTicketSplitTable(runnerResult.stageResult)
+                        OneManRelayTicketSplitTable(individualResult.stageResult)
                     }
                 }
                 else{

@@ -515,7 +515,7 @@ class RemoteResultsMapperTest {
         assertEquals(4, stageResult.legNumber)
 
         // Test the Runners
-        val winner = response.runners[1]
+        val winner = response.runners[1].individualResult
         val correctPartials = listOf("1m", "40s", "35s", "46s", "1m 3s", "9s", "27s", "58s", "1m 9s", "1m 10s", "33s", "27s")
         val correctAccumulated = listOf("1m", "1m 40s", "2m 15s", "3m 1s", "4m 4s", "4m 13s", "4m 40s", "5m 38s", "6m 47s", "7m 57s", "8m 30s", "8m 57s")
 
@@ -531,7 +531,7 @@ class RemoteResultsMapperTest {
             assertNull(splits[i].accumulatedPosition)
         }
 
-        val mp = response.runners[0]
+        val mp = response.runners[0].individualResult
         val mpPartials = listOf("5m 56s", "7m 53s", "2m 56s", "30s", "1m 30s", "12s", "32s", "1m 45s", null, null, "2m 23s", "36s")
         val mpAccumulated = listOf("5m 56s", "13m 49s", "16m 45s", "17m 15s", "18m 45s", "18m 57s", "19m 29s", "21m 14s", null, "23m 31s", "25m 54s", "26m 30s")
 
@@ -562,8 +562,8 @@ class RemoteResultsMapperTest {
         assertNull(result.overallResult)
 
         for(runner in result.runners){
-            assertNotNull(runner.stageResult)
-            assertEquals(1, runner.stageResult.splits.size)
+            assertNotNull(runner.individualResult.stageResult)
+            assertEquals(1, runner.individualResult.stageResult.splits.size)
         }
 
         // Test the final result
@@ -584,8 +584,8 @@ class RemoteResultsMapperTest {
         val result = response.first()
 
         for(runner in result.runners){
-            assertNotNull(runner.stageResult)
-            assertEquals(1, runner.stageResult.splits.size)
+            assertNotNull(runner.individualResult.stageResult)
+            assertEquals(1, runner.individualResult.stageResult.splits.size)
         }
 
         // Test the missing data
@@ -662,7 +662,8 @@ class RemoteResultsMapperTest {
             assertEquals(4, team.runners.size)
 
             // Test the individual time behinds per leg
-            for(runner in team.runners){
+            for(teamRunner in team.runners){
+                val runner = teamRunner.individualResult
                 val index = runner.legNumber.toInt() - 1
 
                 assertNotNull(runner.stageResult)
@@ -670,10 +671,10 @@ class RemoteResultsMapperTest {
                 assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
 
                 // Test the team metrics
-                assertEquals(false, team.isAccumulatedError[index])
-                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
-                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
-                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+                assertEquals(false, teamRunner.isAccumulatedError)
+                assertEquals(teamPositions[teamIndex][index], teamRunner.teamPositions)
+                assertEquals(teamAccumulatedTime[teamIndex][index], teamRunner.teamAccumulatedTime)
+                assertEquals(teamTimeBehind[teamIndex][index], teamRunner.teamTimeBehind)
             }
 
         }
@@ -720,7 +721,8 @@ class RemoteResultsMapperTest {
             assertEquals(4, team.runners.size)
 
             // Test the individual time behinds per leg
-            for(runner in team.runners){
+            for(teamRunner in team.runners){
+                val runner = teamRunner.individualResult
                 val index = runner.legNumber.toInt() - 1
 
                 assertNotNull(runner.stageResult)
@@ -728,10 +730,10 @@ class RemoteResultsMapperTest {
                 assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
 
                 // Test the team metrics
-                assertEquals(isAccumulatedError[teamIndex][index], team.isAccumulatedError[index])
-                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
-                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
-                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+                assertEquals(isAccumulatedError[teamIndex][index], teamRunner.isAccumulatedError)
+                assertEquals(teamPositions[teamIndex][index], teamRunner.teamPositions)
+                assertEquals(teamAccumulatedTime[teamIndex][index], teamRunner.teamAccumulatedTime)
+                assertEquals(teamTimeBehind[teamIndex][index], teamRunner.teamTimeBehind)
             }
 
         }
@@ -775,7 +777,8 @@ class RemoteResultsMapperTest {
             assertEquals(4, team.runners.size)
 
             // Test the individual time behinds per leg
-            for (runner in team.runners) {
+            for (teamRunner in team.runners) {
+                val runner = teamRunner.individualResult
                 val index = runner.legNumber.toInt() - 1
 
                 assertNotNull(runner.stageResult)
@@ -783,10 +786,10 @@ class RemoteResultsMapperTest {
                 assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
 
                 // Test the team metrics
-                assertEquals(false, team.isAccumulatedError[index])
-                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
-                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
-                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+                assertEquals(false, teamRunner.isAccumulatedError)
+                assertEquals(teamPositions[teamIndex][index], teamRunner.teamPositions)
+                assertEquals(teamAccumulatedTime[teamIndex][index], teamRunner.teamAccumulatedTime)
+                assertEquals(teamTimeBehind[teamIndex][index], teamRunner.teamTimeBehind)
             }
 
         }
@@ -825,7 +828,8 @@ class RemoteResultsMapperTest {
             assertEquals(4, team.runners.size)
 
             // Test the individual time behinds per leg
-            for (runner in team.runners) {
+            for (teamRunner in team.runners) {
+                val runner = teamRunner.individualResult
                 val index = runner.legNumber.toInt() - 1
 
                 assertNotNull(runner.stageResult)
@@ -833,10 +837,10 @@ class RemoteResultsMapperTest {
                 assertEquals(individualTimeBehinds[teamIndex][index], runner.stageResult.timeBehind)
 
                 // Test the team metrics
-                assertEquals(false, team.isAccumulatedError[index])
-                assertEquals(0, team.teamPositions[index])          // All NC positions are 0
-                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
-                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])
+                assertEquals(false, teamRunner.isAccumulatedError)
+                assertEquals(0, teamRunner.teamPositions)          // All NC positions are 0
+                assertEquals(teamAccumulatedTime[teamIndex][index], teamRunner.teamAccumulatedTime)
+                assertEquals(teamTimeBehind[teamIndex][index], teamRunner.teamTimeBehind)
             }
 
         }
@@ -861,7 +865,8 @@ class RemoteResultsMapperTest {
             assertEquals(4, team.runners.size)
 
             // Test the individual time behinds per leg
-            for(runner in team.runners){
+            for(teamRunner in team.runners){
+                val runner = teamRunner.individualResult
                 val index = runner.legNumber.toInt() - 1
 
                 assertNotNull(runner.stageResult)
@@ -869,10 +874,10 @@ class RemoteResultsMapperTest {
                 assertEquals(0.seconds, runner.stageResult.timeBehind)  // If there's a tie, the time behind for both is 0
 
                 // Test the team metrics
-                assertEquals(false, team.isAccumulatedError[index])
-                assertEquals(1, team.teamPositions[index])
-                assertEquals(teamAccumulatedTime[index], team.teamAccumulatedTime[index])
-                assertEquals(0.seconds, team.teamTimeBehind[index])     // If there's a tie, the time behind for both is 0
+                assertEquals(false, teamRunner.isAccumulatedError)
+                assertEquals(1, teamRunner.teamPositions)
+                assertEquals(teamAccumulatedTime[index], teamRunner.teamAccumulatedTime)
+                assertEquals(0.seconds, teamRunner.teamTimeBehind)     // If there's a tie, the time behind for both is 0
             }
 
         }
@@ -922,7 +927,8 @@ class RemoteResultsMapperTest {
             assertEquals(4, team.runners.size)
 
             // Test the individual time behinds per leg
-            for(runner in team.runners){
+            for(teamRunner in team.runners){
+                val runner = teamRunner.individualResult
                 val index = runner.legNumber.toInt() - 1
 
                 assertNotNull(runner.stageResult)
@@ -930,10 +936,10 @@ class RemoteResultsMapperTest {
                 assertEquals(timeBehind[teamIndex][index], runner.stageResult.timeBehind)  // If there's a tie, the time behind for both is 0
 
                 // Test the team metrics
-                assertEquals(false, team.isAccumulatedError[index])
-                assertEquals(teamPositions[teamIndex][index], team.teamPositions[index])
-                assertEquals(teamAccumulatedTime[teamIndex][index], team.teamAccumulatedTime[index])
-                assertEquals(teamTimeBehind[teamIndex][index], team.teamTimeBehind[index])     // If there's a tie, the time behind for both is 0
+                assertEquals(false, teamRunner.isAccumulatedError)
+                assertEquals(teamPositions[teamIndex][index], teamRunner.teamPositions)
+                assertEquals(teamAccumulatedTime[teamIndex][index], teamRunner.teamAccumulatedTime)
+                assertEquals(teamTimeBehind[teamIndex][index], teamRunner.teamTimeBehind)     // If there's a tie, the time behind for both is 0
             }
 
         }
