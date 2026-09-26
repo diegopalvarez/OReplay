@@ -43,28 +43,28 @@ fun SplitTime(
     ) {
         if(total != null){
             // In case of an MP, there can be an accumulated time with total (the ones you punch) but no split because you missed the last one
-            Text(
-                text = total.display(),
-                style = style,
-                fontWeight = weight,
-            )
+            if(position != null){
+                // If there's a position calculated, display it next to the total time
+                Text(
+                    text = "${total.display()} (${position})",
+                    style = style,
+                    fontWeight = weight,
+                )
+            }
+            else{
+                Text(
+                    text = total.display(),
+                    style = style,
+                    fontWeight = weight,
+                )
+            }
 
             if(partial != null){
-                // If there's a position calculated, display it next to the partial
-                if(position != null){
-                    Text(
-                        text = "+${partial.display()} (${position})",
-                        style = style,
-                        fontWeight = weight,
-                    )
-                }
-                else{
-                    Text(
-                        text = "+${partial.display()}",
-                        style = style,
-                        fontWeight = weight,
-                    )
-                }
+                Text(
+                    text = "+${partial.display()}",
+                    style = style,
+                    fontWeight = weight,
+                )
             }
             else{
                 Text(
