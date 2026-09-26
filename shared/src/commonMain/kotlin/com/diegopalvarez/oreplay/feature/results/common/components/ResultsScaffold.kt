@@ -114,7 +114,7 @@ fun ResultsScaffold(
 
     // Apply different modifiers depending on the device size
     val modifier = if(isLargeDevice) {
-        if(platform.value == Platform.WEB){
+        if(platform.value == Platform.WEB || platform.value == Platform.WEB_TOUCHABLE) {
             Modifier
                 .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp))
