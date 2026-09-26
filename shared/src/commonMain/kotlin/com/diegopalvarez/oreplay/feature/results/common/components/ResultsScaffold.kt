@@ -1,6 +1,5 @@
 package com.diegopalvarez.oreplay.feature.results.common.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
@@ -38,6 +36,7 @@ import com.diegopalvarez.oreplay.ui.components.NoDataScreen
 import com.diegopalvarez.oreplay.ui.components.PullToRefresh
 import com.diegopalvarez.oreplay.ui.components.SidePanelTitleBar
 import com.diegopalvarez.oreplay.ui.components.TitlePageBar
+import com.diegopalvarez.oreplay.ui.util.getScaffoldInsets
 import com.diegopalvarez.oreplay.ui.util.isExpandedDevice
 import com.diegopalvarez.oreplay.ui.util.offsetOn
 import kotlinx.datetime.TimeZone
@@ -115,9 +114,17 @@ fun ResultsScaffold(
 
     // Apply different modifiers depending on the device size
     val modifier = if(isLargeDevice) {
-        Modifier
-            .padding(8.dp)
-            .clip(RoundedCornerShape(8.dp))
+        if(platform.value == Platform.WEB){
+            Modifier
+                .padding(8.dp)
+                .clip(RoundedCornerShape(8.dp))
+        }
+        else{
+            // If the device is mobile, there must only be a padding on the divider to not interfere with the status bar
+            Modifier
+                .padding(start = 8.dp, end = 0.dp, top = 0.dp, bottom = 0.dp)
+        }
+
     } else Modifier
 
 
@@ -178,7 +185,8 @@ fun ResultsScaffold(
                 )
             }
         },
-        modifier = modifier
+        modifier = modifier,
+        contentWindowInsets = getScaffoldInsets()
     ) { innerPadding ->
         Column(
             modifier = Modifier
