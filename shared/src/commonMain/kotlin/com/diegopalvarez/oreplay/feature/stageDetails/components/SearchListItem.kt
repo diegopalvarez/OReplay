@@ -26,7 +26,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun SearchListItem(
     item: SearchResultWrapper,
-    component: StageDetailsComponent
+    component: StageDetailsComponent,
+    onNavigate: () -> Unit
 ) {
     SegmentedListItem(
         shapes = ListItemDefaults.shapes(),
@@ -63,6 +64,7 @@ fun SearchListItem(
             else{
                 component.onEvent(StageDetailsEvent.ClickClub(item.clubResult!!))
             }
+            onNavigate()
         },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
