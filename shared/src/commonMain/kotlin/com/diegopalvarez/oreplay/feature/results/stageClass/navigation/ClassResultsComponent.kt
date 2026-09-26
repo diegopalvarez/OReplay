@@ -159,6 +159,9 @@ class ClassResultsComponent(
                 // Add the current screen to the history
                 updateStageHistory()
 
+                // Delete the current selected tab
+                stageHistory.clearCurrentCategory()
+
                 onGoBack()
             }
         }
