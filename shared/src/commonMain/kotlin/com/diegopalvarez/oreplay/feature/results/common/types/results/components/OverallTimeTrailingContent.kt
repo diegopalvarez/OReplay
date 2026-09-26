@@ -39,6 +39,7 @@ fun OverallTimeTrailingContent(
                     Text(
                         text = "+${total.timeBehind.display()}",
                         style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -50,6 +51,7 @@ fun OverallTimeTrailingContent(
         Text(
             text = stringResource(total.statusCode.displayName),
             style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error
         )
     }
 }

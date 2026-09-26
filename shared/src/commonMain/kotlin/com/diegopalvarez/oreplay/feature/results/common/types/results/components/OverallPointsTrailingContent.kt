@@ -39,6 +39,7 @@ fun OverallPointsTrailingContent(
                 Text(
                     text = "+${total.pointsBehind.toPoints()}",
                     style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }
@@ -48,6 +49,7 @@ fun OverallPointsTrailingContent(
         Text(
             text = stringResource(total.statusCode.displayName),
             style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error,
         )
     }
 }

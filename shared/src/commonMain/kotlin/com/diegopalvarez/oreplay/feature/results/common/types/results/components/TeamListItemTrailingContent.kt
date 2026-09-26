@@ -55,6 +55,7 @@ fun teamListItemTrailingContent(
                         Text(
                             text = accumulatedTime.display(),
                             style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                     else{
@@ -62,6 +63,7 @@ fun teamListItemTrailingContent(
                         Text(
                             text = stringResource(teamStatusCode.displayName),
                             style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.error,
                         )
                     }
                 }
@@ -97,6 +99,7 @@ fun teamListItemTrailingContent(
                             Text(
                                 text = stringResource(teamStatusCode.displayName),
                                 style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.error
                             )
                         }
 

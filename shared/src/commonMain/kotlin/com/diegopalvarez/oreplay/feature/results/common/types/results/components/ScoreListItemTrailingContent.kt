@@ -80,6 +80,7 @@ fun scoreListItemTrailingContent(
         Text(
             text = stringResource(statusCode.displayName),
             style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error
         )
     }
     }
