@@ -99,6 +99,9 @@ kotlin {
             // HTTP Requests
             implementation(libs.bundles.ktor)
 
+            // Websockets
+            implementation(libs.ktor.client.websockets)
+
             // DateTime
             implementation(libs.kotlinx.datetime)
 
