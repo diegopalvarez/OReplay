@@ -25,7 +25,8 @@ fun StatusIndicator(
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             modifier = modifier
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
     else if(statusCode != StatusCode.OK){
@@ -35,7 +36,8 @@ fun StatusIndicator(
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             modifier = modifier
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
     // The runner's status is OK

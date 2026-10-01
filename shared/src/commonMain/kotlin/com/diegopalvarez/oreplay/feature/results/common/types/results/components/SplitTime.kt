@@ -22,6 +22,7 @@ fun SplitTime(
     partial: Duration?,
     position: Long?,
     modifier: Modifier = Modifier,
+    isLeading: Boolean = false,
 ) {
     // Calculate the weight based on the position
     val weight = if(position != null && position == 1L){
@@ -31,7 +32,8 @@ fun SplitTime(
         FontWeight.Normal
     }
 
-    val style = MaterialTheme.typography.labelLarge
+    val totalStyle = if(!isLeading) MaterialTheme.typography.labelLarge else MaterialTheme.typography.bodyLargeEmphasized
+    val partialStyle = MaterialTheme.typography.labelLarge
 
     var alignment = Alignment.Start
 
@@ -43,33 +45,33 @@ fun SplitTime(
     ) {
         if(total != null){
             // In case of an MP, there can be an accumulated time with total (the ones you punch) but no split because you missed the last one
-            Text(
-                text = total.display(),
-                style = style,
-                fontWeight = weight,
-            )
+            if(position != null){
+                // If there's a position calculated, display it next to the total time
+                Text(
+                    text = "${total.display()} (${position})",
+                    style = totalStyle,
+                    fontWeight = weight,
+                )
+            }
+            else{
+                Text(
+                    text = total.display(),
+                    style = totalStyle,
+                    fontWeight = weight,
+                )
+            }
 
             if(partial != null){
-                // If there's a position calculated, display it next to the partial
-                if(position != null){
-                    Text(
-                        text = "+${partial.display()} (${position})",
-                        style = style,
-                        fontWeight = weight,
-                    )
-                }
-                else{
-                    Text(
-                        text = "+${partial.display()}",
-                        style = style,
-                        fontWeight = weight,
-                    )
-                }
+                Text(
+                    text = "+${partial.display()}",
+                    style = partialStyle,
+                    fontWeight = weight,
+                )
             }
             else{
                 Text(
                     text = stringResource(Res.string.no_split),
-                    style = style,
+                    style = partialStyle,
                 )
             }
         }
@@ -77,11 +79,11 @@ fun SplitTime(
             // If there's no total, there can't be split at all
             Text(
                 text = stringResource(Res.string.no_split),
-                style = style,
+                style = totalStyle,
             )
             Text(
                 text = stringResource(Res.string.no_split),
-                style = style,
+                style = totalStyle,
             )
 
             // The text is center-aligned

@@ -52,6 +52,7 @@ fun classicListItemTrailingContent(
                     Text(
                         text = "+${timeBehind.display()}",
                         style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -74,6 +75,7 @@ fun classicListItemTrailingContent(
             Text(
                 text = stringResource(statusCode.displayName),
                 style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.error,
             )
         }
     }

@@ -1,11 +1,15 @@
 package com.diegopalvarez.oreplay.feature.stageResults.screens
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -36,13 +40,24 @@ fun StageResultsScreen(
     // Bind the function to change the display mode
     ChildPanelsModeChangedEffect(component::setMode)
 
+    // Allow to expand to full screen the side panel
+    val isFullScreen = remember { mutableStateOf(false) }
+
+    val mainWeight by animateFloatAsState(
+        targetValue = if (isFullScreen.value) 0f else 1f,
+        label = "mainPanelWeight"
+    )
+
+    val detailsWeight by animateFloatAsState(
+        targetValue = if (isFullScreen.value) 1f else 2f,
+        label = "detailsPanelWeight"
+    )
+
     ChildPanels(
         panels = panels,
-        layout = remember {
-            HorizontalChildPanelsLayout(
-                dualWeights = Pair(1F, 2F)
-            )
-        },
+        layout = HorizontalChildPanelsLayout(
+            dualWeights = mainWeight to detailsWeight
+        ),
         mainChild = {
             StageDetailsScreen(
                 event = component.pageEvent,
@@ -57,7 +72,8 @@ fun StageResultsScreen(
                         pageEvent = details.pageEvent,
                         stage = details.stage,
                         stageClassName = details.stageClass.longName,
-                        component = details
+                        component = details,
+                        expandedScreen = isFullScreen
                     )
                 }
                 is ClubResultsComponent -> {
@@ -65,7 +81,8 @@ fun StageResultsScreen(
                         pageEvent = details.pageEvent,
                         stage = details.stage,
                         stageClubName = details.stageClub.shortName,
-                        component = details
+                        component = details,
+                        expandedScreen = isFullScreen
                     )
                 }
 

@@ -19,6 +19,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,6 +34,12 @@ import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.clock
 import oreplay.shared.generated.resources.close
 import oreplay.shared.generated.resources.close_icon
+import oreplay.shared.generated.resources.collapse
+import oreplay.shared.generated.resources.collapse_icon
+import oreplay.shared.generated.resources.collapse_view_icon
+import oreplay.shared.generated.resources.expand
+import oreplay.shared.generated.resources.expand_icon
+import oreplay.shared.generated.resources.expand_view_icon
 import oreplay.shared.generated.resources.refresh
 import oreplay.shared.generated.resources.timezone_warning
 import oreplay.shared.generated.resources.timezone_warning_icon
@@ -49,7 +56,8 @@ fun SidePanelTitleBar(
     displayTimezoneWarning: Boolean = false,
     isRefreshing: Boolean = false,
     component: AbstractResultsComponent,
-    onOpenDialog: () -> Unit
+    onOpenDialog: () -> Unit,
+    expandedScreen: MutableState<Boolean>? = null,
 ) {
     // Create the icon rotation
     val rotation = remember { Animatable(0f) }
@@ -114,6 +122,21 @@ fun SidePanelTitleBar(
             }
         },
         actions = {
+            // Expand to Full Screen Button
+            if(expandedScreen != null) {
+                IconButton(
+                    onClick = {
+                        expandedScreen.value = !expandedScreen.value
+                    },
+                ) {
+                    Icon(
+                        painter = if(expandedScreen.value) painterResource(Res.drawable.collapse) else painterResource(Res.drawable.expand),
+                        contentDescription = if(expandedScreen.value) stringResource(Res.string.collapse_view_icon) else stringResource(Res.string.expand_view_icon),
+                    )
+                }
+            }
+
+            // Refresh Button
             if(refreshAction != null) {
                 IconButton(
                     onClick = refreshAction,

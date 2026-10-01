@@ -111,7 +111,15 @@ fun ClassClubSearchBar(
                         .fillMaxSize()
                 ) {
                     items(results) { item ->
-                        SearchListItem(item, component)
+                        SearchListItem(
+                            item = item,
+                            component = component,
+                            onNavigate = {
+                                scope.launch {
+                                    searchBarState.animateToCollapsed()
+                                    component.clearQuery()
+                                }
+                            })
                     }
                 }
             }

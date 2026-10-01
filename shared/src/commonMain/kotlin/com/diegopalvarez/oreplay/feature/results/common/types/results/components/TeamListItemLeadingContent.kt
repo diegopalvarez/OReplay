@@ -34,6 +34,7 @@ fun teamListItemLeadingContent(
                     text = stringResource(Res.string.nc_position),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }
@@ -52,6 +53,7 @@ fun teamListItemLeadingContent(
                         text = "${position}.",
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

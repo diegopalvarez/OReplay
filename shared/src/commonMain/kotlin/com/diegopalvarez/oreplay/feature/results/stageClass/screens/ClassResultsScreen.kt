@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.feature.results.stageClass.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
@@ -13,7 +14,8 @@ fun ClassResultsScreen(
     pageEvent: Event,
     stage: Stage,
     stageClassName: String,
-    component: ClassResultsComponent
+    component: ClassResultsComponent,
+    expandedScreen: MutableState<Boolean>
 ) {
     ResultsScaffold(
         event = pageEvent,
@@ -23,5 +25,6 @@ fun ClassResultsScreen(
             component.onEvent(ClassResultsEvent.GoBack)
         },
         component = component,
+        expandedScreen = expandedScreen,
     )
 }

@@ -30,6 +30,7 @@ fun ResultIndividualPosition(
                 text = "${position}.",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         // The runner hasn't finished yet

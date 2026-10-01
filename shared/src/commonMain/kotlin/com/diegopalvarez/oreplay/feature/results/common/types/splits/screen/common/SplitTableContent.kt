@@ -107,7 +107,8 @@ fun SplitTableContent(
                                 partial = runner.stageResult.timeBehind,
                                 position = null,
                                 modifier = Modifier
-                                    .width(columnWidth)
+                                    .width(columnWidth),
+                                isLeading = true
                             )
                         }
                         else{
