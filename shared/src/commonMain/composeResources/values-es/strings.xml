@@ -162,4 +162,6 @@
     <string name="menu_icon">Menú</string>
     <string name="select_category">Selecciona una categoría o un club para ver sus resultados</string>
     <string name="dropdown_icon">Ver opciones</string>
+    <string name="expand_view_icon">Expandir contenido</string>
+    <string name="collapse_view_icon">Colapsar contenido</string>
 </resources>

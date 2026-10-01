@@ -15,6 +15,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +49,8 @@ fun ResultsScaffold(
     stage: Stage,
     tabName: String,
     navigationAction: () -> Unit,
-    component: AbstractResultsComponent
+    component: AbstractResultsComponent,
+    expandedScreen: MutableState<Boolean>
 ){
     // Create the scrollBehavior for the Page Bar
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -121,8 +123,14 @@ fun ResultsScaffold(
         }
         else{
             // If the device is mobile, there must only be a padding on the divider to not interfere with the status bar
-            Modifier
-                .padding(start = 8.dp, end = 0.dp, top = 0.dp, bottom = 0.dp)
+            if(expandedScreen.value) {
+                // If the screen is expanded, don't show any type of padding
+                Modifier
+            }
+            else{
+                Modifier
+                    .padding(start = 8.dp, end = 0.dp, top = 0.dp, bottom = 0.dp)
+            }
         }
 
     } else Modifier
@@ -147,7 +155,8 @@ fun ResultsScaffold(
                     component = component,
                     onOpenDialog = {
                         openChangeDialog.value = true
-                    }
+                    },
+                    expandedScreen = if(isLargeDevice) expandedScreen else null
                 )
             }
             else {
@@ -186,7 +195,7 @@ fun ResultsScaffold(
             }
         },
         modifier = modifier,
-        contentWindowInsets = getScaffoldInsets()
+        contentWindowInsets = getScaffoldInsets(isExpanded = expandedScreen.value),
     ) { innerPadding ->
         Column(
             modifier = Modifier

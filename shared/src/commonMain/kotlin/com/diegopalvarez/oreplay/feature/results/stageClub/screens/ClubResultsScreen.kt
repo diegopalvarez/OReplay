@@ -1,6 +1,7 @@
 package com.diegopalvarez.oreplay.feature.results.stageClub.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClub
@@ -14,7 +15,8 @@ fun ClubResultsScreen(
     pageEvent: Event,
     stage: Stage,
     stageClubName: String,
-    component: ClubResultsComponent
+    component: ClubResultsComponent,
+    expandedScreen: MutableState<Boolean>
 ) {
     ResultsScaffold(
         event = pageEvent,
@@ -24,5 +26,6 @@ fun ClubResultsScreen(
             component.onEvent(ClubResultsEvent.GoBack)
         },
         component = component,
+        expandedScreen = expandedScreen,
     )
 }
