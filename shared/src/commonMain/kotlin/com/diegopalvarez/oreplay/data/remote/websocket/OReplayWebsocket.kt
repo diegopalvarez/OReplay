@@ -30,6 +30,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.math.pow
 import kotlin.time.Duration.Companion.milliseconds
@@ -38,12 +39,14 @@ const val WEBSOCKET_URL = "wss://www.oreplay.es/api/v1/live/stages/"
 const val MAX_BACKOFF_DELAY = 6
 const val BACKOFF_BASE_MS = 500F
 class OReplayWebsocket(
-    val client: HttpClient, // Inject HTTP Client
-    val api: OReplayAPI,    // Inject the OReplay API
     val eventID: String,
     val stageID: String,
     val classID: String,
 ): KoinComponent {
+    // Inject the dependencies
+    val client by inject<HttpClient>()
+    val api by inject<OReplayAPI>()
+
     // Expose the Error Stream
     private val _error = MutableStateFlow<RepositoryError?>(null)
     val error: StateFlow<RepositoryError?> = _error
