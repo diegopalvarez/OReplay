@@ -27,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -68,9 +69,9 @@ class ClassResultsComponent(
     )
 
     override suspend fun fetchResults(){
-        val results = websocket.getResultsStream()
+        websocket.getResultsStream()
             .onStart {
-                _isRefreshing.value = true
+                // Not needed
             }
             .onEach {
                 // Process the results
@@ -114,6 +115,7 @@ class ClassResultsComponent(
                 // TODO - Handle errors
                 println(error)
             }
+            .collect()
     }
 
     /**
@@ -122,7 +124,14 @@ class ClassResultsComponent(
     init {
         // Set up scope cancellation if the component is destroyed
         componentContext.lifecycle.doOnDestroy {
-            scope.cancel()
+            // Close the websocket
+            CoroutineScope(Dispatchers.Default).launch {
+                try {
+                    websocket.close()
+                } finally {
+                    scope.cancel()
+                }
+            }
         }
 
         scope.launch {

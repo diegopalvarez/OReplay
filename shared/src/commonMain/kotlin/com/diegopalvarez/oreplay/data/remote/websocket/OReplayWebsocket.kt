@@ -133,7 +133,7 @@ class OReplayWebsocket(
     }
 
     suspend fun seed(){
-        val response = api.getStageResults(
+        api.getStageResults(
             eventID = eventID,
             stageID = stageID,
             classID = classID,
