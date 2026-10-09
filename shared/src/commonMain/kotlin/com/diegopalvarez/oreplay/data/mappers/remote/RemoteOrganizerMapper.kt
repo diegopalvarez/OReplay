@@ -12,7 +12,10 @@ fun getOrganizer(remoteOrganizer: RemoteOrganizer): Organizer {
     return Organizer(
         id = remoteOrganizer.id,
         name = remoteOrganizer.name,
-        country = remoteOrganizer.country,
+        countryCode = remoteOrganizer.countryCode,
+        regionCode = remoteOrganizer.regionCode,
+        province = remoteOrganizer.province,
+        city = remoteOrganizer.city,
         region = remoteOrganizer.region
     )
 }

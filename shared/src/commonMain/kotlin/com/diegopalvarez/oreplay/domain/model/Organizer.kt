@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 data class Organizer(
     val id: String,
     val name: String,
-    val country: String,
+    val countryCode: String,
+    val regionCode: String,
+    val province: String?,
+    val city: String?,
     val region: String?,
 )
