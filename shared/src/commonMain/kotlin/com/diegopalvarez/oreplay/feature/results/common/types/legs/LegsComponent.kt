@@ -16,6 +16,10 @@ import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.LegsComponent.LegsTabChild.*
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.navigation.LegResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -27,6 +31,8 @@ class LegsComponent(
     val numberOfLegs: Value<Optional<Int>>,
     val preferencesManager: PreferencesManager,
 ): ComponentContext by componentContext {
+    // Create a coroutine scope
+    val scope = CoroutineScope(Dispatchers.Default)
 
     /**
      * Split tab functionality
@@ -64,9 +70,11 @@ class LegsComponent(
     init {
         numberOfLegs.subscribe { legs ->
             if(legs is Optional.Some && legs.value != pages.value.items.size){
-                navigation.setItems {
-                    List(legs.value) { index ->
-                        LegsTabConfiguration.Leg(index + 1)
+                scope.launch(Dispatchers.Main) {
+                    navigation.setItems {
+                        List(legs.value) { index ->
+                            LegsTabConfiguration.Leg(index + 1)
+                        }
                     }
                 }
             }
