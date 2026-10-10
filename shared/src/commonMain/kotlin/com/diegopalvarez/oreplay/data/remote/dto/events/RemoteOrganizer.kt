@@ -10,8 +10,8 @@ data class RemoteOrganizer(
     @SerialName("country_code")
     val countryCode: String,
     @SerialName("region_code")
-    val regionCode: String,
+    val regionCode: String? = null,
     val province: String? = null,
     val city: String? = null,
-    val region: String
+    val region: String? = null
 )
