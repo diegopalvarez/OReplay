@@ -15,7 +15,10 @@ class ResultHistory(
     var clubList: List<StageClub>,
 
     @Serializable(with = HistoryDequeSerializer::class)
-    private val history: ArrayDeque<StageCategory> = ArrayDeque()
+    private val history: ArrayDeque<StageCategory> = ArrayDeque(),
+
+    // Store the current category outside the flow so that it survives
+    private var currentCategoryValue: StageCategory? = null
 ) {
 
     // Function to add a visited item to the queue
@@ -55,16 +58,21 @@ class ResultHistory(
         clubList = list
     }
 
-    // StateFlow to store the current selected category
-    private val currentCategory: MutableStateFlow<StageCategory?> = MutableStateFlow(null)
+    // StateFlow to store the current selected category. It's transient because flows should not be serialized
+    @kotlinx.serialization.Transient
+    private val currentCategory: MutableStateFlow<StageCategory?> = MutableStateFlow(currentCategoryValue)
 
     // Function to edit the current category
     fun setCurrentCategory(category: StageCategory) {
+        // Update the flow AND the stored category so it survives component recreation
+        currentCategoryValue = category
         currentCategory.value = category
     }
 
     // Function to empty the current category
     fun clearCurrentCategory() {
+        // Clean the flow category AND the saved category
+        currentCategoryValue = null
         currentCategory.value = null
     }
 

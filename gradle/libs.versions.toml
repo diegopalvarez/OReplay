@@ -28,7 +28,7 @@ kotlinxSerializationJson = "1.11.0"
 koin = "4.2.2"
 koinComposeMultiplatform = "4.2.2"
 
-# HTTP Requests
+# HTTP Requests and Websockets
 ktor = "3.5.2"
 
 # Ktor Testing
@@ -100,6 +100,9 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+
+# Websockets
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
 
 # Ktor Testing
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }

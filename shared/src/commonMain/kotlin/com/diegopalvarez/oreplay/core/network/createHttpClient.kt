@@ -6,6 +6,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
@@ -23,6 +24,9 @@ fun createHttpClient(engine: HttpClientEngine): HttpClient {
                 }
             )
         }
+
+        // Add websockets support
+        install(WebSockets)
 
         // Set up default request type to JSON
         defaultRequest {
