@@ -3,6 +3,7 @@ package com.diegopalvarez.oreplay.data.mappers.remote
 import com.diegopalvarez.oreplay.data.remote.dto.events.RemoteOrganizer
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class RemoteOrganizerMapperTest {
     @Test
@@ -10,7 +11,10 @@ class RemoteOrganizerMapperTest {
         val organizer = RemoteOrganizer(
             id = "8ea4fc7f-1bf3-42a4-ae84-2e19dc9aa2af",
             name = "Segovia-O",
-            country = "Spain",
+            countryCode = "ES",
+            regionCode = "CL",
+            province = null,
+            city = null,
             region = "Castilla y León"
         )
 
@@ -18,7 +22,10 @@ class RemoteOrganizerMapperTest {
 
         assertEquals("8ea4fc7f-1bf3-42a4-ae84-2e19dc9aa2af", result.id)
         assertEquals("Segovia-O", result.name)
-        assertEquals("Spain", result.country)
+        assertEquals("ES", result.countryCode)
+        assertEquals("CL", result.regionCode)
+        assertNull(result.province)
+        assertNull(result.city)
         assertEquals("Castilla y León", result.region)
 
 

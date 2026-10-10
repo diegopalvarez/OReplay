@@ -43,7 +43,10 @@ class RemoteEventMapperTest {
             organizer = RemoteOrganizer(
                 id = "72943f5d-2232-4dc2-852d-84a856c1f6b2",
                 name = "AROMON",
-                country = "Spain",
+                countryCode = "ES",
+                regionCode = "GA",
+                province = "Pontevedra",
+                city = null,
                 region = "Galicia"
             ),
             links = RemoteSelfLink(
