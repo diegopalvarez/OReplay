@@ -11,7 +11,7 @@ import kotlin.time.Instant
 
 fun mergeRemoteResults(currentResult: RemoteResult, newResult: RemoteLiveResult, updateInstant: Instant = Clock.System.now()): RemoteResult {
     // All the details for the runner are the ones that come from the new result
-    val newRunners = mergeRemoteTeamRunners(currentResult.runners, newResult.runners)
+    val newRunners = mergeRemoteTeamRunners(currentResult.runners, newResult.runners, updateInstant)
     val newStageResult = mergeRemoteStageResults(currentResult.stageResult, newResult.stageResult)
     val newOveralls = mergerRemoteOverallResults(currentResult.overalls, newResult.overalls)
 
@@ -81,9 +81,9 @@ private fun mergeRemoteSplits(currentSplits: List<RemoteSplit>?, newSplits: List
     }
 }
 
-private fun mergeRemoteTeamRunners(currentTeamRunners: List<RemoteResult>?, newTeamRunners: List<RemoteLiveResult>?): List<RemoteResult>? {
+private fun mergeRemoteTeamRunners(currentTeamRunners: List<RemoteResult>?, newTeamRunners: List<RemoteLiveResult>?, updateInstant: Instant): List<RemoteResult>? {
     if(currentTeamRunners == null) {
-        return newTeamRunners?.map { mergeRemoteNewResults(it) }
+        return newTeamRunners?.map { mergeRemoteNewResults(it, updateInstant) }
     }
 
     if(newTeamRunners == null) {
@@ -105,7 +105,7 @@ private fun mergeRemoteTeamRunners(currentTeamRunners: List<RemoteResult>?, newT
 
         if(runner != null) {
             // Merge the runner with the new one
-            val merged = mergeRemoteResults(first, runner)
+            val merged = mergeRemoteResults(first, runner, updateInstant)
 
             // Insert it into the new list
             mergedList.add(merged)
