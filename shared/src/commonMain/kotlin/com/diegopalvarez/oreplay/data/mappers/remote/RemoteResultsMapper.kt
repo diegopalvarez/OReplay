@@ -43,7 +43,8 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
         runnerClass =   remoteResult.runnerClass?.let(::getResultClass),
         runnerClub =    remoteResult.runnerClub?.let(::getClub),
         stageResult =   remoteResult.stageResult?.let(::getStageResult),
-        overallResult = remoteResult.overalls?.let(::getOverallResult)
+        overallResult = remoteResult.overalls?.let(::getOverallResult),
+        isUpdate = remoteResult.isUpdate,
     )
 }
 
@@ -476,7 +477,8 @@ private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
         teamClass =     remoteResult.runnerClass?.let(::getResultClass),
         teamClub =      remoteResult.runnerClub?.let(::getClub),
         stageResult =   remoteResult.stageResult?.let(::getStageResult),
-        overallResult = remoteResult.overalls?.let(::getOverallResult)
+        overallResult = remoteResult.overalls?.let(::getOverallResult),
+        isUpdate = remoteResult.isUpdate,
     )
 }
 

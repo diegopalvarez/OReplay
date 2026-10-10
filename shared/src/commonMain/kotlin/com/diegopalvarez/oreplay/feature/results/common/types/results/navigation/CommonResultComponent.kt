@@ -3,6 +3,7 @@ package com.diegopalvarez.oreplay.feature.results.common.types.results.navigatio
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultClass
@@ -38,6 +39,7 @@ abstract class CommonResultComponent(
     val isLive: Value<Boolean>,
     val goToPage: (StageCategory) -> Unit,
     val mapResultClass: (ResultClass) -> StageClass?,
+    private val preferencesManager: PreferencesManager
 ): ComponentContext by componentContext {
     // Create a coroutine scope
     val scope = CoroutineScope(Dispatchers.Default)
@@ -68,6 +70,9 @@ abstract class CommonResultComponent(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = Clock.System.now()
     )
+
+    // Get and expose the result update time interval
+    val updateInterval = preferencesManager.convertRefresh
 
     /**
      * Modal Drawer Sheet Behavior

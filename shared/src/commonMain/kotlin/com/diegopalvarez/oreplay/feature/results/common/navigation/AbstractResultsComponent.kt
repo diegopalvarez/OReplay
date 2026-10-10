@@ -224,7 +224,8 @@ abstract class AbstractResultsComponent(
                             isStageLive = isLive,
                             visitedStatsMap = visitedScoreControls,
                             goToPage = ::goToPage,
-                            mapResultClass = stageHistory::getClass
+                            mapResultClass = stageHistory::getClass,
+                            preferencesManager = preferencesManager
                         )
                     )
                 }
@@ -239,7 +240,8 @@ abstract class AbstractResultsComponent(
                             isClubView = isClubResult,
                             isStageLive = isLive,
                             goToPage = ::goToPage,
-                            mapResultClass = stageHistory::getClass
+                            mapResultClass = stageHistory::getClass,
+                            preferencesManager = preferencesManager
                         )
                     )
                 }
@@ -257,7 +259,8 @@ abstract class AbstractResultsComponent(
                     event = event,
                     stage = stage,
                     results = results,
-                    numberOfLegs = numberOfLegs
+                    numberOfLegs = numberOfLegs,
+                    preferencesManager = preferencesManager
                 )
             )
             ResultsTabConfiguration.Statistics -> Statistics(

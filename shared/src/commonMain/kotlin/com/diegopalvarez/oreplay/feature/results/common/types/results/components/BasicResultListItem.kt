@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
+import com.diegopalvarez.oreplay.feature.results.common.util.resultColor
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 
@@ -20,6 +21,7 @@ import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 fun BasicResultListItem(
     runner: ResultIndividual,
     isClubView: Boolean,
+    isUpdate: Boolean,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     showTicketDrawer: (ResultIndividual) -> Unit = {}
@@ -46,9 +48,7 @@ fun BasicResultListItem(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
+        colors = resultColor(isUpdate)
     ) {
         // Name of the runner as the main content
         Text(

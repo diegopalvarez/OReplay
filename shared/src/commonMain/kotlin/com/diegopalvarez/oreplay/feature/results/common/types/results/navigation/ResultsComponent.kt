@@ -2,6 +2,7 @@ package com.diegopalvarez.oreplay.feature.results.common.types.results.navigatio
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultClass
@@ -20,6 +21,7 @@ class ResultsComponent(
     private val isStageLive: Value<Boolean>,
     goToPage: (StageCategory) -> Unit,
     mapResultClass: (ResultClass) -> StageClass?,
+    private val preferencesManager: PreferencesManager
 ): CommonResultComponent(
     componentContext = componentContext,
     results = regularResults,
@@ -29,7 +31,8 @@ class ResultsComponent(
     isClubView = isClubView,
     isLive = isStageLive,
     goToPage = goToPage,
-    mapResultClass = mapResultClass
+    mapResultClass = mapResultClass,
+    preferencesManager = preferencesManager
 ) {
 
 }

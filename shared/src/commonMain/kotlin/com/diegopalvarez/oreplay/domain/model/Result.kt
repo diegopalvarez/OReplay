@@ -1,5 +1,7 @@
 package com.diegopalvarez.oreplay.domain.model
 
+import kotlin.time.Instant
+
 interface Result {
     // Common fields for both types of results
     val id: String
@@ -11,4 +13,7 @@ interface Result {
     // Result information
     val stageResult: StageResult?
     val overallResult: Overall?
+
+    // Update information
+    val isUpdate: Instant?
 }

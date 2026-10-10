@@ -3,6 +3,7 @@ package com.diegopalvarez.oreplay.feature.results.common.types.legs.navigation
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.RelayLegResult
 import com.diegopalvarez.oreplay.domain.model.Result
@@ -30,6 +31,7 @@ class LegResultComponent(
     componentContext: ComponentContext,
     val event: Event,
     val stage: Stage,
+    val preferencesManager: PreferencesManager,
     val results: Value<List<Result>>,
     val legNumber: Int,
 ): ComponentContext by componentContext {
@@ -47,6 +49,9 @@ class LegResultComponent(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = Clock.System.now()
     )
+
+    // Get and expose the result update time interval
+    val updateInterval = preferencesManager.convertRefresh
 
     // Expose the filtered results for this leg
     val legResults: Value<List<RelayLegResult>> =

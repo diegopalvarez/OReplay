@@ -33,6 +33,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.math.pow
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
 const val WEBSOCKET_URL = "wss://www.oreplay.es/api/v1/live/stages/"
@@ -161,6 +162,9 @@ class OReplayWebsocket(
         // Create a new list
         val updatedRunners = mutableMapOf<String, RemoteResult>()
 
+        // Get the update instant
+        val instant = Clock.System.now()
+
         for (runner in incomingResults) {
             // Get the current result for this runner
             val currentResult = currentResults[runner.id]
@@ -168,11 +172,11 @@ class OReplayWebsocket(
             // If the runner existed
             if (currentResult != null) {
                 // Merge the two results
-                val newResult = mergeRemoteResults(currentResult, runner)
+                val newResult = mergeRemoteResults(currentResult, runner, instant)
                 updatedRunners[newResult.id] = newResult
             } else {
                 // Keep the new result
-                val newResult = mergeRemoteNewResults(runner)
+                val newResult = mergeRemoteNewResults(runner, instant)
                 updatedRunners[newResult.id] = newResult
             }
         }

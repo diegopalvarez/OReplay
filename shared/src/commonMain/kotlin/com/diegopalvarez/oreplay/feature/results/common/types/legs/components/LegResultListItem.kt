@@ -19,6 +19,7 @@ import com.diegopalvarez.oreplay.domain.model.StageResult
 import com.diegopalvarez.oreplay.domain.types.StatusCode
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.classicListItemTrailingContent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.resultListItemLeadingContent
+import com.diegopalvarez.oreplay.feature.results.common.util.resultColor
 import com.diegopalvarez.oreplay.ui.util.RunnerClassFormatter
 import com.diegopalvarez.oreplay.ui.util.StageClubFormatter
 import kotlin.time.Instant
@@ -29,6 +30,7 @@ fun LegResultListItem(
     runner: ResultIndividual,
     teamData: RelayLegResult,
     now: State<Instant>?,
+    isUpdate: Boolean,
     showTicketDrawer: (ResultIndividual) -> Unit = {}
 ) {
     val statusCode = teamData.teamError ?: StatusCode.OK
@@ -47,9 +49,7 @@ fun LegResultListItem(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
+        colors = resultColor(isUpdate)
     ) {
         // Name of the runner as the main content
         Text(

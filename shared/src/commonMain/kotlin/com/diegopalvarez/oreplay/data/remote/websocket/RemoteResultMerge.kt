@@ -6,9 +6,17 @@ import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteOverallResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteSplit
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteStageResult
+import kotlin.time.Clock
+import kotlin.time.Instant
 
-fun mergeRemoteResults(currentResult: RemoteResult, newResult: RemoteLiveResult): RemoteResult {
+fun mergeRemoteResults(currentResult: RemoteResult, newResult: RemoteLiveResult, updateInstant: Instant = Clock.System.now()): RemoteResult {
     // All the details for the runner are the ones that come from the new result
+    val newRunners = mergeRemoteTeamRunners(currentResult.runners, newResult.runners)
+    val newStageResult = mergeRemoteStageResults(currentResult.stageResult, newResult.stageResult)
+    val newOveralls = mergerRemoteOverallResults(currentResult.overalls, newResult.overalls)
+
+    // Check if there's been an update
+    val isMerged = if(newRunners != currentResult.runners || newStageResult != currentResult.stageResult ||newOveralls != currentResult.overalls) true else false
     return RemoteResult(
         id = newResult.id,
         bibNumber = newResult.bibNumber,
@@ -18,12 +26,14 @@ fun mergeRemoteResults(currentResult: RemoteResult, newResult: RemoteLiveResult)
         sex = newResult.sex,
         legNumber = newResult.legNumber,
         legs = newResult.legs,
-        runners = mergeRemoteTeamRunners(currentResult.runners, newResult.runners),
+        runners = newRunners,
         created = newResult.created,
         runnerClass = newResult.runnerClass,
         runnerClub = newResult.runnerClub,
         fullName = newResult.fullName,
-        stageResult = mergeRemoteStageResults(currentResult.stageResult, newResult.stageResult)
+        stageResult = newStageResult,
+        overalls = newOveralls,
+        isUpdate = if(isMerged) updateInstant else null
     )
 }
 
@@ -119,7 +129,7 @@ private fun mergeRemoteTeamRunners(currentTeamRunners: List<RemoteResult>?, newT
     return mergedList
 }
 
-fun mergeRemoteNewResults(newResult: RemoteLiveResult): RemoteResult {
+fun mergeRemoteNewResults(newResult: RemoteLiveResult, updateInstant: Instant = Clock.System.now()): RemoteResult {
     return RemoteResult(
         id = newResult.id,
         bibNumber = newResult.bibNumber,
@@ -134,7 +144,9 @@ fun mergeRemoteNewResults(newResult: RemoteLiveResult): RemoteResult {
         runnerClass = newResult.runnerClass,
         runnerClub = newResult.runnerClub,
         fullName = newResult.fullName,
-        stageResult = mergeRemoteNewStageResult(newResult.stageResult)
+        stageResult = mergeRemoteNewStageResult(newResult.stageResult),
+        overalls = newResult.overalls,      // TODO - Check how overalls are updated
+        isUpdate = updateInstant,      // New results are always updates
     )
 }
 
@@ -174,7 +186,7 @@ private fun mergeRemoteNewStageResult(newStageResult: RemoteLiveStageResult?): R
     )
 }
 
-private fun mergerRemoteOverallResults(currentOverallResult: RemoteOverallResult?, newOverallResult: RemoteOverallResult): RemoteOverallResult {
+private fun mergerRemoteOverallResults(currentOverallResult: RemoteOverallResult?, newOverallResult: RemoteOverallResult?): RemoteOverallResult? {
     // TODO - Check with Adrian if the overalls are dynamically updated
     return newOverallResult
 }
