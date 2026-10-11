@@ -54,9 +54,12 @@ object StagesResponses {
             ],
             "organizer": {
               "id": "72943f5d-2232-4dc2-852d-84a856c1f6b2",
-              "name": "AROMON",
-              "country": "Spain",
-              "region": "Galicia"
+                "name": "AROMON",
+                "country_code": "ES",
+                "region_code": "GA",
+                "province": "Pontevedra",
+                "city": null,
+                "region": "Galicia"
             },
             "federation": null,
             "_links": {
@@ -297,7 +300,10 @@ object StagesResponses {
             "organizer": {
               "id": "7f8d17a0-0f34-421d-bb5e-c298d9484fce",
               "name": "FEXO",
-              "country": "Spain",
+              "country_code": "ES",
+              "region_code": "EX",
+              "province": null,
+              "city": null,
               "region": "Extremadura"
             },
             "federation": null,
@@ -332,7 +338,10 @@ object StagesResponses {
             "organizer": {
               "id": "72943f5d-2232-4dc2-852d-84a856c1f6b2",
               "name": "AROMON",
-              "country": "Spain",
+              "country_code": "ES",
+              "region_code": "GA",
+              "province": "Pontevedra",
+              "city": null,
               "region": "Galicia"
             },
             "federation": null,
@@ -369,7 +378,10 @@ object StagesResponses {
             "organizer": {
               "id": "72943f5d-2232-4dc2-852d-84a856c1f6b2",
               "name": "AROMON",
-              "country": "Spain",
+              "country_code": "ES",
+              "region_code": "GA",
+              "province": "Pontevedra",
+              "city": null,
               "region": "Galicia"
             },
             "federation": null,

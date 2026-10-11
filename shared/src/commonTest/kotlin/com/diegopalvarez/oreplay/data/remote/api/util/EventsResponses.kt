@@ -24,7 +24,10 @@ object EventsResponses {
               "organizer": {
                 "id": "d5db45c7-dfb6-41ce-9818-086067dfb33b",
                 "name": "FEMADO",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "MD",
+                "province": null,
+                "city": null,
                 "region": "Comunidad de Madrid"
               },
               "_links": {
@@ -66,7 +69,10 @@ object EventsResponses {
               "organizer": {
                 "id": "c21b63ef-0856-479d-bb75-94c599ead0e3",
                 "name": "MilMar",
-                "country": "Bulgaria?",
+                "country_code": "BG",
+                "region_code": null,
+                "province": null,
+                "city": null,
                 "region": null
               },
               "_links": {
@@ -94,7 +100,10 @@ object EventsResponses {
               "organizer": {
                 "id": "c21b63ef-0856-479d-bb75-94c599ead0e3",
                 "name": "MilMar",
-                "country": "Bulgaria?",
+                "country_code": "BG",
+                "region_code": null,
+                "province": null,
+                "city": null,
                 "region": null
               },
               "_links": {
@@ -122,7 +131,10 @@ object EventsResponses {
               "organizer": {
                 "id": "673fd719-f007-4d95-831c-655a45c1d4a5",
                 "name": "FEGADO",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "GA",
+                "province": null,
+                "city": null,
                 "region": "Galicia"
               },
               "_links": {
@@ -150,7 +162,10 @@ object EventsResponses {
               "organizer": {
                 "id": "601dc036-bb1b-4425-9c03-19ad1e67e8f0",
                 "name": "VELETA",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "AN",
+                "province": null,
+                "city": null,
                 "region": "Andalucía"
               },
               "_links": {
@@ -178,7 +193,10 @@ object EventsResponses {
               "organizer": {
                 "id": "c71eee29-b847-405a-ae34-129e1496458c",
                 "name": "COMA",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "AN",
+                "province": null,
+                "city": null,
                 "region": "Andalucía"
               },
               "_links": {
@@ -206,7 +224,10 @@ object EventsResponses {
               "organizer": {
                 "id": "72943f5d-2232-4dc2-852d-84a856c1f6b2",
                 "name": "AROMON",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "GA",
+                "province": "Pontevedra",
+                "city": null,
                 "region": "Galicia"
               },
               "_links": {
@@ -234,7 +255,10 @@ object EventsResponses {
               "organizer": {
                 "id": "7f8d17a0-0f34-421d-bb5e-c298d9484fce",
                 "name": "FEXO",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "EX",
+                "province": null,
+                "city": null,
                 "region": "Extremadura"
               },
               "_links": {
@@ -262,7 +286,10 @@ object EventsResponses {
               "organizer": {
                 "id": "03d7addf-a129-4353-8a9d-a08d9d70b0a2",
                 "name": "MANZANARES-O",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "CM",
+                "province": null,
+                "city": null,
                 "region": "Castilla-La Mancha"
               },
               "_links": {
@@ -290,7 +317,10 @@ object EventsResponses {
               "organizer": {
                 "id": "c21b63ef-0856-479d-bb75-94c599ead0e3",
                 "name": "MilMar",
-                "country": "Bulgaria?",
+                "country_code": "BG",
+                "region_code": null,
+                "province": null,
+                "city": null,
                 "region": null
               },
               "_links": {
@@ -318,7 +348,10 @@ object EventsResponses {
               "organizer": {
                 "id": "d5db45c7-dfb6-41ce-9818-086067dfb33b",
                 "name": "FEMADO",
-                "country": "Spain",
+                "country_code": "ES",
+                "region_code": "MD",
+                "province": null,
+                "city": null,
                 "region": "Comunidad de Madrid"
               },
               "_links": {
@@ -382,7 +415,10 @@ object EventsResponses {
               "organizer": {
                 "id": "c21b63ef-0856-479d-bb75-94c599ead0e3",
                 "name": "MilMar",
-                "country": "Bulgaria?",
+                "country_code": "BG",
+                "region_code": null,
+                "province": null,
+                "city": null,
                 "region": null
               },
               "_links": {
