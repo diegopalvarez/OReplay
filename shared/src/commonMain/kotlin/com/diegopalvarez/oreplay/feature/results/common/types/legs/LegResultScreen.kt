@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,8 +18,10 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.components.LegListItem
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.navigation.LegResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ResultListItem
+import com.diegopalvarez.oreplay.feature.results.common.util.isResultUpdated
 import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import com.diegopalvarez.oreplay.ui.components.NoDataScreen
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
 @Composable
@@ -35,6 +39,9 @@ fun LegResultScreen(
         now = component.now.collectAsStateWithLifecycle()
     }
 
+    // Get the preference for the update time interval
+    val updateInterval by component.updateInterval.collectAsState()
+
     if(legResults.value.isNotEmpty()){
         FABLazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -43,7 +50,8 @@ fun LegResultScreen(
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(legResults.value){ result ->
-                LegListItem(result, now)
+                val isUpdated = isResultUpdated(now?.value, updateInterval, result.result)
+                LegListItem(result, isUpdated, now)
             }
         }
     }

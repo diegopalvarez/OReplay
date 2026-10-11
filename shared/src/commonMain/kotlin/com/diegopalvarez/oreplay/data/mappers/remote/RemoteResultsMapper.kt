@@ -43,7 +43,8 @@ private fun getIndividualResult(remoteResult: RemoteResult): ResultIndividual{
         runnerClass =   remoteResult.runnerClass?.let(::getResultClass),
         runnerClub =    remoteResult.runnerClub?.let(::getClub),
         stageResult =   remoteResult.stageResult?.let(::getStageResult),
-        overallResult = remoteResult.overalls?.let(::getOverallResult)
+        overallResult = remoteResult.overalls?.let(::getOverallResult),
+        isUpdate = remoteResult.isUpdate,
     )
 }
 
@@ -92,8 +93,8 @@ private fun getStageResult(remoteStageResult: RemoteStageResult): StageResult {
  * @param calculateRanks boolean indicating if it's needed to calculate the ranks for these results. By default, true, but in case of a One-Man Relay might be false
  * @return list of domain model objects containing all runners, with additional information added to the splits (if available)
  */
-fun getClassicResults(remoteResultsResponse: RemoteResultsResponse, calculateRanks: Boolean = true): List<ResultIndividual> {
-    val results = remoteResultsResponse.results
+fun getClassicResults(remoteResultsResponse: List<RemoteResult>, calculateRanks: Boolean = true): List<ResultIndividual> {
+    val results = remoteResultsResponse
 
     // Map the individual results to domain model objects
     val resultsList = results.map(::getIndividualResult)
@@ -313,8 +314,8 @@ private fun getOverall(remoteOverall: RemoteOverall): OverallResult {
  * @param remoteResultsResponse response from the API containing the results for the class
  * @return list of domain model objects containing all teams, with additional information added to the splits (if available)
  */
-fun getTeamResults(remoteResultsResponse: RemoteResultsResponse): List<ResultTeam> {
-    val results = remoteResultsResponse.results
+fun getTeamResults(remoteResultsResponse: List<RemoteResult>): List<ResultTeam> {
+    val results = remoteResultsResponse
     val resultsList = results.map(::getTeamResult)
 
     // Each team results has a field of splits and overall, but these are never use so they will be NULL
@@ -476,7 +477,8 @@ private fun getTeamResult(remoteResult: RemoteResult): ResultTeam {
         teamClass =     remoteResult.runnerClass?.let(::getResultClass),
         teamClub =      remoteResult.runnerClub?.let(::getClub),
         stageResult =   remoteResult.stageResult?.let(::getStageResult),
-        overallResult = remoteResult.overalls?.let(::getOverallResult)
+        overallResult = remoteResult.overalls?.let(::getOverallResult),
+        isUpdate = remoteResult.isUpdate,
     )
 }
 
@@ -504,6 +506,6 @@ private fun getTeamRunners(runnerList: List<RemoteResult>): List<ResultTeamRunne
  * @param remoteResultsResponse response from the API containing the results
  * @return List of domain model objects containing all individual results without splits or rankings
  */
-fun getUnprocessedResults(remoteResultsResponse: RemoteResultsResponse): List<ResultIndividual> {
-    return remoteResultsResponse.results.map(::getIndividualResult)
+fun getUnprocessedResults(remoteResultsResponse: List<RemoteResult>): List<ResultIndividual> {
+    return remoteResultsResponse.map(::getIndividualResult)
 }

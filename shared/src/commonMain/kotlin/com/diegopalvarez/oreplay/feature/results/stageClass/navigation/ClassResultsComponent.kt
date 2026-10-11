@@ -1,17 +1,12 @@
 package com.diegopalvarez.oreplay.feature.results.stageClass.navigation
 
-import androidx.compose.ui.text.TextMeasurer
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.core.util.onError
 import com.diegopalvarez.oreplay.core.util.onSuccess
+import com.diegopalvarez.oreplay.data.remote.api.OReplayAPI
+import com.diegopalvarez.oreplay.data.remote.websocket.OReplayWebsocket
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.SplitIndividual
@@ -19,31 +14,23 @@ import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.domain.model.StageClass
 import com.diegopalvarez.oreplay.domain.model.StageClub
 import com.diegopalvarez.oreplay.domain.repository.ClassResultsRepository
-import com.diegopalvarez.oreplay.domain.repository.type.ClassicRepositoryResult
-import com.diegopalvarez.oreplay.domain.repository.type.OneManRelayRepositoryResult
-import com.diegopalvarez.oreplay.domain.repository.type.OverallRepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.type.RelayRepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.type.ScoreRepositoryResult
 import com.diegopalvarez.oreplay.domain.types.StageType
 import com.diegopalvarez.oreplay.domain.types.getStageType
 import com.diegopalvarez.oreplay.domain.wrappers.ResultHistory
-import com.diegopalvarez.oreplay.feature.eventStages.navigation.EventStagesEvent
 import com.diegopalvarez.oreplay.feature.results.common.navigation.AbstractResultsComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
 import com.diegopalvarez.oreplay.ui.util.display
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import oreplay.shared.generated.resources.Res
-import oreplay.shared.generated.resources.no_split
-import org.jetbrains.compose.resources.getString
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 class ClassResultsComponent(
     componentContext: ComponentContext,
@@ -74,47 +61,61 @@ class ClassResultsComponent(
      */
     private val scope = CoroutineScope(Dispatchers.Default)
 
+    // Create the websocket
+    val websocket = OReplayWebsocket(
+        eventID = pageEvent.id,
+        stageID = stage.id,
+        classID = stageClass.id
+    )
+
     override suspend fun fetchResults(){
-        val result = withContext(Dispatchers.Default) {
-            repository.getClassResults(
-                eventID = pageEvent.id,
-                stageID = stage.id,
-                classID = stageClass.id,
-                stageType = stage.stageType.getStageType()
-            )
-        }
-
-        result
-            .onSuccess {
-                _isError.value = false
-                _results.value = it.result
-
-                // If the results are Score, also fetch the additional information
-                if(stage.stageType.getStageType() == StageType.SCORE){
-                    _visitedScoreControls.value = Optional.Some((it as ScoreRepositoryResult).visitedControls)
-                }
-                else if(stage.stageType.getStageType() == StageType.RELAY){
-                    _numberOfLegs.value = Optional.Some((it as RelayRepositoryResult).numberOfLegs)
-                }
-
-                // Get the widest string from the results
-                getWidestString()
-
-                _isInit.value = true
+        websocket.getResultsStream()
+            .onStart {
+                // Not needed
             }
-            .onError {
-                _isError.value = true
-                _errorType.value = it
+            .onEach {
+                // Process the results
+                repository.processClassResults(
+                    classID = stageClass.id,
+                    results = it,
+                    stageType = stage.stageType.getStageType()
+                )
+                    .onSuccess {
+                        _isError.value = false
+                        _results.value = it.result
 
-                // In case of error, also reset the optional values for these types of events
-                if(stage.stageType.getStageType() == StageType.SCORE){
-                    _visitedScoreControls.value = Optional.None
-                }
-                else if(stage.stageType.getStageType() == StageType.RELAY){
-                    _numberOfLegs.value = Optional.None
-                }
+                        // If the results are Score, also fetch the additional information
+                        if(stage.stageType.getStageType() == StageType.SCORE){
+                            _visitedScoreControls.value = Optional.Some((it as ScoreRepositoryResult).visitedControls)
+                        }
+                        else if(stage.stageType.getStageType() == StageType.RELAY){
+                            _numberOfLegs.value = Optional.Some((it as RelayRepositoryResult).numberOfLegs)
+                        }
+
+                        // Get the widest string from the results
+                        getWidestString()
+
+                        _isInit.value = true
+                    }
+                    .onError {
+                        _isError.value = true
+                        _errorType.value = it
+
+                        // In case of error, also reset the optional values for these types of events
+                        if(stage.stageType.getStageType() == StageType.SCORE){
+                            _visitedScoreControls.value = Optional.None
+                        }
+                        else if(stage.stageType.getStageType() == StageType.RELAY){
+                            _numberOfLegs.value = Optional.None
+                        }
+                    }
+
             }
-
+            .catch { error ->
+                // TODO - Handle errors
+                println(error)
+            }
+            .collect()
     }
 
     /**
@@ -123,19 +124,18 @@ class ClassResultsComponent(
     init {
         // Set up scope cancellation if the component is destroyed
         componentContext.lifecycle.doOnDestroy {
-            scope.cancel()
+            // Close the websocket
+            CoroutineScope(Dispatchers.Default).launch {
+                try {
+                    websocket.close()
+                } finally {
+                    scope.cancel()
+                }
+            }
         }
 
         scope.launch {
             getResults()
-
-            // If the event is live, set up the automatic reload timer
-            if(isLive.value){
-                while(isActive){
-                    delay(reloadInterval.value?.seconds ?: 1.minutes)       // If it's null, defaults to 1 minute
-                    getResults()
-                }
-            }
         }
     }
 

@@ -30,6 +30,7 @@ import kotlinx.datetime.LocalDate
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class OReplayAPITest {
@@ -112,8 +113,11 @@ class OReplayAPITest {
             assertThat(event.modified).isEqualTo("2026-06-11T10:38:50.750+00:00")
             assertThat(event.organizerID).isEqualTo("d5db45c7-dfb6-41ce-9818-086067dfb33b")
             assertThat(event.organizer.name).isEqualTo("FEMADO")
+            assertThat(event.organizer.countryCode).isEqualTo("ES")
+            assertThat(event.organizer.regionCode).isEqualTo("MD")
+            assertNull(event.organizer.province)
+            assertNull(event.organizer.city)
             assertThat(event.organizer.region).isEqualTo("Comunidad de Madrid")
-            assertThat(event.organizer.country).isEqualTo("Spain")
             assertThat(event.links.self.href).isEqualTo("https://www.oreplay.es/api/v1/events/4ebb0458-1268-42f7-b608-c1c385ae575c")
 
         }
@@ -357,8 +361,11 @@ class OReplayAPITest {
             assertThat(event.modified).isEqualTo("2026-06-26T19:58:29.735+00:00")
             assertThat(event.organizerID).isEqualTo("72943f5d-2232-4dc2-852d-84a856c1f6b2")
             assertThat(event.organizer.name).isEqualTo("AROMON")
+            assertThat(event.organizer.countryCode).isEqualTo("ES")
+            assertThat(event.organizer.regionCode).isEqualTo("GA")
+            assertThat(event.organizer.province).isEqualTo("Pontevedra")
+            assertNull(event.organizer.city)
             assertThat(event.organizer.region).isEqualTo("Galicia")
-            assertThat(event.organizer.country).isEqualTo("Spain")
             assertThat(event.links.self.href).isEqualTo("https://www.oreplay.es/api/v1/events/70366547-ee34-4b76-9a64-ff66ca9cd977")
 
             // Stages test

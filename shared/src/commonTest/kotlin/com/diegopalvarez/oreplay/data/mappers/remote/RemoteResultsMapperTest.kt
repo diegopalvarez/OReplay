@@ -29,7 +29,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - List of Valid Results with Splits and CalculateRanks`(){
-        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.complete)
+        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.complete.results)
 
         // Check the integrity of the list
         assertTrue(response.isNotEmpty())
@@ -111,7 +111,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - MP Result with Splits and CalculateRanks`(){
-        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.complete)
+        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.complete.results)
 
         // Check the integrity of the list
         assertTrue(response.isNotEmpty())
@@ -195,7 +195,7 @@ class RemoteResultsMapperTest {
         val remoteResultsResponse = RemoteResultsResponse(
             results = emptyList(),
         )
-        val response: List<ResultIndividual> = getClassicResults(remoteResultsResponse)
+        val response: List<ResultIndividual> = getClassicResults(remoteResultsResponse.results)
 
         // Check the integrity of the list
         assertNotNull(response)
@@ -204,7 +204,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - Valid List without CalculateRanks`(){
-        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.complete, calculateRanks = false)
+        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.complete.results, calculateRanks = false)
 
         // Check the integrity of the list
         assertTrue(response.isNotEmpty())
@@ -253,7 +253,7 @@ class RemoteResultsMapperTest {
         )
 
         assertFailsWith<IllegalArgumentException> {
-            getClassicResults(remote, calculateRanks = false)
+            getClassicResults(remote.results, calculateRanks = false)
         }
     }
 
@@ -282,13 +282,13 @@ class RemoteResultsMapperTest {
         )
 
         assertFailsWith<IllegalArgumentException> {
-            getClassicResults(remote, calculateRanks = false)
+            getClassicResults(remote.results, calculateRanks = false)
         }
     }
 
     @Test
     fun `GetClassicResults - Valid Result without Class Club StageResult or Overalls`(){
-        val result = getClassicResults(RemoteResponse.allNulls, calculateRanks = false)
+        val result = getClassicResults(RemoteResponse.allNulls.results, calculateRanks = false)
 
         assertNotNull(result)
         assertEquals(1, result.size)
@@ -296,7 +296,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - Valid Result with Splits without ReadingTime`(){
-        val result = getClassicResults(RemoteResponse.noReadingTime, calculateRanks = false)
+        val result = getClassicResults(RemoteResponse.noReadingTime.results, calculateRanks = false)
 
         assertNotNull(result)
         assertEquals(1, result.size)
@@ -320,7 +320,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - Valid Result with Splits without Splits`(){
-        val result = getClassicResults(RemoteResponse.noSplits, calculateRanks = false)
+        val result = getClassicResults(RemoteResponse.noSplits.results, calculateRanks = false)
 
         assertNotNull(result)
         assertEquals(1, result.size)
@@ -334,7 +334,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - Valid Result with Extra Splits Visited`(){
-        val result = getClassicResults(RemoteResponse.extraSplit, calculateRanks = false)
+        val result = getClassicResults(RemoteResponse.extraSplit.results, calculateRanks = false)
 
         assertNotNull(result)
         assertEquals(1, result.size)
@@ -353,7 +353,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - Valid Result with Overalls`(){
-        val response = getClassicResults(RemoteResponse.overallResponse)
+        val response = getClassicResults(RemoteResponse.overallResponse.results)
 
         // Check the integrity of the list
         assertTrue(response.isNotEmpty())
@@ -430,7 +430,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetClassicResults - Splits with Radio Controls`(){
-        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.classicFilterRadios)
+        val response: List<ResultIndividual> = getClassicResults(RemoteResponse.classicFilterRadios.results)
 
         // Check the integrity of the list
         assertTrue(response.isNotEmpty())
@@ -469,7 +469,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetTeamResults - Valid Team Result with Splits`(){
-        val result: List<ResultTeam> = getTeamResults(RemoteResponse.teamValid)
+        val result: List<ResultTeam> = getTeamResults(RemoteResponse.teamValid.results)
         assertNotNull(result)
 
         val response = result.first()
@@ -551,7 +551,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetTeamResults - Valid Team Result without Splits`(){
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamNoSplits)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamNoSplits.results)
 
         assertNotNull(response)
         assertEquals(1, response.size)
@@ -575,7 +575,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `GetTeamResults - Valid Team Result with Missing Data`(){
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamMissingData)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamMissingData.results)
 
         assertNotNull(response)
         assertEquals(1, response.size)
@@ -598,13 +598,13 @@ class RemoteResultsMapperTest {
     @Test
     fun `GetTeamResults - Invalid Team Result with Missing Runners`(){
         assertFailsWith<IllegalArgumentException> {
-            getTeamResults(RemoteResponse.teamNoRunners)
+            getTeamResults(RemoteResponse.teamNoRunners.results)
         }
     }
 
     @Test
     fun `GetUnprocessedResults - Valid Result List`(){
-        val result = getUnprocessedResults(RemoteResponse.complete)
+        val result = getUnprocessedResults(RemoteResponse.complete.results)
 
         assertNotNull(result)
         assertEquals(6, result.size)
@@ -617,7 +617,7 @@ class RemoteResultsMapperTest {
     fun `GetUnprocessedResults - Empty Result List`(){
         val result = getUnprocessedResults(RemoteResultsResponse(
             results = emptyList(),
-        ))
+        ).results)
 
         assertNotNull(result)
         assertTrue(result.isEmpty())
@@ -628,7 +628,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Valid Team Result`(){
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksValid)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksValid.results)
 
         assertNotNull(response)
         assertEquals(2, response.size)
@@ -682,7 +682,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Team Result with MP`(){
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksMP)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksMP.results)
 
         assertNotNull(response)
         assertEquals(2, response.size)
@@ -741,7 +741,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Team Result with NC`() {
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksNC)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksNC.results)
 
         assertNotNull(response)
         assertEquals(2, response.size)
@@ -797,7 +797,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Team Result with All NC`() {
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksFullNC)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksFullNC.results)
 
         assertNotNull(response)
         assertEquals(2, response.size)
@@ -848,7 +848,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Team Result with Ties`(){
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksTie)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksTie.results)
 
         assertNotNull(response)
         assertEquals(2, response.size)
@@ -885,7 +885,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Team Result with Multiple Ties`(){
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksMultipleTie)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksMultipleTie.results)
 
         assertNotNull(response)
         assertEquals(4, response.size)
@@ -947,7 +947,7 @@ class RemoteResultsMapperTest {
 
     @Test
     fun `CalculateLegRanks - Team Result with NC Status Code 9`() {
-        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksNCStatusCode)
+        val response: List<ResultTeam> = getTeamResults(RemoteResponse.teamRanksNCStatusCode.results)
 
         assertNotNull(response)
         assertEquals(2, response.size)

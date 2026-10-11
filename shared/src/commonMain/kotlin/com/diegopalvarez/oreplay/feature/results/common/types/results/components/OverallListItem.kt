@@ -11,12 +11,13 @@ import kotlin.time.Instant
 fun OverallListItem(
      runner: ResultIndividual,
      isClubView: Boolean,
+     isUpdated: Boolean,
 ) {
      val overallResult = runner.overallResult
 
      // If the overall result is null, there's an error and only the basic information can be displayed
      if (overallResult == null) {
-         BasicResultListItem(runner, false)
+         BasicResultListItem(runner, false, isUpdated)
      } else {
          //If the overall result is complete, show the expandable list
          if(overallResult.overallTotal.uploadType == UploadType.TOTAL_TIMES){

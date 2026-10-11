@@ -19,4 +19,7 @@ data class ResultIndividual(
     val created: Instant,
     val runnerClass: ResultClass?,
     val runnerClub: StageClub?,
+
+    // Update information
+    override val isUpdate: Instant?
 ): Result

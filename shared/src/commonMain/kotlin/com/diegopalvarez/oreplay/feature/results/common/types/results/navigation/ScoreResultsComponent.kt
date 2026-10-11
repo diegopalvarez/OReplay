@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.pages.PagesNavigation
 import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.ResultClass
@@ -28,6 +29,7 @@ class ScoreResultsComponent(
     val visitedStatsMap: Value<Optional<Map<String, ScoreResultStats>>>,
     goToPage: (StageCategory) -> Unit,
     mapResultClass: (ResultClass) -> StageClass?,
+    private val preferencesManager: PreferencesManager
 ): CommonResultComponent(
     componentContext = componentContext,
     results = scoreResults,
@@ -37,7 +39,8 @@ class ScoreResultsComponent(
     isClubView = isClubView,
     isLive = isStageLive,
     goToPage = goToPage,
-    mapResultClass = mapResultClass
+    mapResultClass = mapResultClass,
+    preferencesManager = preferencesManager
 ) {
     /**
      * Function to get the visited stats for the class of the runner in the ticker

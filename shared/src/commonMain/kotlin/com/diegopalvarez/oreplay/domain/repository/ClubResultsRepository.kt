@@ -88,7 +88,7 @@ class ClubResultsRepository(
                 // A Classic stage has splits and rankings
                 // Since the club results can't be compared directly to extract splits, the mapper must compare each class individually
                 // TODO - Check if it's faster to calculate the splits as they're needed instead of all at first
-                val unprocessed = getUnprocessedResults(results)
+                val unprocessed = getUnprocessedResults(results.results)
 
                 // Calculate all the splits, and check if there's an error
                 val processedResults = processTeamResults(
@@ -114,7 +114,7 @@ class ClubResultsRepository(
                 Result.Success(
                     wrapResult(
                         getUnprocessedResults(
-                            remoteResultsResponse = results
+                            remoteResultsResponse = results.results
                         ),
                         StageType.OVERALL
                     )
@@ -127,7 +127,7 @@ class ClubResultsRepository(
                 Result.Success(
                     wrapResult(
                         getTeamResults(
-                            remoteResultsResponse = results
+                            remoteResultsResponse = results.results
                         ),
                         StageType.RELAY
                     )
@@ -140,7 +140,7 @@ class ClubResultsRepository(
 
                 // Get the results for the score stage in the club
                 val clubResults = getClassicResults(
-                    remoteResultsResponse = results,
+                    remoteResultsResponse = results.results,
                     calculateRanks = false
                 )
 
@@ -174,7 +174,7 @@ class ClubResultsRepository(
                 Result.Success(
                     wrapResult(
                         getClassicResults(
-                            remoteResultsResponse = results,
+                            remoteResultsResponse = results.results,
                             calculateRanks = false
                         ),
                         StageType.ONE_MAN_RELAY
@@ -215,7 +215,7 @@ class ClubResultsRepository(
                     is Result.Success -> {
                         // Calculate the additional information for the whole class
                         val classicResults = getClassicResults(
-                            remoteResultsResponse = classResults.data,
+                            remoteResultsResponse = classResults.data.results,
                             calculateRanks = calculateRanks
                         )
 
@@ -283,7 +283,7 @@ class ClubResultsRepository(
                     is Result.Success -> {
                         // Calculate the additional information for the whole class
                         val classicResults = getClassicResults(
-                            remoteResultsResponse = classResults.data,
+                            remoteResultsResponse = classResults.data.results,
                             calculateRanks = false
                         )
 

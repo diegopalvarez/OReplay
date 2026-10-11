@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,10 +19,12 @@ import com.diegopalvarez.oreplay.feature.results.common.types.results.components
 import com.diegopalvarez.oreplay.feature.results.common.types.results.components.ResultListItem
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.CommonResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.types.results.navigation.ResultsComponent
+import com.diegopalvarez.oreplay.feature.results.common.util.isResultUpdated
 import com.diegopalvarez.oreplay.feature.results.common.util.sortIndividualResults
 import com.diegopalvarez.oreplay.feature.results.common.util.sortOverallResults
 import com.diegopalvarez.oreplay.ui.components.FABLazyColumn
 import kotlin.time.Clock
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
 @Composable
@@ -32,6 +36,17 @@ fun OverallResultsScreen(
 
     // Get from the component if this is a club view
     val isClubView = component.isClubView()
+
+    // Get if the event is live or not
+    val isLive = component.isLive.subscribeAsState()
+
+    var now: State<Instant>? = null
+    if(isLive.value){
+        now = component.now.collectAsStateWithLifecycle()
+    }
+
+    // Get the preference for the update time interval
+    val updateInterval by component.updateInterval.collectAsState()
 
     // Cast the list to ResultIndividual, since the classical results can't be in teams (at least for now)
     if(results.value.all { it is ResultIndividual }){
@@ -47,7 +62,8 @@ fun OverallResultsScreen(
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(sortedResults){ result ->
-                OverallListItem(result, isClubView)
+                val isUpdated = isResultUpdated(now?.value, updateInterval, result)
+                OverallListItem(result, isClubView, isUpdated)
             }
         }
     }

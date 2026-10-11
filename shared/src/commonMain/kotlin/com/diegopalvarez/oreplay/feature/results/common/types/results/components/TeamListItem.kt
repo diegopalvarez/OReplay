@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.diegopalvarez.oreplay.domain.model.ResultIndividual
 import com.diegopalvarez.oreplay.domain.model.ResultTeam
 import com.diegopalvarez.oreplay.domain.types.StatusCode
+import com.diegopalvarez.oreplay.feature.results.common.util.isResultUpdated
+import com.diegopalvarez.oreplay.feature.results.common.util.teamResultColor
 import com.diegopalvarez.oreplay.ui.util.display
 import oreplay.shared.generated.resources.Res
 import oreplay.shared.generated.resources.nc_position
@@ -35,6 +37,7 @@ import kotlin.time.Instant
 fun TeamListItem(
     teamResult: ResultTeam,
     now: State<Instant>?,
+    updateInterval: State<Long?>,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     showTicketDrawer: (ResultIndividual, ResultTeam) -> Unit
@@ -60,6 +63,10 @@ fun TeamListItem(
                 ) {
                     for(index in teamResult.runners.indices){
                         val member = teamResult.runners[index]
+
+                        // Calculate if this result of each runner has to be updated
+                        val isMemberUpdate = isResultUpdated(now?.value, updateInterval.value, member.individualResult)
+
                         SegmentedListItem(
                             onClick = { showTicketDrawer(member.individualResult, teamResult) },
                             shapes = ListItemDefaults.shapes(),
@@ -86,9 +93,7 @@ fun TeamListItem(
                                     teamStatusCode = teamResult.stageResult.statusCode
                                 )
                             } else null,
-                            colors = ListItemDefaults.colors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                            ),
+                            colors = teamResultColor(isMemberUpdate),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 2.dp),

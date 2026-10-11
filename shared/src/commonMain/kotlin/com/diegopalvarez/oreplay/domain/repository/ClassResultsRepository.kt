@@ -9,6 +9,7 @@ import com.diegopalvarez.oreplay.core.util.Result
 import com.diegopalvarez.oreplay.data.mappers.remote.getClassicResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getTeamResults
 import com.diegopalvarez.oreplay.data.mappers.remote.getUnprocessedResults
+import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResult
 import com.diegopalvarez.oreplay.data.remote.dto.results.RemoteResultsResponse
 import com.diegopalvarez.oreplay.domain.repository.type.RepositoryResult
 import com.diegopalvarez.oreplay.domain.repository.util.ScoreResultStats
@@ -27,33 +28,19 @@ class ClassResultsRepository(
      * @param classID UUID that uniquely identifies the class for the stage and the event given
      * @param stageType Type of the stage that defines the treatment that the results should have
      */
-    suspend fun getClassResults(
-        eventID: String,
-        stageID: String,
+    fun processClassResults(
         classID: String,
+        results: List<RemoteResult>,
         stageType: StageType
     ): Result<RepositoryResult, RepositoryError> {
-        val results = api.getStageResults(
-            eventID = eventID,
-            stageID = stageID,
-            classID = classID
-        )
+        val processed = processResultByType(results, stageType, classID)
 
-        return when(results) {
+        return when(processed){
             is Result.Success -> {
-                val processed = processResultByType(results.data, stageType, classID)
-
-                when(processed){
-                    is Result.Success -> {
-                        Result.Success(processed.data)
-                    }
-                    is Result.Error -> {
-                        Result.Error(processed.error)
-                    }
-                }
+                Result.Success(processed.data)
             }
             is Result.Error -> {
-                Result.Error(handleNetworkError(results.error))
+                Result.Error(processed.error)
             }
         }
     }
@@ -65,7 +52,7 @@ class ClassResultsRepository(
      * @return RepositoryError if the query fails. In case of success, a list of Results
      */
     private fun processResultByType(
-        results: RemoteResultsResponse,
+        results: List<RemoteResult>,
         stageType: StageType,
         classID: String
     ): Result<RepositoryResult, RepositoryError> {

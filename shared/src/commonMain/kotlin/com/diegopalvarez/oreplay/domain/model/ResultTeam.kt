@@ -18,5 +18,8 @@ data class ResultTeam(
 
     // Final team result information
     override val stageResult: StageResult?,
-    override val overallResult: Overall?
+    override val overallResult: Overall?,
+
+    // Update information
+    override val isUpdate: Instant?
 ): Result

@@ -3,6 +3,7 @@ package com.diegopalvarez.oreplay.data.remote.dto.results
 import com.diegopalvarez.oreplay.data.remote.dto.clubs.RemoteClub
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 @Serializable
 data class RemoteResult(
@@ -40,5 +41,8 @@ data class RemoteResult(
 
     @SerialName("stage")
     val stageResult: RemoteStageResult? = null,      // If only overall results are displayed, it might be null. If it contains a Team, it's the overall result for the team and stage
-    val overalls: RemoteOverallResult? = null       // If only stage results are displayed, it might be null
+    val overalls: RemoteOverallResult? = null,      // If only stage results are displayed, it might be null
+
+    // If the result has been updated, store it
+    val isUpdate: Instant? = null,
 )

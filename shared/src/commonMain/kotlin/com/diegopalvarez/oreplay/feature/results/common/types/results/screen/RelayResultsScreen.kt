@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,9 @@ fun RelayResultsScreen(
         now = component.now.collectAsStateWithLifecycle()
     }
 
+    // Get the preference for the update time interval
+    val updateInterval = component.updateInterval.collectAsState()
+
     // Cast the list to ResultTeam, since the Relays are organized in teams
     if(results.value.all { it is ResultTeam }){
         val teamResults = results.value as List<ResultTeam>
@@ -58,7 +62,8 @@ fun RelayResultsScreen(
                 TeamListItem(
                     teamResult = result,
                     now = now,
-                    showTicketDrawer = component::showTicketModal
+                    showTicketDrawer = component::showTicketModal,
+                    updateInterval = updateInterval
                 )
             }
         }

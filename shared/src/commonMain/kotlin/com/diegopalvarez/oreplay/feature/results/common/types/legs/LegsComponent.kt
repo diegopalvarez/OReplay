@@ -9,12 +9,17 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.router.pages.setItems
 import com.arkivanov.decompose.value.Value
+import com.diegopalvarez.oreplay.core.datastore.PreferencesManager
 import com.diegopalvarez.oreplay.domain.model.Event
 import com.diegopalvarez.oreplay.domain.model.Result
 import com.diegopalvarez.oreplay.domain.model.Stage
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.LegsComponent.LegsTabChild.*
 import com.diegopalvarez.oreplay.feature.results.common.types.legs.navigation.LegResultComponent
 import com.diegopalvarez.oreplay.feature.results.common.util.Optional
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -24,7 +29,10 @@ class LegsComponent(
     val stage: Stage,
     val results: Value<List<Result>>,
     val numberOfLegs: Value<Optional<Int>>,
+    val preferencesManager: PreferencesManager,
 ): ComponentContext by componentContext {
+    // Create a coroutine scope
+    val scope = CoroutineScope(Dispatchers.Default)
 
     /**
      * Split tab functionality
@@ -62,9 +70,11 @@ class LegsComponent(
     init {
         numberOfLegs.subscribe { legs ->
             if(legs is Optional.Some && legs.value != pages.value.items.size){
-                navigation.setItems {
-                    List(legs.value) { index ->
-                        LegsTabConfiguration.Leg(index + 1)
+                scope.launch(Dispatchers.Main) {
+                    navigation.setItems {
+                        List(legs.value) { index ->
+                            LegsTabConfiguration.Leg(index + 1)
+                        }
                     }
                 }
             }
@@ -83,7 +93,8 @@ class LegsComponent(
                     event = event,
                     stage = stage,
                     results = results,
-                    legNumber = config.legNumber
+                    legNumber = config.legNumber,
+                    preferencesManager = preferencesManager
                 )
             )
         }

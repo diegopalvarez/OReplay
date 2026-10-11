@@ -12,13 +12,14 @@ fun ScoreResultListItem(
      runner: ResultIndividual,
      now: State<Instant>?,
      isClubView: Boolean,
+     isUpdated: Boolean,
      showTicketDrawer: (ResultIndividual) -> Unit,
 ) {
     val result = runner.stageResult
 
     // If the result is null, there's an error and only the basic information can be displayed
     if(result == null){
-        BasicResultListItem(runner, isClubView)
+        BasicResultListItem(runner, isClubView, isUpdated)
     }
     else{
         //If the result is complete, handle all the different information
@@ -29,6 +30,7 @@ fun ScoreResultListItem(
         BasicResultListItem(
             runner = runner,
             isClubView = isClubView,
+            isUpdate = isUpdated,
             leadingContent = resultListItemLeadingContent(runner.isNc, statusCode, position),
             trailingContent = scoreListItemTrailingContent(runner.isNc, result, statusCode, now, position),
             showTicketDrawer = showTicketDrawer

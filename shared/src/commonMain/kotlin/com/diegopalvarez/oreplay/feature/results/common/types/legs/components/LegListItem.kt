@@ -12,19 +12,21 @@ import kotlin.time.Instant
 @Composable
 fun LegListItem(
      runner: RelayLegResult,
+     isUpdated: Boolean,
      now: State<Instant>?,
 ) {
      val result = runner.result.stageResult
 
      // If the result is null, there's an error and only the basic information can be displayed
      if (result == null) {
-         BasicResultListItem(runner.result, false)
+         BasicResultListItem(runner.result, false, isUpdated)
      } else {
          //If the result is complete, handle all the different information
          LegResultListItem(
              runner = runner.result,
              teamData = runner,
-             now = now
+             now = now,
+             isUpdate = isUpdated,
          )
      }
  }
